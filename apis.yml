@@ -1,0 +1,355 @@
+aid: tyro
+url: https://raw.githubusercontent.com/api-evangelist/tyro/refs/heads/main/apis.yml
+name: Tyro Payments
+kind: company
+description: 'Tyro Payments is an ASX-listed Australian payments company and one of the country''s largest
+  merchant acquirers outside the major banks, holding its own banking licence. Founded in 2003, Tyro provides
+  EFTPOS terminals, in-person and online card acceptance, and integrated payments for more than 70,000
+  Australian merchants across hospitality, retail and health. Its developer surface, Tyro Connect, is
+  a genuinely API-first platform: a REST API family (served from https://api.tyro.com/connect and secured
+  with OpenID Connect / OAuth 2.0) that links Point of Sale software, ordering, booking, loyalty and reporting
+  apps to Tyro merchants, alongside Tyro.js, mobile SDKs and Tap to Pay (SoftPOS) for card-present and
+  online payments. Home market is Australia.'
+accessModel:
+  pricing: paid
+  onboarding: partner
+  trial: true
+  try_now: false
+  public: false
+  label: Paid · Partner onboarding (sandbox available)
+  confidence: medium
+  source:
+  - authentication
+  - documentation
+  generated: '2026-07-24'
+  method: manual
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+tags:
+- Payments
+- Australia
+- Merchant Acquiring
+- Payment Gateway
+- In-Person Payments
+- EFTPOS
+- Point of Sale
+- Online Payments
+- Tap to Pay
+created: '2026-07-24'
+modified: '2026-07-24'
+specificationVersion: '0.19'
+apis:
+- aid: tyro:tyro-connect-pay-api
+  name: Tyro Connect Pay API
+  description: Server-side companion to Tyro.js and the Tyro mobile SDKs for accepting online card payments
+    on the web and in apps. Manages pay requests, saved pay methods (tokenization), and refunds, including
+    3-D Secure, Apple Pay and Google Pay wallet acceptance.
+  humanURL: https://docs.connect.tyro.com/app/apis/pay
+  baseURL: https://api.tyro.com/connect
+  tags:
+  - Payments
+  - Online Payments
+  - Cards
+  - Tokenization
+  - Refunds
+  properties:
+  - type: OpenAPI
+    url: openapi/tyro-connect-pay.yml
+  - type: Documentation
+    url: https://docs.connect.tyro.com/app/apis/pay
+  - type: APIReference
+    url: https://docs.connect.tyro.com/app/apis/pay/0.9
+  - type: Authentication
+    url: https://docs.connect.tyro.com/app/authentication
+- aid: tyro:tyro-pos-pay-terminal-api
+  name: Tyro Pay Terminal API
+  description: Cloud API that lets a Point of Sale send payment and refund requests to Tyro EFTPOS terminals
+    in-store, pairing a POS to merchant terminals and driving card-present transactions over Tyro's merchant-acquiring
+    rails.
+  humanURL: https://docs.connect.tyro.com/pos/apis/pay-terminal
+  baseURL: https://api.tyro.com/connect
+  tags:
+  - In-Person Payments
+  - EFTPOS
+  - Terminal
+  - Acquiring
+  - Refunds
+  properties:
+  - type: OpenAPI
+    url: openapi/tyro-pos-pay-terminal.yml
+  - type: Documentation
+    url: https://docs.connect.tyro.com/pos/apis/pay-terminal
+  - type: APIReference
+    url: https://docs.connect.tyro.com/pos/apis/pay-terminal/0.9
+  - type: Authentication
+    url: https://docs.connect.tyro.com/app/authentication
+- aid: tyro:tyro-pos-embedded-payments-api
+  name: Tyro Embedded Payments API
+  description: Backend API supporting Tyro's Tap to Pay on iPhone and Android SDKs (SoftPOS), letting
+    POS partners onboard merchants, manage device connections, and process card-present transactions and
+    refunds directly on a mobile device without a separate terminal.
+  humanURL: https://docs.connect.tyro.com/pos/apis/embedded-payments
+  baseURL: https://api.tyro.com/connect
+  tags:
+  - In-Person Payments
+  - Tap to Pay
+  - SoftPOS
+  - Acquiring
+  - Mobile
+  properties:
+  - type: OpenAPI
+    url: openapi/tyro-pos-embedded-payments.yml
+  - type: Documentation
+    url: https://docs.connect.tyro.com/pos/apis/embedded-payments
+  - type: APIReference
+    url: https://docs.connect.tyro.com/pos/apis/embedded-payments/1.0
+  - type: Authentication
+    url: https://docs.connect.tyro.com/app/authentication
+- aid: tyro:tyro-connect-booking-api
+  name: Tyro Connect Booking API
+  description: Exchanges booking and reservation information between reservation apps and Point of Sale
+    systems in the Tyro Connect hospitality network, syncing seating bookings and reflecting bill-driven
+    status changes back to partners.
+  humanURL: https://docs.connect.tyro.com/app/apis/booking
+  baseURL: https://api.tyro.com/connect
+  tags:
+  - Bookings
+  - Reservations
+  - Hospitality
+  - POS Integration
+  - Webhooks
+  properties:
+  - type: OpenAPI
+    url: openapi/tyro-connect-booking.yml
+  - type: Documentation
+    url: https://docs.connect.tyro.com/app/apis/booking
+  - type: APIReference
+    url: https://docs.connect.tyro.com/app/apis/booking/1.0
+  - type: Authentication
+    url: https://docs.connect.tyro.com/app/authentication
+- aid: tyro:tyro-connect-ordering-api
+  name: Tyro Connect Ordering API
+  description: Sends food and retail orders from app partners into merchant Point of Sale systems across
+    the Tyro Connect network, with order lifecycle status tracked back to the originating application.
+  humanURL: https://docs.connect.tyro.com/app/apis/ordering
+  baseURL: https://api.tyro.com/connect
+  tags:
+  - Ordering
+  - Food Ordering
+  - Hospitality
+  - POS Integration
+  - Webhooks
+  properties:
+  - type: OpenAPI
+    url: openapi/tyro-connect-ordering.yml
+  - type: Documentation
+    url: https://docs.connect.tyro.com/app/apis/ordering
+  - type: APIReference
+    url: https://docs.connect.tyro.com/app/apis/ordering/1.0
+  - type: Authentication
+    url: https://docs.connect.tyro.com/app/authentication
+- aid: tyro:tyro-connect-menu-api
+  name: Tyro Connect Menu API
+  description: Synchronises published menu and catalogue data from merchant Point of Sale systems to app
+    partners in the Tyro Connect network, so ordering and delivery apps present the merchant's current
+    menu.
+  humanURL: https://docs.connect.tyro.com/app/apis/menu-management
+  baseURL: https://api.tyro.com/connect
+  tags:
+  - Menu Management
+  - Catalog
+  - Hospitality
+  - POS Integration
+  - Sync
+  properties:
+  - type: OpenAPI
+    url: openapi/tyro-connect-menu.yml
+  - type: Documentation
+    url: https://docs.connect.tyro.com/app/apis/menu-management
+  - type: APIReference
+    url: https://docs.connect.tyro.com/app/apis/menu-management/1.0
+  - type: Authentication
+    url: https://docs.connect.tyro.com/app/authentication
+- aid: tyro:tyro-connect-tables-api
+  name: Tyro Connect Tables Management API
+  description: Reads and manages table (floor-plan) information from merchant Point of Sale systems, underpinning
+    pay-at-table and table-service workflows across the Tyro Connect hospitality network.
+  humanURL: https://docs.connect.tyro.com/app/apis/tables
+  baseURL: https://api.tyro.com/connect
+  tags:
+  - Tables
+  - Floor Plan
+  - Hospitality
+  - POS Integration
+  - Pay at Table
+  properties:
+  - type: OpenAPI
+    url: openapi/tyro-connect-tables.yml
+  - type: Documentation
+    url: https://docs.connect.tyro.com/app/apis/tables
+  - type: APIReference
+    url: https://docs.connect.tyro.com/app/apis/tables/1.0
+  - type: Authentication
+    url: https://docs.connect.tyro.com/app/authentication
+- aid: tyro:tyro-connect-sales-api
+  name: Tyro Connect Sales Data API
+  description: Exposes itemised sales transaction data captured from merchant Point of Sale systems, letting
+    app partners build reporting, analytics, accounting and reconciliation tools over Tyro Connect merchant
+    activity.
+  humanURL: https://docs.connect.tyro.com/app/apis/sales
+  baseURL: https://api.tyro.com/connect
+  tags:
+  - Sales Data
+  - Transactions
+  - Reporting
+  - POS Integration
+  - Analytics
+  properties:
+  - type: OpenAPI
+    url: openapi/tyro-connect-sales.yml
+  - type: Documentation
+    url: https://docs.connect.tyro.com/app/apis/sales
+  - type: APIReference
+    url: https://docs.connect.tyro.com/app/apis/sales/1.1
+  - type: Authentication
+    url: https://docs.connect.tyro.com/app/authentication
+- aid: tyro:tyro-connect-reporting-api
+  name: Tyro Connect Reporting API
+  description: Provides merchant settlement and transaction reporting for Tyro-acquired payments, returning
+    settlement batches and dated transaction listings for reconciliation and financial reporting by app
+    partners.
+  humanURL: https://docs.connect.tyro.com/app/apis/reporting
+  baseURL: https://api.tyro.com/connect
+  tags:
+  - Reporting
+  - Settlements
+  - Transactions
+  - Reconciliation
+  - Analytics
+  properties:
+  - type: OpenAPI
+    url: openapi/tyro-connect-reporting.yml
+  - type: Documentation
+    url: https://docs.connect.tyro.com/app/apis/reporting
+  - type: APIReference
+    url: https://docs.connect.tyro.com/app/apis/reporting/1.0
+  - type: Authentication
+    url: https://docs.connect.tyro.com/app/authentication
+- aid: tyro:tyro-connect-loyalty-api
+  name: Tyro Connect Loyalty Data API
+  description: Connects loyalty and rewards providers to Tyro merchants, managing loyalty members, activities
+    and card-linked registrations so points and rewards can be applied at the Point of Sale and payment
+    terminal.
+  humanURL: https://docs.connect.tyro.com/app/apis/loyalty
+  baseURL: https://api.tyro.com/connect
+  tags:
+  - Loyalty
+  - Rewards
+  - Members
+  - Card Linking
+  - POS Integration
+  properties:
+  - type: OpenAPI
+    url: openapi/tyro-connect-loyalty.yml
+  - type: Documentation
+    url: https://docs.connect.tyro.com/app/apis/loyalty
+  - type: APIReference
+    url: https://docs.connect.tyro.com/app/apis/loyalty/0.9
+  - type: Authentication
+    url: https://docs.connect.tyro.com/app/authentication
+- aid: tyro:tyro-connect-refunds-api
+  name: Tyro Connect Refunds API
+  description: Searches prior Tyro transactions and issues refunds against them, giving app and POS partners
+    a dedicated search-and-refund flow over Tyro-acquired merchant payments.
+  humanURL: https://docs.connect.tyro.com/app/apis/refunds
+  baseURL: https://api.tyro.com/connect
+  tags:
+  - Refunds
+  - Payments
+  - Transactions
+  - POS Integration
+  - Acquiring
+  properties:
+  - type: OpenAPI
+    url: openapi/tyro-connect-refunds.yml
+  - type: Documentation
+    url: https://docs.connect.tyro.com/app/apis/refunds
+  - type: APIReference
+    url: https://docs.connect.tyro.com/app/apis/refunds/1.0
+  - type: Authentication
+    url: https://docs.connect.tyro.com/app/authentication
+- aid: tyro:tyro-connect-locations-api
+  name: Tyro Connect Location API
+  description: Returns merchant location details keyed by Tyro Connect location identifier, used by partners
+    to resolve and validate the merchant sites they are integrated with across the network.
+  humanURL: https://docs.connect.tyro.com/app/apis/locations
+  baseURL: https://api.tyro.com/connect
+  tags:
+  - Locations
+  - Merchant
+  - Onboarding
+  - POS Integration
+  - Directory
+  properties:
+  - type: OpenAPI
+    url: openapi/tyro-connect-locations.yml
+  - type: Documentation
+    url: https://docs.connect.tyro.com/app/apis/locations
+  - type: APIReference
+    url: https://docs.connect.tyro.com/app/apis/locations/1.0
+  - type: Authentication
+    url: https://docs.connect.tyro.com/app/authentication
+- aid: tyro:tyro-connect-referrals-api
+  name: Tyro Connect Referrals API
+  description: Lets partners submit and track merchant referrals into Tyro, supporting partner-driven
+    merchant acquisition and onboarding workflows within the Tyro Connect ecosystem.
+  humanURL: https://docs.connect.tyro.com/app/apis/referrals
+  baseURL: https://api.tyro.com/connect
+  tags:
+  - Referrals
+  - Partner
+  - Onboarding
+  - Merchant
+  - Lead
+  properties:
+  - type: OpenAPI
+    url: openapi/tyro-connect-referrals.yml
+  - type: Documentation
+    url: https://docs.connect.tyro.com/app/apis/referrals
+  - type: APIReference
+    url: https://docs.connect.tyro.com/app/apis/referrals/1.0
+  - type: Authentication
+    url: https://docs.connect.tyro.com/app/authentication
+common:
+- type: Website
+  url: https://www.tyro.com/
+- type: DeveloperPortal
+  url: https://www.tyro.com/resources/developer/
+- type: Documentation
+  url: https://docs.connect.tyro.com/
+- type: APIReference
+  url: https://docs.connect.tyro.com/app/apis/
+- type: GettingStarted
+  url: https://docs.connect.tyro.com/app/authentication
+- type: Authentication
+  url: https://docs.connect.tyro.com/app/authentication
+- type: Webhooks
+  url: https://docs.connect.tyro.com/app/webhooks
+- type: GitHubOrganization
+  url: https://github.com/tyro
+- type: StatusPage
+  url: https://status.tyro.com/
+- type: Pricing
+  url: https://www.tyro.com/pricing/
+- type: Blog
+  url: https://www.tyro.com/blog/
+- type: Support
+  url: https://www.tyro.com/contact-us/
+- type: TermsOfService
+  url: https://www.tyro.com/legal/website-terms-of-use/
+- type: PrivacyPolicy
+  url: https://www.tyro.com/privacy-policy/
+- type: Security
+  url: https://www.tyro.com/security/
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com

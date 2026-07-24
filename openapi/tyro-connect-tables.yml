@@ -1,0 +1,426 @@
+openapi: 3.1.0
+info:
+  title: Table API
+  version: '1.0'
+  contact: {}
+  description: >
+    The API allows the APP and POS to send and receive information about tables.
+    Currently the API supports creating, updating and retrieving tables.
+servers:
+  - url: https://api.tyro.com/connect
+    description: Production
+paths:
+  /tables:
+    post:
+      summary: Create Table
+      operationId: create-table-request
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/table'
+              examples:
+                Created Table:
+                  value:
+                    id: 2688fcf2-44dd-4c72-88ac-79d0910f2983
+                    number: table-1
+                    locationId: tc-cool-3000
+                    section:
+                      id: section-id
+                      name: awesome section
+                    openSales: []
+          headers: {}
+        '400':
+          description: When the provided payload is not valid.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    description: The validation error message.
+              examples:
+                Missing property:
+                  value:
+                    error: '"locationId" is required'
+        '403':
+          description: >-
+            When you don't have the right permissions to create a table for the
+            provided location.
+      description: >-
+        This endpoint is used to create a table within Tyro Connect.
+
+
+        The id that is returned as a part of the response should be used to
+        identify the table for subsequent events or retrieving the details.
+      security:
+        - JWT: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/new-table-request'
+            examples:
+              New Table:
+                value:
+                  number: table-1
+                  locationId: tc-cool-3000
+                  section:
+                    id: section-id
+                    name: awesome section
+      parameters:
+        - $ref: '#/components/parameters/header-bearer-token'
+        - $ref: '#/components/parameters/header-content-json'
+    get:
+      summary: List Tables
+      operationId: list-tables
+      description: >-
+        This endpoint returns all the tables of a given location. It is possible
+        to apply filters to the tables being fetched.
+
+
+        ## Filtering
+
+        The following `locationId=tc-cool-3000&openSales=true` will return all
+        tables with open sales for location `tc-cool-3000`.
+      parameters:
+        - schema:
+            type: string
+          in: query
+          name: locationId
+          example: 2688fcf2-44dd-4c72-88ac-79d0910f2983
+          required: true
+          description: >-
+            The Tyro Connect Location Id of the tables to be retrieved. This
+            parameter is required.
+        - schema:
+            type: boolean
+          in: query
+          name: openSales
+          example: true
+          description: Returns only tables that contain at least one open sale.
+        - $ref: '#/components/parameters/header-bearer-token'
+      security:
+        - JWT: []
+      responses:
+        '200':
+          description: The list of tables
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  results:
+                    type: array
+                    description: >-
+                      The results for the location that satisfy the filtering
+                      criteria
+                    items:
+                      $ref: '#/components/schemas/table'
+                required:
+                  - results
+              examples:
+                openSales=true&locationId=tc-cool-300:
+                  value:
+                    results:
+                      - id: 2688fcf2-44dd-4c72-88ac-79d0910f2983
+                        locationId: tc-iscool-3000
+                        section:
+                          id: section-id
+                          name: awesome section1
+                        openSales:
+                          - 3288fcf2-44dd-4c72-88ac-79d0910f1234
+                          - 8788fcf2-44dd-8c72-88ac-79d0910f1678
+                      - id: 432423f3-54dd-6c72-88ac-79d0910f2984
+                        locationId: tc-iscool-3000
+                        openSales:
+                          - 6969fcf2-44dd-4c72-88ac-79d0910f6969
+                openSales=false&locationId=tc-cool-300:
+                  value:
+                    results:
+                      - id: empty-sales-1
+                        locationId: tc-iscool-3000
+                        section:
+                          id: section-id
+                          name: awesome section1
+                        openSales: []
+                      - id: empty-sales-2
+                        locationId: tc-iscool-3000
+                        openSales: []
+                locationId=tc-cool-300:
+                  value:
+                    results:
+                      - id: empty-sales-1
+                        locationId: tc-iscool-3000
+                        section:
+                          id: section-id
+                          name: awesome section1
+                        openSales: []
+                      - id: non-empty-sales-1
+                        locationId: tc-iscool-3000
+                        openSales:
+                          - 6969fcf2-44dd-4c72-88ac-79d0910f6969
+        '403':
+          description: >-
+            When you don't have the right permissions to fetch the tables for
+            the provided location
+        '404':
+          description: When the provided `locationId` does not exist in our system
+  /tables/{tableId}:
+    get:
+      responses:
+        '200':
+          description: The table response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/table'
+              examples:
+                Simple Table:
+                  value:
+                    id: 2688fcf2-44dd-4c72-88ac-79d0910f2983
+                    number: table-1
+                    locationId: tc-iscool-3000
+                    section:
+                      id: section-id
+                      name: awesome section
+                    openSales: []
+        '403':
+          description: >-
+            When you don't have the right permissions to get a table for the
+            provided location.
+        '404':
+          description: >-
+            When the provided `tableId` does not match a table stored in the
+            system.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    description: The validation error message.
+              examples:
+                Bad Request:
+                  value:
+                    error: No table found for 2688fcf2-44dd-4c72-88ac-79d0910f2983
+      description: This endpoint is for fetching the details of a table.
+      parameters:
+        - in: path
+          description: Id of the table in Tyro Connect that should be retrieved
+          name: tableId
+          required: true
+          schema:
+            type: string
+            example: 2688fcf2-44dd-4c72-88ac-79d0910f2983
+        - $ref: '#/components/parameters/header-bearer-token'
+      operationId: get-table
+      summary: Get Table
+      security:
+        - JWT: []
+    patch:
+      responses:
+        '204':
+          description: No body content
+        '400':
+          description: When the provided request is not valid.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    description: The validation error message.
+        '403':
+          description: When you don't have the right permissions to update the table.
+        '404':
+          description: >-
+            When the provided `tableId` does not match a table stored in the
+            system.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    description: The validation error message.
+              examples:
+                Bad Request:
+                  value:
+                    error: No table found for 2688fcf2-44dd-4c72-88ac-79d0910f2983
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/update-table-request'
+            examples:
+              Update table number:
+                value:
+                  number: new-table-id
+              Update table section:
+                value:
+                  section:
+                    id: new-section-id
+                    name: Smoker section
+        description: ''
+      description: >-
+        This endpoint is for updating a table. Please note table update will not
+        be allowed if the table has open sales.
+      parameters:
+        - in: path
+          description: Id of the table in Tyro Connect that should be updated
+          name: tableId
+          required: true
+          schema:
+            type: string
+            example: 2688fcf2-44dd-4c72-88ac-79d0910f2983
+        - $ref: '#/components/parameters/header-bearer-token'
+        - $ref: '#/components/parameters/header-content-json'
+      operationId: patch-table
+      summary: Update Table
+      security:
+        - JWT: []
+    delete:
+      responses:
+        '200':
+          description: The table was successfully deleted
+        '403':
+          description: >-
+            When you don't have the right permissions to delete a table for the
+            provided location.
+        '404':
+          description: >-
+            When the provided `tableId` does not match a table stored in the
+            system.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    description: The validation error message.
+              examples:
+                Bad Request:
+                  value:
+                    error: No table found for 2688fcf2-44dd-4c72-88ac-79d0910f2983
+      description: >-
+        This endpoint is for deleting a table. Please note table delete will not
+        be allowed if the table has open sales.
+      parameters:
+        - in: path
+          description: Id of the table in Tyro Connect that should be deleted
+          name: tableId
+          required: true
+          schema:
+            type: string
+            example: 2688fcf2-44dd-4c72-88ac-79d0910f2983
+        - $ref: '#/components/parameters/header-bearer-token'
+      operationId: delete-table
+      summary: Delete Table
+      security:
+        - JWT: []
+components:
+  securitySchemes:
+    JWT:
+      type: openIdConnect
+      openIdConnectUrl: https://auth.connect.tyro.com/.well-known/openid-configuration
+  parameters:
+    header-bearer-token:
+      schema:
+        type: string
+        default: Bearer {$$.env.access_token}
+      in: header
+      name: Authorization
+      required: true
+    header-content-json:
+      schema:
+        type: string
+        enum:
+          - application/json
+      in: header
+      name: Content-Type
+      required: true
+  schemas:
+    section:
+      title: Section
+      type: object
+      description: The section within the venue
+      properties:
+        id:
+          type: string
+          description: The POS system's Id of the section
+        name:
+          type: string
+          description: >-
+            The readable name of the section. E.g. Front bar, drive through for
+            hospitality or for retail men's clothes, women's shoes etc
+    table:
+      title: Table
+      type: object
+      properties:
+        id:
+          type: string
+          description: The id of the table in the Tyro Connect system
+          example: 0f448ac1-862a-4c7b-bdb4-a3b7cdbf6149
+        number:
+          type: string
+          description: >-
+            This value must be unique and represents the table number or table
+            id. This field accepts alphanumeric characters e.g `MAIN-33`
+          example: MAIN-33
+        locationId:
+          type: string
+          description: The id of the location as specified by the Tyro Connect system
+        section:
+          $ref: '#/components/schemas/section'
+        openSales:
+          type: array
+          description: >-
+            A list of sale ids that are open in the Tyro Connect system attached
+            to the table.
+          items:
+            type: string
+      required:
+        - id
+        - number
+        - locationId
+        - openSales
+    new-table-request:
+      title: New table request
+      type: object
+      description: The request sent to Tyro Connect to add a new table
+      properties:
+        number:
+          type: string
+          description: >-
+            This value must be unique and represents the table number or table
+            id. This field accepts alphanumeric characters e.g `MAIN-33`.
+          example: MAIN-33
+        locationId:
+          type: string
+          description: The id of the location as specified by the Tyro Connect system
+        section:
+          $ref: '#/components/schemas/section'
+      required:
+        - number
+        - locationId
+    update-table-request:
+      title: Update table request
+      type: object
+      description: The request to be sent to Tyro Connect in order to update the table
+      properties:
+        number:
+          type: string
+          description: >-
+            This value must be unique and represents the table number or table
+            id. This field accepts alphanumeric characters e.g `MAIN-33`
+          example: MAIN-33
+        section:
+          $ref: '#/components/schemas/section'

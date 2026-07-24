@@ -1,0 +1,835 @@
+openapi: 3.1.0
+info:
+  title: Pay Terminal API
+  version: '0.9'
+  contact: {}
+  description: Pay Terminal API
+servers:
+  - url: https://api.tyro.com/connect
+    description: Production
+tags:
+  - name: Pay Requests
+  - name: Merchants
+paths:
+  /pay-terminal/merchants:
+    get:
+      summary: Lists merchants
+      operationId: list-pay-terminal-merchants
+      description: >-
+        This endpoint is used for retrieving a list of merchants that the POS
+        has access to.
+      parameters:
+        - $ref: '#/components/parameters/header-bearer-token'
+      security:
+        - JWT: []
+      tags:
+        - Merchants
+      responses:
+        '200':
+          description: The list of Merchants associated with the POS.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  results:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/merchant'
+              examples:
+                List Merchants:
+                  value:
+                    results:
+                      - mid: '98765'
+                        posReference: SydneyShop
+                        isAuthorised: true
+                        displayName: Sydney Shop 123
+                      - mid: '56789'
+                        posReference: SydneyShop
+                        isAuthorised: false
+                        displayName: Sydney Shop 456
+                      - mid: '12345'
+                        posReference: MelbourneShop
+                        isAuthorised: true
+                        displayName: Melbourne Shop 3000
+        '403':
+          description: When you don't have the right permissions to list Merchants.
+  /pay-terminal/merchants/{merchantId}:
+    get:
+      summary: Fetch a merchant
+      operationId: fetch-pay-terminal-merchant
+      description: This endpoint is used for retrieving a merchant.
+      parameters:
+        - $ref: '#/components/parameters/header-bearer-token'
+      security:
+        - JWT: []
+      tags:
+        - Merchants
+      responses:
+        '200':
+          description: The details of the fetched Merchant
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/merchant'
+          headers: {}
+        '400':
+          description: When the provided merchantId is not valid.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    description: The validation error message.
+                  errorCode:
+                    type: string
+                    description: The unique error code for message.
+              examples:
+                Missing property:
+                  value:
+                    error: '"merchantId" is not a number'
+                    errorCode: VALIDATION_ERROR
+        '403':
+          description: >-
+            When you don't have the right permissions to view details of the
+            provided `merchantId`.
+        '404':
+          description: When the provided `merchantId` does not exist in our system.
+  /pay-terminal/merchants/{merchantId}/authorise/test:
+    post:
+      summary: Authorise a Sandbox Merchant Id
+      operationId: authorise-pay-terminal-mid-test
+      description: >-
+        For testing purposes only. Authorise or de-authorise your POS on behalf
+        of the provided merchant for testing on the Sandbox environment only.
+      parameters:
+        - $ref: '#/components/parameters/header-bearer-token'
+        - $ref: '#/components/parameters/header-content-json'
+      security:
+        - JWT: []
+      tags:
+        - Merchants
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                posReference:
+                  type: string
+                  description: >-
+                    The posReference of the merchant, supplied during the
+                    integration process.
+                  example: 0f448ac1-862a-4c7b-bdb4-a3b7cdbf6149
+                isAuthorised:
+                  type: boolean
+                  description: To authorise or de-authorise the merchant Id.
+                  example: true
+              required:
+                - posReference
+                - isAuthorised
+      responses:
+        '204':
+          description: No body Content
+        '400':
+          description: When the provided payload is not valid.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    description: The validation error message.
+                  errorCode:
+                    type: string
+                    description: The unique error code for message.
+              examples:
+                Missing property:
+                  value:
+                    error: '"posReference" is required'
+                    errorCode: VALIDATION_ERROR
+        '403':
+          description: >-
+            When you don't have the right permissions to authorise the merchant
+            Id
+        '404':
+          description: When the provided `merchantId` does not exist in our system.
+  /pay-terminal/merchants/{merchantId}/terminals:
+    get:
+      summary: Lists the terminals available to a merchant
+      operationId: list-pay-terminal-merchants-terminals
+      description: >-
+        This endpoint is used for retrieving a list of terminals under a mid
+        that the POS has access to.
+      parameters:
+        - $ref: '#/components/parameters/header-bearer-token'
+      security:
+        - JWT: []
+      tags:
+        - Merchants
+      responses:
+        '200':
+          description: The list of Merchants Terminals associated with the POS.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  results:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        tid:
+                          type: string
+                          description: The terminal id or "tid".
+                        terminalName:
+                          type: string
+                          description: The terminal name.
+                        serialNumber:
+                          type: string
+                          description: >-
+                            The serial number on the device located on the
+                            barcode.
+              examples:
+                List Terminals:
+                  value:
+                    results:
+                      - tid: '1'
+                        terminalName: Front Counter
+                        serialNumber: DX800012341
+                      - tid: '2'
+                        terminalName: Johns Device
+                        serialNumber: DX800012342
+                      - tid: '5'
+                        terminalName: Backup Terminal
+                        serialNumber: DX800012345
+        '403':
+          description: >-
+            When you don't have the right permissions to list this Merchants
+            Terminals.
+  /pay-terminal/requests:
+    post:
+      summary: Create a Pay Request
+      operationId: create-pay-terminal-request
+      description: >-
+        This endpoint is used for creating a Pay Request. Your server should
+        create a Pay Request as soon as the total payment amount is known. Once
+        the Pay Request is created, given the terminal is not busy, or offline,
+        the process to pay will be initialised.
+      security:
+        - JWT: []
+      tags:
+        - Pay Requests
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/new-pay-request'
+            examples:
+              Simple Pay Request:
+                value:
+                  mid: '123'
+                  tid: '456'
+                  origin:
+                    orderId: 2e6174ae-ba4f-4a02-8072-9304d862e320
+                    transactionId: 2e6174ae-ba4f-4a02-8072-9304d862e320
+                  total:
+                    goodsAndServicesAmount: 1000
+                    cashoutAmount: 500
+                    refundAmount: 0
+                    currency: AUD
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/pay-request-response'
+              examples:
+                Simple Pay Response:
+                  value:
+                    id: 0f448ac1-862a-4c7b-bdb4-a3b7cdbf6149
+                    mid: '123'
+                    tid: '456'
+                    status: AWAITING_INITIALISATION
+                    origin:
+                      orderId: 2e6174ae-ba4f-4a02-8072-9304d862e320
+                      transactionId: 2e6174ae-ba4f-4a02-8072-9304d862e320
+                    options:
+                      integratedReceipt: true
+                      receiptWidth: 60
+                    total:
+                      goodsAndServicesAmount: 1000
+                      cashoutAmount: 500
+                      refundAmount: 0
+                      currency: AUD
+          headers: {}
+        '400':
+          description: When the provided payload is not valid.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    description: The validation error message.
+                  errorCode:
+                    type: string
+                    description: The unique error code for message.
+              examples:
+                Missing property:
+                  value:
+                    error: '"mid" is required'
+                    errorCode: VALIDATION_ERROR
+        '403':
+          description: >-
+            When you don't have the right permissions to create a Pay Request
+            for the provided mid.
+        '404':
+          description: When the provided mid is not found.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    description: The validation error message.
+                  errorCode:
+                    type: string
+                    description: The unique error code for message.
+              examples:
+                Missing property:
+                  value:
+                    error: Merchant ID not found.
+                    errorCode: MID_NOT_FOUND
+        '412':
+          description: When the terminal is not paired.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    description: The validation error message.
+                  errorCode:
+                    type: string
+                    description: The unique error code for message.
+              examples:
+                Missing property:
+                  value:
+                    error: Terminal is not paired.
+                    errorCode: TERMINAL_NOT_PAIRED
+      parameters:
+        - $ref: '#/components/parameters/header-bearer-token'
+        - $ref: '#/components/parameters/header-content-json'
+  /pay-terminal/requests/{payRequestId}:
+    get:
+      operationId: get-pay-terminal-request
+      description: This endpoint is for fetching Pay Requests.
+      summary: Retrieve a Pay Request
+      tags:
+        - Pay Requests
+      responses:
+        '200':
+          description: The Pay Request response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/pay-request-response'
+              examples:
+                Simple Pay Response:
+                  value:
+                    id: a2be1eaf-b873-4aa9-9530-fc3007231572
+                    mid: '123'
+                    tid: '456'
+                    status: SUCCESS
+                    total:
+                      currency: AUD
+                      cashoutAmount: 1000
+                      goodsAndServicesAmount: 5000
+                      refundAmount: 0
+                    options:
+                      integratedReceipt: true
+                      receiptWidth: 60
+                    origin:
+                      name: Example
+                      orderId: Pay Terminal Example
+                      transactionId: cffd6564-0023-44d8-996e-2932292277c2
+                    transactionProgress:
+                      id: COMPLETE
+                      description: The transaction is processed
+                    pendingDecision:
+                      decisionId: 0f448ac1-862a-4c7b-bdb4-a3b7cdbf6149
+                      question: Would you like to print a receipt?
+                      options:
+                        - 'YES'
+                        - 'NO'
+                    receipts:
+                      customer: <This will be a printable receipt for the customer>
+                      merchant: <This will be a printable receipt for the merchant>
+                      signature: >-
+                        <This will be a printable receipt for the merchant if
+                        signature is required>
+                    transactionOutcome:
+                      transactionResult: Approved
+                      approvalCode: '00'
+                      transactionReference: xa29boybbo
+                      authorisationNumber: '674574564'
+                      cardType: visa
+                      elidedPan: XXXXXXXXXXXX8635
+                      retrievalReferenceNumber: '63594680046125834000'
+                      surchargeAmount: 300
+                      tipAmount: 500
+                      totalAmount: 6800
+        '404':
+          description: >-
+            When the provided `payRequestId` does not match a Pay Request stored
+            in the system.
+      security:
+        - JWT: []
+      parameters:
+        - $ref: '#/components/parameters/header-bearer-token'
+        - schema:
+            type: string
+          name: payRequestId
+          in: path
+          required: true
+    put:
+      summary: Answer a Terminal Prompt
+      operationId: answer-pay-terminal-prompt
+      description: >-
+        An async endpoint used for attempting to answer a pending decision
+        prompt on a terminal. The decisionId & answer is returned by the
+        payRequest in the pendingDecision object, and is required to
+        differentiate prompt messages. There is no result to acknowledge that
+        this decision was received by the terminal.
+      parameters:
+        - $ref: '#/components/parameters/header-bearer-token'
+        - $ref: '#/components/parameters/header-content-json'
+        - schema:
+            type: string
+          name: payRequestId
+          in: path
+          required: true
+      security:
+        - JWT: []
+      tags:
+        - Pay Requests
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                decisionId:
+                  type: string
+                  description: >-
+                    The corresponding decisionId as provided by the
+                    pendingDecision object of the payRequest
+                  example: 0f448ac1-862a-4c7b-bdb4-a3b7cdbf6149
+                answer:
+                  type: string
+                  description: >-
+                    The exact case-sensitive answer as provided by the list of
+                    answers in the pendingDecision object of the payRequest
+                  example: 'YES'
+              required:
+                - decisionId
+                - answer
+      responses:
+        '202':
+          description: Accepted
+          headers: {}
+        '400':
+          description: When the provided payload is not valid.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    description: The validation error message.
+                  errorCode:
+                    type: string
+                    description: The unique error code for message.
+              examples:
+                Missing property:
+                  value:
+                    error: '"decisionId" is required'
+                    errorCode: VALIDATION_ERROR
+        '403':
+          description: >-
+            When you don't have the right permissions to answer a pending
+            decision for the provided payRequest.
+        '412':
+          description: When the terminal is not paired.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    description: The validation error message.
+                  errorCode:
+                    type: string
+                    description: The unique error code for message.
+              examples:
+                Missing property:
+                  value:
+                    error: Terminal is not paired.
+                    errorCode: TERMINAL_NOT_PAIRED
+    delete:
+      summary: Cancel a Pay Request
+      operationId: cancel-pay-terminal-request
+      description: >-
+        An async endpoint used for attempting to cancel a pending decision
+        prompt on a terminal. There is no result to acknowledge that this
+        cancellation was processed by the terminal. If the transaction is
+        already in a fully processed state, this call will be rejected.
+      parameters:
+        - $ref: '#/components/parameters/header-bearer-token'
+        - schema:
+            type: string
+          name: payRequestId
+          in: path
+          required: true
+      security:
+        - JWT: []
+      tags:
+        - Pay Requests
+      responses:
+        '202':
+          description: Accepted
+          headers: {}
+        '403':
+          description: >-
+            When you don't have the right permissions to cancel a pending
+            payRequest.
+        '412':
+          description: When the terminal is not paired.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    description: The validation error message.
+                  errorCode:
+                    type: string
+                    description: The unique error code for message.
+              examples:
+                Missing property:
+                  value:
+                    error: Terminal is not paired.
+                    errorCode: TERMINAL_NOT_PAIRED
+components:
+  securitySchemes:
+    JWT:
+      type: openIdConnect
+      openIdConnectUrl: https://auth.connect.tyro.com/.well-known/openid-configuration
+  parameters:
+    header-bearer-token:
+      schema:
+        type: string
+        default: Bearer {$$.env.access_token}
+      in: header
+      name: Authorization
+      required: true
+    header-content-json:
+      schema:
+        type: string
+        enum:
+          - application/json
+      in: header
+      name: Content-Type
+      required: true
+  schemas:
+    merchant:
+      title: Merchant
+      type: object
+      properties:
+        mid:
+          type: string
+          description: The ID of the merchant as specified by the Tyro Connect system
+          example: '98765'
+        posReference:
+          type: string
+          description: >-
+            The posReference of the merchant, supplied during the integration
+            process.
+          example: SydneyShop
+        isAuthorised:
+          type: boolean
+          description: If the POS is authorised for this merchant.
+          example: true
+        displayName:
+          type: string
+          description: The display name of the Merchant
+          example: Bobs Burger Shop
+    pay-terminal-total:
+      title: Pay Terminal Money Amounts
+      type: object
+      properties:
+        goodsAndServicesAmount:
+          type: integer
+          description: >-
+            This is the goods and services amount in smallest currency unit. e.g
+            12520 (in cents) is $125.20. It can be used in combination with
+            cashoutAmount. It cannot be used in combination with refundAmount.
+          example: 12520
+          minimum: 0
+        cashoutAmount:
+          type: integer
+          description: >-
+            This is the requested cashout amount in smallest currency unit. e.g
+            5000 (in cents) is $50.00. It can be used in combination with
+            goodsAndServicesAmount. It cannot be used in combination with
+            refundAmount.
+          example: 5000
+          minimum: 0
+        refundAmount:
+          type: integer
+          description: >-
+            This is the refund amount in smallest currency unit. e.g 12520 (in
+            cents) is $125.20. It cannot be used in combination with
+            goodsAndServicesAmount or cashoutAmount.
+          example: 12520
+          minimum: 0
+        currency:
+          type: string
+          default: AUD
+          enum:
+            - AUD
+          example: AUD
+          description: This is always AUD
+      required:
+        - goodsAndServicesAmount
+        - cashoutAmount
+        - refundAmount
+        - currency
+    new-pay-request:
+      title: New Pay Request
+      type: object
+      properties:
+        mid:
+          type: string
+          description: The merchant ID of the terminal as specified by the Tyro Account.
+        tid:
+          type: string
+          description: The terminal ID of the Tyro Terminal.
+        origin:
+          description: Contains information from the partner that created the Pay Request.
+          type: object
+          properties:
+            orderId:
+              type: string
+              maxLength: 50
+              description: >-
+                An identifier that has been generated by the origin. This can be
+                used for reconciliation of orders in the app partner’s system.
+            transactionId:
+              type: string
+              description: >-
+                A UUIDv4 provided by the partner to be used for preventing
+                duplicate transactions, for us in reinitialisation of the
+                terminal on an already attempted pending transaction.
+            name:
+              type: string
+              description: >-
+                Name or reference for this transaction used by the partner that
+                created the Pay Request.
+          required:
+            - orderId
+            - transactionId
+        options:
+          description: Configurable options for the terminal for this Pay Request.
+          type: object
+          properties:
+            integratedReceipt:
+              type: boolean
+              default: true
+              description: >-
+                Whether or not a receipt will be printed from an integrated
+                printer for this transaction in the event of an approval or
+                decline.
+            receiptWidth:
+              type: integer
+              minimum: 28
+              maximum: 500
+              default: 60
+              description: >-
+                The number of characters allowed on each line of any receipt
+                generated for this transaction.
+        total:
+          allOf:
+            - $ref: '#/components/schemas/pay-terminal-total'
+            - description: The terminal amounts (in smallest currency unit)
+      required:
+        - mid
+        - tid
+        - total
+        - origin
+    pay-request-response:
+      title: Pay Request Response
+      type: object
+      properties:
+        id:
+          type: string
+          description: The ID of the Pay Request generated by Tyro.
+        mid:
+          type: string
+          description: The merchant ID of the terminal as specified by the Tyro Account.
+        tid:
+          type: string
+          description: The terminal ID of the Tyro Terminal.
+        origin:
+          description: Contains information from the partner that created the Pay Request.
+          type: object
+          properties:
+            orderId:
+              type: string
+              maxLength: 50
+              description: >-
+                An identifier that has been generated by the origin. This can be
+                used for reconciliation of orders in the app partner’s system.
+            transactionId:
+              type: string
+              description: >-
+                A UUIDv4 provided by the partner to be used for preventing
+                duplicate transactions, for us in reinitialisation of the
+                terminal on an already attempted pending transaction.
+            name:
+              type: string
+              description: >-
+                Name or reference for this transaction used by the partner that
+                created the Pay Request.
+        status:
+          type: string
+          description: The current status of this Pay Request managed by Tyro.
+          enum:
+            - AWAITING_INITIALISATION
+            - PENDING
+            - SUCCESS
+            - FAILED
+        transactionProgress:
+          type: object
+          description: Additional information about the status of the transaction.
+          properties:
+            id:
+              type: string
+              description: >-
+                The id of the transaction progress message. This can be used to
+                determine further detail of what occurred during processing such
+                as "COMPLETE", "PENDING", "REJECTED", "DEAD"
+            description:
+              type: string
+              description: The free text description of the transaction progress message.
+        total:
+          allOf:
+            - $ref: '#/components/schemas/pay-terminal-total'
+            - description: The total amount (in smallest currency unit)
+        pendingDecision:
+          type: object
+          description: >-
+            The pending decision to be displayed on the POS. Values for this may
+            be related to printing a receipt, or asking for a signature.
+          properties:
+            decisionId:
+              type: string
+              description: The ID of the pending decision.
+            question:
+              type: string
+              description: The question to be displayed on the POS.
+            options:
+              type: array
+              items:
+                type: string
+                description: The options to be displayed on the POS.
+        terminalProgress:
+          type: object
+          description: The progress message displayed on the terminal.
+          properties:
+            id:
+              type: string
+              description: >-
+                The id of the terminal progress message. You can use this to
+                filter what messages you would wish to display on the POS, or to
+                customize messages.
+            description:
+              type: string
+              description: The free text description of the terminal progress message.
+        transactionOutcome:
+          type: object
+          description: >-
+            The outcome of the transaction after it has been processed by the
+            terminal.
+          properties:
+            transactionResult:
+              type: string
+              description: >-
+                The outcome of the transaction after it has been processed by
+                the terminal. "Approved", "Declined", "Terminated", "Cancelled"
+            approvalCode:
+              type: string
+              description: >-
+                The response code from the terminal. This is a numeric string
+                that represents the outcome of the transaction.
+            transactionReference:
+              type: string
+              description: >-
+                The transaction reference number from the terminal. This is a
+                unique identifier for the transaction.
+            authorisationNumber:
+              type: string
+              description: >-
+                The authorisation number from the acquirer. This is a unique
+                identifier for the transaction.
+            cardType:
+              type: string
+              description: The card type used in the transaction.
+            elidedPan:
+              type: string
+              description: The PAN with all but the last 4 digits replaced with 'X'.
+            retrievalReferenceNumber:
+              type: string
+              description: >-
+                The retrieval reference number. This is a unique identifier for
+                the transaction.
+            surchargeAmount:
+              type: number
+              description: The surcharge amount in the smallest currency unit.
+            tipAmount:
+              type: number
+              description: The tip amount in the smallest currency unit.
+            totalAmount:
+              type: number
+              description: >-
+                The total amount including any surcharge or tip in the smallest
+                currency unit.
+        receipts:
+          type: object
+          description: >-
+            This object contains printable receipts for the customer and
+            merchant.
+          properties:
+            customer:
+              type: string
+              description: This will be a printable receipt for the customer
+            merchant:
+              type: string
+              description: This will be a printable receipt for the merchant
+            signature:
+              type: string
+              description: >-
+                This will be a printable receipt for the merchant if signature
+                is required

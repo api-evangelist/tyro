@@ -1,0 +1,1138 @@
+openapi: 3.1.0
+info:
+  title: Sales Data API
+  version: '1.1'
+  contact: {}
+  description: |
+    This is the API for Apps looking to implement sales data on Tyro Connect
+servers:
+  - url: https://api.tyro.com/connect
+    description: Production
+paths:
+  /sales:
+    get:
+      summary: List Sales
+      operationId: list-sales-1.1
+      description: >
+        This endpoint returns all the sales of a given location. The list of
+        sales is paginated and it is possible to apply filters to the sales
+        being fetched.
+
+
+        ## Filtering
+
+
+        The filtering options use an "OR" clause within the same filter criteria
+        and an "AND" clause between criteria.
+
+
+        This means that a request with `saleStatus=OPEN&saleType=SALE` will
+        return the sales that were `OPEN` *and* that of type `SALE`.
+
+
+        A request with `saleType=SALE&saleType=REFUND` will return the sales
+        that have either sale type `SALE` *or* `REFUND`.
+
+
+        ## Pagination
+
+
+        The paginated results are ordered using the sequence they were created
+        in the Tyro Connect. For example `results[0]` on page 1 is the first
+        matching sale that was created in the Tyro Connect system.
+      security:
+        - JWT: []
+      parameters:
+        - $ref: '#/components/parameters/header-bearer-token'
+        - schema:
+            type: string
+            example: luna-park
+          in: query
+          name: locationId
+          required: true
+          description: >-
+            The Tyro Connect Location Id of the sales to be retrieved. This
+            parameter is required.
+        - schema:
+            type: string
+            enum:
+              - OPEN
+              - CLOSED
+              - REOPENED
+          in: query
+          name: saleStatus
+          description: Returns results based on the status of a sale.
+        - schema:
+            type: string
+            enum:
+              - COMBINATION
+              - SALE
+              - REFUND
+              - VOID
+          in: query
+          name: saleType
+          description: |-
+            Returns results based on the type of a sale.
+
+            Can be a single string or multi string value.
+        - schema:
+            type: string
+            format: date
+            example: '2023-04-29'
+            pattern: ''
+          in: query
+          name: fromDate
+          description: >-
+            Returns results that have a "startTime" later than or equal to the
+            provided value.
+
+
+            Format: YYYY-MM-DD
+        - schema:
+            type: string
+            example: '2023-04-28'
+          in: query
+          name: toDate
+          description: >-
+            Returns results that have a "startTime" before than or equal to the
+            provided value.
+
+
+            Format: YYYY-MM-DD
+        - schema:
+            type: string
+            enum:
+              - CREATED
+              - UPDATED
+              - OPENED
+              - CLOSED
+            default: CREATED
+          in: query
+          name: dateType
+          description: Specifies the date type of the 'fromDate' and 'toDate' parameters.
+        - schema:
+            type: number
+            minimum: 1
+            maximum: 50
+            example: 10
+          in: query
+          name: limit
+          description: |-
+            Specifies the amount of results to be retrieved.
+
+            A maximum of 50 results are returned if this value is not provided.
+        - schema:
+            type: number
+            minimum: 1
+            example: 2
+          in: query
+          name: page
+          description: >-
+            Specify the page to retrieve.
+
+
+            You will need to use this setting if you wish to retrieve specific
+            pages.
+
+
+            Page-numbering is based on the value of "limit". If limit=5, then
+            page=1 will display the hits from 1 to 5, page=3 will display the
+            hits from 11 to 15.
+
+
+            Page numbers start at 1.
+
+
+            A request for a non-existing page will yield 0 results.
+      responses:
+        '200':
+          description: The sales list
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  results:
+                    type: array
+                    description: >-
+                      The results for the location that satisfy the filtering
+                      criteria
+                    items:
+                      $ref: '#/components/schemas/sale'
+                  pagination:
+                    type: object
+                    properties:
+                      page:
+                        type: integer
+                        minimum: 1
+                      size:
+                        type: integer
+                      limit:
+                        type: integer
+                      total:
+                        type: integer
+                    required:
+                      - page
+                      - size
+                      - limit
+                      - total
+                required:
+                  - results
+                  - pagination
+              examples:
+                saleStatus=CLOSED&saleType=SALEsaleType=COMBINATION&fromDate=2023-05-04&toDate=2023-05-04:
+                  value:
+                    pagination:
+                      page: 1
+                      size: 2
+                      limit: 10
+                      total: 2
+                    results:
+                      - version: 69
+                        locationId: luna-park
+                        origin:
+                          saleId: SaleId
+                        source:
+                          type: MEANDU
+                        type: SALE
+                        status: CLOSED
+                        openedZonedDateTime: '2018-05-02T08:28:13+10:00'
+                        closedZonedDateTime: '2018-05-02T08:28:13+10:00'
+                        staff:
+                          id: '8675309'
+                        bookingId: 6dca53a9-04c7-46aa-991c-cfdf51a8f652
+                        items:
+                          - id: DRINK-123
+                            name: Diet Soda
+                            sku: '1123581321'
+                            unitPrice:
+                              amount: 123
+                              currency: AUD
+                            unitPriceTax:
+                              amount: 123
+                              currency: AUD
+                            quantity: 3
+                            tax:
+                              amount: 369
+                              currency: AUD
+                            total:
+                              amount: 369
+                              currency: AUD
+                        payments:
+                          - acquirer:
+                              name: TYRO
+                              transactionReference: 88888888-4444-4444-4444-121212121212
+                              terminalId: '57'
+                            method: EFTPOS
+                            type: SALE
+                            goodsAndServicesAmount:
+                              amount: 123
+                              currency: AUD
+                        tax:
+                          amount: 123
+                          currency: AUD
+                        total:
+                          amount: 369
+                          currency: AUD
+                        table:
+                          seats: 1
+                          number: '11'
+                        subtotal:
+                          amount: 369
+                          currency: AUD
+                      - version: 69
+                        locationId: luna-park
+                        origin:
+                          saleId: SaleId
+                          locationId: POS-0000001
+                        source:
+                          type: MEANDU
+                        type: COMBINATION
+                        status: CLOSED
+                        openedZonedDateTime: '2018-05-02T08:28:13+10:00'
+                        closedZonedDateTime: '2018-05-02T08:28:13+10:00'
+                        staff:
+                          id: '8675309'
+                        bookingId: 6dca53a9-04c7-46aa-991c-cfdf51a8f652
+                        items:
+                          - id: DRINK-123
+                            name: Diet Soda
+                            sku: '1123581321'
+                            sale:
+                              type: SALE
+                            unitPrice:
+                              amount: 123
+                              currency: AUD
+                            unitPriceTax:
+                              amount: 123
+                              currency: AUD
+                            quantity: 3
+                            tax:
+                              amount: 369
+                              currency: AUD
+                            total:
+                              amount: 369
+                              currency: AUD
+                          - id: DRINK-1322
+                            name: Soda
+                            sku: '1123581322'
+                            sale:
+                              type: REFUND
+                            unitPrice:
+                              amount: 123
+                              currency: AUD
+                            unitPriceTax:
+                              amount: 123
+                              currency: AUD
+                            quantity: 3
+                            tax:
+                              amount: 369
+                              currency: AUD
+                            total:
+                              amount: 369
+                              currency: AUD
+                        payments:
+                          - acquirer:
+                              name: TYRO
+                              transactionReference: 88888888-4444-4444-4444-121212121212
+                              terminalId: '57'
+                            method: EFTPOS
+                            type: SALE
+                            goodsAndServicesAmount:
+                              amount: 123
+                              currency: AUD
+                        tax:
+                          amount: 123
+                          currency: AUD
+                        total:
+                          amount: 369
+                          currency: AUD
+        '403':
+          description: >-
+            When you don't have the right permissions to fetch the sales for the
+            provided location
+  /sales/{saleId}:
+    get:
+      summary: Get Sales Data by SalesId
+      responses:
+        '200':
+          description: The sales response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/sale'
+              examples:
+                Example Sale:
+                  value:
+                    version: 69
+                    locationId: luna-park
+                    origin:
+                      saleId: SaleId
+                    source:
+                      type: MEANDU
+                    type: SALE
+                    status: CLOSED
+                    openedZonedDateTime: '2018-05-02T08:28:13+10:00'
+                    closedZonedDateTime: '2018-05-02T08:28:13+10:00'
+                    staff:
+                      id: '8675309'
+                    bookingId: 6dca53a9-04c7-46aa-991c-cfdf51a8f652
+                    items:
+                      - id: DRINK-123
+                        name: Diet Soda
+                        sku: '1123581321'
+                        unitPrice:
+                          amount: 123
+                          currency: AUD
+                        unitPriceTax:
+                          amount: 123
+                          currency: AUD
+                        quantity: 3
+                        tax:
+                          amount: 369
+                          currency: AUD
+                        total:
+                          amount: 369
+                          currency: AUD
+                    payments:
+                      - acquirer:
+                          name: TYRO
+                          transactionReference: 88888888-4444-4444-4444-121212121212
+                          terminalId: '57'
+                        method: EFTPOS
+                        type: SALE
+                        goodsAndServicesAmount:
+                          amount: 123
+                          currency: AUD
+                    tax:
+                      amount: 123
+                      currency: AUD
+                    total:
+                      amount: 369
+                      currency: AUD
+                    table:
+                      seats: 1
+                      number: '11'
+                    subtotal:
+                      amount: 369
+                      currency: AUD
+                Combination Sale:
+                  value:
+                    version: 69
+                    locationId: luna-park
+                    origin:
+                      saleId: SaleId
+                      locationId: POS-0000001
+                    source:
+                      type: MEANDU
+                    type: COMBINATION
+                    status: CLOSED
+                    openedZonedDateTime: '2018-05-02T08:28:13+10:00'
+                    closedZonedDateTime: '2018-05-02T08:28:13+10:00'
+                    staff:
+                      id: '8675309'
+                    bookingId: 6dca53a9-04c7-46aa-991c-cfdf51a8f652
+                    items:
+                      - id: DRINK-123
+                        name: Diet Soda
+                        sku: '1123581321'
+                        sale:
+                          type: SALE
+                        unitPrice:
+                          amount: 123
+                          currency: AUD
+                        unitPriceTax:
+                          amount: 123
+                          currency: AUD
+                        quantity: 3
+                        tax:
+                          amount: 369
+                          currency: AUD
+                        total:
+                          amount: 369
+                          currency: AUD
+                      - id: DRINK-1322
+                        name: Soda
+                        sku: '1123581322'
+                        sale:
+                          type: REFUND
+                        unitPrice:
+                          amount: 123
+                          currency: AUD
+                        unitPriceTax:
+                          amount: 123
+                          currency: AUD
+                        quantity: 3
+                        tax:
+                          amount: 369
+                          currency: AUD
+                        total:
+                          amount: 369
+                          currency: AUD
+                    payments:
+                      - acquirer:
+                          name: TYRO
+                          transactionReference: 88888888-4444-4444-4444-121212121212
+                          terminalId: '57'
+                        method: EFTPOS
+                        type: SALE
+                        goodsAndServicesAmount:
+                          amount: 123
+                          currency: AUD
+                    tax:
+                      amount: 123
+                      currency: AUD
+                    total:
+                      amount: 369
+                      currency: AUD
+        '404':
+          description: >-
+            When the provided `saleId` does not match a Sale stored in the
+            system.
+      operationId: get-sale-1.1
+      description: |
+        This endpoint is for fetching the details of a sale.
+      security:
+        - JWT: []
+      parameters:
+        - $ref: '#/components/parameters/header-bearer-token'
+        - schema:
+            type: string
+          name: saleId
+          in: path
+          required: true
+    patch:
+      summary: Update Sale
+      description: >-
+        This endpoint is used to updates Sales. Please note, updates with the
+        same contents are ignored and all items in a sale must be of an
+        identical currency.
+      responses:
+        '200':
+          description: >-
+            If the Sale was successfully updated on the server you will receive
+            a 200 `OK` and the updated Sale with a new version.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/sale'
+        '400':
+          description: >-
+            The provided payload is malformed or request tries to perform an
+            update of an item of the sale that is not discounts, surcharges, tax
+            or total.
+        '412':
+          description: >-
+            The provided version is outdated. This indicates that another
+            process has made updates to the same Sale. Get the latest sale
+            object and retry with the latest version.
+      operationId: update-sale-1.1
+      security:
+        - JWT: []
+      parameters:
+        - $ref: '#/components/parameters/header-bearer-token'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                version:
+                  type: number
+                  description: >-
+                    Represents the last read version of the sale returned by the
+                    GET request. If this version is out of date, the request
+                    will fail with a 412. Get the latest sale and merge it with
+                    the values from this request, then retry with the latest
+                    version.
+                status:
+                  type: string
+                  enum:
+                    - CLOSED
+                    - OPEN
+                  default: CLOSED
+                  description: >-
+                    An enum describing the status of the sale. Once the sale has
+                    been closed, it cannot be reopened.
+                closedZonedDateTime:
+                  type: string
+                  description: >-
+                    The time the sale was closed on the POS. closedZonedDateTime
+                    is required when the status is CLOSED otherwise optional.
+                    The format of the date time is the notation as defined by
+                    [RFC 3339, section
+                    5.6](https://tools.ietf.org/html/rfc3339#section-5.6).
+                  example: '2018-05-02T08:28:13+10:00'
+                  format: date-time
+                items:
+                  type: array
+                  description: >-
+                    Provide only the existing items for the sale, including all
+                    the fields that have not been modified. You can only modify
+                    discounts, surcharges, total and tax for each existing item.
+                  items:
+                    $ref: '#/components/schemas/line-item'
+                discounts:
+                  type: array
+                  description: >-
+                    Provide existing & new discounts to be applied to the sale.
+                    The update will do a complete array replacement so any
+                    discounts not provided in this request will be removed.
+                  items:
+                    $ref: '#/components/schemas/money-positive-with-description'
+                surcharges:
+                  type: array
+                  description: >-
+                    Provide existing & new surcharges to be applied to the sale.
+                    The update will do a complete array replacement so any
+                    surcharges not provided in this request will be removed.
+                  items:
+                    $ref: '#/components/schemas/money-positive-with-description'
+                tax:
+                  allOf:
+                    - $ref: '#/components/schemas/money-positive'
+                    - description: >-
+                        The total amount (in cents) of tax collected for this
+                        sale by the merchant. This must be updated when the
+                        total changes.
+                payments:
+                  description: >-
+                    Provide all existing & new payments to be applied to the
+                    sale. Existing payments cannot be removed.
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      acquirer:
+                        type: object
+                        description: >-
+                          Details about the financial instituition that
+                          processed the payment. This object must only be
+                          supplied when the `method` is `EFTPOS`
+                        properties:
+                          name:
+                            type: string
+                            description: >-
+                              The name of the Financial Institution that
+                              processed the payment. If it was Tyro Payments who
+                              processed the transaction please use the value
+                              `TYRO`
+                            pattern: ^[A-Z]+$
+                            example: TYRO
+                          transactionReference:
+                            type: string
+                            description: >-
+                              A reference number that can be used to look up the
+                              transaction in the acquirer's system. If using
+                              Tyro Payments please use the
+                              `integratedTransactionId`
+                          terminalId:
+                            type: string
+                            description: >-
+                              The Financial Institution's id of the payment
+                              terminal that performed the transaction
+                        required:
+                          - name
+                          - transactionReference
+                      method:
+                        type: string
+                        enum:
+                          - EFTPOS
+                          - CASH
+                          - GIFT_CARD
+                          - POINTS
+                          - ACCOUNT
+                          - ONLINE
+                      type:
+                        type: string
+                        enum:
+                          - SALE
+                          - REFUND
+                          - VOID
+                        default: SALE
+                        description: >-
+                          An enum describing what kind of payment this was. If
+                          this value is not provided it will be inherited from
+                          the sale's `type`
+                      goodsAndServicesAmount:
+                        allOf:
+                          - $ref: '#/components/schemas/money-positive'
+                          - description: >-
+                              The amount (in cents) being paid for the goods and
+                              services
+                      tipAmount:
+                        allOf:
+                          - $ref: '#/components/schemas/money-positive'
+                          - description: >-
+                              The tip amount added on top of the
+                              `goodsAndServicesAmount`
+                      cashoutAmount:
+                        allOf:
+                          - $ref: '#/components/schemas/money-positive'
+                          - description: >-
+                              The cashout amount requested on top of the
+                              `goodsAndServicesAmount`
+                      surchargeAmount:
+                        allOf:
+                          - $ref: '#/components/schemas/money-positive'
+                          - description: >-
+                              The surcharge amount (in cents) charged by the
+                              merchant to process the payment method. This
+                              should not be confused with surcharges added by
+                              the merchant for things like public holiday
+                              service or corkage.
+                      items:
+                        description: >-
+                          Optional list that indicates which line items this
+                          payment is for. This will help determine if a certain
+                          line item is partially paid or fully paid. Once an
+                          item is referenced by a payment, the item can no
+                          longer be removed from the sale.
+                        type: array
+                        items:
+                          type: object
+                          description: >-
+                            Details about the line item & amount the payment was
+                            made for
+                          properties:
+                            itemId:
+                              type: string
+                              description: >-
+                                The line item id from the `items.id` object in
+                                the request
+                            total:
+                              allOf:
+                                - $ref: '#/components/schemas/money-positive'
+                                - description: The amount for this particular line item
+                          required:
+                            - itemId
+                            - total
+                    required:
+                      - method
+                      - goodsAndServicesAmount
+                total:
+                  allOf:
+                    - $ref: '#/components/schemas/money-positive'
+                    - description: >-
+                        The total (in cents) of this sale. This must be updated
+                        when items, discounts or surcharges are added. It is
+                        expected to calculate to: sum(items[].total) - discounts
+                        + surcharges
+              required:
+                - version
+components:
+  schemas:
+    sale:
+      type: object
+      title: Sale
+      description: This object represents a sale.
+      properties:
+        id:
+          type: string
+          description: The sale id provided by Tyro
+        version:
+          type: number
+          description: >-
+            The current version of the Sale. The most update to date version
+            needs to be provided when making updates.
+        locationId:
+          type: string
+          description: >-
+            This is the Tyro Connect defined location Id. It is a globally
+            unique identifier that is used to identify a merchants individual
+            site
+        origin:
+          type: object
+          description: >-
+            Identifiers and reference numbers that were generated by the
+            partner.
+          required:
+            - saleId
+            - locationId
+          properties:
+            saleId:
+              type: string
+              description: >-
+                The Id of the sale generated by the partner. This value should
+                allow for partner systems to reconcile this sale.
+            locationId:
+              type: string
+              description: The Id of the store according to the partner.
+        source:
+          type: object
+          description: Information about the source of the sale.
+          required:
+            - type
+          properties:
+            type:
+              type: string
+              enum:
+                - DELIVEROO
+                - DOORDASH
+                - GOOGLE
+                - HEYYOU
+                - HUNGRYHUNGRY
+                - MEANDU
+                - MENULOG
+                - MRYUM
+                - ORDERUP
+                - OTHER
+                - POS
+                - UBEREATS
+              description: An enum describing the source type of the sale.
+            other:
+              type: string
+              description: The source of the sale if the source type is OTHER.
+        type:
+          type: string
+          enum:
+            - SALE
+            - REFUND
+            - VOID
+            - COMBINATION
+          default: SALE
+          description: An enum describing what kind of sale took place.
+        status:
+          type: string
+          enum:
+            - CLOSED
+            - OPEN
+            - REOPENED
+          default: CLOSED
+          description: >-
+            An enum describing the status of the sale. A closed sale cannot be
+            opened.
+        openedZonedDateTime:
+          type: string
+          format: date-time
+          example: '2018-05-02T08:28:13+10:00'
+          description: >-
+            The time the sale was opened on the partner. The format of the date
+            time is the notation as defined by [RFC 3339, section
+            5.6](https://tools.ietf.org/html/rfc3339#section-5.6)
+        closedZonedDateTime:
+          type: string
+          description: >-
+            The time the sale was closed on the partner. The format of the date
+            time is the notation as defined by [RFC 3339, section
+            5.6](https://tools.ietf.org/html/rfc3339#section-5.6)
+          example: '2018-05-02T08:28:13+10:00'
+          format: date-time
+        parentSaleId:
+          type: string
+          description: >-
+            The original sale id referencing the previous sale that was
+            reopened.
+        customer:
+          type: object
+          properties:
+            id:
+              type: string
+        register:
+          type: object
+          description: 'Information about which register in the venue was used '
+          properties:
+            id:
+              type: string
+            name:
+              type: string
+        staff:
+          type: object
+          description: Details about the staff member who performed the transaction
+          required:
+            - id
+          properties:
+            id:
+              type: string
+              description: >-
+                The id of the staff member in the POS system. Please **do not**
+                put the staff members name here
+        section:
+          type: object
+          description: The section within the venue where the sale took place.
+          properties:
+            id:
+              type: string
+              description: The POS system's Id of the section
+            name:
+              type: string
+              description: >-
+                The readable name of the section. E.g. Front bar, drive through
+                for hospitality or for retail men's clothes, womens shoes etc.
+        table:
+          type: object
+          description: >-
+            Optional information about the table where in the venue the sale
+            took place.
+          properties:
+            number:
+              type: string
+              description: >-
+                The table number or table id. This field accepts alphanumeric
+                characters e.g `MAIN-33`
+              example: MAIN-33
+            seats:
+              type: integer
+              description: The number of people seated at the table
+          required:
+            - number
+        bookingId:
+          type: string
+          description: The booking ID defined by Tyro Connect to identify a reservation
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/line-item'
+        discounts:
+          type: array
+          items:
+            $ref: '#/components/schemas/money-positive-with-description'
+        surcharges:
+          type: array
+          items:
+            $ref: '#/components/schemas/money-positive-with-description'
+        tax:
+          allOf:
+            - $ref: '#/components/schemas/money-positive'
+            - description: >-
+                The total amount (in cents) of tax collected for this sale by
+                the merchant.
+        payments:
+          type: array
+          items:
+            type: object
+            properties:
+              acquirer:
+                type: object
+                description: >-
+                  Details about the financial instituition that processed the
+                  payment. This object is only supplied when the `method` is
+                  `EFTPOS`
+                properties:
+                  name:
+                    type: string
+                    description: >-
+                      The name of the Financial Institution that processed the
+                      payment. If it was Tyro Payments who processed the
+                      transaction, this value is `TYRO`
+                    pattern: ^[A-Z]+$
+                    example: TYRO
+                  transactionReference:
+                    type: string
+                    description: >-
+                      A reference number that can be used to look up the
+                      transaction in the acquirer's system.
+                  terminalId:
+                    type: string
+                    description: >-
+                      The Financial Institution's id of the payment terminal
+                      that performed the transaction
+                required:
+                  - name
+                  - transactionReference
+              method:
+                type: string
+                enum:
+                  - EFTPOS
+                  - CASH
+                  - GIFT_CARD
+                  - POINTS
+                  - ACCOUNT
+                  - ONLINE
+              type:
+                type: string
+                enum:
+                  - COMBINATION
+                  - SALE
+                  - REFUND
+                  - VOID
+              goodsAndServicesAmount:
+                allOf:
+                  - $ref: '#/components/schemas/money-positive'
+                  - description: >-
+                      The amount (in cents) being paid for the goods and
+                      services
+              tipAmount:
+                allOf:
+                  - $ref: '#/components/schemas/money-positive'
+                  - description: The tip amount added on top of the goods and services
+              cashoutAmount:
+                allOf:
+                  - $ref: '#/components/schemas/money-positive'
+                  - description: >-
+                      The cashout amount requested on top of the
+                      goodsAndServicesAmount
+              surchargeAmount:
+                allOf:
+                  - $ref: '#/components/schemas/money-positive'
+                  - description: >-
+                      The surcharge amount (in cents) charged by the merchant to
+                      process the payment method
+              items:
+                description: >-
+                  Optional list that indicates which line items this payment is
+                  for. This will help determine if a certain line item is
+                  partially paid or fully paid. Once an item is referenced by a
+                  payment, the item can no longer be removed from the sale.
+                type: array
+                items:
+                  type: object
+                  description: >-
+                    Details about the line item & amount the payment was made
+                    for
+                  properties:
+                    itemId:
+                      type: string
+                      description: >-
+                        The line item id from the `items.id` object in the
+                        request
+                    total:
+                      allOf:
+                        - $ref: '#/components/schemas/money-positive'
+                        - description: The amount for this particular line item
+                  required:
+                    - itemId
+                    - total
+            required:
+              - method
+              - goodsAndServicesAmount
+        total:
+          allOf:
+            - $ref: '#/components/schemas/money-positive'
+            - description: >-
+                The total (in cents) of this sale after tax, discounts,
+                modifiers and rounding have been applied.
+        subtotal:
+          allOf:
+            - $ref: '#/components/schemas/money-positive'
+            - description: The subtotal (in cents) of this sale.
+      required:
+        - id
+        - version
+        - locationId
+        - origin
+        - source
+        - type
+        - openedZonedDateTime
+        - staff
+    line-item:
+      type: object
+      title: Line Item
+      description: This object represents a line item within a sale.
+      properties:
+        id:
+          type: string
+          description: >-
+            A unique to the sale id representing the item within the overall
+            order, i.e. 2 of the same items will have unique ids.
+        name:
+          type: string
+        category:
+          type: string
+        description:
+          type: string
+        sku:
+          type: string
+          description: Id of the item that is aligned with the ID of the item in the POS.
+        barcode:
+          type: string
+        modifiers:
+          type: array
+          description: >-
+            A list of modifications to be made to the parent item.
+
+            Each object in this array is a [`Line
+            Item`](#/components/schemas/line-item)
+          items:
+            $ref: '#/components/schemas/line-item'
+        unitPrice:
+          allOf:
+            - $ref: '#/components/schemas/money-positive'
+            - description: >-
+                The single unit price (in cents) including tax but excluding
+                discounts (if any)
+        unitPriceTax:
+          allOf:
+            - $ref: '#/components/schemas/money-positive'
+            - description: >-
+                The single unit amount (in cents) of tax collected by the
+                merchant
+        unitCost:
+          allOf:
+            - $ref: '#/components/schemas/money-positive'
+            - description: The single unit cost (in cents) paid by the merchant
+        unitCostTax:
+          allOf:
+            - $ref: '#/components/schemas/money-positive'
+            - description: The single unit amount (in cents) of tax paid by the merchant
+        discounts:
+          type: array
+          description: >-
+            A list of discounts applied to the line item (this is not a per unit
+            discount). e.g if the line item has a quantity of 3, and each item
+            has a 20 cent discount, you could include one discount of 60 cents
+            in the list, or three 20 cent discounts in the list.
+          items:
+            $ref: '#/components/schemas/money-positive-with-description'
+        sale:
+          title: Sale info
+          description: >-
+            Provides additional information about the sale. Only required when
+            top-level sale type is COMBINATION. Allows a POS to record a sale
+            that contains item/s that are returned or exchanged as part of the
+            sale.
+          type: object
+          properties:
+            type:
+              type: string
+              enum:
+                - SALE
+                - REFUND
+        surcharges:
+          type: array
+          description: >-
+            A list of surcharges applied to the line item (this is not a per
+            unit surcharge). e.g if the line item has a quantity of 5, and each
+            item has a $2 surcharge, you could include one surcharge of $10 in
+            the list, or five $2 surcharges in the list.
+          items:
+            $ref: '#/components/schemas/money-positive-with-description'
+        quantity:
+          type: number
+          minimum: 0
+          exclusiveMinimum: 0
+          description: The number of units of this item in the sale. It can be fractional.
+        tax:
+          allOf:
+            - $ref: '#/components/schemas/money-positive'
+            - description: >-
+                The amount (in cents) of tax collected by the merchant for this
+                line item
+        total:
+          allOf:
+            - $ref: '#/components/schemas/money-positive'
+            - description: >-
+                The total (in cents) of this line item. This value is expected
+                to calculate to: (unitPrice * quantity) - discounts + surcharges
+                + sum(modifiers[].total)
+        hidden:
+          type: boolean
+          description: >-
+            This can be set by the POS to indicate that this item should be
+            hidden by the partner App. Examples include, $0 items, notes by POS
+            staff etc...
+      required:
+        - id
+        - name
+        - sku
+        - unitPrice
+        - unitPriceTax
+        - quantity
+        - tax
+        - total
+    money-positive:
+      title: Money Positive Amount
+      type: object
+      properties:
+        amount:
+          type: integer
+          description: >-
+            This is the amount in smallest currency unit. e.g 12520 (in cents)
+            is $125.20
+          example: 12520
+          minimum: 0
+        currency:
+          type: string
+          default: AUD
+          enum:
+            - AUD
+            - EUR
+            - NZD
+            - GBP
+            - USD
+          example: AUD
+      required:
+        - amount
+        - currency
+    money-positive-with-description:
+      title: Money Positive Amount With Description
+      allOf:
+        - $ref: '#/components/schemas/money-positive'
+        - type: object
+          properties:
+            description:
+              type: string
+              description: A description of what this amount of money represents
+              example: Tuesday Happy Hour Discount
+  securitySchemes:
+    JWT:
+      type: openIdConnect
+      openIdConnectUrl: https://auth.connect.tyro.com/.well-known/openid-configuration
+  parameters:
+    header-bearer-token:
+      schema:
+        type: string
+        default: Bearer {$$.env.access_token}
+      in: header
+      name: Authorization
+      required: true

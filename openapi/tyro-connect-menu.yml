@@ -1,0 +1,401 @@
+openapi: 3.1.0
+info:
+  title: Menu API
+  version: '1.0'
+  contact: {}
+  description: This API allows apps to retrieve menus for a given location
+servers:
+  - url: https://api.tyro.com/connect
+    description: Production
+paths:
+  /menus/{tcLocationId}/app/sync:
+    get:
+      responses:
+        '204':
+          description: No body content
+        '403':
+          description: >-
+            When you don't have the required permissions to get menu for the
+            given location
+        '404':
+          description: >-
+            When the POS associated with the location has not Menu API enabled
+            and we were unable to find a local version of their menu
+        '409':
+          description: When an eixsting request for menu sync is still in progress
+      description: This endpoint starts the process of generating the latest published menu
+      parameters:
+        - in: path
+          description: Tyro Connect Location Id for which menu should be retrieved
+          name: tcLocationId
+          required: true
+          schema:
+            type: string
+        - $ref: '#/components/parameters/header-bearer-token'
+      operationId: request-latest-menu
+      summary: Request latest menu
+      security:
+        - JWT: []
+  /menus/{tcLocationId}/app/published:
+    get:
+      responses:
+        '200':
+          description: The published menu response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/menu'
+        '403':
+          description: >-
+            When you don't have the required permissions to get menu for the
+            given location
+        '409':
+          description: When an eixsting request for menu sync is still in progress
+      description: Used to fetch the latest published menu
+      parameters:
+        - in: path
+          description: Tyro Connect Location Id for which menu should be retrieved
+          name: tcLocationId
+          required: true
+          schema:
+            type: string
+        - $ref: '#/components/parameters/header-bearer-token'
+      operationId: fetch-latest-menu
+      summary: Fetch Latest Menu
+      security:
+        - JWT: []
+components:
+  securitySchemes:
+    JWT:
+      type: openIdConnect
+      openIdConnectUrl: https://auth.connect.tyro.com/.well-known/openid-configuration
+  parameters:
+    header-bearer-token:
+      schema:
+        type: string
+        default: Bearer {$$.env.access_token}
+      in: header
+      name: Authorization
+      required: true
+  schemas:
+    item:
+      type: object
+      properties:
+        id:
+          type: string
+          uniqueItems: true
+          description: ID for the item that is unique to the menu.
+          example: 0f448ac1-862a-4c7b-bdb4-a3b7cdbf6149
+        name:
+          type: string
+          description: Customer facing name or short description of the item.
+          example: Beef Burger
+        sku:
+          type: string
+          description: SKU or PLU for the item in the POS.
+          example: BFB-001
+        description:
+          type: string
+          description: Customer facing, long description of the item.
+          example: two patty beef burgers
+          items:
+            type: string
+        containsAlcohol:
+          type: boolean
+          description: Indicates whether or not the item contains alcohol
+        energy:
+          type: object
+          description: Energy content of each standard item (expressed in kilojoules 'kJ')
+          properties:
+            amount:
+              type: number
+            unit:
+              type: string
+          required:
+            - amount
+            - unit
+        price:
+          type: object
+          description: The amount and currency of the item
+          properties:
+            amount:
+              type: number
+            currency:
+              type: string
+          required:
+            - amount
+            - currency
+        images:
+          type: object
+          example:
+            DEFAULT: https://validdefaulturl-to-image.com/image.png
+            DOORDASH: https://validurl-to-image.com/image.png
+          description: >
+            A URL pointing to an image, which could either be a default image or
+            an override image.
+
+            To avoid any issues with copyright over images, we have provided the
+            ability to supply a
+
+            default image as well as the ability to override the default image
+            with a different image for a
+
+            specific partner. Set the 'default' field to be the URL used by
+            default for all Apps. Provide
+
+            additional fields for Apps where the default URL should be
+            overridden. For example
+
+            providing a URL for a field named "doordash" will mean that menus
+            published to DoorDash
+
+            will use that URL instead of the 'default' URL. The complete list of
+            Apps that you can
+
+            nominate are:
+              - DOORDASH
+              - HUBSTER
+              - GOOGLE
+          properties:
+            DEFAULT:
+              type: string
+              description: >-
+                A URL pointing to a default image that will be used for apps
+                that were not specifically setup.
+          additionalProperties:
+            x-additionalPropertiesName: App name
+            type: string
+            description: value for each property should be a valid URL to an image.
+        options:
+          type: array
+          description: >-
+            A list of objects describing modifier categories that are available
+            for this item
+          items:
+            type: object
+            properties:
+              min:
+                type: number
+                minimum: 0
+                description: >-
+                  The minimum number of modifiers within this option that need
+                  to be selected by the customer
+              max:
+                type: number
+                minimum: 1
+                description: >-
+                  The maximum number of modifiers within this option that can be
+                  selected by the customer
+              name:
+                type: string
+                example: Choose a sauce
+              description:
+                type: string
+              items:
+                minimum: 1
+                type: array
+                description: >-
+                  A list of ids referencing the items available within this
+                  option that can be applied as modifiers to the parent item by
+                  the customer
+                items:
+                  type: object
+                  properties:
+                    id:
+                      uniqueItems: true
+                      type: string
+                    min:
+                      type: number
+                      minimum: 0
+                      description: >-
+                        The minimum quantity of this modifier that needs to be
+                        selected by the customer
+                    max:
+                      type: number
+                      minimum: 1
+                      description: >-
+                        The maximum quantity of this modifier that can be
+                        selected by the customer
+                  required:
+                    - id
+                    - min
+                    - max
+            required:
+              - min
+              - name
+      required:
+        - id
+        - name
+        - sku
+        - containsAlcohol
+        - price
+    section:
+      type: object
+      properties:
+        id:
+          uniqueItems: true
+          type: string
+          description: A unique id that represents the section within the menu
+        name:
+          type: string
+          description: A name describing the section
+        description:
+          type: string
+        availableTimeSlots:
+          type: array
+          description: >-
+            A list of ids referencing the timeslots that this section will be
+            available within
+          items:
+            type: string
+        items:
+          type: array
+          description: >-
+            A list of ids referencing the menu items that are available within
+            this section - only parent items will be referenced here, not items
+            that are used as modifiers
+          items:
+            type: string
+        modifierGroups:
+          type: array
+          description: >-
+            A list of ids that reference the modifierGroups that are used in
+            this section. Any item contained within the 'option' of another item
+            will exist within a modifierGroup that belongs to the same section
+            of that parent item
+          items:
+            type: string
+      required:
+        - id
+        - name
+        - availableTimeSlots
+        - items
+    time-slot:
+      type: object
+      properties:
+        id:
+          uniqueItems: true
+          type: string
+          description: A unique id that represents the time slot within the menu
+        description:
+          type: string
+        startTime:
+          type: string
+          description: A valid time formatted value
+        endTime:
+          type: string
+          description: A valid time formatted value
+        days:
+          type: array
+          minimum: 1
+          items:
+            type: string
+            enum:
+              - Monday
+              - Tuesday
+              - Wednesday
+              - Thursday
+              - Friday
+              - Saturday
+              - Sunday
+      required:
+        - id
+        - startTime
+        - endTime
+        - days
+    modifier-group:
+      type: object
+      description: >-
+        Modifier groups are a convenience added to the schema for managing the
+        options that can be added to items (e.g. within a menu management app).
+        They are, however, not necessary for rendering a menu to a customer
+      properties:
+        id:
+          type: string
+          description: A unique id that represents the modifier group within the menu
+        description:
+          type: string
+        name:
+          type: string
+          description: >-
+            The name of the modifier group will correspond to the name of any
+            item.options that reference items contained within the modifier
+            group
+        min:
+          type: number
+          default: 0
+          description: >-
+            This number represents the minimum number of items within this
+            modifier group that a user will have to select if they are applied
+            to an item
+        max:
+          type: number
+          minimum: 1
+        items:
+          type: array
+          minimum: 1
+          description: >-
+            A list of objects whose id's reference items that belong to this
+            modifierGroup
+          items:
+            type: object
+            properties:
+              id:
+                type: string
+                uniqueItems: true
+              min:
+                type: number
+                minimum: 0
+                description: >-
+                  The minimum quantity of this modifier that needs to be
+                  selected by the customer
+              max:
+                type: number
+                minimum: 1
+                description: >-
+                  The maximum quantity of this modifier that can be selected by
+                  the customer
+            required:
+              - id
+              - min
+              - max
+      required:
+        - id
+        - name
+        - items
+    menu:
+      title: Menu
+      type: object
+      properties:
+        items:
+          type: array
+          description: >-
+            A list of objects that describe the different items available within
+            the menu
+          items:
+            $ref: '#/components/schemas/item'
+        sections:
+          type: array
+          description: A list of objects that describe the different sections of the menu
+          items:
+            $ref: '#/components/schemas/section'
+        timeSlots:
+          type: array
+          description: >-
+            A list of objects that describe the time periods that different
+            sections of the menu can be made available within
+          items:
+            $ref: '#/components/schemas/time-slot'
+        modifierGroups:
+          type: array
+          description: >-
+            A list of objects that describe the different modifier groups that
+            will be available to the merchant within the portal to apply to
+            different sections
+          items:
+            $ref: '#/components/schemas/modifier-group'
+      required:
+        - items
+        - sections
+        - timeSlots
+        - modifierGroups

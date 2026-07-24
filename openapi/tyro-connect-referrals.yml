@@ -1,0 +1,385 @@
+openapi: 3.1.0
+info:
+  title: Referrals API
+  version: '1.0'
+  contact: {}
+  description: >
+    The API allows the APP to create a referral. Currently the API supports
+    creating and retrieving information about a referral.
+servers:
+  - url: https://api.tyro.com/connect
+    description: Production
+paths:
+  /referrals:
+    post:
+      summary: Create Referral
+      description: >-
+        This endpoint is used to create a referral within Tyro Connect.
+
+
+        Use the *referralId* that is returned in the response to identify the
+        referral for subsequent events or retrieving the details.
+      operationId: create-referral-request
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  referralId:
+                    type: string
+                    description: referralId
+                required:
+                  - referralId
+              examples:
+                Created Referral:
+                  value:
+                    referralId: c9999d35-e494-4002-8c93-f090b174307d
+        '400':
+          description: When the provided payload is not valid.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    description: The validation error category.
+                  errorCode:
+                    type: string
+                    description: The validation error code.
+                  data:
+                    type: array
+                    description: A list of validation errors.
+                    items:
+                      type: string
+              examples:
+                Missing property:
+                  value:
+                    error: Bad request
+                    errorCode: INVALID_INPUT
+                    data:
+                      - Invalid ABN
+        '403':
+          description: When you don't have the right permissions to create a referral.
+        '404':
+          description: When the partnerId or partnerChannelAgreementId does not exist.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    description: The validation error message.
+              examples:
+                Missing property:
+                  value:
+                    error: >-
+                      Partner id "1491ec4a-3f46-4b4d-9bc0-23f2260f41c9" not
+                      found
+          headers: {}
+      security:
+        - JWT: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                partnerId:
+                  type: string
+                  description: partnerId
+                partnerChannelAgreementId:
+                  type: string
+                  description: partnerChannelAgreementId
+                clientReference:
+                  type: string
+                  description: clientReference
+                referralType:
+                  type: string
+                  description: referralType
+                  enum:
+                    - EFTPOS_REFERRAL
+                    - ISO
+                    - ECOMM_ISV
+                    - NO_COST_EFTPOS
+                    - WHOLESALE
+                branchId:
+                  type: string
+                  description: branchId
+                dealerCode:
+                  type: string
+                  description: dealerCode
+                merchantDetails:
+                  type: object
+                  description: Account object
+                  properties:
+                    abn:
+                      type: string
+                      description: abn
+                    companyName:
+                      type: string
+                      description: companyName
+                    tradingName:
+                      type: string
+                      description: tradingName
+                    merchantStatementValue:
+                      type: number
+                      description: merchantStatementValue
+                    franchiseGroupId:
+                      type: number
+                      description: franchiseGroupId
+                    corporateGroupId:
+                      type: string
+                      description: corporateGroupId
+                    merchantGroupId:
+                      type: string
+                      description: merchantGroupId
+                    websiteUrl:
+                      type: string
+                      description: websiteUrl
+                    industry:
+                      type: string
+                      description: industry
+                    subIndustry:
+                      type: string
+                      description: subIndustry
+                  required:
+                    - abn
+                    - companyName
+                    - merchantStatementValue
+                merchantContactDetails:
+                  type: object
+                  description: Contact object
+                  properties:
+                    firstName:
+                      type: string
+                      description: firstName
+                    lastName:
+                      type: string
+                      description: lastName
+                    email:
+                      type: string
+                      description: email
+                    phoneNumber:
+                      type: string
+                      description: phoneNumber
+                  required:
+                    - firstName
+                    - lastName
+                    - email
+                    - phoneNumber
+                productDetails:
+                  type: object
+                  description: Lead and Opportunity objects
+                  properties:
+                    productsOfInterest:
+                      type: array
+                      description: productsOfInterest
+                      items:
+                        type: string
+                        enum:
+                          - BYO_PHONE
+                          - ECOMMERCE
+                          - EMBEDDED_PAYMENTS_SDK
+                          - GENERAL_ENQUIRY
+                          - TYRO_GO_DONGLE
+                          - TYRO_PRO_TERMINAL
+                    otherProductsOfInterest:
+                      type: array
+                      description: otherProductsOfInterest
+                      items:
+                        type: string
+                        enum:
+                          - BANKING
+                          - LOANS
+                          - TERM_DEPOSIT
+                          - XERO_INTEGRATION
+                    integrationProduct:
+                      type: string
+                      description: integrationProduct
+                    softwareProduct:
+                      type: string
+                      description: softwareProduct
+                  required:
+                    - productsOfInterest
+                pricingDetails:
+                  type: object
+                  description: Lead and Opportunity objects
+                  properties:
+                    retailRate:
+                      type: number
+                      description: retailRate
+                    wholesaleRate:
+                      type: number
+                      description: wholesaleRate
+                    noCostEftposRate:
+                      type: number
+                      description: noCostEftposRate
+                promotionCode:
+                  type: string
+                  description: promotionCode
+                dollarPerTransaction:
+                  type: object
+                  description: dollarPerTransaction
+                  properties:
+                    rate:
+                      type: number
+                      description: rate
+                    value:
+                      type: number
+                      description: value
+              required:
+                - partnerId
+                - partnerChannelAgreementId
+                - referralType
+                - merchantDetails
+                - merchantContactDetails
+                - productDetails
+                - pricingDetails
+            examples:
+              Create reference:
+                value:
+                  partnerId: 5491ec4a-3f46-4b4d-9bc0-23f2260f41c9
+                  partnerChannelAgreementId: '123'
+                  clientReference: testClientRef3
+                  referralType: WHOLESALE
+                  branchId: '456'
+                  dealerCode: '789'
+                  merchantDetails:
+                    abn: '18842911556'
+                    companyName: Fast Bikes
+                    tradingName: Go Faster Bicycles
+                    merchantStatementValue: 1000000
+                    websiteUrl: https://gofasterbikes.com.au/
+                    industry: Retail
+                    subIndustry: Bicycles Tricycles and Scooters
+                  merchantContactDetails:
+                    firstName: Joe
+                    lastName: bloggs
+                    email: test+1@tyro.com
+                    phoneNumber: '+61255501234'
+                  productDetails:
+                    productsOfInterest:
+                      - TYRO_GO_DONGLE
+                      - ECOMMERCE
+                    otherProductsOfInterest:
+                      - BANKING
+                      - LOANS
+                    integrationProduct: WhizzBangPOS
+                    softwareProduct: ecommForAll
+                  pricingDetails:
+                    retailRate: 1.8
+                    wholesaleRate: 1.2
+                    noCostEftposRate: 1.95
+                  promotionCode: First 3 months free second 3 months 10 percent discount
+                  dollarPerTransaction:
+                    rate: 10
+                    value: 0.05
+      parameters:
+        - $ref: '#/components/parameters/header-bearer-token'
+        - $ref: '#/components/parameters/header-content-json'
+  /referrals/{referralId}:
+    get:
+      summary: Get Referral
+      description: This endpoint is for fetching the details of a referral.
+      operationId: get-referral
+      responses:
+        '200':
+          description: The referral response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  partnerId:
+                    type: string
+                    description: partnerId
+                  referralId:
+                    type: string
+                    description: referralId
+                  clientReference:
+                    type: string
+                    description: clientReference
+                  status:
+                    type: string
+                    description: status
+                    enum:
+                      - REFERRAL_RECEIVED
+                      - REFERRAL_REQUESTED
+                      - REFERRAL_FAILED
+                      - MERCHANT_APPLICATION_FORM_NOT_YET_ACCESSED_BY_MERCHANT
+                      - >-
+                        MERCHANT_APPLICATION_FORM_COMPLETION_IN_PROGRESS_BY_MERCHANT
+                      - >-
+                        MERCHANT_APPLICATION_FORM_COMPLETED_AND_SIGNED_BY_MERCHANT
+                      - MERCHANT_APPLICATION_IN_REVIEW
+                      - MERCHANT_CONDITIONALLY_APPROVED
+                      - >-
+                        MERCHANT_APPLICATION_RETURNED_ADDITIONAL_INFORMATION_REQUIRED
+                      - MERCHANT_FULLY_APPROVED
+                      - MERCHANT_APPLICATION_REJECTED
+                      - MERCHANT_APPLICATION_CANCELLED_BY_MERCHANT
+                  error:
+                    type: string
+                    description: status error desciption
+                required:
+                  - partnerId
+                  - referralId
+                  - status
+              examples:
+                Get Referral:
+                  value:
+                    partnerId: 5491ec4a-3f46-4b4d-9bc0-23f2260f41c9
+                    referralId: 2688fcf2-44dd-4c72-88ac-79d0910f2983
+                    clientReference: client-ref-001
+                    status: MERCHANT_FULLY_APPROVED
+        '403':
+          description: When you don't have the right permissions to get a reference.
+        '404':
+          description: >-
+            When the provided `referralId` does not match a referral stored in
+            the system.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    description: The validation error message.
+              examples:
+                Bad Request:
+                  value:
+                    error: Not found
+      parameters:
+        - in: path
+          description: Id of the referral in Tyro Connect that should be retrieved
+          name: referralId
+          required: true
+          schema:
+            type: string
+            example: 2688fcf2-44dd-4c72-88ac-79d0910f2983
+        - $ref: '#/components/parameters/header-bearer-token'
+      security:
+        - JWT: []
+components:
+  parameters:
+    header-bearer-token:
+      schema:
+        type: string
+        default: Bearer {$$.env.access_token}
+      in: header
+      name: Authorization
+      required: true
+    header-content-json:
+      schema:
+        type: string
+        enum:
+          - application/json
+      in: header
+      name: Content-Type
+      required: true

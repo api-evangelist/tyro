@@ -1,0 +1,143 @@
+openapi: 3.1.0
+info:
+  title: Location API
+  version: '1.0'
+  contact: {}
+  description: This API allows you to retrieve various data about a given location
+servers:
+  - url: https://api.tyro.com/connect
+    description: Production
+paths:
+  /locations/{tcLocationId}:
+    get:
+      responses:
+        '200':
+          description: Online/Offline status response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/heartbeat-response'
+              examples:
+                Get Online/Offline status:
+                  value:
+                    locationId: merchant:abc123
+                    pos:
+                      vendor: goodpos
+                    status:
+                      code: GREEN
+                      lastOnlineAt: '2021-02-10T23:53:15.533Z'
+        '403':
+          description: >-
+            When you don't have the required permissions to query the
+            online/offline status of the provided location
+      description: This endpoint allows you to query the online/offline status of a POS
+      parameters:
+        - in: path
+          description: >-
+            Tyro Connect Location Id for which the online/offline status should
+            be retrieved
+          name: tcLocationId
+          required: true
+          schema:
+            type: string
+        - $ref: '#/components/parameters/header-bearer-token'
+      operationId: get-online-status
+      summary: Get Online/Offline status
+      security:
+        - JWT: []
+components:
+  securitySchemes:
+    JWT:
+      type: openIdConnect
+      openIdConnectUrl: https://auth.connect.tyro.com/.well-known/openid-configuration
+  parameters:
+    header-bearer-token:
+      schema:
+        type: string
+        default: Bearer {$$.env.access_token}
+      in: header
+      name: Authorization
+      required: true
+  schemas:
+    api-spec:
+      title: Supported API version
+      type: object
+      properties:
+        api:
+          type: string
+          description: The name of the supported API
+          enum:
+            - BOOKING
+            - FOOD_ORDERING
+            - LOYALTY
+            - PAYMENTS
+            - SALES
+            - LOCATION
+        version:
+          type: string
+          description: The supported version of the API
+      required:
+        - api
+        - version
+    vendor-spec:
+      title: POS information
+      type: object
+      properties:
+        vendor:
+          type: string
+          description: The POS vendor
+        version:
+          type: string
+          description: The version of the POS software
+        apis:
+          type: array
+          description: This is a list of all APIs supported by the POS
+          items:
+            $ref: '#/components/schemas/api-spec'
+      required:
+        - vendor
+    online-status-spec:
+      title: Online/Offline status
+      type: object
+      properties:
+        code:
+          type: string
+          enum:
+            - GREEN
+            - RED
+          description: The online (GREEN) / offline (RED) status of the POS
+        lastOnlineAt:
+          type: string
+          format: date-time
+          description: >-
+            Time stamp of when Tyro received the last GREEN status update. Can
+            be null if the status has never been GREEN.
+        reason:
+          type: string
+          description: >-
+            When the code changed to RED, this property provides the reason for
+            the change
+      required:
+        - code
+        - lastOnlineAt
+    heartbeat-response:
+      title: Online/Offline status response
+      type: object
+      properties:
+        locationId:
+          type: string
+          description: >-
+            The Tyro Connect Location Id for which the following information
+            applies
+        pos:
+          allOf:
+            - $ref: '#/components/schemas/vendor-spec'
+            - description: Information about the POS itself
+        status:
+          allOf:
+            - $ref: '#/components/schemas/online-status-spec'
+            - description: Information about the online/offline status
+      required:
+        - locationId
+        - pos
+        - status

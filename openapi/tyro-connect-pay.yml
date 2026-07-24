@@ -1,0 +1,1077 @@
+openapi: 3.1.0
+info:
+  title: Pay API
+  version: '0.9'
+  contact: {}
+  description: Pay API
+servers:
+  - url: https://api.tyro.com/connect
+    description: Production
+tags:
+  - name: Pay Requests
+  - name: Pay Methods
+  - name: Pay Refunds
+paths:
+  /pay/requests:
+    post:
+      summary: Create a Pay Request
+      operationId: create-pay-request
+      tags:
+        - Pay Requests
+      description: >-
+        This endpoint is used for creating a Pay Request. Your server should
+        create a Pay Request as soon as the total payment amount is known. Once
+        the Pay Request is created, your frontend will use Tyro.js to collect
+        the customer's payment details and invoke submit() to execute the
+        payment.
+      security:
+        - JWT: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/new-pay-request'
+            examples:
+              Simple Pay Request:
+                value:
+                  locationId: tc-cool-3000
+                  origin:
+                    orderId: 0f448ac1-862a-4c7b-bdb4-a3b7cdbf444
+                  provider:
+                    name: TYRO
+                    method: CARD
+                  total:
+                    amount: 10000
+                    currency: AUD
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/pay-request-response'
+              examples:
+                Simple Pay Response:
+                  value:
+                    id: 0f448ac1-862a-4c7b-bdb4-a3b7cdbf6149
+                    locationId: tc-cool-3000
+                    provider:
+                      name: TYRO
+                      method: CARD
+                    origin:
+                      orderId: 1f448ac1-862a-4c7b-bdb4-a3b7cdbf6145
+                    status: AWAITING_PAYMENT_INPUT
+                    supportedNetworks:
+                      - visa
+                      - mastercard
+                    action: null
+                    capture:
+                      method: AUTOMATIC
+                    paySecret: >-
+                      $2a$10$20qRi3XjN1PkTlEVDiYjHefra7c6i2i7yVNu9o5GGTO7ADsWNDuya
+                    total:
+                      amount: 10000
+                      currency: AUD
+          headers: {}
+        '400':
+          description: When the provided payload is not valid.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    description: The validation error message.
+                  errorCode:
+                    type: string
+                    description: The unique error code for message.
+              examples:
+                Missing property:
+                  value:
+                    error: '"locationId" is required'
+                    errorCode: VALIDATION_ERROR
+        '403':
+          description: >-
+            When you don't have the right permissions to create a Pay Request
+            for the provided location.
+      parameters:
+        - $ref: '#/components/parameters/header-bearer-token'
+        - $ref: '#/components/parameters/header-content-json'
+  /pay/requests/{payRequestId}:
+    get:
+      operationId: get-pay-request
+      tags:
+        - Pay Requests
+      description: This endpoint is for fetching Pay Requests.
+      summary: Retrieve a Pay Request
+      responses:
+        '200':
+          description: The Pay Request response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/pay-request-response'
+        '404':
+          description: >-
+            When the provided `payRequestId` does not match a Pay Request stored
+            in the system.
+      security:
+        - JWT: []
+      parameters:
+        - $ref: '#/components/parameters/header-bearer-token'
+        - schema:
+            type: string
+          name: payRequestId
+          in: path
+          required: true
+    patch:
+      operationId: patch-pay-request
+      tags:
+        - Pay Requests
+      summary: Update or execute actions on the Pay Request
+      description: >-
+        This endpoint is for updating a Pay Request or executing actions on the
+        Pay Request.
+      responses:
+        '200':
+          description: The Pay Request response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/pay-request-response'
+        '400':
+          description: When the provided payload is not valid.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    description: The validation error message.
+                  errorCode:
+                    type: string
+                    description: The unique error code for message.
+              examples:
+                Missing property:
+                  value:
+                    error: Requested capture amount exceeds authorised amount
+                    errorCode: PAY_REQUEST_CAPTURE_AMOUNT_EXCEEDED
+        '404':
+          description: >-
+            When the provided `payRequestId` does not match a Pay Request stored
+            in the system.
+      security:
+        - JWT: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/update-pay-request'
+            examples:
+              Perform Capture Action:
+                value:
+                  action: CAPTURE
+              Update Authorisation:
+                value:
+                  action: UPDATE_AUTHORISATION
+                  authorisation:
+                    total:
+                      amount: 5000
+                      currency: AUD
+              Cancel a Pay Request:
+                value:
+                  action: VOID
+              Update Pay Total:
+                value:
+                  total:
+                    amount: 10000
+                    currency: AUD
+      parameters:
+        - $ref: '#/components/parameters/header-bearer-token'
+        - schema:
+            type: string
+          name: payRequestId
+          in: path
+          required: true
+  /pay/methods:
+    get:
+      operationId: list-pay-methods
+      tags:
+        - Pay Methods
+      description: This endpoint is for fetching Pay Methods
+      summary: List Pay Methods
+      responses:
+        '200':
+          description: The Pay Methods response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/pay-methods-response'
+      security:
+        - JWT: []
+      parameters:
+        - $ref: '#/components/parameters/header-bearer-token'
+        - schema:
+            type: string
+          name: customerId
+          in: query
+          required: true
+  /pay/methods/{payMethodId}:
+    get:
+      operationId: get-pay-method
+      tags:
+        - Pay Methods
+      description: Retrieve a Pay Method
+      summary: Retrieve a Pay Method
+      responses:
+        '200':
+          description: The Pay Method response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/pay-method'
+        '404':
+          description: >-
+            When the provided `payMethodId` does not match a Pay Method stored
+            in the system.
+      security:
+        - JWT: []
+      parameters:
+        - $ref: '#/components/parameters/header-bearer-token'
+        - schema:
+            type: string
+          in: path
+          name: payMethodId
+          required: true
+    delete:
+      operationId: delete-pay-method
+      tags:
+        - Pay Methods
+      description: Delete a Pay Method
+      summary: Delete a Pay Method
+      responses:
+        '200':
+          description: When succesfully deleted a pay method
+        '400':
+          description: When invalid `payMethodId` format provided.
+        '404':
+          description: When invalid `payMethodId`,`partnerId` combination provided.
+      security:
+        - JWT: []
+      parameters:
+        - $ref: '#/components/parameters/header-bearer-token'
+        - schema:
+            type: string
+          in: path
+          name: payMethodId
+          required: true
+  /pay/refunds:
+    post:
+      summary: Create a Refund Request
+      operationId: create-refund-request
+      tags:
+        - Pay Refunds
+      description: >-
+        This endpoint is used to create a Refund Request.
+
+
+        Refunds can only be created for successful payments made via a Pay
+        Request. If a Pay Request has not yet been captured, then void the Pay
+        Request instead.
+
+
+        Refunds can be made for the total or partial amount of the Pay Request.
+        Multiple refunds can be created for the same Pay Request as long as the
+        total refunds amount does not exceed the original Pay Request total.
+
+
+        Refunds can only be sent back to the original payment method used.
+      security:
+        - JWT: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/new-refund-request'
+            examples:
+              Refund Request:
+                value:
+                  payRequestId: 0f448ac1-862a-4c7b-bdb4-a3b7cdbf6149
+                  total:
+                    amount: 10000
+                    currency: AUD
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/refund-request-response'
+              examples:
+                Refund Response:
+                  value:
+                    id: 2d448ac1-862a-4c7b-bdb4-a3b7cdbf6148
+                    payRequestId: 0f448ac1-862a-4c7b-bdb4-a3b7cdbf6149
+                    status: PROCESSING
+                    total:
+                      amount: 10000
+                      currency: AUD
+                    createdAt: '2022-11-23T22:39:54.765Z'
+                    updatedAt: '2022-11-23T22:39:55.045Z'
+          headers: {}
+        '400':
+          description: When the provided payload is not valid.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    description: The validation error message.
+                  errorCode:
+                    type: string
+                    description: The unique error code for message.
+              examples:
+                Missing property:
+                  value:
+                    error: '"payRequestId" is required'
+                    errorCode: VALIDATION_ERROR
+        '403':
+          description: >-
+            When you don't have the right permissions to create a Refund
+            Request.
+      parameters:
+        - $ref: '#/components/parameters/header-bearer-token'
+        - $ref: '#/components/parameters/header-content-json'
+    get:
+      summary: List all Refunds
+      operationId: list-all-refunds
+      tags:
+        - Pay Refunds
+      description: Returns a list of refunds.
+      security:
+        - JWT: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/list-refunds-response'
+          headers: {}
+        '403':
+          description: When you don't have the right permissions to list refunds.
+      parameters:
+        - $ref: '#/components/parameters/header-bearer-token'
+        - $ref: '#/components/parameters/header-content-json'
+  /pay/refunds/{refundRequestId}:
+    get:
+      operationId: get-refund-request
+      tags:
+        - Pay Refunds
+      description: Retrieve a Refund Request.
+      summary: Retrieve a Refund Request
+      responses:
+        '200':
+          description: The Refund Request response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/refund-request-response'
+        '404':
+          description: >-
+            When the provided `refundRequestId` does not match a Refund Request
+            stored in the system.
+      security:
+        - JWT: []
+      parameters:
+        - $ref: '#/components/parameters/header-bearer-token'
+        - schema:
+            type: string
+          name: refundRequestId
+          in: path
+          required: true
+components:
+  securitySchemes:
+    JWT:
+      type: openIdConnect
+      openIdConnectUrl: https://auth.connect.tyro.com/.well-known/openid-configuration
+  parameters:
+    header-bearer-token:
+      schema:
+        type: string
+        default: Bearer {$$.env.access_token}
+      in: header
+      name: Authorization
+      required: true
+    header-content-json:
+      schema:
+        type: string
+        enum:
+          - application/json
+      in: header
+      name: Content-Type
+      required: true
+  schemas:
+    money-positive-aud:
+      title: Money Positive Amount
+      type: object
+      properties:
+        amount:
+          type: integer
+          description: >-
+            This is the amount in smallest currency unit. e.g 12520 (in cents)
+            is $125.20
+          example: 12520
+          minimum: 0
+        currency:
+          type: string
+          default: AUD
+          enum:
+            - AUD
+          example: AUD
+          description: This is always AUD
+      required:
+        - amount
+        - currency
+    new-pay-request:
+      title: New Pay Request
+      type: object
+      properties:
+        locationId:
+          type: string
+          description: The id of the location as specified by the Tyro Connect system
+        provider:
+          type: object
+          description: Details about the financial institution that processed the payment.
+          properties:
+            name:
+              type: string
+              description: >-
+                The name of the provider that processed the payment. More
+                providers will be supported at a later date.
+              enum:
+                - TYRO
+            method:
+              type: string
+              description: >-
+                The payment method used. More methods will be supported at a
+                later date.
+              enum:
+                - CARD
+          required:
+            - name
+            - method
+        origin:
+          description: Contains information about the partner that created the Pay Request.
+          type: object
+          properties:
+            orderId:
+              type: string
+              maxLength: 50
+              description: >-
+                An identifier that has been generated by the origin. This can be
+                used for reconciliation of orders in the app partner’s system.
+            orderReference:
+              type: string
+              description: Easily identifiable reference for the order.
+            name:
+              type: string
+              description: Name of the app partner that created the Pay Request.
+          required:
+            - orderId
+        payMethod:
+          description: The Pay Method associated with the Pay Request
+          type: object
+          properties:
+            id:
+              type: string
+              description: >-
+                The id of the Pay Method to use for this Pay Request. When the
+                provided Pay Method is valid, the Pay Request can be submitted
+                immediately without prompting the customer for payment details.
+            customerId:
+              type: string
+              description: >-
+                The Tyro generated ID of the customer linked to this Pay Method.
+                If no `payMethod.customerId` is provided when `payMethod.save`
+                is true, then a new `payMethod.customerId` is generated by Tyro.
+                Otherwise, pass the `customerId` if this is a returning
+                customer.
+            save:
+              type: boolean
+              description: >-
+                When set to true, the pay method will be saved after a
+                successful payment. The pay method can then be used to make
+                future payments.
+        action:
+          type: string
+          description: >-
+            When the `payMethod.id` and `payMethod.customerId` are provided. An
+            action can be executed immediately without prompting the customer
+            for input.
+          enum:
+            - SUBMIT
+        capture:
+          description: >-
+            Optional field that can be used to specify how the funds will be
+            captured.
+          type: object
+          properties:
+            method:
+              type: string
+              description: >
+                - `AUTOMATIC` (default) - captures the funds upon Pay Request
+                submission.
+
+                - `MANUAL` - can be used to put funds on hold and only authorise
+                the payment, with the funds captured later.
+
+                - `MANUAL_ESTIMATED` - can be used when you want to authorise an
+                estimated amount, with the funds captured later. With this
+                option, you can update the authorised amount before capture or
+                expiration.
+              enum:
+                - AUTOMATIC
+                - MANUAL
+                - MANUAL_ESTIMATED
+            total:
+              allOf:
+                - $ref: '#/components/schemas/money-positive-aud'
+                - description: >-
+                    The total amount to capture (in smallest currency unit). You
+                    cannot capture more than the authorised amount.
+          required:
+            - method
+        total:
+          allOf:
+            - $ref: '#/components/schemas/money-positive-aud'
+            - description: The total amount (in smallest currency unit)
+        statementDescriptor:
+          type: string
+          description: >-
+            Statement descriptors are used to explain to a customer the charges
+            that appear on their bank statement. There is a maximum of 21
+            characters and special characters such as {}<>'" are disallowed. The
+            descriptor should be as clear and recognisable as possible. The
+            descriptor can be dynamic and include invoice numbers or other
+            references to help the customer recognise the charge.
+        statementDescriptorLocation:
+          type: string
+          description: >-
+            This is the city or web address where the transaction occurred.
+            There is a maximum of 13 characters and special characters such as
+            {}<>'" are disallowed.
+      required:
+        - locationId
+        - total
+        - provider
+        - origin
+    transaction-result:
+      title: Transaction Result
+      type: object
+      properties:
+        merchant:
+          type: string
+          description: Merchant for this transaction
+        authentication:
+          type: object
+          description: 3ds authentication details for this transaction
+          properties:
+            accessControlServerEci:
+              type: string
+            accessControlServerTransactionId:
+              type: string
+            acceptVersions:
+              type: string
+            amount:
+              type: string
+            additionalInfo:
+              type: string
+            authenticationToken:
+              type: string
+            3dsServerTransactionId:
+              type: string
+            channel:
+              type: string
+            directoryServerId:
+              type: string
+            directoryServerTransactionId:
+              type: string
+            method:
+              type: string
+            methodCompleted:
+              type: string
+            methodSupported:
+              type: string
+              enum:
+                - SUPPORTED
+                - NOT_SUPPORTED
+            payerInteraction:
+              type: string
+            protocolVersion:
+              type: string
+            redirectedDomainName:
+              type: string
+            requestorId:
+              type: string
+            requestorName:
+              type: string
+            statusReasonCode:
+              type: string
+            transactionId:
+              type: string
+            transactionStatus:
+              type: string
+              enum:
+                - 'YES'
+                - 'NO'
+                - UNAVAILABLE
+                - ATTEMPTED
+                - CHALLENGE
+                - REJECTED
+                - DECOUPLED
+                - INFORMATIONAL
+            time:
+              type: string
+            version:
+              type: string
+        order:
+          type: object
+          description: Order for this transaction
+          properties:
+            id:
+              type: string
+            status:
+              type: string
+            currency:
+              type: string
+            reference:
+              type: string
+            amount:
+              type: number
+            authorisedAmount:
+              type: number
+            capturedAmount:
+              type: number
+            refundedAmount:
+              type: number
+            merchantCurrency:
+              type: string
+            merchantAmount:
+              type: number
+            createdAt:
+              type: string
+            updatedAt:
+              type: string
+        card:
+          type: object
+          description: Card used for this transaction
+          properties:
+            brand:
+              type: string
+            scheme:
+              type: string
+            expiry:
+              type: object
+              properties:
+                month:
+                  type: string
+                year:
+                  type: string
+            nameOnCard:
+              type: string
+            number:
+              type: string
+            fundingMethod:
+              type: string
+            firstSixDigits:
+              type: string
+            lastFourDigits:
+              type: string
+        operationResult:
+          type: object
+          description: The result of this operation
+          properties:
+            result:
+              type: string
+              enum:
+                - FAILURE
+                - PENDING
+                - SUCCESS
+                - UNKNOWN
+            acquirerCode:
+              type: string
+            gatewayCode:
+              type: string
+            authorisationCode:
+              type: string
+            errorCode:
+              type: string
+            errorMessage:
+              type: string
+        transaction:
+          type: object
+          description: The transaction for the operation
+          properties:
+            id:
+              type: string
+            type:
+              type: string
+            amount:
+              type: number
+            currency:
+              type: string
+            retrievalReferenceNumber:
+              type: string
+            acquirer:
+              type: object
+              properties:
+                id:
+                  type: string
+                merchantId:
+                  type: string
+                additionalResponse:
+                  type: string
+    pay-request-response:
+      title: Pay Request Response
+      type: object
+      properties:
+        id:
+          type: string
+          description: The ID of the Pay Request generated by Tyro.
+        paySecret:
+          type: string
+          description: >-
+            The Pay Secret associated with this Pay Request. This is used by the
+            frontend to submit the Pay Request. Pay Secret expire after 24 hours
+            from the time the Pay Request was created. It’s recommended to avoid
+            logging or storing the pay secret for security reasons.
+        locationId:
+          type: string
+          description: The id of the location as specified by the Tyro Connect system
+        provider:
+          type: object
+          description: Details about the provider that processed the payment.
+          properties:
+            name:
+              type: string
+              description: >-
+                The name of the provider that processed the payment. More
+                providers will be supported at a later date.
+              enum:
+                - TYRO
+            method:
+              type: string
+              description: The payment method used
+              enum:
+                - CARD
+        origin:
+          description: Contains information about the partner that created the Pay Request.
+          type: object
+          properties:
+            orderId:
+              type: string
+              maxLength: 50
+              description: >-
+                An identifier that has been generated by the origin. This can be
+                used for reconciliation of orders in the app partner’s system.
+            orderReference:
+              type: string
+              description: Easily identifiable reference for the order.
+            name:
+              type: string
+              description: Name of the app partner that created the Pay Request.
+        payMethod:
+          description: The Pay Method details for the Pay Request
+          type: object
+          properties:
+            id:
+              type: string
+              description: The id of the Pay Method attached to the Pay Request.
+            customerId:
+              type: string
+              description: The Tyro generated ID of the customer linked to the Pay Method.
+            save:
+              type: boolean
+              description: >-
+                When set to true, the pay method will be saved after a
+                successful payment.
+        capture:
+          type: object
+          properties:
+            method:
+              type: string
+              description: >
+                - `AUTOMATIC` (default) - captures the funds upon Pay Request
+                submission.
+
+                - `MANUAL` - can be used to put funds on hold and only authorise
+                the payment, with the funds captured later.
+
+                - `MANUAL_ESTIMATED` - can be used when you want to authorise an
+                estimated amount, with the funds captured later. With this
+                option, you can update the authorised amount before capture or
+                expiration.
+              enum:
+                - AUTOMATIC
+                - MANUAL
+                - MANUAL_ESTIMATED
+            total:
+              allOf:
+                - $ref: '#/components/schemas/money-positive-aud'
+                - description: >-
+                    The total amount to capture (in smallest currency unit). You
+                    cannot capture more than the authorised amount.
+        status:
+          type: string
+          description: The current status of this Pay Request managed by Tyro.
+          enum:
+            - AWAITING_PAYMENT_INPUT
+            - AWAITING_AUTHENTICATION
+            - PROCESSING
+            - SUCCESS
+            - FAILED
+            - VOIDED
+            - PARTIALLY_REFUNDED
+            - REFUNDED
+        supportedNetworks:
+          type: array
+          description: >-
+            List of supported card type/brand/networks for this Pay Request. If
+            null it is unrestricted.
+          items:
+            type: string
+            enum:
+              - visa
+              - mastercard
+              - amex
+              - jcb
+              - maestro
+              - diners
+        total:
+          allOf:
+            - $ref: '#/components/schemas/money-positive-aud'
+            - description: The total amount (in smallest currency unit)
+        transactionResults:
+          type: array
+          description: List of Transaction Results
+          items:
+            $ref: '#/components/schemas/transaction-result'
+        threeDSecureDetails:
+          type: object
+          description: 3D Secure details for this Pay Request
+          properties:
+            status:
+              type: string
+              description: Current 3D Secure status for this Pay Request
+              enum:
+                - AWAITING_3DS_METHOD
+                - AWAITING_AUTH
+                - AWAITING_CHALLENGE
+                - AWAITING_CHALLENGE_RESULT
+                - SUCCESS
+                - FAILED
+              example: AWAITING_3DS_METHOD
+        additionalData:
+          type: object
+          description: Additional data for this transaction
+          properties:
+            customerIP:
+              type: string
+              example: 127.0.0.1
+    update-pay-request:
+      title: Update Pay Request
+      type: object
+      oneOf:
+        - title: Updating Authorisation
+          required:
+            - action
+            - authorisation
+          description: >
+            When the capture method is `MANUAL_ESTIMATED`, submitting this
+            request will extend the authorisation holding period and allow you
+            to increase the authorised amount.
+
+
+            **Note:** This feature is only supported for Visa and Mastercard
+            transactions and may not enabled by default for your account.
+          properties:
+            action:
+              type: string
+              enum:
+                - UPDATE_AUTHORISATION
+            authorisation:
+              type: object
+              required:
+                - total
+              properties:
+                total:
+                  allOf:
+                    - $ref: '#/components/schemas/money-positive-aud'
+                    - description: >-
+                        The new total amount to authorise (in smallest currency
+                        unit). It has to be greater than the original authorised
+                        amount.
+        - title: Capturing Authorisation
+          required:
+            - action
+          properties:
+            action:
+              type: string
+              enum:
+                - CAPTURE
+            capture:
+              type: object
+              required:
+                - total
+              properties:
+                total:
+                  allOf:
+                    - $ref: '#/components/schemas/money-positive-aud'
+                    - description: >-
+                        The total amount to capture (in smallest currency unit).
+                        You cannot capture more than the authorised amount.
+        - title: Voiding Authorisation
+          required:
+            - action
+          properties:
+            action:
+              type: string
+              enum:
+                - VOID
+        - title: Updating Pay Request without performing an action
+          properties:
+            total:
+              allOf:
+                - $ref: '#/components/schemas/money-positive-aud'
+                - description: >-
+                    The total amount (in smallest currency unit). The total can
+                    be updated without performing an action.
+            payMethod:
+              type: object
+              properties:
+                customerId:
+                  type: string
+                  description: >-
+                    The Tyro generated ID of the customer linked to this Pay
+                    Method. Pass `null` to remove a `customerId` from the pay
+                    request.
+                save:
+                  type: boolean
+                  description: >-
+                    Indicates whether the pay method should be saved after a
+                    successful payment.
+              required:
+                - save
+    pay-method:
+      title: Pay Method
+      type: object
+      properties:
+        id:
+          type: string
+          description: >-
+            The id of the Pay Method in the Tyro Connect system. This id can be
+            specified in the Pay Request when making payments for the associated
+            customer.
+          example: 0f448ac1-862a-4c7b-bdb4-a3b7cdbf6149
+        customerId:
+          type: string
+          description: >-
+            The id of the Customer in the Tyro Connect system linked to this Pay
+            Method.
+          example: 1d448ac1-862a-4c7b-bdb4-a3b7cdbf6160
+        card:
+          type: object
+          description: The card used by the Pay Method
+          properties:
+            brand:
+              type: string
+              description: Card brand such as Visa or Mastercard
+              example: VISA
+            expiryMonth:
+              type: number
+              description: Month of card expiry
+              example: 10
+            expiryYear:
+              type: number
+              description: Year of card expiry
+              example: 2050
+            firstSixDigits:
+              type: string
+              description: First six digits of the card number
+              example: '4365'
+            lastFourDigits:
+              type: string
+              description: Last four digits of the card number
+              example: '4365'
+    pay-methods-response:
+      title: Pay Methods Response
+      type: object
+      properties:
+        payMethods:
+          type: array
+          description: List of pay methods
+          items:
+            $ref: '#/components/schemas/pay-method'
+    refund-request-response:
+      title: Refund Request Response
+      type: object
+      properties:
+        id:
+          description: The id of the Refund Request
+          type: string
+          example: 2d448ac1-862a-4c7b-bdb4-a3b7cdbf6143
+        payRequestId:
+          description: The id of the Pay Request to be refunded
+          type: string
+          example: 0f448ac1-862a-4c7b-bdb4-a3b7cdbf6149
+        total:
+          allOf:
+            - $ref: '#/components/schemas/money-positive-aud'
+            - description: >-
+                The total amount to be refunded (in smallest currency unit).
+                Defaults to the total of the Pay Request.
+        status:
+          description: The current status of the refund
+          type: string
+          enum:
+            - SUCCESS
+            - FAILED
+            - PROCESSING
+        createdAt:
+          description: The timestamp when the Refund Request was created
+          type: string
+          example: '2022-11-23T22:39:54.931Z'
+        updatedAt:
+          description: The timestamp when the Refund Request was last updated
+          type: string
+          example: '2022-11-23T22:40:48.237Z'
+    list-refunds-response:
+      title: List Refunds Response
+      type: object
+      properties:
+        refunds:
+          type: array
+          description: List of refunds
+          items:
+            $ref: '#/components/schemas/refund-request-response'
+    new-refund-request:
+      title: Create Refund Request
+      type: object
+      properties:
+        payRequestId:
+          description: The id of the Pay Request to be refunded
+          type: string
+          example: 0f448ac1-862a-4c7b-bdb4-a3b7cdbf6148
+        total:
+          allOf:
+            - $ref: '#/components/schemas/money-positive-aud'
+            - description: >-
+                The total amount to be refunded (in smallest currency unit).
+                Defaults to the total of the Pay Request.
+      required:
+        - payRequestId

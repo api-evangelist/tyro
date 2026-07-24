@@ -1,0 +1,819 @@
+openapi: 3.1.0
+info:
+  title: Embedded Payments API
+  version: '1.0'
+  contact: {}
+  description: |
+    The API allows a POS to accept Embedded Payments payments.
+servers:
+  - url: https://api.tyro.com/connect
+    description: Production
+tags:
+  - name: Merchants
+  - name: Locations
+  - name: Connections
+  - name: Readers
+  - name: Transactions
+paths:
+  /tap-to-pay/merchants/{merchantId}/authorise/test:
+    post:
+      summary: Authorise a Sandbox Merchant Id
+      operationId: authorise-embedded-payments-mid-test
+      description: >-
+        For testing purposes only. Authorise or de-authorise your POS on behalf
+        of the provided merchant for testing on the Sandbox environment only.
+      parameters:
+        - $ref: '#/components/parameters/header-bearer-token'
+        - $ref: '#/components/parameters/header-content-json'
+      security:
+        - JWT: []
+      tags:
+        - Merchants
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                posReference:
+                  type: string
+                  description: >-
+                    The posReference of the merchant, supplied during the
+                    integration process.
+                  example: 0f448ac1-862a-4c7b-bdb4-a3b7cdbf6149
+                isAuthorised:
+                  type: boolean
+                  description: To authorise or de-authorise the merchant Id.
+                  example: true
+              required:
+                - posReference
+                - isAuthorised
+      responses:
+        '204':
+          description: No body Content
+        '400':
+          description: When the provided payload is not valid.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    description: The validation error message.
+                  errorCode:
+                    type: string
+                    description: The unique error code for message.
+              examples:
+                Missing property:
+                  value:
+                    error: '"posReference" is required'
+                    errorCode: VALIDATION_ERROR
+        '403':
+          description: >-
+            When you don't have the right permissions to authorise the merchant
+            Id
+        '404':
+          description: When the provided `merchantId` does not exist in our system.
+  /tap-to-pay/merchants/{merchantId}/transactions/{transactionId}:
+    get:
+      summary: Fetch an Embedded Payments transaction
+      operationId: get-embedded-payments-transaction
+      description: This endpoint is used for retrieving an Embedded Payments transaction.
+      parameters:
+        - $ref: '#/components/parameters/header-bearer-token'
+      security:
+        - JWT: []
+      tags:
+        - Transactions
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/embedded-payments-transaction-response'
+          headers: {}
+        '403':
+          description: When you don't have the right permissions to access the transactions
+  /tap-to-pay/merchants/{merchantId}/transactions:
+    get:
+      summary: List Embedded Payments transactions
+      operationId: list-embedded-payments-transactions
+      description: >-
+        This endpoint is used for retrieving Embedded Payments transactions by
+        search.
+      parameters:
+        - $ref: '#/components/parameters/header-bearer-token'
+        - schema:
+            type: string
+          name: reference
+          in: query
+        - schema:
+            type: string
+            example: tc-location-2000
+          name: locationId
+          in: query
+          description: >-
+            The location ID of the transactions to be retrieved.
+
+
+            This is the location ID of the merchant that you are using to
+            retrieve the transactions.
+        - schema:
+            type: number
+            minimum: 1
+            maximum: 100
+            example: 10
+          in: query
+          name: limit
+          description: |-
+            Specifies the amount of results to be retrieved.
+
+            A maximum of 100 results are returned if this value is not provided.
+        - schema:
+            type: number
+            minimum: 1
+            example: 2
+          in: query
+          name: page
+          description: >-
+            Specify the page to retrieve.
+
+
+            You will need to use this setting if you wish to retrieve specific
+            pages.
+
+
+            Page-numbering is based on the value of "limit". If limit=5, then
+            page=1 will display the hits from 1 to 5, page=3 will display the
+            hits from 11 to 15.
+
+
+            Page numbers start at 1.
+
+
+            A request for a non-existing page will yield 0 results.
+      security:
+        - JWT: []
+      tags:
+        - Transactions
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  results:
+                    type: array
+                    description: >-
+                      The results for the location that satisfy the filtering
+                      criteria
+                    items:
+                      $ref: >-
+                        #/components/schemas/embedded-payments-transaction-response
+                  pagination:
+                    type: object
+                    properties:
+                      page:
+                        type: integer
+                        minimum: 1
+                        example: 1
+                      size:
+                        type: integer
+                        example: 10
+                      limit:
+                        type: integer
+                        example: 100
+                      total:
+                        type: integer
+                        example: 45
+                    required:
+                      - page
+                      - size
+                      - limit
+                      - total
+                required:
+                  - results
+                  - pagination
+          headers: {}
+        '403':
+          description: When you don't have the right permissions to access the transactions
+        '404':
+          description: >-
+            When the provided merchant or location ID does not exist in our
+            system
+  /tap-to-pay/connections:
+    post:
+      summary: Create Embedded Payments connection
+      operationId: create-embedded-payments-connection
+      description: >-
+        When your App is first initialised, a request is sent to your server to
+        establish a Tyro Embedded Payments connection. This is required to
+        connect to the Embedded Payments reader. Upon receiving the client
+        request, authenticate your user and send the request to Tyro with the
+        `readerId` in the request body.
+      parameters:
+        - $ref: '#/components/parameters/header-bearer-token'
+        - $ref: '#/components/parameters/header-content-json'
+      security:
+        - JWT: []
+      tags:
+        - Connections
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                readerId:
+                  type: string
+                  description: The ID of the reader to be used to establish the connection.
+                  example: 0f448ac1-862a-4c7b-bdb4-a3b7cdbf6149
+              required:
+                - readerId
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/create-connection-response'
+          headers: {}
+        '400':
+          description: When the provided payload is not valid.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    description: The validation error message.
+                  errorCode:
+                    type: string
+                    description: The unique error code for message.
+              examples:
+                Missing property:
+                  value:
+                    error: '"readerId" is required'
+                    errorCode: VALIDATION_ERROR
+        '403':
+          description: >-
+            When you don't have the right permissions to create a Connection for
+            the provided Reader ID.
+        '404':
+          description: When the provided `readerId` does not exist in our system.
+  /tap-to-pay/merchants:
+    get:
+      summary: Lists merchants
+      operationId: list-embedded-payments-merchants
+      description: >-
+        This endpoint is used for retrieving a list of merchants that the POS
+        has access to.
+      parameters:
+        - $ref: '#/components/parameters/header-bearer-token'
+      security:
+        - JWT: []
+      tags:
+        - Merchants
+      responses:
+        '200':
+          description: The list of Merchants associated with the POS.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  results:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/merchant-object'
+              examples:
+                List Merchants:
+                  value:
+                    results:
+                      - mid: '98765'
+                        posReference: SydneyShop
+                        isAuthorised: true
+                        displayName: Sydney Shop 123
+                      - mid: '56789'
+                        posReference: SydneyShop
+                        isAuthorised: false
+                        displayName: Sydney Shop 456
+                      - mid: '12345'
+                        posReference: MelbourneShop
+                        isAuthorised: true
+                        displayName: Melbourne Shop 3000
+        '403':
+          description: When you don't have the right permissions to list Merchants.
+  /tap-to-pay/merchants/{merchantId}:
+    get:
+      summary: Fetch a merchant
+      operationId: fetch-embedded-payments-merchant
+      description: This endpoint is used for retrieving a merchant.
+      parameters:
+        - $ref: '#/components/parameters/header-bearer-token'
+      security:
+        - JWT: []
+      tags:
+        - Merchants
+      responses:
+        '200':
+          description: The details of the fetched Merchant
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/merchant-object'
+          headers: {}
+        '400':
+          description: When the provided merchantId is not valid.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    description: The validation error message.
+                  errorCode:
+                    type: string
+                    description: The unique error code for message.
+              examples:
+                Missing property:
+                  value:
+                    error: '"merchantId" is not a number'
+                    errorCode: VALIDATION_ERROR
+        '403':
+          description: >-
+            When you don't have the right permissions to view details of the
+            provided `merchantId`.
+        '404':
+          description: When the provided `merchantId` does not exist in our system.
+  /tap-to-pay/merchants/{merchantId}/locations:
+    get:
+      summary: List Embedded Payments Locations
+      operationId: list-embedded-payments-locations
+      description: >-
+        Retrieve the list of location IDs attached to a Tyro Merchant ID. A
+        location ID represents the physical location from which a payment
+        originates and is required in order to create the Reader
+      parameters:
+        - in: path
+          description: The Merchant ID requesting the locations
+          name: merchantId
+          required: true
+          schema:
+            type: string
+            example: 98765
+        - $ref: '#/components/parameters/header-bearer-token'
+      security:
+        - JWT: []
+      tags:
+        - Locations
+      responses:
+        '200':
+          description: The list of locations for the provided merchant ID
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  results:
+                    type: array
+                    description: The results for the locations for the provided merchant ID
+                    items:
+                      $ref: '#/components/schemas/location'
+                required:
+                  - results
+              examples:
+                merchantId=98765:
+                  value:
+                    results:
+                      - locationId: tc-exampleshop-3000
+                        name: Example Shop Melbourne
+                        address:
+                          street: 123 Hight Street
+                          suburb: Melbourne
+                          state: VIC
+                          postcode: '3000'
+                          country: Australia
+                      - locationId: tc-exampleshop-2000
+                        name: Example Shop Sydney
+                        address:
+                          street: Level 33, 456 George Street
+                          suburb: Sydney
+                          state: NSW
+                          postcode: '2000'
+                          country: Australia
+        '403':
+          description: When you don't have the right permissions to fetch the locations
+        '404':
+          description: When the provided `merchantId` does not exist in our system
+  /tap-to-pay/merchants/{merchantId}/readers:
+    get:
+      summary: List Readers
+      operationId: list-reader
+      description: >-
+        This endpoint is used for retrieving a list of Readers. Readers
+        represent the Embedded Payments Reader at the physical location. The
+        Reader ID is required to create a Reader Connection to initialise the
+        Tyro Embedded Payments SDK.
+      parameters:
+        - in: path
+          description: The Merchant ID associated with the reader
+          name: merchantId
+          required: true
+          schema:
+            type: string
+            example: 98765
+        - schema:
+            type: string
+            example: tc-exampleshop-3000
+          in: query
+          name: locationId
+          required: false
+          description: >-
+            The Tyro Connect Location Id of the Readers to be retrieved. This
+            parameter is optional.
+        - $ref: '#/components/parameters/header-bearer-token'
+      security:
+        - JWT: []
+      tags:
+        - Readers
+      responses:
+        '200':
+          description: The list Readers
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  results:
+                    type: array
+                    description: The list of Readers
+                    items:
+                      $ref: '#/components/schemas/reader-object'
+          headers: {}
+        '403':
+          description: >-
+            When you don't have the right permissions to retrieve the Readers
+            for the provided location or Merchant ID.
+    post:
+      summary: Create a Reader
+      operationId: create-reader
+      description: >-
+        An async endpoint used for creating a Reader. Register a webhook to be
+        notified when a Reader is created after this endpoint is invoked.
+        Readers represent the Embedded Payments Reader at the physical location.
+        The Reader ID is required to create a Reader Connection to initialise
+        the Tyro Embedded Payments SDK.
+      parameters:
+        - in: path
+          description: The Merchant ID creating the reader
+          name: merchantId
+          required: true
+          schema:
+            type: string
+            example: 98765
+        - $ref: '#/components/parameters/header-bearer-token'
+        - $ref: '#/components/parameters/header-content-json'
+      security:
+        - JWT: []
+      tags:
+        - Readers
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: The name or description used to identify the reader
+                  example: Reader 1 - Example Shop Sydney
+                locationId:
+                  type: string
+                  description: The Tyro Connect Location ID
+                  example: tc-exampleshop-3000
+              required:
+                - name
+                - locationId
+      responses:
+        '202':
+          description: Accepted
+          headers: {}
+        '400':
+          description: When the provided payload is not valid.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    description: The validation error message.
+                  errorCode:
+                    type: string
+                    description: The unique error code for message.
+              examples:
+                Missing property:
+                  value:
+                    error: '"locationId" is required'
+                    errorCode: VALIDATION_ERROR
+        '403':
+          description: >-
+            When you don't have the right permissions to create a Reader for the
+            provided location or Merchant ID.
+  /tap-to-pay/merchants/{merchantId}/readers/{readerId}:
+    get:
+      summary: Get a Reader
+      operationId: get-reader
+      description: >-
+        This endpoint is used for retrieving a Reader. Readers represent the
+        Embedded Payments Reader at the physical location. The Reader ID is
+        required to create a Reader Connection to initialise the Tyro Embedded
+        Payments SDK
+      parameters:
+        - in: path
+          description: The Merchant ID associated with the reader
+          name: merchantId
+          required: true
+          schema:
+            type: string
+            example: 98765
+        - in: path
+          description: The Reader ID
+          name: readerId
+          required: true
+          schema:
+            type: string
+            example: 0f448ac1-862a-4c7b-bdb4-a3b7cdbf6149
+        - $ref: '#/components/parameters/header-bearer-token'
+      security:
+        - JWT: []
+      tags:
+        - Readers
+      responses:
+        '200':
+          description: The requested Reader
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/reader-object'
+          headers: {}
+        '403':
+          description: >-
+            When you don't have the right permissions to retrieve a Reader for
+            the provided location or Merchant ID.
+        '404':
+          description: When the provided merchant or reader ID does not exist in our system
+components:
+  securitySchemes:
+    JWT:
+      type: openIdConnect
+      openIdConnectUrl: https://auth.connect.tyro.com/.well-known/openid-configuration
+  parameters:
+    header-bearer-token:
+      schema:
+        type: string
+        default: Bearer {$$.env.access_token}
+      in: header
+      name: Authorization
+      required: true
+    header-content-json:
+      schema:
+        type: string
+        enum:
+          - application/json
+      in: header
+      name: Content-Type
+      required: true
+  schemas:
+    embedded-payments-transaction-response:
+      title: Embedded Payments Transaction Response
+      type: object
+      properties:
+        transactionId:
+          type: string
+          description: The ID for this transaction
+        transactionLocalDateTime:
+          type: string
+          format: date-time
+          example: '2023-05-02T08:28:13'
+          description: >-
+            The time the transaction was created. The format of the date time is
+            the notation as defined by [RFC 3339, section
+            5.6](https://tools.ietf.org/html/rfc3339#section-5.6)
+        reference:
+          type: string
+          description: >-
+            The unique reference supplied by the partner to initialize this
+            transaction.
+        transactionReference:
+          type: string
+          description: The terminalStan ID associated with this transaction.
+        locationId:
+          type: string
+          description: The locationId that was used for this transaction.
+          example: tc-exampleshop-3000
+        mid:
+          type: string
+          description: The merchant id.
+        tid:
+          type: string
+          description: The terminal id.
+        amount:
+          type: number
+          description: The amount (in cents) being paid for the goods and services.
+        paymentType:
+          type: string
+          enum:
+            - Purchase
+            - Refund
+          description: The payment type
+        surchargeAmount:
+          type: number
+          description: Surcharge amount in cents.
+        tipAmount:
+          type: number
+          description: Tip amount in cents.
+        elidedPan:
+          type: string
+          description: The last four digits of the PAN number.
+        cardType:
+          type: string
+          description: The card type that was used, e.g. Visa
+        approvalCode:
+          type: string
+          description: Approval code.
+        transactionResult:
+          type: string
+          description: Transaction result.
+          example: APPROVED
+        retrievalReferenceNumber:
+          type: string
+          description: Retrieval reference number.
+        customerReceipt:
+          type: string
+          description: Customer receipt.
+          example: |2-
+                  Example Restaurant
+                    55 Market St
+                   Sydney NSW 2000
+
+                Tyro Payments EFTPOS
+
+            Visa DEBIT
+            AID: A0000000031010
+            Card: XXXXXXXXX2989(T)
+            PSN: 00, ATC: 0007
+            TVR: 0000000000
+
+            Purchase     AUD       $4.55
+            ----------------------------
+            Total        AUD       $4.55
+
+            APPROVED                  00
+
+            Terminal ID: 4
+            Transaction Ref: 395001
+            Authorisation No: 000184
+            02 Apr 2024 at 04:52 PM
+    create-connection-response:
+      title: Connection Response
+      type: object
+      properties:
+        id:
+          type: string
+          description: The ID of this connection
+          example: 2688fcf2-44dd-4c72-88ac-79d0910f2983
+        connectionSecret:
+          type: string
+          description: >-
+            The connectionSecret must be returned to your frontend to which is
+            required for Embedded Payments transaction with the SDK. Do not
+            cache or hardcode the connectionSecret. Tyro already manages the
+            lifecycle of this secret.
+          example: $2a$10$OjXTE/Ul4UVVlW8RtKNtcuV3NdoP8sFc.5Lqov0N5wp6vU8Dmj8H3
+        createdDate:
+          type: string
+          format: date-time
+          example: '2023-05-02T08:28:13+10:00'
+          description: >-
+            The time the connection was created. The format of the date time is
+            the notation as defined by [RFC 3339, section
+            5.6](https://tools.ietf.org/html/rfc3339#section-5.6)
+        readerId:
+          type: string
+          description: The ID of the reader for this connection.
+          example: 0f448ac1-862a-4c7b-bdb4-a3b7cdbf6149
+        readerName:
+          type: string
+          description: The name of the reader for this connection.
+          example: Reader 1 - Example Shop Sydney
+        locationId:
+          type: string
+          description: The ID of the location for this connection.
+          example: tc-exampleshop-3000
+        locationName:
+          type: string
+          description: >-
+            The name of the location, this could be a description or address for
+            the location
+          example: Example Shop Melbourne
+    merchant-object:
+      title: Merchant
+      type: object
+      properties:
+        mid:
+          type: string
+          description: The ID of the merchant as specified by the Tyro Connect system
+          example: '98765'
+        posReference:
+          type: string
+          description: >-
+            The posReference of the merchant, supplied during the integration
+            process.
+          example: SydneyShop
+        isAuthorised:
+          type: boolean
+          description: If the POS is authorised for this merchant.
+          example: true
+        displayName:
+          type: string
+          description: The display name of the Merchant
+          example: Bobs Burger Shop
+    location:
+      title: Location
+      type: object
+      properties:
+        locationId:
+          type: string
+          description: The ID of the location as specified by the Tyro Connect system
+          example: tc-exampleshop-3000
+        name:
+          type: string
+          description: >-
+            The name of the location, this could be a description or address for
+            the location
+          example: Example Shop Melbourne
+        address:
+          type: object
+          description: The address of the location
+          properties:
+            street:
+              type: string
+              description: The street address of the location
+              example: 123 Hight Street
+            suburb:
+              type: string
+              description: The suburb of the location
+              example: Melbourne
+            state:
+              type: string
+              description: The state of the location
+              example: VIC
+            postcode:
+              type: string
+              description: The postcode of the location
+              example: '3000'
+            country:
+              type: string
+              description: The country of the location
+              example: Australia
+      required:
+        - locationId
+        - name
+    reader-object:
+      title: Reader
+      type: object
+      properties:
+        readerId:
+          type: string
+          description: >-
+            The ID of the reader as specified by the Tyro Connect system. This
+            value will be required when creating an Embedded Payments
+            connection.
+          example: 0f448ac1-862a-4c7b-bdb4-a3b7cdbf6149
+        locationId:
+          type: string
+          description: The ID of the location as specified by the Tyro Connect system
+          example: tc-exampleshop-3000
+        name:
+          type: string
+          description: The name of the reader, a readable identifier for the reader.
+          example: Reader 1 - Example Shop Sydney
+        status:
+          type: string
+          description: Status of the ReaderID
+          enum:
+            - ACTIVE
+            - SUSPENDED
+            - PENDING_CREATION
+            - DEACTIVATED
+        caid:
+          type: string
+          description: a secondary id which represents the location

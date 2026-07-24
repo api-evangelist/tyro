@@ -1,0 +1,846 @@
+openapi: 3.1.0
+info:
+  title: Reporting API
+  version: '1.0'
+  contact: {}
+  description: >-
+    This API allows you to retrieve various transaction and settlements data for
+    a given mid.
+servers:
+  - url: https://api.tyro.com/connect
+    description: Production
+paths:
+  /reporting/merchants/{mid}/settlements?settlementDate={settlementDate}:
+    get:
+      responses:
+        '200':
+          description: Settlements response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/reporting-settlements-response'
+              examples:
+                Single Settlement Returned:
+                  value:
+                    mid: '111'
+                    settlementDate: '2021-07-01'
+                    settlements:
+                      - clearingPaymentId: e6da4a8e-70f3-4156-9b81-f027f061d59e
+                        grossAmount: 20011
+                        settlementDetails:
+                          - type: EXTERNAL_BANK_ACCOUNT
+                            bsb: '840300'
+                            institutionName: MyBank
+                            accountNumber: '****9201'
+                            accountName: Potene Enterprises Pty Ltd
+                            settlementAmount: 20011
+                            lastUpdatedAt: '2021-07-01T13:45:15.000Z'
+                            settlementStatus: SENT
+                            lodgementReference: Tyro July 1st
+                Multiple Settlements Returned:
+                  value:
+                    mid: '112'
+                    settlementDate: '2021-07-01'
+                    settlements:
+                      - clearingPaymentId: e6da4a8e-70f3-4156-9b81-f027f061d59e
+                        grossAmount: 150032
+                        settlementDetails:
+                          - type: EXTERNAL_BANK_ACCOUNT
+                            institutionName: MyBank
+                            bsb: '840300'
+                            accountNumber: '****9201'
+                            accountName: Potene Enterprises Pty Ltd
+                            settlementAmount: 20011
+                            lastUpdatedAt: '2021-07-01T13:45:15.000Z'
+                            settlementStatus: SENT
+                            lodgementReference: Tyro July 1st
+                          - type: EXTERNAL_BANK_ACCOUNT
+                            institutionName: MyBank
+                            bsb: '840300'
+                            accountNumber: '****9201'
+                            accountName: Potene Enterprises Pty Ltd
+                            settlementAmount: 120021
+                            settlementStatus: PENDING
+                            lodgementReference: Tyro July 1st
+                          - type: TYRO_BANK_ACCOUNT
+        '400':
+          description: Bad Request - Missing or invalid parameters
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                  errorCode:
+                    type: string
+                  errors:
+                    type: array
+                    items:
+                      type: object
+                  message:
+                    type: string
+        '403':
+          description: >-
+            Forbidden - When you don't have the required permissions to query
+            the provided location
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+      description: >-
+        This endpoint allows you to retrieve BECs-cleared settlement details for
+        a specific merchant on a given date.
+      parameters:
+        - in: path
+          description: >-
+            The merchant ID associated with the Tyro account. Used to identify
+            the merchant whose settlement data is being retrieved.
+          name: mid
+          required: true
+          schema:
+            type: string
+        - in: query
+          description: >-
+            Requested settlement date (YYYY-MM-DD). Must be within the past 3
+            years.
+          name: settlementDate
+          required: true
+          schema:
+            type: string
+            format: date
+        - $ref: '#/components/parameters/header-bearer-token'
+      operationId: get-reporting-settlements
+      summary: Get Settlements for a Merchant
+      security:
+        - JWT: []
+  /reporting/merchants/{mid}/transactions?transactionDate={transactionDate}&limit=100&page=1:
+    get:
+      responses:
+        '200':
+          description: Transactions response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/reporting-transactions-response'
+              examples:
+                Multiple Transactions:
+                  value:
+                    terminalBusinessDay: '2025-05-26'
+                    merchantDetails:
+                      mid: '122'
+                      tradingName: Test Merchant
+                    transactions:
+                      - transactionId: >-
+                          5c05f70e3f0e3bd3b5359d5cf20e5a75fb4dd525229350e15137e78f1bfa4de6
+                        transactionLocalDateTime: '2025-05-26T00:22:06'
+                        transactionStatus: APPROVED
+                        transactionDescription: null
+                        locationId: '122'
+                        tid: 7
+                        deviceType: BYO
+                        mobilePlatformType: null
+                        paymentType: GOODS_AND_SERVICES
+                        feeType: INTERNATIONAL
+                        fromAccountType: CREDIT
+                        isExpressPayment: false
+                        card:
+                          type: MASTERCARD
+                          cardLastFour: XXXXXXXXXXXX0007
+                          cardEntryMode: MAG_STRIPE
+                          cardPresent: true
+                        isEcommerceTransaction: false
+                        ecommerceOrderId: null
+                        isRefund: false
+                        refundReason: null
+                        isReversal: false
+                        reversalReason: null
+                        isInternational: true
+                        dcc:
+                          currencyCode: null
+                          exchangeRate: null
+                          foreignCurrencyAmount: null
+                          merchantCommissionAmount: 0
+                        amountDetails:
+                          saleAmount: 9000
+                          refundAmount: 0
+                          tipAmount: 1000
+                          cashOutAmount: 0
+                          surchargeAmount: 409
+                          donationAmount: 0
+                        totalAmount: 10409
+                        amountToPayMerchant: 10000
+                        settlementAmount: 10000
+                        merchantAcquiringFee: 0.2602
+                        acquirerActionCode: APPROVED
+                        rrn: 514600990020
+                        tyroReference: 990020
+                        integratedTransactionId: 85c9090d-3a80-4c2f-8e3a-f2513f3426f0
+                      - transactionId: >-
+                          871b9690255b6203b7c2845cde6aebd5bb2b3f7142807472345627055876e7c6
+                        transactionLocalDateTime: '2025-05-26T00:22:06'
+                        transactionStatus: APPROVED
+                        transactionDescription: null
+                        locationId: '122'
+                        tid: 7
+                        deviceType: DX4000
+                        mobilePlatformType: null
+                        paymentType: GOODS_AND_SERVICES
+                        feeType: INTERNATIONAL
+                        fromAccountType: CREDIT
+                        isExpressPayment: false
+                        card:
+                          type: VISA
+                          cardLastFour: XXXXXXXXXXXX0002
+                          cardEntryMode: MAG_STRIPE
+                          cardPresent: true
+                        isEcommerceTransaction: false
+                        ecommerceOrderId: null
+                        isRefund: false
+                        refundReason: null
+                        isReversal: false
+                        reversalReason: null
+                        isInternational: true
+                        dcc:
+                          currencyCode: null
+                          exchangeRate: null
+                          foreignCurrencyAmount: null
+                          merchantCommissionAmount: 0
+                        amountDetails:
+                          saleAmount: 9000
+                          refundAmount: 0
+                          tipAmount: 1000
+                          cashOutAmount: 0
+                          surchargeAmount: 135
+                          donationAmount: 0
+                        totalAmount: 10135
+                        amountToPayMerchant: 10000
+                        settlementAmount: 10000
+                        merchantAcquiringFee: 0.2534
+                        acquirerActionCode: APPROVED
+                        rrn: 514600990018
+                        tyroReference: 990021
+                        integratedTransactionId: af40e34f-3a80-4c2f-8e3a-f25139ae342b
+                      - transactionId: >-
+                          45b60cf98f723bd3b5359d5cf20e5a75fb4dd525229350e15137eae654e210b3
+                        transactionLocalDateTime: '2025-05-26T00:22:06'
+                        transactionStatus: APPROVED
+                        transactionDescription: null
+                        locationId: '122'
+                        tid: 7
+                        deviceType: null
+                        mobilePlatformType: null
+                        paymentType: REFUND_GOODS_AND_SERVICES
+                        feeType: INTERNATIONAL
+                        fromAccountType: CREDIT
+                        isExpressPayment: false
+                        card:
+                          type: VISA
+                          cardLastFour: XXXXXXXXXXXX0002
+                          cardEntryMode: MAG_STRIPE
+                          cardPresent: true
+                        isEcommerceTransaction: false
+                        ecommerceOrderId: null
+                        isRefund: true
+                        refundReason: null
+                        isReversal: false
+                        reversalReason: null
+                        isInternational: true
+                        dcc:
+                          currencyCode: null
+                          exchangeRate: null
+                          foreignCurrencyAmount: null
+                          merchantCommissionAmount: 0
+                        amountDetails:
+                          saleAmount: 0
+                          refundAmount: -10000
+                          tipAmount: 0
+                          cashOutAmount: 0
+                          surchargeAmount: 0
+                          donationAmount: 0
+                        totalAmount: -10000
+                        amountToPayMerchant: -10000
+                        settlementAmount: -10000
+                        merchantAcquiringFee: 0
+                        acquirerActionCode: APPROVED
+                        rrn: 990021002206
+                        tyroReference: 990018
+                        integratedTransactionId: 5253aa4e-95dd-466b-9e4e-1fee1b640e77
+                    pagination:
+                      page: 1
+                      size: 3
+                      limit: 100
+                      total: 3
+        '400':
+          description: Bad Request - Missing or invalid parameters
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                  errorCode:
+                    type: string
+                  errors:
+                    type: array
+                    items:
+                      type: object
+                  message:
+                    type: string
+        '403':
+          description: >-
+            Forbidden - When you don't have the required permissions to query
+            the provided location
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+      description: >-
+        This endpoint allows you to retrieve a merchant's list of transactions
+        for a given terminal business day.
+      parameters:
+        - in: path
+          description: >-
+            The merchant ID associated with the Tyro account. Used to identify
+            the merchant whose transaction data is being retrieved.
+          name: mid
+          required: true
+          schema:
+            type: string
+        - in: query
+          description: >-
+            The date (YYYY-MM-DD) that the terminal has processed the requested
+            transactions. Must be within the past 3 years.
+          name: transactionDate
+          required: true
+          schema:
+            type: string
+            format: date
+        - in: query
+          schema:
+            type: number
+            minimum: 1
+            maximum: 2000
+            example: 100
+          name: limit
+          required: true
+          description: Specifies the amount of results to be retrieved.
+        - in: query
+          schema:
+            type: number
+            minimum: 1
+            example: 2
+          name: page
+          required: true
+          description: >-
+            Specify the page to retrieve.
+
+
+            Page-numbering is based on the value of "limit". If limit=5, then
+            page=1 will display the hits from 1 to 5, page=3 will display the
+            hits from 11 to 15.
+
+
+            Page numbers start at 1.
+
+
+            A request for a non-existing page will yield 0 results.
+        - $ref: '#/components/parameters/header-bearer-token'
+      operationId: get-reporting-transactions
+      summary: Get Transactions for a Merchant
+      security:
+        - JWT: []
+components:
+  securitySchemes:
+    JWT:
+      type: openIdConnect
+      openIdConnectUrl: https://auth.connect.tyro.com/.well-known/openid-configuration
+  parameters:
+    header-bearer-token:
+      schema:
+        type: string
+        default: Bearer {$$.env.access_token}
+      in: header
+      name: Authorization
+      required: true
+  schemas:
+    settlement-details:
+      title: Settlements Detail
+      type: object
+      properties:
+        type:
+          type: string
+          enum:
+            - EXTERNAL_BANK_ACCOUNT
+            - ATO
+            - TYRO_TRANSACTION_ACCOUNT
+            - TYRO_BANK_ACCOUNT
+            - LOAN
+          description: >-
+            Settlement type indicating the destination account for the payment
+            or transfer. More values may be added in the future.
+        institutionName:
+          type: string
+          description: Name of the institution receiving the settlement.
+        bsb:
+          type: string
+          description: BSB code in the format 'XXXXXX'.
+          example: '123456'
+        accountNumber:
+          type: string
+          description: Account number of the settlement destination, partially masked.
+          example: '*****7890'
+        accountName:
+          type: string
+          description: Name associated with the settlement destination account.
+        settlementAmount:
+          type: number
+          description: Signed amount settled, in cents.
+          example: -10001
+        lastUpdatedAt:
+          type: string
+          format: date-time
+          description: >-
+            Indicates the time of the latest settlement status update. The
+            format of the date time is the notation as defined by [RFC 3339,
+            section 5.6](https://tools.ietf.org/html/rfc3339#section-5.6)
+          example: '2023-10-01T12:00:00.00Z'
+        settlementStatus:
+          type: string
+          enum:
+            - SENT
+            - PENDING
+            - ON_HOLD
+            - RESUBMISSION_INITIATED
+            - RESUBMISSION_SENT
+            - RESUBMISSION_ON_HOLD
+            - WITHHELD_BY_ACQUIRER
+            - WITHHELD_BY_BANK
+          description: |
+            Status of the settlement.
+              * `SENT` - The settlement has been successfully sent from Tyro to the merchant’s destination financial institution. Note: The actual deposit time into the merchant’s account is determined by their bank and is not known by Tyro.
+              * `PENDING` - The settlement process has been initiated by Tyro, but funds have not yet left Tyro’s systems.
+              * `ON_HOLD` - The settlement is currently withheld. This may occur due to account suspension, suspected fraud, or participation in a net settlement arrangement. Funds are retained by Tyro until resolution.
+              * `RESUBMISSION_INITIATED` - The settlement got returned back by customer's bank and Tyro initiated its resubmission.
+              * `RESUBMISSION_SENT` - The settlement got returned back by customer's bank and resubmission was successfully sent from Tyro.
+              * `RESUBMISSION_ON_HOLD` - The settlement got returned back by customer's bank and resubmission is on hold and funds are withheld by Tyro.
+              * `WITHHELD_BY_ACQUIRER` - The settlement failed and funds are withheld by Tyro.
+              * `WITHHELD_BY_BANK` - The settlement failed and funds are withheld by the customer's bank.
+        lodgementReference:
+          type: string
+          description: >-
+            Lodgement reference provided with the settlement to the receiving
+            institution, up to 18 characters.
+      required:
+        - type
+    settlement:
+      title: Settlements
+      type: object
+      properties:
+        clearingPaymentId:
+          type: string
+          description: >-
+            ID of the clearing payment run used to bundle transactions for a
+            settlement.
+        grossAmount:
+          type: number
+          description: Signed gross amount settled, in cents.
+          example: 10001
+        settlementDetails:
+          type: array
+          description: >-
+            Multiple settlement entries may be returned due to settlement splits
+            by scheme, by location, or due to additional settlement destinations
+            such as loan repayments or ATO garnishees.
+          items:
+            $ref: '#/components/schemas/settlement-details'
+      required:
+        - settlementDetails
+    reporting-settlements-response:
+      title: Settlements Response
+      type: object
+      properties:
+        mid:
+          type: string
+          description: >-
+            The merchant ID associated with the Tyro account. Used to identify
+            the merchant whose settlement data is being retrieved.
+        settlementDate:
+          type: string
+          format: date
+          description: >-
+            Requested settlement date (YYYY-MM-DD). Must be within the past 3
+            years.
+        settlements:
+          type: array
+          description: >-
+            List of settlements for the specified merchant on the given date. If
+            the array is empty, it may indicate that the merchant does not
+            settle via BECS, or no settlement occurred on that date.
+          items:
+            $ref: '#/components/schemas/settlement'
+      required:
+        - mid
+        - settlementDate
+        - settlements
+    transaction:
+      title: Transaction
+      type: object
+      properties:
+        transactionId:
+          type: string
+          description: Unique identifier for the transaction.
+          example: 5c05f70e3f0e3bd3b5359d5cf20e5a75fb4dd525229350e15137e78f1bfa4de6
+        transactionLocalDateTime:
+          type: string
+          format: date-time
+          description: >-
+            The local date and time on the terminal when the transaction was
+            processed.
+          example: '2025-05-26T14:30:15'
+        transactionStatus:
+          type: string
+          description: >-
+            Status of the transaction. Possible values include `APPROVED`,
+            `DECLINED`, `CANCELLED`, `TIMED_OUT`, `VOIDED`, `PRE_AUTHORISED`.
+          example: APPROVED
+        transactionDescription:
+          type:
+            - string
+            - 'null'
+          description: Description of the transaction.
+          example: Card Payment
+        locationId:
+          type: string
+          description: >-
+            A unique identifier used to represent a specific location of a
+            merchant.
+          example: '122'
+        tid:
+          type: integer
+          description: A unique identifier of the terminal used to process the transaction.
+          example: 12345
+        deviceType:
+          type:
+            - string
+            - 'null'
+          description: Type of device used to process the transaction.
+          example: DX4000
+        mobilePlatformType:
+          type:
+            - string
+            - 'null'
+          description: Mobile platform type if applicable.
+          example: IOS
+        paymentType:
+          type: string
+          description: >-
+            Payment method type. Possible values include `GOODS_AND_SERVICES`,
+            `REFUND_GOODS_AND_SERVICES`, `GOODS_AND_SERVICES_WITH_CASH`,
+            `CASH_WITHDRAWAL`, `CREDIT_ADJUSTMENT`.
+          example: GOODS_AND_SERVICES
+        feeType:
+          type: string
+          description: >-
+            Fee structure applied. Possible values include
+            `DEBIT_EFTPOS_CASHOUT`, `DEBIT_EFTPOS_NO_CASHOUT`, `CREDIT_SWIPED`,
+            `CREDIT_COMMERCIAL_AND_PREMIUM`, `INTERNATIONAL`,
+            `MASTERCARD_INTERNATIONAL`, `UNION_PAY_INTERNATIONAL_DEBIT`,
+            `DEBIT_SCHEME_SWIPED`, `AMEX_JCB_FEES`, `ALIPAY`, `NO_FEES`,
+            `UNKNOWN`.
+          example: DEBIT_EFTPOS_NO_CASHOUT
+        fromAccountType:
+          type:
+            - string
+            - 'null'
+          description: >-
+            Source account type. Possible values include `DEFAULT`, `SAVINGS`,
+            `CHEQUE`, `CREDIT`.
+          example: CREDIT
+        isExpressPayment:
+          type:
+            - boolean
+            - 'null'
+          description: >-
+            Whether this was an express payment (i.e. Visa or Mastercard
+            purchases under $35).
+          example: false
+        card:
+          title: Card Details
+          type: object
+          properties:
+            type:
+              type: string
+              description: >-
+                Card type/scheme. Possible values include `VISA`, `MASTERCARD`,
+                `EFTPOS`, `UNION_PAY`, `AMEX`, `JCB`, `DINERS`.
+              example: VISA
+            cardLastFour:
+              type: string
+              description: Masked card number, with only the last four digits visible.
+              example: XXXXXXXXXXXX0009
+            cardEntryMode:
+              type: string
+              description: >-
+                How the card payment was processed. Possible values include
+                `CHIP`, `CONTACTLESS`, `CONTACTLESS_MAG_STRIPE`, `MAG_STRIPE`,
+                `CHIP_ERROR_MAG_STRIPE_USED`, `MANUAL`, `UNKNOWN`.
+              example: MAG_STRIPE
+            cardPresent:
+              type:
+                - boolean
+                - 'null'
+              description: Whether the card was physically present.
+              example: true
+          required:
+            - type
+            - cardLastFour
+            - cardEntryMode
+            - cardPresent
+        isEcommerceTransaction:
+          type: boolean
+          description: Whether this is an e-commerce transaction.
+          example: false
+        ecommerceOrderId:
+          type:
+            - string
+            - 'null'
+          description: E-commerce order id if applicable.
+          example: null
+        isRefund:
+          type: boolean
+          description: Whether this transaction is a refund.
+          example: false
+        refundReason:
+          type:
+            - string
+            - 'null'
+          description: Reason for refund if applicable.
+          example: null
+        isReversal:
+          type: boolean
+          description: Whether this transaction is a reversal.
+          example: false
+        reversalReason:
+          type:
+            - string
+            - 'null'
+          description: Reason for reversal if applicable.
+          example: null
+        isInternational:
+          type:
+            - boolean
+            - 'null'
+          description: Whether the transaction was processed with in a foreign currency.
+          example: false
+        dcc:
+          type: object
+          description: Details for a Dynamic Currency Conversion (DCC) transaction.
+          properties:
+            currencyCode:
+              type:
+                - string
+                - 'null'
+              description: Foreign currency code for DCC transaction.
+              example: USD
+            exchangeRate:
+              type:
+                - number
+                - 'null'
+              description: Exchange rate applied for DCC.
+              example: 1.45
+            foreignCurrencyAmount:
+              type:
+                - number
+                - 'null'
+              description: Amount in foreign currency (in cents).
+              example: 5862
+            merchantCommissionAmount:
+              type: number
+              description: Commission amount for DCC (in cents).
+              example: 120
+          required:
+            - currencyCode
+            - exchangeRate
+            - foreignCurrencyAmount
+            - merchantCommissionAmount
+        amountDetails:
+          title: Amount Details
+          type: object
+          properties:
+            saleAmount:
+              type: number
+              description: Sale amount (in cents).
+              example: 12550
+            refundAmount:
+              type: number
+              description: Refund amount (negative value, in cents).
+              example: -550
+            tipAmount:
+              type: number
+              description: Tip amount (in cents).
+              example: 0
+            cashOutAmount:
+              type: number
+              description: Cash out amount (in cents).
+              example: 0
+            surchargeAmount:
+              type: number
+              description: Surcharge amount (in cents).
+              example: 215
+            donationAmount:
+              type: number
+              description: Donation amount (in cents).
+              example: 0
+          required:
+            - saleAmount
+            - refundAmount
+            - tipAmount
+            - cashOutAmount
+            - surchargeAmount
+            - donationAmount
+        totalAmount:
+          type: number
+          description: Total transaction amount (in cents).
+          example: 12765
+        amountToPayMerchant:
+          type: number
+          description: Amount to be paid to merchant (in cents).
+          example: 12550
+        settlementAmount:
+          type: number
+          description: Net settlement amount after fees (in cents).
+          example: 12335
+        merchantAcquiringFee:
+          type: number
+          description: Acquiring fee charged to merchant (in cents).
+          example: 0.3839
+        acquirerActionCode:
+          type: string
+          description: >-
+            Action code from acquirer. Possible values include `APPROVED`,
+            `DECLINED`, `CALL_ISSUER`, `CAPTURE_CARD`.
+          example: APPROVED
+        rrn:
+          type:
+            - number
+            - 'null'
+          description: Retrieval Reference Number.
+          example: null
+        tyroReference:
+          type:
+            - number
+            - 'null'
+          description: Tyro transaction reference number. Maximum six digits.
+          example: null
+        integratedTransactionId:
+          type:
+            - string
+            - 'null'
+          description: >-
+            Identifier used by the POS to process an integrated transaction with
+            the terminal.
+          example: null
+      required:
+        - transactionId
+        - transactionLocalDateTime
+        - transactionStatus
+        - transactionDescription
+        - locationId
+        - tid
+        - deviceType
+        - mobilePlatformType
+        - paymentType
+        - feeType
+        - fromAccountType
+        - isExpressPayment
+        - card
+        - isEcommerceTransaction
+        - ecommerceOrderId
+        - isRefund
+        - refundReason
+        - isReversal
+        - reversalReason
+        - isInternational
+        - dcc
+        - amountDetails
+        - totalAmount
+        - amountToPayMerchant
+        - settlementAmount
+        - merchantAcquiringFee
+        - acquirerActionCode
+        - rrn
+        - tyroReference
+        - integratedTransactionId
+    reporting-transactions-response:
+      title: Transactions Report
+      type: object
+      properties:
+        terminalBusinessDay:
+          type: string
+          format: date
+          description: >-
+            The date (YYYY-MM-DD) that the terminal has processed the requested
+            transactions.
+          example: '2025-05-26'
+        merchantDetails:
+          title: Merchant Details
+          type: object
+          description: Details of the merchant for whom the transactions are reported.
+          properties:
+            mid:
+              type: string
+              description: The merchant ID associated with the Tyro account.
+              example: '111'
+            tradingName:
+              type: string
+              description: The trading name of the merchant.
+              example: Test Merchant
+          required:
+            - mid
+            - tradingName
+        transactions:
+          type: array
+          description: List of transactions for the specified merchant and date.
+          items:
+            $ref: '#/components/schemas/transaction'
+        pagination:
+          type: object
+          description: Pagination details for the transaction results.
+          properties:
+            page:
+              type: integer
+              description: The current page number.
+              minimum: 1
+              example: 1
+            size:
+              type: integer
+              description: The number of transactions per page.
+              example: 10
+            limit:
+              type: integer
+              description: >-
+                The maximum number of transactions that can be returned per
+                page.
+              example: 100
+            total:
+              type: integer
+              description: The total number of transactions.
+              example: 45
+          required:
+            - page
+            - size
+            - limit
+            - total
+      required:
+        - terminalBusinessDay
+        - merchantDetails
+        - transactions
+        - pagination

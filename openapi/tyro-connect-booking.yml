@@ -1,0 +1,676 @@
+openapi: 3.1.0
+info:
+  title: Booking API
+  version: '1.0'
+  contact: {}
+  description: >
+    The API allows the APP and POS to send and receive information about
+    bookings. Currently the API supports creating, updating and retrieving
+    bookings in the POS or the booking system.
+servers:
+  - url: https://api.tyro.com/connect
+    description: Production
+paths:
+  /bookings:
+    post:
+      summary: Create Booking
+      operationId: create-booking-request
+      responses:
+        '201':
+          description: Created
+          content:
+            application/vnd.tyro.connect+json;version=1.0:
+              schema:
+                $ref: '#/components/schemas/booking'
+              examples:
+                Created Booking:
+                  value:
+                    id: 2688fcf2-44dd-4c72-88ac-79d0910f2983
+                    locationId: merchant:abc123
+                    bookingStatus: CREATED
+                    origin:
+                      bookingReference: some-booking-reference
+                    asset:
+                      type: TABLE
+                      tables:
+                        - number: '1'
+                    numberOfPeople: 2
+                    payments:
+                      - amount: 4321
+                        currency: AUD
+                        description: Reservation payment
+                    startTime: '2020-03-01T18:00:00Z'
+          links:
+            GetBooking:
+              operationId: get-booking
+              description: Retrieve the booking details
+          headers: {}
+        '400':
+          description: When the provided payload is not valid.
+          content:
+            application/vnd.tyro.connect+json;version=1.0:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    description: The validation error message.
+              examples:
+                Bad Status:
+                  value:
+                    error: '"asset.tableStatus" must be [SEATED]'
+                Missing property:
+                  value:
+                    error: '"origin.bookingReference" is required'
+        '403':
+          description: >-
+            When you don't have the right permissions to seat a booking for the
+            provided location.
+      description: >-
+        This endpoint is used to create a booking within Tyro Connect. This call
+        will create a booking in the POS system.
+
+
+        The id that is returned as a part of the response should be used to
+        identify the booking for subsequent events or retrieving the details via
+        the [`GET`](#operation/get-booking) endpoint.
+      security:
+        - JWT: []
+      requestBody:
+        content:
+          application/vnd.tyro.connect+json;version=1.0:
+            schema:
+              $ref: '#/components/schemas/new-booking-request'
+            examples:
+              New Booking:
+                value:
+                  locationId: merchant:abc123
+                  origin:
+                    bookingReference: some-booking-reference
+                  asset:
+                    type: TABLE
+                    tables:
+                      - number: '1'
+                  numberOfPeople: 2
+                  startTime: '2020-03-01T18:00:00Z'
+                  bookingStatus: CREATED
+        description: ''
+      parameters:
+        - $ref: '#/components/parameters/header-bearer-token'
+        - schema:
+            $ref: '#/components/schemas/acceptHeaderBooking1_0'
+          in: header
+          name: Accept
+          required: true
+        - $ref: '#/components/parameters/header-content-json'
+  /bookings/{bookingId}:
+    get:
+      responses:
+        '200':
+          description: The booking response
+          content:
+            application/vnd.tyro.connect+json;version=1.0:
+              schema:
+                $ref: '#/components/schemas/booking'
+              examples:
+                Simple Booking:
+                  value:
+                    id: 2688fcf2-44dd-4c72-88ac-79d0910f2983
+                    locationId: merchant:abc123
+                    bookingStatus: CREATED
+                    origin:
+                      bookingReference: some-booking-reference
+                    asset:
+                      type: TABLE
+                      tables:
+                        - number: '1'
+                    numberOfPeople: 2
+                    startTime: '2020-03-01T18:00:00Z'
+        '403':
+          description: >-
+            When you don't have the right permissions to create a booking for
+            the provided location.
+        '404':
+          description: >-
+            When the provided `bookingId` does not match a booking stored in the
+            system.
+          content:
+            application/vnd.tyro.connect+json;version=1.0:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    description: The validation error message.
+              examples:
+                Bad Request:
+                  value:
+                    error: No booking found for 2688fcf2-44dd-4c72-88ac-79d0910f2983
+      description: This endpoint is for fetching the details of a booking.
+      parameters:
+        - in: path
+          description: Id of the booking in Tyro Connect that should be retrieved
+          name: bookingId
+          required: true
+          schema:
+            type: string
+        - $ref: '#/components/parameters/header-bearer-token'
+        - schema:
+            $ref: '#/components/schemas/acceptHeaderBooking1_0'
+          in: header
+          name: Accept
+          required: true
+      operationId: get-booking
+      summary: Get Booking
+      security:
+        - JWT: []
+    patch:
+      responses:
+        '204':
+          description: No body content
+        '400':
+          description: When the provided request is not valid.
+          content:
+            application/vnd.tyro.connect+json;version=1.0:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    description: The validation error message.
+              examples:
+                Bad Request:
+                  value:
+                    error: >-
+                      "asset.tableStatus" must be one of [SEATED, DINING,
+                      FINALISED, CLOSING]
+        '403':
+          description: When you don't have the right permissions to update the booking.
+        '404':
+          description: >-
+            When the provided `bookingId` does not match a booking stored in the
+            system.
+          content:
+            application/vnd.tyro.connect+json;version=1.0:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    description: The validation error message.
+              examples:
+                Bad Request:
+                  value:
+                    error: No booking found for 2688fcf2-44dd-4c72-88ac-79d0910f2983
+      requestBody:
+        content:
+          application/merge-patch+json:
+            schema:
+              $ref: '#/components/schemas/update-booking-request'
+            examples:
+              Customer cancelled booking:
+                value:
+                  bookingStatus: CANCELLED_BY_CUSTOMER
+                  reason: Illness
+              Update Booking details:
+                value:
+                  numberOfPeople: 3
+        description: ''
+      description: This endpoint is for updating a booking.
+      parameters:
+        - in: path
+          description: Id of the booking in Tyro Connect that should be updated
+          name: bookingId
+          required: true
+          schema:
+            type: string
+        - $ref: '#/components/parameters/header-bearer-token'
+        - schema:
+            $ref: '#/components/schemas/acceptHeaderBooking1_0'
+          in: header
+          name: Accept
+          required: true
+        - $ref: '#/components/parameters/header-content-json'
+      operationId: patch-booking
+      summary: Update Booking
+      security:
+        - JWT: []
+components:
+  securitySchemes:
+    JWT:
+      type: openIdConnect
+      openIdConnectUrl: https://auth.connect.tyro.com/.well-known/openid-configuration
+  schemas:
+    new-booking-request:
+      title: New booking request
+      type: object
+      description: >-
+        The message to be sent to Tyro Connect in order to mark the booking as
+        seated.
+      properties:
+        locationId:
+          type: string
+          description: The id of the location as specified by the Tyro Connect system.
+        origin:
+          type: object
+          description: >-
+            Information relevant to the booking partner that this booking was
+            created with
+          properties:
+            bookingReference:
+              $ref: '#/components/schemas/bookingReference'
+          required:
+            - bookingReference
+        bookingStatus:
+          $ref: '#/components/schemas/bookingStatus'
+        numberOfPeople:
+          $ref: '#/components/schemas/numberOfPeople'
+        payments:
+          $ref: '#/components/schemas/payments'
+        startTime:
+          type: string
+          description: >-
+            The date and time the booking starts at the venue. The format of the
+            date time is the notation as defined by [RFC 3339, section
+            5.6](https://tools.ietf.org/html/rfc3339#section-5.6)
+          example: '2018-05-02T17:30:00.000Z'
+          format: date-time
+        endTime:
+          type: string
+          description: >-
+            The date and time the booking ends at the venue. The format of the
+            date time is the notation as defined by [RFC 3339, section
+            5.6](https://tools.ietf.org/html/rfc3339#section-5.6)
+          example: '2018-05-02T18:30:00.000Z'
+          format: date-time
+        customer:
+          $ref: '#/components/schemas/customer'
+        notes:
+          type: string
+          minLength: 1
+          maxLength: 500
+          description: 'Notes specific to the booking. Example: ''Window seat please'''
+        asset:
+          description: Contains asset information of the booking
+          oneOf:
+            - $ref: '#/components/schemas/roomAsset'
+            - $ref: '#/components/schemas/tableAsset'
+      required:
+        - locationId
+        - numberOfPeople
+        - startTime
+        - asset
+    update-booking-request:
+      title: Update booking request
+      type: object
+      description: The message to be sent to Tyro Connect in order to update the booking
+      properties:
+        asset:
+          $ref: '#/components/schemas/assetUpdate'
+        bookingStatus:
+          $ref: '#/components/schemas/bookingStatus'
+        numberOfPeople:
+          $ref: '#/components/schemas/numberOfPeople'
+        payments:
+          $ref: '#/components/schemas/payments'
+        reason:
+          $ref: '#/components/schemas/reason'
+        customer:
+          $ref: '#/components/schemas/customer'
+        notes:
+          type: string
+          minLength: 1
+          maxLength: 500
+          description: 'Notes specific to the booking. Example: ''Window seat please'''
+        startTime:
+          $ref: '#/components/schemas/time'
+        endTime:
+          $ref: '#/components/schemas/time'
+        origin:
+          $ref: '#/components/schemas/origin'
+    booking:
+      title: Booking
+      type: object
+      properties:
+        id:
+          type: string
+          description: The id of the booking in the Tyro Connect system
+          example: 0f448ac1-862a-4c7b-bdb4-a3b7cdbf6149
+        locationId:
+          type: string
+          description: The id of the location as specified by the Tyro Connect system
+        origin:
+          $ref: '#/components/schemas/origin'
+        asset:
+          oneOf:
+            - $ref: '#/components/schemas/tableAsset'
+            - $ref: '#/components/schemas/roomAsset'
+        bookingStatus:
+          $ref: '#/components/schemas/bookingStatus'
+        numberOfPeople:
+          $ref: '#/components/schemas/numberOfPeople'
+        payments:
+          $ref: '#/components/schemas/payments'
+        startTime:
+          type: string
+          description: >-
+            The date and time the booking starts at the venue. The format of the
+            date time is the notation as defined by [RFC 3339, section
+            5.6](https://tools.ietf.org/html/rfc3339#section-5.6)
+          example: '2018-05-02T17:30:00.000Z'
+          format: date-time
+        endTime:
+          type: string
+          description: >-
+            The date and time the booking ends at the venue. The format of the
+            date time is the notation as defined by [RFC 3339, section
+            5.6](https://tools.ietf.org/html/rfc3339#section-5.6)
+          example: '2018-05-02T18:30:00.000Z'
+          format: date-time
+        customer:
+          $ref: '#/components/schemas/customer'
+        notes:
+          type: string
+          minLength: 1
+          maxLength: 500
+          description: 'Notes specific to the booking. Example: ''Window seat please'''
+        reason:
+          $ref: '#/components/schemas/reason'
+      required:
+        - id
+        - locationId
+        - numberOfPeople
+        - asset
+    bookingStatus:
+      type: string
+      description: The current status of the booking
+      enum:
+        - CREATED
+        - ACCEPTED
+        - CANCELLED_BY_CUSTOMER
+        - CANCELLED_BY_MERCHANT
+        - REJECTED
+      default: CREATED
+    arrivalStatus:
+      type: string
+      description: The customer's arrival status in relation to the booking
+      enum:
+        - ON_TIME
+        - EARLY
+        - RUNNING_LATE
+        - NO_SHOW
+    tableStatus:
+      type: string
+      description: >-
+        The current table status of the booking
+
+        The supported statuses are:
+
+        * `SEATED` - indicates that the customer connected to the booking has
+        been seated.
+
+        * `DINING` - indicate that the customer connected to the booking has
+        started dining.
+
+        * `CLOSING` - indicates that the customer connected to the booking is
+        close to finishing their meal (e.g. when the bill has been printed).
+
+        * `FINALISED` - indicates that the booking has been finalised (e.g. when
+        the bill has been finalised).
+      enum:
+        - SEATED
+        - DINING
+        - CLOSING
+        - FINALISED
+    table:
+      type: object
+      properties:
+        number:
+          type: string
+          minLength: 1
+          description: >-
+            The table number or table id. This field accepts alphanumeric
+            characters e.g `MAIN-33`
+          example: MAIN-33
+    section:
+      type: object
+      description: The section within the venue
+      properties:
+        id:
+          type: string
+          description: The POS system's Id of the section
+        name:
+          type: string
+          description: >-
+            The readable name of the section. E.g. Front bar, drive through for
+            hospitality or for retail men's clothes, womens shoes etc
+    customer:
+      type: object
+      description: The customer making the booking
+      properties:
+        id:
+          type: string
+          minLength: 1
+        name:
+          type: string
+          minLength: 1
+          description: Customer's name
+        notes:
+          type: string
+          minLength: 1
+          maxLength: 500
+          description: Notes specific to the customer. For example, 'Loves red wine'.
+        email:
+          type: string
+          minLength: 1
+          description: Customer's email address
+        address:
+          allOf:
+            - $ref: '#/components/schemas/address'
+            - minLength: 1
+        phoneNumber:
+          type: string
+          minLength: 1
+          description: Customer's phone number
+        birthday:
+          type: string
+          minLength: 1
+          description: Customer's birthday
+    numberOfPeople:
+      type: number
+      minimum: 1
+      description: The number of expected guests
+    payments:
+      type: array
+      description: A list of payments applied to the booking.
+      items:
+        $ref: '#/components/schemas/payment-with-description'
+    payment:
+      title: Payment
+      type: object
+      properties:
+        amount:
+          type: integer
+          description: This is the amount in cents. e.g 12520 is $125.20
+          minimum: 0
+        currency:
+          type: string
+          default: AUD
+          enum:
+            - AUD
+          example: AUD
+          description: This is always AUD
+    payment-with-description:
+      title: Payment With Description
+      allOf:
+        - $ref: '#/components/schemas/payment'
+        - properties:
+            description:
+              type: string
+              description: A description of what this payment amount represents
+              example: Deposit for booking
+    bookingReference:
+      type: string
+      description: >-
+        Reference for the booking. It is used to facilitate identification of
+        the booking in the app and pos systems and must be unique per location
+        and booking partner.
+    acceptHeaderBooking1_0:
+      type: string
+      enum:
+        - application/vnd.tyro.connect+json;version=1.0
+        - application/vnd.tyro.connect+json;version=0.1
+      default: application/vnd.tyro.connect+json;version=0.1
+      description: >-
+        Specifies which version of the API to use. If no value is provided then
+        0.1 version will be used
+    address:
+      title: address
+      type: object
+      description: The customer address
+      properties:
+        line1:
+          type: string
+        line2:
+          type: string
+        suburb:
+          type: string
+        state:
+          type: string
+        postcode:
+          type: string
+        country:
+          type: string
+    reason:
+      type: string
+      maxLength: 50
+      description: >-
+        The reason the booking was rejected or cancelled. Provided only when
+        bookingStatus is `REJECTED`, `CANCELLED_BY_MERCHANT` or
+        `CANCELLED_BY_CUSTOMER`
+    tableAsset:
+      type: object
+      properties:
+        type:
+          type: string
+          enum:
+            - TABLE
+        tableStatus:
+          $ref: '#/components/schemas/tableStatus'
+        arrivalStatus:
+          $ref: '#/components/schemas/arrivalStatus'
+        tables:
+          type: array
+          minItems: 1
+          description: The tables used for the booking
+          items:
+            $ref: '#/components/schemas/table'
+        section:
+          $ref: '#/components/schemas/section'
+        discounts:
+          type: array
+          minItems: 1
+          items:
+            type: string
+        preOrders:
+          type: array
+          minItems: 1
+          items:
+            type: string
+      required:
+        - type
+    roomAsset:
+      type: object
+      description: The section within the venue
+      properties:
+        type:
+          type: string
+          enum:
+            - ROOM
+        rooms:
+          type: array
+          minItems: 1
+          description: The rooms used for the booking
+          items:
+            $ref: '#/components/schemas/room'
+      required:
+        - type
+        - rooms
+    room:
+      type: object
+      properties:
+        number:
+          type: string
+          description: >-
+            The room number or room id. This field accepts alphanumeric
+            characters e.g `MAIN-33`
+          example: MAIN-33
+      required:
+        - number
+    time:
+      type: string
+      description: >-
+        The format of the date time is the notation as defined by [RFC 3339,
+        section 5.6](https://tools.ietf.org/html/rfc3339#section-5.6)
+      example: '2018-05-02T17:30:00.000Z'
+      format: date-time
+    origin:
+      type: object
+      description: >-
+        Information relevant to the booking partner that this booking was
+        created with
+      properties:
+        name:
+          type: string
+          description: Name of the booking app
+        bookingReference:
+          $ref: '#/components/schemas/bookingReference'
+      required:
+        - bookingReference
+    assetUpdate:
+      type: object
+      properties:
+        tableStatus:
+          $ref: '#/components/schemas/tableStatus'
+        arrivalStatus:
+          $ref: '#/components/schemas/arrivalStatus'
+        tables:
+          type: array
+          minItems: 1
+          description: The tables used for the booking
+          items:
+            $ref: '#/components/schemas/table'
+        section:
+          $ref: '#/components/schemas/section'
+        rooms:
+          type: array
+          minItems: 1
+          description: The rooms in the booking
+          items:
+            $ref: '#/components/schemas/room'
+        discounts:
+          type: array
+          minItems: 1
+          items:
+            type: string
+        preOrders:
+          type: array
+          minItems: 1
+          items:
+            type: string
+  parameters:
+    header-bearer-token:
+      schema:
+        type: string
+        default: Bearer {$$.env.access_token}
+      in: header
+      name: Authorization
+      required: true
+    header-content-json:
+      schema:
+        type: string
+        enum:
+          - application/json
+      in: header
+      name: Content-Type
+      required: true

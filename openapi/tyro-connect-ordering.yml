@@ -1,0 +1,923 @@
+openapi: 3.1.0
+info:
+  title: Ordering API for App Partners
+  version: '1.0'
+  contact: {}
+  description: This is the API for Apps looking to implement Ordering on Tyro Connect
+servers:
+  - url: https://api.tyro.com/connect
+    description: Production
+paths:
+  /orders:
+    post:
+      summary: New Order
+      operationId: create-order
+      responses:
+        '201':
+          description: Created order
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/existing-order'
+              examples:
+                Create order response:
+                  $ref: '#/components/examples/create-order-response'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                anyOf:
+                  - $ref: >-
+                      #/components/schemas/bad-request-validation-errors-response
+                  - $ref: '#/components/schemas/bad-request-single-error-response'
+              examples:
+                Validation errors:
+                  value:
+                    message: Request validation failed
+                    errors:
+                      - segment: body
+                        path: items
+                        message: '"items" is required'
+                    error: '"items" is required'
+                Same order id but different content:
+                  value:
+                    error: >-
+                      Order with the same id but different content already
+                      exists
+        '401':
+          description: Invalid access token
+        '403':
+          description: Insufficient permissions to create an order
+      description: >
+        This endpoint is for creating an order that Tyro Connect will deliver to
+        a POS.
+
+         Make sure you create the order in one of the following statuses:
+         - `CREATED` - the order has been created but not approved by the merchant.
+         - `ACCEPTED` - the order has already been approved by the merchant (eg. via a separate app available to them).
+
+        Making identical requests with the same `orderId` and content **does
+        not** create a new order. In this case, it returns the previously
+        created order's details.
+
+        This means every new order must have a different `orderId`.
+      security:
+        - JWT: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/new-order'
+            examples:
+              New Order:
+                value:
+                  locationId: tc-merchant-2000
+                  origin:
+                    orderId: 2f8922fb-235f-40c6-af9a-3d6b46ce9635
+                    orderReference: Order for Tom
+                  items:
+                    - id: unique-item-id
+                      sku: sku-known-to-the-pos
+                      description: Amazing cheese burger
+                      unitPrice:
+                        currency: AUD
+                        amount: 2000
+                      discounts:
+                        - currency: AUD
+                          amount: 1000
+                          description: Half price cheese burgers on the first of the month
+                      modifiers:
+                        - id: uuid-3636-101
+                          sku: '634'
+                          description: Bacon
+                          unitPrice:
+                            amount: 0
+                          quantity: 1
+                      allergens:
+                        - description: Fish
+                        - description: Nuts
+                      quantity: 1
+                  discounts:
+                    - currency: AUD
+                      amount: 200
+                      description: Student discount
+                  surcharges:
+                    - currency: AUD
+                      amount: 200
+                      description: Public Holiday
+                    - currency: AUD
+                      amount: 200
+                      description: Plastic take away containers
+                  tip:
+                    currency: AUD
+                    amount: 150
+                  total:
+                    currency: AUD
+                    amount: 1350
+                  table:
+                    id: B1
+                    section: Bar
+                  status: CREATED
+                  customers:
+                    - firstName: Daniel
+                    - firstName: Elizabeth
+                  fulfilment:
+                    type: PICK_UP
+                  paymentStatus: CLOSED
+              Order with modifiers:
+                value:
+                  locationId: tc-location-1001
+                  origin:
+                    orderId: order-1001
+                    orderReference: Order for Tom
+                  status: ACCEPTED
+                  notes: Please hurry, I am hungry.
+                  items:
+                    - id: uuid-101
+                      sku: '101'
+                      description: Chicken Burger
+                      modifiers:
+                        - id: uuid-3636-101
+                          sku: '634'
+                          description: Cheese
+                          quantity: 1
+                          unitPrice:
+                            amount: 0
+                            currency: AUD
+                        - id: uuid-3636-202
+                          sku: '699'
+                          description: Bacon
+                          quantity: 1
+                          unitPrice:
+                            amount: 200
+                            currency: AUD
+                          discounts:
+                            - amount: 100
+                              currency: AUD
+                              description: Half Price Bacon Day
+                        - id: uuid-3636-303
+                          sku: '673'
+                          description: No Tomato
+                          quantity: 1
+                          unitPrice:
+                            amount: 0
+                            currency: AUD
+                      quantity: 2
+                      unitPrice:
+                        amount: 1500
+                        currency: AUD
+                      discounts:
+                        - amount: 150
+                          currency: AUD
+                          description: 10% Off Burgers on Tuesday
+                    - id: uuid-202
+                      sku: '213'
+                      description: Large Fries
+                      quantity: 1
+                      unitPrice:
+                        amount: 450
+                        currency: AUD
+                      discounts:
+                        - amount: 100
+                          currency: AUD
+                          description: Combo Price
+                    - id: uuid-303
+                      sku: '5343'
+                      description: Small Cola
+                      quantity: 1
+                      unitPrice:
+                        amount: 250
+                        currency: AUD
+                  discounts:
+                    - amount: 836
+                      currency: AUD
+                      description: 20% Loyalty Reward
+                  surcharges:
+                    - amount: 380
+                      currency: AUD
+                      description: Public Holiday
+                    - amount: 300
+                      currency: AUD
+                      description: Corkage
+                  total:
+                    amount: 3344
+                    currency: AUD
+                  table:
+                    id: B1
+                  customers:
+                    - firstName: Daniel
+                  fulfilment:
+                    type: PICK_UP
+                  paymentStatus: CLOSED
+              Order with discounts and notes:
+                value:
+                  locationId: tc-location-1001
+                  origin:
+                    orderId: 123321821308-5729
+                    orderReference: '5729'
+                  status: CREATED
+                  items:
+                    - id: '1'
+                      sku: '12345262829'
+                      unitPrice:
+                        amount: 900
+                        currency: AUD
+                      modifiers:
+                        - id: '1'
+                          sku: '12345262832'
+                          unitPrice:
+                            amount: 0
+                            currency: AUD
+                          modifiers: []
+                          quantity: 1
+                          description: No pickles
+                      quantity: 2
+                      description: Chicken Burger
+                  discounts:
+                    - amount: 1800
+                      currency: AUD
+                      description: Order remake - Restaurant's fault.
+                  total:
+                    amount: 0
+                    currency: AUD
+                  notes: Order remake - Restaurant's fault. No pickles. I'm allergic
+                  fulfilment:
+                    type: DELIVERY
+                  paymentStatus: CLOSED
+              Order with different modifiers:
+                value:
+                  locationId: tc-location-1001
+                  origin:
+                    orderId: order-some-id
+                    orderReference: Order for Jason's Family
+                  status: CREATED
+                  items:
+                    - id: uuid-201
+                      sku: '2001'
+                      description: Cheeseburger
+                      modifiers:
+                        - id: uuid-3636-201
+                          sku: '1111'
+                          description: Extra patty
+                          quantity: 2
+                          unitPrice:
+                            amount: 150
+                            currency: AUD
+                        - id: uuid-3636-203
+                          sku: '2222'
+                          description: No Tomato
+                          quantity: 1
+                          unitPrice:
+                            amount: 0
+                            currency: AUD
+                      quantity: 2
+                      unitPrice:
+                        amount: 1000
+                        currency: AUD
+                      discounts:
+                        - amount: 100
+                          currency: AUD
+                          description: 10% Off Burgers on Tuesday
+                        - amount: 100
+                          currency: AUD
+                          description: Triple Patty promotion
+                    - id: uuid-202
+                      sku: '2001'
+                      description: Cheeseburger
+                      modifiers:
+                        - id: uuid-3636-201
+                          sku: '1111'
+                          description: Extra patty
+                          quantity: 1
+                          unitPrice:
+                            amount: 150
+                            currency: AUD
+                        - id: uuid-3636-203
+                          sku: '2222'
+                          description: No Tomato
+                          quantity: 1
+                          unitPrice:
+                            amount: 0
+                            currency: AUD
+                      quantity: 1
+                      unitPrice:
+                        amount: 1000
+                        currency: AUD
+                      discounts:
+                        - amount: 100
+                          currency: AUD
+                          description: 10% Off Burgers on Tuesday
+                    - id: uuid-203
+                      sku: '2001'
+                      description: Cheeseburger
+                      modifiers:
+                        - id: uuid-3636-203
+                          sku: '2222'
+                          description: No Tomato
+                          quantity: 1
+                          unitPrice:
+                            amount: 0
+                            currency: AUD
+                      quantity: 1
+                      unitPrice:
+                        amount: 1000
+                        currency: AUD
+                      discounts:
+                        - amount: 100
+                          currency: AUD
+                          description: 10% Off Burgers on Tuesday
+                  total:
+                    amount: 4150
+                    currency: AUD
+                  table:
+                    id: '16'
+                    section: Patio
+                  customers:
+                    - firstName: Jason
+                  fulfilment:
+                    type: DINE_IN
+                  paymentStatus: CLOSED
+        description: ''
+      parameters:
+        - $ref: '#/components/parameters/header-bearer-token'
+  /orders/{orderId}:
+    parameters:
+      - name: orderId
+        in: path
+        description: ID of order to retrieve
+        required: true
+        schema:
+          type: string
+    get:
+      responses:
+        '200':
+          description: The order response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/get-order'
+              examples:
+                Get Order:
+                  value:
+                    id: order-identifier-in-tyro-connect
+                    locationId: tc-merchant-2000
+                    origin:
+                      orderId: 2f8922fb-235f-40c6-af9a-3d6b46ce9635
+                      orderReference: Order for Tom
+                      name: Charlie's Preorder App
+                    items:
+                      - id: unique-item-id
+                        sku: sku-known-to-the-pos
+                        description: Amazing cheese burger
+                        unitPrice:
+                          currency: AUD
+                          amount: 2000
+                        discounts:
+                          - currency: AUD
+                            amount: 1000
+                            description: >-
+                              Half price cheese burgers on the first of the
+                              month
+                        modifiers:
+                          - id: uuid-3636-101
+                            sku: '634'
+                            description: Bacon
+                            unitPrice:
+                              amount: 0
+                            quantity: 1
+                        allergens:
+                          - description: Fish
+                          - description: Nuts
+                        quantity: 1
+                    discounts:
+                      - currency: AUD
+                        amount: 200
+                        description: Student discount
+                    surcharges:
+                      - currency: AUD
+                        amount: 200
+                        description: Public Holiday
+                      - currency: AUD
+                        amount: 200
+                        description: Plastic take away containers
+                    tip:
+                      currency: AUD
+                      amount: 150
+                    total:
+                      currency: AUD
+                      amount: 1350
+                    table:
+                      id: B1
+                      section: Bar
+                    status: ACCEPTED
+                    customers:
+                      - firstName: Daniel
+                      - firstName: Elizabeth
+                    fulfilment:
+                      type: PICK_UP
+                    paymentStatus: CLOSED
+        '403':
+          description: Insufficient permissions to view an order
+        '404':
+          description: Order id not found
+      description: This endpoint is for fetching the details of an order.
+      parameters:
+        - name: orderId
+          in: path
+          description: ID of order to retrieve
+          required: true
+          schema:
+            type: string
+        - $ref: '#/components/parameters/header-bearer-token'
+      operationId: get-order
+      summary: Get Order
+      security:
+        - JWT: []
+    patch:
+      operationId: update-order
+      responses:
+        '204':
+          description: No body content. Order updated successfully
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/bad-request-validation-errors-response'
+        '401':
+          description: Invalid or missing access token
+        '403':
+          description: Insufficient permissions to edit an order's status
+        '404':
+          description: Order id not found
+          content:
+            application/json:
+              examples:
+                Order not found:
+                  value:
+                    error: Order cannot be found.
+        '409':
+          description: Conflict when updating order status
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/order-update-status-conflict'
+              examples:
+                Rejected to Cancelled:
+                  value:
+                    error: >-
+                      Order status conflict. Order status REJECTED cannot be
+                      updated to CANCELLED_BY_CUSTOMER.
+        '500':
+          description: Internal server error
+      description: >
+        In order to provide more information about the status changes to the
+        order, you can send the following statuses:
+         - `CANCELLED_BY_CUSTOMER` - customer has cancelled the order.
+         - `FULFILLED` - The order was completed successfully.
+      requestBody:
+        content:
+          application/merge-patch+json:
+            schema:
+              description: The new status of an order.
+              type: object
+              title: Update Order
+              properties:
+                status:
+                  type: string
+                  enum:
+                    - CANCELLED_BY_CUSTOMER
+                    - FULFILLED
+                reason:
+                  type: string
+                  description: >-
+                    Required only when status is `CANCELLED_BY_CUSTOMER. An
+                    empty string will be considered as invalid`
+              required:
+                - status
+            examples:
+              FULFILLED:
+                value:
+                  status: FULFILLED
+              CANCELLED_BY_CUSTOMER:
+                value:
+                  status: CANCELLED_BY_CUSTOMER
+                  reason: Customer changed their mind.
+        description: ''
+      summary: Update Order
+      parameters:
+        - $ref: '#/components/parameters/header-bearer-token'
+        - name: orderId
+          in: path
+          description: Identifier of the order that needs to be updated
+          required: true
+          schema:
+            type: string
+      security:
+        - JWT: []
+components:
+  securitySchemes:
+    JWT:
+      type: openIdConnect
+      openIdConnectUrl: https://auth.connect.tyro.com/.well-known/openid-configuration
+  schemas:
+    new-order:
+      title: New Order
+      type: object
+      description: >-
+        This is the representation of the order that was provided by a food
+        ordering app.
+      properties:
+        origin:
+          type: object
+          description: >-
+            Contains information about the food ordering partner that created
+            the order.
+          required:
+            - orderId
+            - orderReference
+          properties:
+            orderId:
+              type: string
+              maxLength: 50
+              description: >-
+                An identifier that has been generated by the origin. This can be
+                used for reconciliation of orders in the app partner’s system.
+            orderReference:
+              type: string
+              description: >-
+                Reference for the order. You should use it to facilitate the
+                communication between the merchant and the eater during
+                fulfillment by providing a short code that allows the order to
+                be easily identifiable.
+        locationId:
+          type: string
+          maxLength: 50
+          description: The id of the location as specified by the Tyro Connect system.
+        status:
+          type: string
+          description: >-
+            The current status of the order. When created, order status must be
+            `CREATED` or `ACCEPTED`.
+          default: CREATED
+          enum:
+            - CREATED
+            - ACCEPTED
+            - REJECTED
+            - BEING_PREPARED
+            - READY
+            - OUT_FOR_DELIVERY
+            - CANCELLED_BY_MERCHANT
+            - CANCELLED_BY_CUSTOMER
+            - FULFILLED
+        notes:
+          type: string
+          description: >-
+            A free text field with instructions from the customer to the
+            merchant.
+        items:
+          type: array
+          description: A list of all the items in the order.
+          items:
+            $ref: '#/components/schemas/order-item'
+        table:
+          type: object
+          description: >-
+            This object is optional, and if present will only have information
+            about table and section.
+          properties:
+            id:
+              type: string
+            section:
+              type: string
+        customers:
+          type: array
+          description: The object only has a single field firstName.
+          items:
+            type: object
+            properties:
+              firstName:
+                type: string
+        discounts:
+          type: array
+          description: >-
+            Each entry in the discounts array will apply to the whole order and
+            is included in the order total value.
+          items:
+            $ref: '#/components/schemas/money-positive-with-description'
+        surcharges:
+          type: array
+          description: >-
+            Each entry in the surcharges array will apply to the whole order and
+            is included in the order total value.
+          items:
+            $ref: '#/components/schemas/money-positive-with-description'
+        total:
+          description: >-
+            The order total is calculated as order.total = (item.unitPrice +
+            item.modifiersTotal - item.discounts) * item.quantity +
+            order.surcharges - order.discounts + order.tip. Please note that
+            TyroConnect does not enforce this calculation to allow flexibility
+            while creating an order.
+          allOf:
+            - $ref: '#/components/schemas/money-positive'
+        tip:
+          description: >-
+            This value will apply to the whole order and is included in the
+            order total value.
+          allOf:
+            - $ref: '#/components/schemas/money-positive'
+        fulfilment:
+          type: object
+          description: Details about how the customers expect to receive the order.
+          required:
+            - type
+          properties:
+            type:
+              type: string
+              description: Type of fulfilment the customer expects
+              enum:
+                - PICK_UP
+                - DINE_IN
+                - DELIVERY
+        paymentStatus:
+          type: string
+          description: >-
+            Current payment status of the order. Can be either `OPEN` or
+            `CLOSED`. `OPEN` payment status is only applicable for orders with
+            fulfilment type of `DINE_IN`.
+          default: CLOSED
+      required:
+        - origin
+        - locationId
+        - status
+        - items
+        - total
+        - fulfilment
+    existing-order:
+      title: Existing Order
+      allOf:
+        - $ref: '#/components/schemas/new-order'
+        - type: object
+          properties:
+            id:
+              type: string
+              description: >-
+                This is the Tyro Connect system order Id. It uniquely identifies
+                the order.
+            origin:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: >-
+                    This will be your name. It is mostly used by POS's to
+                    identify where an order came from
+      description: This is the representation of the order as provided by Tyro Connect.
+    order-item:
+      type: object
+      title: Order Item
+      description: This object represents an item within a food order.
+      properties:
+        id:
+          type: string
+          description: >-
+            An id unique to the order, representing the item within the overall
+            order.
+
+            order, i.e. 2 of the same items will have unique ids.
+        unitPrice:
+          description: >-
+            The basic price of a single item in cents excluding discounts (if
+            any).
+          allOf:
+            - $ref: '#/components/schemas/money'
+        discounts:
+          title: Money with Itemisation
+          type: array
+          description: >-
+            Each entry in the discounts array will apply to each single item -
+            it represents unit discounts (eg. if the quantity of this object is
+            defined as 2 and the discounts array contains one $1 entry, each of
+            the 2 items should be discounted by $1). item.total =
+            (item.unitPrice + item.modifiersTotal - item.discounts) *
+            item.quantity
+          items:
+            $ref: '#/components/schemas/money-positive-with-description'
+        modifiers:
+          type: array
+          description: >-
+            A list of modifications to be made to the parent item. Each entry in
+            this array will apply to each single item - it represents unit
+            modifiers (eg. if the quantity of this object is defined as 2 and
+            the modifiers array contains one $1 entry, each of the 2 items
+            should be modified by $1). item.total = (item.unitPrice +
+            item.modifiersTotal - item.discounts) * item.quantity'
+          items:
+            $ref: '#/components/schemas/order-item'
+        allergens:
+          description: Allergens that need to be removed from the parent item.
+          type: array
+          items:
+            type: object
+            properties:
+              description:
+                type: string
+                description: Fish Nuts etc
+        sku:
+          type: string
+          description: Id of the item that is aligned with the ID of the item in the POS.
+        description:
+          type: string
+          description: >-
+            A human readable description of the item that can be used to resolve
+            mismatches between the app and the POS.
+        quantity:
+          type: integer
+          minimum: 0
+          description: >-
+            The number of units of this item required to fulfil the order.
+            Please note that items with different modifiers or surcharges should
+            be split into separate item objects.
+        notes:
+          type: string
+          description: An instruction or message about this order item.
+      required:
+        - id
+        - unitPrice
+        - sku
+        - description
+        - quantity
+    get-order:
+      title: Get order
+      allOf:
+        - $ref: '#/components/schemas/existing-order'
+        - properties:
+            statusInfo:
+              type: string
+              enum:
+                - AUTO_REJECTED_BY_TIMEOUT
+              description: >-
+                This field provides additional information about the status of
+                an order
+    bad-request-validation-errors-response:
+      title: List of errors
+      type: object
+      properties:
+        message:
+          type: string
+          description: General error message
+        errors:
+          type: array
+          description: List of errors for further information about the error
+          items:
+            type: object
+            properties:
+              segment:
+                type: string
+                description: Location in the request where the error occured
+              path:
+                type: string
+                description: Path of where the error occurred
+              message:
+                type: string
+                description: Error message
+        error:
+          type: string
+          description: Error message
+    bad-request-single-error-response:
+      title: Single error
+      properties:
+        error:
+          type: string
+          description: Error message
+    order-update-status-conflict:
+      title: Order conflict status
+      properties:
+        error:
+          type: string
+          description: Error message
+    money:
+      title: Money
+      type: object
+      properties:
+        amount:
+          type: integer
+          description: >-
+            This is the amount in smallest currency unit. e.g 12520 (in cents)
+            is $125.20
+          example: 12520
+        currency:
+          type: string
+          default: AUD
+          enum:
+            - AUD
+            - EUR
+            - NZD
+            - GBP
+            - USD
+          example: AUD
+      required:
+        - amount
+        - currency
+    money-positive:
+      title: Money Positive Amount
+      type: object
+      properties:
+        amount:
+          type: integer
+          description: >-
+            This is the amount in smallest currency unit. e.g 12520 (in cents)
+            is $125.20
+          example: 12520
+          minimum: 0
+        currency:
+          type: string
+          default: AUD
+          enum:
+            - AUD
+            - EUR
+            - NZD
+            - GBP
+            - USD
+          example: AUD
+      required:
+        - amount
+        - currency
+    money-positive-with-description:
+      title: Money Positive Amount With Description
+      allOf:
+        - $ref: '#/components/schemas/money-positive'
+        - type: object
+          properties:
+            description:
+              type: string
+              description: A description of what this amount of money represents
+              example: Tuesday Happy Hour Discount
+  examples:
+    create-order-response:
+      value:
+        id: order-identifier-in-tyro-connect
+        locationId: tc-merchant-2000
+        origin:
+          orderId: 2f8922fb-235f-40c6-af9a-3d6b46ce9635
+          orderReference: Order for Tom
+          name: Charlie's Preorder App
+        items:
+          - id: unique-item-id
+            sku: sku-known-to-the-pos
+            description: Amazing cheese burger
+            unitPrice:
+              currency: AUD
+              amount: 2000
+            discounts:
+              - currency: AUD
+                amount: 1000
+                description: Half price cheese burgers on the first of the month
+            modifiers:
+              - id: uuid-3636-101
+                sku: '634'
+                description: Bacon
+                unitPrice:
+                  amount: 0
+                quantity: 1
+            allergens:
+              - description: Fish
+              - description: Nuts
+            quantity: 1
+        discounts:
+          - currency: AUD
+            amount: 200
+            description: Student discount
+        surcharges:
+          - currency: AUD
+            amount: 200
+            description: Public Holiday
+          - currency: AUD
+            amount: 200
+            description: Plastic take away containers
+        tip:
+          currency: AUD
+          amount: 150
+        total:
+          currency: AUD
+          amount: 1350
+        table:
+          id: B1
+          section: Bar
+        status: CREATED
+        customers:
+          - firstName: Daniel
+          - firstName: Elizabeth
+        fulfilment:
+          type: PICK_UP
+        paymentStatus: CLOSED
+  parameters:
+    header-bearer-token:
+      schema:
+        type: string
+        default: Bearer {$$.env.access_token}
+      in: header
+      name: Authorization
+      required: true

@@ -1,0 +1,172 @@
+aid: tyro
+name: Tyro Payments
+review:
+  question: Does Tyro Payments publish a genuine public developer portal with downloadable OpenAPI specifications?
+  answer: true
+  date: '2026-07-24'
+  reviewer: API Evangelist
+findings:
+  summary: |
+    Tyro Payments runs a real, API-first developer surface under the "Tyro
+    Connect" brand at https://docs.connect.tyro.com (HTTP 200), reached from
+    the developer landing page https://www.tyro.com/resources/developer/
+    (HTTP 200). The platform documents a family of versioned REST APIs served
+    from a single base URL, https://api.tyro.com/connect, split across two
+    audiences: App Partners (ordering, booking, loyalty, menu, tables, sales,
+    reporting, refunds, locations, referrals, and the Pay API) and POS
+    Partners (Pay Terminal, Embedded Payments / Tap to Pay). Every current API
+    exposes a machine-readable OpenAPI 3.1.0 document that is downloadable
+    verbatim via the docs platform's bundle route
+    (https://docs.connect.tyro.com/_bundle/<path>/<version>/index.yaml); 13
+    such specs were harvested and saved to openapi/. The eCommerce/enterprise
+    card-gateway product is white-labelled Mastercard Payment Gateway Services
+    (MPGS) documented off-platform at tyro.gateway.mastercard.com and was not
+    harvested (Mastercard-owned spec). Home market is Australia; Tyro is an
+    ASX-listed merchant acquirer holding its own Australian banking licence.
+  developerPortal:
+    url: https://docs.connect.tyro.com/
+    status: 200
+    confirmed: true
+    landingUrl: https://www.tyro.com/resources/developer/
+    landingStatus: 200
+  downloadableSpecs:
+    available: true
+    count: 13
+    format: OpenAPI 3.1.0 (YAML)
+    provenancePattern: https://docs.connect.tyro.com/_bundle/<api-path>/<version>/index.yaml
+    fetched: '2026-07-24'
+    files:
+      - file: openapi/tyro-connect-pay.yml
+        source: https://docs.connect.tyro.com/_bundle/app/apis/pay/0.9/index.yaml
+        status: 200
+      - file: openapi/tyro-pos-pay-terminal.yml
+        source: https://docs.connect.tyro.com/_bundle/pos/apis/pay-terminal/0.9/index.yaml
+        status: 200
+      - file: openapi/tyro-pos-embedded-payments.yml
+        source: https://docs.connect.tyro.com/_bundle/pos/apis/embedded-payments/1.0/index.yaml
+        status: 200
+      - file: openapi/tyro-connect-booking.yml
+        source: https://docs.connect.tyro.com/_bundle/app/apis/booking/1.0/index.yaml
+        status: 200
+      - file: openapi/tyro-connect-ordering.yml
+        source: https://docs.connect.tyro.com/_bundle/app/apis/ordering/1.0/index.yaml
+        status: 200
+      - file: openapi/tyro-connect-menu.yml
+        source: https://docs.connect.tyro.com/_bundle/app/apis/menu-management/1.0/index.yaml
+        status: 200
+      - file: openapi/tyro-connect-tables.yml
+        source: https://docs.connect.tyro.com/_bundle/app/apis/tables/1.0/index.yaml
+        status: 200
+      - file: openapi/tyro-connect-sales.yml
+        source: https://docs.connect.tyro.com/_bundle/app/apis/sales/1.1/index.yaml
+        status: 200
+      - file: openapi/tyro-connect-reporting.yml
+        source: https://docs.connect.tyro.com/_bundle/app/apis/reporting/1.0/index.yaml
+        status: 200
+      - file: openapi/tyro-connect-loyalty.yml
+        source: https://docs.connect.tyro.com/_bundle/app/apis/loyalty/0.9/index.yaml
+        status: 200
+      - file: openapi/tyro-connect-refunds.yml
+        source: https://docs.connect.tyro.com/_bundle/app/apis/refunds/1.0/index.yaml
+        status: 200
+      - file: openapi/tyro-connect-locations.yml
+        source: https://docs.connect.tyro.com/_bundle/app/apis/locations/1.0/index.yaml
+        status: 200
+      - file: openapi/tyro-connect-referrals.yml
+        source: https://docs.connect.tyro.com/_bundle/app/apis/referrals/1.0/index.yaml
+        status: 200
+  authModel:
+    scheme: OpenID Connect / OAuth 2.0
+    flows:
+      - Client Credentials (POS Cloud + app server-to-server connections)
+      - Device Authorization (POS instance connections)
+    tokenEndpoint: https://auth.connect.tyro.com/oauth/token
+    issuer: https://auth.connect.tyro.com/
+    discovery: https://auth.connect.tyro.com/.well-known/openid-configuration
+    discoveryStatus: 200
+    note: >
+      Auth is Auth0-backed. OpenAPI securitySchemes declare an openIdConnect
+      scheme ("JWT") pointing at the discovery document above. Access tokens
+      are JWTs presented as Bearer credentials to https://api.tyro.com/connect.
+  transports:
+    - protocol: REST
+      scheme: https
+      baseURL: https://api.tyro.com/connect
+      documented: true
+    - protocol: Webhooks
+      scheme: https
+      documented: true
+      note: >
+        Partner-registered HTTP callbacks (e.g. ORDER_CREATED) with per-event
+        signing keys. Registration is currently a manual process via the Tyro
+        Connect team. No AsyncAPI document is published.
+    - protocol: WebSocket
+      scheme: wss
+      documented: true
+      note: >
+        A WebSocket notifications channel is documented for POS notifications
+        (docs.connect.tyro.com/pos/notifications/websockets) as an alternative
+        to webhooks; no AsyncAPI/schema file is published for it.
+  webhooks:
+    documented: true
+    asyncapi: false
+    exampleEvents:
+      - ORDER_CREATED
+    subscription: Manual registration by the Tyro Connect team; per-event signing keys.
+  postman:
+    published: false
+    note: >
+      No public Postman workspace found. An Insomnia export is referenced in
+      the POS docs (docs.connect.tyro.com/pos/insomnia-dump) as a collection
+      aid, not an OpenAPI spec.
+  graphql:
+    present: false
+  grpc:
+    present: false
+  otherSurfaces:
+    - name: Tyro eCommerce (MPGS)
+      url: https://tyro.gateway.mastercard.com/api/documentation/integrationGuidelines/index.html
+      note: >
+        Enterprise online card gateway is white-labelled Mastercard Payment
+        Gateway Services; spec is Mastercard-owned and not harvested here.
+    - name: Tyro Point of Sale (Integrated EFTPOS)
+      url: https://docs.integrated-eftpos.tyro.com/
+      status: 200
+      note: Legacy integrated EFTPOS terminal integration docs (HTTP 200).
+    - name: Tyro Health
+      url: https://www.tyrohealth.com/developers/
+      status: 200
+      note: >
+        Separate Tyro Health product line (health claims/payments); its own
+        developer hub, not part of the core Tyro Connect surface profiled here.
+  homeMarket: Australia
+  regulatory:
+    note: >
+      Tyro holds an Australian banking licence (APRA-regulated ADI) and is
+      ASX-listed (ASX:TYR). Card acquiring runs on scheme rails; no ISO 20022
+      or NPP-scheme specification is published on the developer portal.
+sources:
+  - url: https://www.tyro.com/resources/developer/
+    type: DeveloperPortal
+    status: 200
+  - url: https://docs.connect.tyro.com/
+    type: Documentation
+    status: 200
+  - url: https://docs.connect.tyro.com/app/apis/
+    type: APIReference
+    status: 200
+  - url: https://docs.connect.tyro.com/app/authentication
+    type: Authentication
+    status: 200
+  - url: https://auth.connect.tyro.com/.well-known/openid-configuration
+    type: OpenIDDiscovery
+    status: 200
+  - url: https://docs.connect.tyro.com/app/webhooks
+    type: Webhooks
+    status: 200
+  - url: https://github.com/tyro
+    type: GitHubOrganization
+    status: 200
+  - url: https://status.tyro.com/
+    type: StatusPage
+    status: 200
