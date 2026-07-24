@@ -1,0 +1,149 @@
+generated: '2026-07-24'
+method: derived
+source: openapi/*.yml (4xx/5xx responses across 13 Tyro Connect specs)
+format: custom
+note: Tyro Connect does NOT use RFC 9457 application/problem+json. HTTP-level errors
+  carry a JSON envelope {error|errorMessage, errorCode}. See errors/tyro-error-codes.yml
+  for the code registry and errors/tyro-decline-codes.yml for gateway/decline codes.
+envelope:
+  fields:
+  - error
+  - errorMessage
+  - errorCode
+  media_type: application/json
+problems:
+- status: 400
+  title: Bad Request - Missing or invalid parameters
+  descriptions:
+  - Bad Request - Missing or invalid parameters
+  - Bad request
+  - The provided payload is malformed or request tries to perform an update of an
+    item of the sale that is not discounts, su
+  - When any mandatory request parameters are missing.
+  - When invalid `payMethodId` format provided.
+  - When the provided merchantId is not valid.
+  content_types:
+  - application/json
+  - application/vnd.tyro.connect+json;version=1.0
+  operation_count: 26
+  example_operations:
+  - answer-pay-terminal-prompt
+  - authorise-embedded-payments-mid-test
+  - authorise-pay-terminal-mid-test
+  - create-booking-request
+  - create-embedded-payments-connection
+  - create-order
+  - create-pay-request
+  - create-pay-terminal-request
+- status: 401
+  title: Invalid access token
+  descriptions:
+  - Invalid access token
+  - Invalid or missing access token
+  - When no valid access token is provided.
+  - When you don't have a valid access token.
+  content_types: []
+  operation_count: 9
+  example_operations:
+  - create-order
+  - deregister-member
+  - deregister-member-card
+  - get-loyalty-activity-by-id
+  - get-loyalty-card-by-id
+  - get-merchant-onboarding-request-by-reference
+  - get-payment-by-id
+  - submit-merchant-onboarding-decision
+- status: 403
+  title: Forbidden - When you don't have the required permissions to query the provided
+    location
+  descriptions:
+  - Forbidden - When you don't have the required permissions to query the provided
+    location
+  - Insufficient permissions to create an order
+  - Insufficient permissions to edit an order's status
+  - Insufficient permissions to view an order
+  - When a valid token is provided but it has no permissions to execute the request.
+  - When you don't have the required permissions to get menu for the given location
+  content_types:
+  - application/json
+  operation_count: 44
+  example_operations:
+  - answer-pay-terminal-prompt
+  - authorise-embedded-payments-mid-test
+  - authorise-pay-terminal-mid-test
+  - cancel-pay-terminal-request
+  - create-booking-request
+  - create-embedded-payments-connection
+  - create-order
+  - create-pay-request
+- status: 404
+  title: Order id not found
+  descriptions:
+  - Order id not found
+  - When a member with the provided member id could not be found.
+  - When invalid `payMethodId`,`partnerId` combination provided.
+  - When the POS associated with the location has not Menu API enabled and we were
+    unable to find a local version of their m
+  - When the partnerId or partnerChannelAgreementId does not exist.
+  - When the provided `Id` does not exist.
+  content_types:
+  - application/json
+  - application/vnd.tyro.connect+json;version=1.0
+  operation_count: 35
+  example_operations:
+  - authorise-embedded-payments-mid-test
+  - authorise-pay-terminal-mid-test
+  - create-embedded-payments-connection
+  - create-pay-terminal-request
+  - create-referral-request
+  - create-test-payment
+  - delete-pay-method
+  - delete-table
+- status: 409
+  title: Conflict when updating order status
+  descriptions:
+  - Conflict when updating order status
+  - When a decision has already been submitted for this onboarding request.
+  - When an eixsting request for menu sync is still in progress
+  content_types:
+  - application/json
+  operation_count: 4
+  example_operations:
+  - fetch-latest-menu
+  - request-latest-menu
+  - submit-merchant-onboarding-decision
+  - update-order
+- status: 412
+  title: 'The provided version is outdated. This indicates that another process has
+    made updates to the same Sale. Get the latest '
+  descriptions:
+  - 'The provided version is outdated. This indicates that another process has made
+    updates to the same Sale. Get the latest '
+  - When the terminal is not paired.
+  content_types:
+  - application/json
+  operation_count: 4
+  example_operations:
+  - answer-pay-terminal-prompt
+  - cancel-pay-terminal-request
+  - create-pay-terminal-request
+  - update-sale-1.1
+- status: 422
+  title: The request was well-formed but business validation failed.
+  descriptions:
+  - The request was well-formed but business validation failed.
+  - When the provided `loyaltyProgramId` is not recognised.
+  content_types:
+  - application/json
+  operation_count: 2
+  example_operations:
+  - search-and-refund
+  - submit-merchant-onboarding-decision
+- status: 500
+  title: Internal server error
+  descriptions:
+  - Internal server error
+  content_types: []
+  operation_count: 1
+  example_operations:
+  - update-order

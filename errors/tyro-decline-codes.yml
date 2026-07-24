@@ -1,0 +1,32 @@
+generated: '2026-07-24'
+method: searched
+source: https://docs.connect.tyro.com/app/apis/pay/errors
+scope: Gateway Response Errors (card authorisation / decline outcomes) for the Tyro Connect Pay API and Tyro.js / TyroSDK
+envelope:
+  media_type: application/json
+  fields: [errorMessage, errorCode]
+  example: '{"errorMessage": "Insufficient funds", "errorCode": "INSUFFICIENT_FUNDS"}'
+note: >-
+  These gateway response codes indicate the outcome of a card authorisation. The list can change over time
+  (per Tyro docs). Complements errors/tyro-error-codes.yml (API/validation errors) and errors/tyro-problem-types.yml
+  (HTTP status classes derived from the OpenAPI).
+decline_codes:
+- {code: ABORTED, meaning: Transaction aborted by payer, action: retry-or-abandon}
+- {code: AUTHENTICATION_FAILED, meaning: Payer authentication failed, action: retry-with-3ds}
+- {code: BALANCE_AVAILABLE, meaning: A balance amount is available for the card, action: informational}
+- {code: BLOCKED, meaning: Transaction blocked due to Risk or 3D Secure blocking rules, action: do-not-retry}
+- {code: DECLINED, meaning: Declined by issuer or payer authentication unsuccessful, action: use-another-card}
+- {code: DECLINED_AVS_CSC, meaning: Declined due to address verification or card security code, action: correct-avs-csc}
+- {code: DECLINED_PIN, meaning: Declined due to invalid PIN, action: re-enter-pin}
+- {code: DECLINED_PAYMENT_PLAN, meaning: Declined due to payment plan, action: use-another-card}
+- {code: EXCEEDED_RETRY_LIMIT, meaning: Transaction retry limit exceeded, action: do-not-retry}
+- {code: EXPIRED_CARD, meaning: Expired card, action: use-another-card}
+- {code: INSUFFICIENT_FUNDS, meaning: Insufficient funds, action: use-another-card}
+- {code: NOT_ENROLLED_3D_SECURE, meaning: Card holder is not enrolled in 3D Secure, action: proceed-without-3ds-if-permitted}
+- {code: NO_BALANCE, meaning: A balance amount is not available for the card, action: use-another-card}
+- {code: PENDING, meaning: Transaction is pending, action: poll-for-result}
+- {code: SYSTEM_ERROR, meaning: Internal system error processing the transaction, action: retry-later}
+- {code: UNKNOWN, meaning: Submitted to acquirer but gateway could not confirm success, action: reconcile-then-retry}
+- {code: GATEWAY_ERROR, meaning: Gateway returned an unexpected error, action: retry}
+- {code: SANDBOX_TEST_CARDS_ONLY, meaning: Only Tyro test cards can be used in the sandbox environment, action: use-test-card}
+masked_to_buyer: []

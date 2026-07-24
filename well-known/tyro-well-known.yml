@@ -1,0 +1,37 @@
+generated: '2026-07-24'
+method: searched
+source: live probes of /.well-known/ across Tyro hosts (api.tyro.com, www.tyro.com, auth.connect.tyro.com)
+hosts:
+- host: https://auth.connect.tyro.com
+  documents:
+  - path: /.well-known/openid-configuration
+    status: 200
+    file: tyro-openid-configuration.json
+  - path: /.well-known/oauth-authorization-server
+    status: 200
+    file: tyro-oauth-authorization-server.json
+  - path: /.well-known/jwks.json
+    status: 200
+    note: JSON Web Key Set (not saved verbatim; rotating keys)
+- host: https://api.tyro.com
+  documents:
+  - path: /.well-known/security.txt
+    status: 403
+  - path: /.well-known/oauth-authorization-server
+    status: 403
+  - path: /openapi.json
+    status: 403
+- host: https://www.tyro.com
+  documents:
+  - path: /.well-known/security.txt
+    status: 200
+    note: returns an Incapsula/WAF HTML shell, not a valid RFC 9116 security.txt (no Policy/Contact)
+oidc:
+  issuer: https://auth.connect.tyro.com/
+  authorization_endpoint: https://auth.connect.tyro.com/authorize
+  token_endpoint: https://auth.connect.tyro.com/oauth/token
+  jwks_uri: https://auth.connect.tyro.com/.well-known/jwks.json
+  grant_types_supported: [client_credentials, authorization_code, refresh_token, 'urn:ietf:params:oauth:grant-type:token-exchange', 'urn:ietf:params:oauth:grant-type:device_code']
+  id_token_signing_alg_values_supported: [HS256, RS256, PS256]
+  identity_provider: Auth0
+  note: Tyro Connect partner APIs authenticate via the OAuth 2.0 client_credentials grant against this Auth0-backed authorisation server.

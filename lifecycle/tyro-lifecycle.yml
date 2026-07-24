@@ -1,0 +1,35 @@
+generated: '2026-07-24'
+method: searched
+source:
+- https://status.tyro.com/
+- https://docs.connect.tyro.com/app/apis/pay/changelog
+- openapi/*.yml
+versioning:
+  scheme: uri-path
+  detail: Each Tyro Connect API is independently versioned in its path (e.g. pay 0.9, embedded-payments 1.0, sales 1.1, booking 1.0). The version also appears as info.version in each OpenAPI.
+  current:
+  - {api: pay, version: '0.9'}
+  - {api: pay-terminal, version: '0.9'}
+  - {api: embedded-payments, version: '1.0'}
+  - {api: booking, version: '1.0'}
+  - {api: ordering, version: '1.0'}
+  - {api: menu-management, version: '1.0'}
+  - {api: tables, version: '1.0'}
+  - {api: sales, version: '1.1'}
+  - {api: reporting, version: '1.0'}
+  - {api: loyalty, version: '0.9'}
+  - {api: refunds, version: '1.0'}
+  - {api: locations, version: '1.0'}
+  - {api: referrals, version: '1.0'}
+deprecation:
+  policy_url: null
+  sunset_header: false
+  note: No formal RFC 8594 Sunset/Deprecation header policy is published; version transitions are communicated via per-API changelogs.
+status_page: https://status.tyro.com/
+sla:
+  url: null
+  note: No public uptime SLA published on the developer site; Tyro operates status.tyro.com for incident communication.
+certification:
+  url: https://docs.connect.tyro.com/certification
+  note: Partners must pass a Technical Review certification per API/SDK before going live.
+deprecated_operations: []

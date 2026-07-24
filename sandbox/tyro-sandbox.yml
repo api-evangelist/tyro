@@ -1,0 +1,35 @@
+generated: '2026-07-24'
+method: searched
+source:
+- https://docs.connect.tyro.com/app/apis/pay/testing
+- https://docs.connect.tyro.com/pos/embedded-payments/sandbox-testing
+- https://docs.connect.tyro.com/certification
+onboarding: Obtain sandbox credentials (client_id/client_secret) and a merchant ID by contacting Tyro; partners pass a Certification (Technical Review) before going live.
+test_vs_live:
+  mode_flag: liveMode
+  detail: >-
+    Tyro.js is instantiated with liveMode=false (the default) to hit the sandbox; the Pay API models the
+    same via isLive=false on a pay request. Real card numbers are rejected in sandbox mode
+    (error PAY_REQUEST_TEST_CARDS_ONLY / SANDBOX_TEST_CARDS_ONLY). Embedded Payments (Tap to Pay) sandbox
+    accepts any card and transactions are not charged.
+test_cards:
+- {scenario: Success Visa, number: '4111111111111111', cvc: any-digits, expiry: any-future-date}
+- {scenario: Success Mastercard, number: '5100000000000008', cvc: any-digits, expiry: any-future-date}
+- {scenario: Declined, number: '4111111111111103', cvc: any-digits, expiry: any-future-date}
+- {scenario: Expired Card, number: '4111111111111004', cvc: any-digits, expiry: any-future-date}
+- {scenario: Gateway Time Out, number: '4111111111111202', cvc: any-digits, expiry: any-future-date}
+- {scenario: 3D Secure Challenge, number: '4111111111112002', cvc: any-digits, expiry: any-future-date, notes: 'Challenge code is 123456'}
+- {scenario: 3D Secure Frictionless Pass, number: '4111111111112010', cvc: any-digits, expiry: any-future-date}
+- {scenario: 3D Secure Frictionless Fail, number: '4111111111112028', cvc: any-digits, expiry: any-future-date}
+embedded_payments_sandbox:
+  supported_operations:
+  - list-embedded-payments-locations
+  - create-reader
+  - create-embedded-payments-connection
+  - authorise-embedded-payments-mid-test
+  notes:
+  - Reader creation is restricted; the Reader returned is preconfigured by Tyro (webhook may fire multiple times).
+  - Only the TAPTOPAY_READER_CREATED and Merchant ID Authorisation webhook events are emitted on sandbox.
+  - Fetching transactions (get-embedded-payments-transaction) is not supported on sandbox.
+  - Any card can be used to test Tap to Pay transactions from the device; nothing is charged.
+demo: https://docs.connect.tyro.com/app/apis/pay/demo/try-it-out

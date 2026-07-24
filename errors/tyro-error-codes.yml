@@ -1,0 +1,87 @@
+generated: '2026-07-24'
+method: searched
+source: https://docs.connect.tyro.com/app/apis/pay/errors
+format: custom
+envelope:
+  media_type: application/json
+  fields: [error, errorCode, errorMessage, errorType]
+  examples:
+  - '{"error": "Pay request not found", "errorCode": "PAY_REQUEST_NOT_FOUND"}'
+  - '{"errorType": "CLIENT_INITIALISATION_ERROR", "errorCode": "PAYSHEET_INIT_FAILED"}'
+note: The Tyro Connect Pay API and Tyro.js/TyroSDK expose a code registry grouped by domain. Gateway/decline outcomes live in errors/tyro-decline-codes.yml.
+groups:
+- name: Common
+  codes:
+  - {code: CARD_ERROR, description: Issue with the card provided}
+  - {code: SERVER_ERROR, description: Server-side error; should rarely happen and resolve quickly}
+- name: Tyro.js
+  codes:
+  - {code: CLIENT_VALIDATION_ERROR, description: Client validation error in the request}
+  - {code: SERVER_VALIDATION_ERROR, description: Server validation error in the request}
+- name: Pay Request
+  codes:
+  - {code: PAY_REQUEST_NOT_FOUND, description: Pay request not found}
+  - {code: PAY_REQUEST_MISSING_ORDER, description: Pay request does not have an order}
+  - {code: PAY_REQUEST_ALREADY_CAPTURED, description: Pay request has already been captured}
+  - {code: PAY_REQUEST_ALREADY_VOIDED, description: Pay request has already been voided}
+  - {code: PAY_REQUEST_MUST_BE_AUTHORIZED, description: Pay request must be AUTHORIZED}
+  - {code: PAY_REQUEST_MUST_BE_AWAITING, description: Can only update total when status is AWAITING_PAYMENT_INPUT}
+  - {code: PAY_REQUEST_MISSING_AUTHORIZATION, description: Pay request does not have an AUTHORIZATION transaction}
+  - {code: PAY_REQUEST_CAPTURE_AMOUNT_EXCEEDED, description: Requested capture amount exceeds authorised amount}
+  - {code: PAY_REQUEST_METHOD_INVALID, description: payMethod combo invalid (id/customerId/save rules)}
+  - {code: PAY_REQUEST_CARD_TYPE_NOT_SUPPORTED, description: Card type/brand/network not supported}
+  - {code: PAY_REQUEST_CARD_EXPIRED, description: Card expired}
+  - {code: PAY_REQUEST_CARD_NUMBER_INVALID, description: Invalid card number}
+  - {code: PAY_REQUEST_TEST_CARDS_ONLY, description: Request is isLive=false; only test card numbers supported}
+  - {code: PAY_REQUEST_ACTION_INVALID, description: action must be SUBMIT with payMethod.id and customerId}
+  - {code: PAY_REQUEST_SECRET_REQUIRED, description: Pay-Secret header required}
+  - {code: PAY_REQUEST_SECRET_INVALID, description: Invalid Pay-Secret provided}
+  - {code: PAY_REQUEST_SECRET_EXPIRED, description: Pay Secret is expired}
+  - {code: PAY_REQUEST_GATEWAY_UNSUPPORTED, description: Payment gateway not supported}
+  - {code: PAY_REQUEST_PARTNER_NOT_CONFIGURED, description: Partner config missing}
+  - {code: PAY_REQUEST_MERCHANT_MAPPING_NOT_CONFIGURED, description: Merchant Id mapping not found for locationId}
+  - {code: PAY_REQUEST_INVALID_STATUS, description: Cannot re-process in current status}
+  - {code: PAY_REQUEST_UPDATE_AUTHORISATION_NOT_SUPPORTED, description: Authorisation update not supported for this request}
+  - {code: PAY_REQUEST_UPDATE_AUTHORISATION_EXCEEDS_MAX_UPDATES, description: Max number of authorisation updates reached}
+  - {code: PAY_REQUEST_UPDATE_AUTHORISATION_AMOUNT_INVALID, description: Updated amount must exceed original authorised amount}
+  - {code: PAY_REQUEST_UPDATE_AUTHORISATION_FAILED, description: Update failed; original authorisation preserved}
+- name: Pay Method
+  codes:
+  - {code: PAY_METHOD_NOT_FOUND, description: Pay Method(s) not found for customerId}
+  - {code: PAY_METHOD_PARTNER_INVALID, description: Invalid partner/pay method Id combination}
+  - {code: PAY_METHOD_CUSTOMER_PARTNER_INVALID, description: Customer does not belong to given partner}
+  - {code: PAY_METHOD_CUSTOMER_NOT_FOUND, description: Invalid customer}
+- name: Pay Refund
+  codes:
+  - {code: PAY_REFUND_NOT_FOUND, description: Refund request not found}
+  - {code: PAY_REFUND_ALREADY_REFUNDED, description: Full amount already refunded}
+  - {code: PAY_REFUND_EXCEEDS_REFUNDABLE, description: Requested refund exceeds refundable amount}
+  - {code: PAY_REFUND_REQUEST_NOT_CAPTURED, description: Pay request must be captured before refund}
+- name: 3D Secure
+  codes:
+  - {code: THREED_SECURE_MERCHANT_NOT_FOUND, description: No matching merchant token for merchantId}
+  - {code: THREED_SECURE_PAY_REQUEST_NOT_FOUND, description: No Pay Request for 3ds transaction id}
+  - {code: THREED_SECURE_CARD_NOT_SUPPORTED, description: Card does not support 3ds}
+  - {code: THREED_SECURE_FAILED, description: 3ds authentication failed for pay request}
+  - {code: THREED_SECURE_NOT_FOUND, description: No 3ds transaction id for Pay Request}
+  - {code: THREED_SECURE_PAY_METHOD_NOT_FOUND, description: No payment method details for Pay Request}
+  - {code: THREED_SECURE_CURRENCY_INVALID, description: Invalid currency on Pay Request}
+- name: TyroSDK
+  codes:
+  - {code: ENVIRONMENT_MISMATCH, description: TyroProvider liveMode mismatch}
+  - {code: WALLET_INIT_FAILED, description: Failed to initialise Apple Pay/Google Pay wallet}
+  - {code: NOT_INITIALISED, description: TyroProvider is not initialised}
+  - {code: MISSING_MERCHANT_CONFIG, description: Missing Google and/or Apple Pay merchant details}
+  - {code: NO_PAY_SECRET, description: Pay secret not passed to the pay sheet}
+  - {code: INVALID_CARD_TYPE, description: Card type not supported}
+  - {code: INVALID_CARD_DETAILS, description: Card details provided are invalid}
+  - {code: TIMEOUT, description: Polling for pay request result timed out}
+  - {code: UNKNOWN_ERROR, description: Unknown error occurred}
+  - {code: FAILED_TO_SUBMIT, description: Failed to submit payment (network or http error)}
+error_types:
+- {type: CARD_ERROR, description: Issue with the card provided}
+- {type: SERVER_ERROR, description: Server-side error}
+- {type: CLIENT_VALIDATION_ERROR, description: Client validation error (Tyro.js)}
+- {type: SERVER_VALIDATION_ERROR, description: Server validation error (Tyro.js)}
+- {type: CLIENT_INITIALISATION_ERROR, description: TyroSDK client failed to initialise}
+- {type: PAY_REQUEST_ERROR, description: Pay request validation problem or payment failure (TyroSDK)}

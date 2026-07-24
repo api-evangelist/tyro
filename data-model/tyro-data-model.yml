@@ -1,0 +1,228 @@
+generated: '2026-07-24'
+method: derived
+source: derived from openapi/*.yml components.schemas + resource paths; id-prefixes
+  from object references
+note: Entity-relationship graph across the Tyro Connect API family. Identifiers are
+  UUIDs assigned by Tyro unless noted.
+entity_count: 76
+entities:
+- acceptHeaderBooking1_0
+- address
+- api-spec
+- arrivalStatus
+- assetUpdate
+- bad-request-single-error-response
+- bad-request-validation-errors-response
+- booking
+- bookingReference
+- bookingStatus
+- create-connection-response
+- create-test-payment
+- customer
+- deregister-member-card-request
+- deregister-member-request
+- embedded-payments-transaction-response
+- existing-order
+- get-order
+- heartbeat-response
+- item
+- line-item
+- list-refunds-response
+- location
+- loyalty-activity
+- loyalty-card
+- menu
+- merchant
+- merchant-object
+- merchant-onboarding-decision-request
+- merchant-onboarding-request-response
+- modifier-group
+- money
+- money-positive
+- money-positive-aud
+- money-positive-aud-with-description
+- money-positive-with-description
+- new-booking-request
+- new-order
+- new-pay-request
+- new-refund-request
+- new-table-request
+- numberOfPeople
+- online-status-spec
+- order-item
+- order-update-status-conflict
+- origin
+- pay-method
+- pay-methods-response
+- pay-request-response
+- pay-terminal-total
+- payment
+- payment-with-description
+- payments
+- reader-object
+- reason
+- refund-request-response
+- register-member-request
+- reporting-settlements-response
+- reporting-transactions-response
+- room
+- roomAsset
+- sale
+- section
+- settlement
+- settlement-details
+- table
+- tableAsset
+- tableStatus
+- time
+- time-slot
+- transaction
+- transaction-result
+- update-booking-request
+- update-pay-request
+- update-table-request
+- vendor-spec
+core_entities:
+- name: merchant
+  id: merchantId (mid)
+  apis:
+  - reporting
+  - embedded-payments
+  - pay-terminal
+  - locations
+- name: location
+  id: locationId (Tyro Connect location identifier)
+  apis:
+  - locations
+  - ordering
+  - pay
+  - menu
+  - tables
+- name: pay-request
+  id: payRequestId
+  apis:
+  - pay
+  states:
+  - AWAITING_PAYMENT_INPUT
+  - AUTHORIZED
+  - CAPTURED
+  - VOIDED
+- name: pay-method
+  id: payMethodId
+  apis:
+  - pay
+  note: tokenised saved card, keyed by customerId
+- name: refund
+  id: refundId
+  apis:
+  - pay
+  - refunds
+- name: order
+  id: orderId
+  apis:
+  - ordering
+- name: booking
+  id: bookingId
+  apis:
+  - booking
+- name: table
+  id: tableId
+  apis:
+  - tables
+- name: menu
+  id: menuId
+  apis:
+  - menu-management
+- name: sale
+  id: saleId
+  apis:
+  - sales
+- name: settlement
+  id: settlementBatch
+  apis:
+  - reporting
+- name: transaction
+  id: transactionId
+  apis:
+  - reporting
+  - embedded-payments
+- name: loyalty-card
+  id: loyaltyCardId
+  apis:
+  - loyalty
+- name: loyalty-activity
+  id: loyaltyActivityId
+  apis:
+  - loyalty
+- name: reader
+  id: readerId
+  apis:
+  - embedded-payments
+  note: Tap to Pay device
+- name: connection
+  id: connectionId
+  apis:
+  - embedded-payments
+- name: referral
+  id: referralId
+  apis:
+  - referrals
+relationships:
+- from: pay-request
+  to: pay-method
+  type: has_one
+  via: payMethod
+  note: saved token or ad-hoc card
+- from: pay-request
+  to: refund
+  type: has_many
+  via: payRequestId
+- from: pay-request
+  to: order
+  type: has_one
+  via: order
+  note: optional linked order
+- from: pay-method
+  to: customer
+  type: belongs_to
+  via: customerId
+- from: order
+  to: location
+  type: belongs_to
+  via: locationId
+- from: booking
+  to: table
+  type: has_many
+  via: tableId
+- from: booking
+  to: location
+  type: belongs_to
+  via: locationId
+- from: sale
+  to: location
+  type: belongs_to
+  via: locationId
+- from: settlement
+  to: merchant
+  type: belongs_to
+  via: mid
+- from: transaction
+  to: merchant
+  type: belongs_to
+  via: mid
+- from: reader
+  to: merchant
+  type: belongs_to
+  via: merchantId
+- from: connection
+  to: reader
+  type: has_one
+  via: readerId
+- from: loyalty-activity
+  to: loyalty-card
+  type: belongs_to
+  via: loyaltyCardId
+- from: menu
+  to: location
+  type: belongs_to
+  via: locationId

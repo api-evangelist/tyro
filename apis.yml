@@ -60,6 +60,8 @@ apis:
     url: https://docs.connect.tyro.com/app/apis/pay/0.9
   - type: Authentication
     url: https://docs.connect.tyro.com/app/authentication
+  - type: Overlay
+    url: overlays/tyro-connect-pay-overlay.yaml
 - aid: tyro:tyro-pos-pay-terminal-api
   name: Tyro Pay Terminal API
   description: Cloud API that lets a Point of Sale send payment and refund requests to Tyro EFTPOS terminals
@@ -82,6 +84,8 @@ apis:
     url: https://docs.connect.tyro.com/pos/apis/pay-terminal/0.9
   - type: Authentication
     url: https://docs.connect.tyro.com/app/authentication
+  - type: Overlay
+    url: overlays/tyro-pos-pay-terminal-overlay.yaml
 - aid: tyro:tyro-pos-embedded-payments-api
   name: Tyro Embedded Payments API
   description: Backend API supporting Tyro's Tap to Pay on iPhone and Android SDKs (SoftPOS), letting
@@ -104,6 +108,8 @@ apis:
     url: https://docs.connect.tyro.com/pos/apis/embedded-payments/1.0
   - type: Authentication
     url: https://docs.connect.tyro.com/app/authentication
+  - type: Overlay
+    url: overlays/tyro-pos-embedded-payments-overlay.yaml
 - aid: tyro:tyro-connect-booking-api
   name: Tyro Connect Booking API
   description: Exchanges booking and reservation information between reservation apps and Point of Sale
@@ -126,6 +132,8 @@ apis:
     url: https://docs.connect.tyro.com/app/apis/booking/1.0
   - type: Authentication
     url: https://docs.connect.tyro.com/app/authentication
+  - type: Overlay
+    url: overlays/tyro-connect-booking-overlay.yaml
 - aid: tyro:tyro-connect-ordering-api
   name: Tyro Connect Ordering API
   description: Sends food and retail orders from app partners into merchant Point of Sale systems across
@@ -147,6 +155,8 @@ apis:
     url: https://docs.connect.tyro.com/app/apis/ordering/1.0
   - type: Authentication
     url: https://docs.connect.tyro.com/app/authentication
+  - type: Overlay
+    url: overlays/tyro-connect-ordering-overlay.yaml
 - aid: tyro:tyro-connect-menu-api
   name: Tyro Connect Menu API
   description: Synchronises published menu and catalogue data from merchant Point of Sale systems to app
@@ -169,6 +179,8 @@ apis:
     url: https://docs.connect.tyro.com/app/apis/menu-management/1.0
   - type: Authentication
     url: https://docs.connect.tyro.com/app/authentication
+  - type: Overlay
+    url: overlays/tyro-connect-menu-overlay.yaml
 - aid: tyro:tyro-connect-tables-api
   name: Tyro Connect Tables Management API
   description: Reads and manages table (floor-plan) information from merchant Point of Sale systems, underpinning
@@ -190,6 +202,8 @@ apis:
     url: https://docs.connect.tyro.com/app/apis/tables/1.0
   - type: Authentication
     url: https://docs.connect.tyro.com/app/authentication
+  - type: Overlay
+    url: overlays/tyro-connect-tables-overlay.yaml
 - aid: tyro:tyro-connect-sales-api
   name: Tyro Connect Sales Data API
   description: Exposes itemised sales transaction data captured from merchant Point of Sale systems, letting
@@ -212,6 +226,8 @@ apis:
     url: https://docs.connect.tyro.com/app/apis/sales/1.1
   - type: Authentication
     url: https://docs.connect.tyro.com/app/authentication
+  - type: Overlay
+    url: overlays/tyro-connect-sales-overlay.yaml
 - aid: tyro:tyro-connect-reporting-api
   name: Tyro Connect Reporting API
   description: Provides merchant settlement and transaction reporting for Tyro-acquired payments, returning
@@ -234,6 +250,8 @@ apis:
     url: https://docs.connect.tyro.com/app/apis/reporting/1.0
   - type: Authentication
     url: https://docs.connect.tyro.com/app/authentication
+  - type: Overlay
+    url: overlays/tyro-connect-reporting-overlay.yaml
 - aid: tyro:tyro-connect-loyalty-api
   name: Tyro Connect Loyalty Data API
   description: Connects loyalty and rewards providers to Tyro merchants, managing loyalty members, activities
@@ -256,6 +274,8 @@ apis:
     url: https://docs.connect.tyro.com/app/apis/loyalty/0.9
   - type: Authentication
     url: https://docs.connect.tyro.com/app/authentication
+  - type: Overlay
+    url: overlays/tyro-connect-loyalty-overlay.yaml
 - aid: tyro:tyro-connect-refunds-api
   name: Tyro Connect Refunds API
   description: Searches prior Tyro transactions and issues refunds against them, giving app and POS partners
@@ -277,6 +297,8 @@ apis:
     url: https://docs.connect.tyro.com/app/apis/refunds/1.0
   - type: Authentication
     url: https://docs.connect.tyro.com/app/authentication
+  - type: Overlay
+    url: overlays/tyro-connect-refunds-overlay.yaml
 - aid: tyro:tyro-connect-locations-api
   name: Tyro Connect Location API
   description: Returns merchant location details keyed by Tyro Connect location identifier, used by partners
@@ -298,6 +320,8 @@ apis:
     url: https://docs.connect.tyro.com/app/apis/locations/1.0
   - type: Authentication
     url: https://docs.connect.tyro.com/app/authentication
+  - type: Overlay
+    url: overlays/tyro-connect-locations-overlay.yaml
 - aid: tyro:tyro-connect-referrals-api
   name: Tyro Connect Referrals API
   description: Lets partners submit and track merchant referrals into Tyro, supporting partner-driven
@@ -319,7 +343,15 @@ apis:
     url: https://docs.connect.tyro.com/app/apis/referrals/1.0
   - type: Authentication
     url: https://docs.connect.tyro.com/app/authentication
+  - type: Overlay
+    url: overlays/tyro-connect-referrals-overlay.yaml
 common:
+- type: AgenticAccess
+  url: agentic-access/tyro-agentic-access.yml
+- type: DomainSecurity
+  url: security/tyro-domain-security.yml
+- type: Authentication
+  url: authentication/tyro-authentication.yml
 - type: Website
   url: https://www.tyro.com/
 - type: DeveloperPortal
@@ -350,6 +382,36 @@ common:
   url: https://www.tyro.com/privacy-policy/
 - type: Security
   url: https://www.tyro.com/security/
+- type: OpenIDConnect
+  url: well-known/tyro-openid-configuration.json
+- type: WellKnown
+  url: well-known/tyro-well-known.yml
+- type: Conventions
+  url: conventions/tyro-conventions.yml
+- type: ErrorCatalog
+  url: errors/tyro-error-codes.yml
+- type: DeclineCodes
+  url: errors/tyro-decline-codes.yml
+- type: Sandbox
+  url: sandbox/tyro-sandbox.yml
+- type: Lifecycle
+  url: lifecycle/tyro-lifecycle.yml
+- type: ChangeLog
+  url: changelog/tyro-changelog.yml
+- type: Components
+  url: components/tyro-components.yml
+- type: DataModel
+  url: data-model/tyro-data-model.yml
+- type: Conformance
+  url: conformance/tyro-conformance.yml
+- type: Webhooks
+  url: asyncapi/tyro-webhooks.yml
+- type: MCPServer
+  url: mcp/tyro-mcp.yml
+- type: AgentSkill
+  url: skills/_index.yml
+- type: LLMsTxt
+  url: llms/tyro-llms.txt
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com

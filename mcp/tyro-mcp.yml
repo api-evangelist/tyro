@@ -1,0 +1,302 @@
+generated: '2026-07-24'
+method: derived
+status: candidate
+source: derived from Tyro Connect OpenAPI operations (no official hosted MCP server
+  found)
+server:
+  name: tyro-connect
+  transport: http
+  url: null
+  note: Candidate only. Tyro Connect publishes REST APIs (OAuth2 client_credentials,
+    JWT bearer). No first-party MCP server was found; these tools map 1:1 to OpenAPI
+    operations for a future MCP wrapper.
+auth:
+  type: oauth2
+  flow: client_credentials
+  token_endpoint: https://auth.connect.tyro.com/oauth/token
+tools:
+- name: create_booking_request
+  description: Create Booking
+  source_operation: openapi/tyro-connect-booking.yml#create-booking-request
+  method: POST
+  path: /bookings
+- name: get_booking
+  description: Get Booking
+  source_operation: openapi/tyro-connect-booking.yml#get-booking
+  method: GET
+  path: /bookings/{bookingId}
+- name: patch_booking
+  description: Update Booking
+  source_operation: openapi/tyro-connect-booking.yml#patch-booking
+  method: PATCH
+  path: /bookings/{bookingId}
+- name: get_online_status
+  description: Get Online/Offline status
+  source_operation: openapi/tyro-connect-locations.yml#get-online-status
+  method: GET
+  path: /locations/{tcLocationId}
+- name: get_payment_by_id
+  description: Register member for loyalty
+  source_operation: openapi/tyro-connect-loyalty.yml#get-payment-by-id
+  method: POST
+  path: /loyalty/members
+- name: deregister_member
+  description: Deregister a member for loyalty.
+  source_operation: openapi/tyro-connect-loyalty.yml#deregister-member
+  method: DELETE
+  path: /loyalty/members
+- name: get_loyalty_activity_by_id
+  description: Get loyalty activity by Id
+  source_operation: openapi/tyro-connect-loyalty.yml#get-loyalty-activity-by-id
+  method: GET
+  path: /loyalty/activities/{loyaltyActivityId}
+- name: get_loyalty_card_by_id
+  description: Get registered card by Id
+  source_operation: openapi/tyro-connect-loyalty.yml#get-loyalty-card-by-id
+  method: GET
+  path: /loyalty/registered-cards/{registeredCardId}
+- name: deregister_member_card
+  description: Delete registered card by Id
+  source_operation: openapi/tyro-connect-loyalty.yml#deregister-member-card
+  method: DELETE
+  path: /loyalty/registered-cards/{registeredCardId}
+- name: get_merchant_onboarding_request_by_reference
+  description: Get merchant onboarding request by reference
+  source_operation: openapi/tyro-connect-loyalty.yml#get-merchant-onboarding-request-by-reference
+  method: GET
+  path: /locations/merchant-onboarding/loyalty/{onboardingReference}
+- name: submit_merchant_onboarding_decision
+  description: Submit a decision for a merchant onboarding request
+  source_operation: openapi/tyro-connect-loyalty.yml#submit-merchant-onboarding-decision
+  method: POST
+  path: /locations/merchant-onboarding/loyalty/{onboardingReference}
+- name: create_test_payment
+  description: Create a test payment
+  source_operation: openapi/tyro-connect-loyalty.yml#create-test-payment
+  method: POST
+  path: /payments/test
+- name: request_latest_menu
+  description: Request latest menu
+  source_operation: openapi/tyro-connect-menu.yml#request-latest-menu
+  method: GET
+  path: /menus/{tcLocationId}/app/sync
+- name: fetch_latest_menu
+  description: Fetch Latest Menu
+  source_operation: openapi/tyro-connect-menu.yml#fetch-latest-menu
+  method: GET
+  path: /menus/{tcLocationId}/app/published
+- name: create_order
+  description: New Order
+  source_operation: openapi/tyro-connect-ordering.yml#create-order
+  method: POST
+  path: /orders
+- name: get_order
+  description: Get Order
+  source_operation: openapi/tyro-connect-ordering.yml#get-order
+  method: GET
+  path: /orders/{orderId}
+- name: update_order
+  description: Update Order
+  source_operation: openapi/tyro-connect-ordering.yml#update-order
+  method: PATCH
+  path: /orders/{orderId}
+- name: create_pay_request
+  description: Create a Pay Request
+  source_operation: openapi/tyro-connect-pay.yml#create-pay-request
+  method: POST
+  path: /pay/requests
+- name: get_pay_request
+  description: Retrieve a Pay Request
+  source_operation: openapi/tyro-connect-pay.yml#get-pay-request
+  method: GET
+  path: /pay/requests/{payRequestId}
+- name: patch_pay_request
+  description: Update or execute actions on the Pay Request
+  source_operation: openapi/tyro-connect-pay.yml#patch-pay-request
+  method: PATCH
+  path: /pay/requests/{payRequestId}
+- name: list_pay_methods
+  description: List Pay Methods
+  source_operation: openapi/tyro-connect-pay.yml#list-pay-methods
+  method: GET
+  path: /pay/methods
+- name: get_pay_method
+  description: Retrieve a Pay Method
+  source_operation: openapi/tyro-connect-pay.yml#get-pay-method
+  method: GET
+  path: /pay/methods/{payMethodId}
+- name: delete_pay_method
+  description: Delete a Pay Method
+  source_operation: openapi/tyro-connect-pay.yml#delete-pay-method
+  method: DELETE
+  path: /pay/methods/{payMethodId}
+- name: create_refund_request
+  description: Create a Refund Request
+  source_operation: openapi/tyro-connect-pay.yml#create-refund-request
+  method: POST
+  path: /pay/refunds
+- name: list_all_refunds
+  description: List all Refunds
+  source_operation: openapi/tyro-connect-pay.yml#list-all-refunds
+  method: GET
+  path: /pay/refunds
+- name: get_refund_request
+  description: Retrieve a Refund Request
+  source_operation: openapi/tyro-connect-pay.yml#get-refund-request
+  method: GET
+  path: /pay/refunds/{refundRequestId}
+- name: create_referral_request
+  description: Create Referral
+  source_operation: openapi/tyro-connect-referrals.yml#create-referral-request
+  method: POST
+  path: /referrals
+- name: get_referral
+  description: Get Referral
+  source_operation: openapi/tyro-connect-referrals.yml#get-referral
+  method: GET
+  path: /referrals/{referralId}
+- name: search_and_refund
+  description: Create a Refund
+  source_operation: openapi/tyro-connect-refunds.yml#search-and-refund
+  method: POST
+  path: /refunds/search-and-refund
+- name: get_reporting_settlements
+  description: Get Settlements for a Merchant
+  source_operation: openapi/tyro-connect-reporting.yml#get-reporting-settlements
+  method: GET
+  path: /reporting/merchants/{mid}/settlements?settlementDate={settlementDate}
+- name: get_reporting_transactions
+  description: Get Transactions for a Merchant
+  source_operation: openapi/tyro-connect-reporting.yml#get-reporting-transactions
+  method: GET
+  path: /reporting/merchants/{mid}/transactions?transactionDate={transactionDate}&limit=100&page=1
+- name: list_sales_1.1
+  description: List Sales
+  source_operation: openapi/tyro-connect-sales.yml#list-sales-1.1
+  method: GET
+  path: /sales
+- name: get_sale_1.1
+  description: Get Sales Data by SalesId
+  source_operation: openapi/tyro-connect-sales.yml#get-sale-1.1
+  method: GET
+  path: /sales/{saleId}
+- name: update_sale_1.1
+  description: Update Sale
+  source_operation: openapi/tyro-connect-sales.yml#update-sale-1.1
+  method: PATCH
+  path: /sales/{saleId}
+- name: create_table_request
+  description: Create Table
+  source_operation: openapi/tyro-connect-tables.yml#create-table-request
+  method: POST
+  path: /tables
+- name: list_tables
+  description: List Tables
+  source_operation: openapi/tyro-connect-tables.yml#list-tables
+  method: GET
+  path: /tables
+- name: get_table
+  description: Get Table
+  source_operation: openapi/tyro-connect-tables.yml#get-table
+  method: GET
+  path: /tables/{tableId}
+- name: patch_table
+  description: Update Table
+  source_operation: openapi/tyro-connect-tables.yml#patch-table
+  method: PATCH
+  path: /tables/{tableId}
+- name: delete_table
+  description: Delete Table
+  source_operation: openapi/tyro-connect-tables.yml#delete-table
+  method: DELETE
+  path: /tables/{tableId}
+- name: authorise_embedded_payments_mid_test
+  description: Authorise a Sandbox Merchant Id
+  source_operation: openapi/tyro-pos-embedded-payments.yml#authorise-embedded-payments-mid-test
+  method: POST
+  path: /tap-to-pay/merchants/{merchantId}/authorise/test
+- name: get_embedded_payments_transaction
+  description: Fetch an Embedded Payments transaction
+  source_operation: openapi/tyro-pos-embedded-payments.yml#get-embedded-payments-transaction
+  method: GET
+  path: /tap-to-pay/merchants/{merchantId}/transactions/{transactionId}
+- name: list_embedded_payments_transactions
+  description: List Embedded Payments transactions
+  source_operation: openapi/tyro-pos-embedded-payments.yml#list-embedded-payments-transactions
+  method: GET
+  path: /tap-to-pay/merchants/{merchantId}/transactions
+- name: create_embedded_payments_connection
+  description: Create Embedded Payments connection
+  source_operation: openapi/tyro-pos-embedded-payments.yml#create-embedded-payments-connection
+  method: POST
+  path: /tap-to-pay/connections
+- name: list_embedded_payments_merchants
+  description: Lists merchants
+  source_operation: openapi/tyro-pos-embedded-payments.yml#list-embedded-payments-merchants
+  method: GET
+  path: /tap-to-pay/merchants
+- name: fetch_embedded_payments_merchant
+  description: Fetch a merchant
+  source_operation: openapi/tyro-pos-embedded-payments.yml#fetch-embedded-payments-merchant
+  method: GET
+  path: /tap-to-pay/merchants/{merchantId}
+- name: list_embedded_payments_locations
+  description: List Embedded Payments Locations
+  source_operation: openapi/tyro-pos-embedded-payments.yml#list-embedded-payments-locations
+  method: GET
+  path: /tap-to-pay/merchants/{merchantId}/locations
+- name: list_reader
+  description: List Readers
+  source_operation: openapi/tyro-pos-embedded-payments.yml#list-reader
+  method: GET
+  path: /tap-to-pay/merchants/{merchantId}/readers
+- name: create_reader
+  description: Create a Reader
+  source_operation: openapi/tyro-pos-embedded-payments.yml#create-reader
+  method: POST
+  path: /tap-to-pay/merchants/{merchantId}/readers
+- name: get_reader
+  description: Get a Reader
+  source_operation: openapi/tyro-pos-embedded-payments.yml#get-reader
+  method: GET
+  path: /tap-to-pay/merchants/{merchantId}/readers/{readerId}
+- name: list_pay_terminal_merchants
+  description: Lists merchants
+  source_operation: openapi/tyro-pos-pay-terminal.yml#list-pay-terminal-merchants
+  method: GET
+  path: /pay-terminal/merchants
+- name: fetch_pay_terminal_merchant
+  description: Fetch a merchant
+  source_operation: openapi/tyro-pos-pay-terminal.yml#fetch-pay-terminal-merchant
+  method: GET
+  path: /pay-terminal/merchants/{merchantId}
+- name: authorise_pay_terminal_mid_test
+  description: Authorise a Sandbox Merchant Id
+  source_operation: openapi/tyro-pos-pay-terminal.yml#authorise-pay-terminal-mid-test
+  method: POST
+  path: /pay-terminal/merchants/{merchantId}/authorise/test
+- name: list_pay_terminal_merchants_terminals
+  description: Lists the terminals available to a merchant
+  source_operation: openapi/tyro-pos-pay-terminal.yml#list-pay-terminal-merchants-terminals
+  method: GET
+  path: /pay-terminal/merchants/{merchantId}/terminals
+- name: create_pay_terminal_request
+  description: Create a Pay Request
+  source_operation: openapi/tyro-pos-pay-terminal.yml#create-pay-terminal-request
+  method: POST
+  path: /pay-terminal/requests
+- name: get_pay_terminal_request
+  description: Retrieve a Pay Request
+  source_operation: openapi/tyro-pos-pay-terminal.yml#get-pay-terminal-request
+  method: GET
+  path: /pay-terminal/requests/{payRequestId}
+- name: answer_pay_terminal_prompt
+  description: Answer a Terminal Prompt
+  source_operation: openapi/tyro-pos-pay-terminal.yml#answer-pay-terminal-prompt
+  method: PUT
+  path: /pay-terminal/requests/{payRequestId}
+- name: cancel_pay_terminal_request
+  description: Cancel a Pay Request
+  source_operation: openapi/tyro-pos-pay-terminal.yml#cancel-pay-terminal-request
+  method: DELETE
+  path: /pay-terminal/requests/{payRequestId}

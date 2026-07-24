@@ -1,0 +1,22 @@
+generated: '2026-07-24'
+method: searched
+source:
+- https://docs.connect.tyro.com/app/apis/pay
+- https://docs.connect.tyro.com/pos/embedded-payments
+- https://docs.connect.tyro.com/app/apis/pay/testing
+note: Client-side, embeddable payment-acceptance surfaces (distinct from server-side APIs). No public npm/PyPI package was found; Tyro.js is CDN-delivered and the mobile SDKs are distributed to certified partners by Tyro.
+families:
+- family: Tyro.js
+  kind: web-embeddable-payment-element
+  description: Browser JavaScript library that renders a hosted, PCI-scope-reducing pay sheet / card-entry surface for online payments, driven by a server-created Pay Request and Pay-Secret. Supports Apple Pay and Google Pay wallets and 3-D Secure.
+  init: 'Instantiate with liveMode flag (false = sandbox); provide the Pay Secret from a server-side create-pay-request'
+  backing_api: openapi/tyro-connect-pay.yml
+- family: TyroSDK (React Native)
+  kind: mobile-sdk
+  description: React Native SDK for accepting online card and wallet payments inside iOS/Android apps; wraps the Pay API with a native pay sheet (TyroProvider) and surfaces tyroError.errorType/errorCode.
+  backing_api: openapi/tyro-connect-pay.yml
+- family: Embedded Payments SDK (Tap to Pay / SoftPOS)
+  kind: mobile-sdk
+  description: Android and iOS SDKs turning a certified mobile device into a card-present terminal (Tap to Pay on iPhone, MPoC on Android). Onboards merchants, manages Reader/device connections, and submits card-present transactions and refunds.
+  backing_api: openapi/tyro-pos-embedded-payments.yml
+  certification: https://docs.connect.tyro.com/certification/embedded-payments-sdk

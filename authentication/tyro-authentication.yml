@@ -1,0 +1,36 @@
+generated: '2026-07-24'
+method: searched
+docs: https://docs.connect.tyro.com/app/authentication
+flow: OAuth 2.0 Client Credentials (partner requests client_id/client_secret from Tyro)
+token:
+  type: JWT bearer (Authorization header)
+  token_endpoint: https://auth.connect.tyro.com/oauth/token
+  ttl_hours: 12
+  token_type: Bearer
+  authz_server_rate_limit: max 12 token requests per 11-hour window (cache tokens)
+  identity_provider: Auth0
+special_headers:
+  - Pay-Secret (client-side secret to drive a Pay Request from Tyro.js / hosted pay sheet)
+source: openapi/tyro-connect-booking.yml, openapi/tyro-connect-locations.yml, openapi/tyro-connect-loyalty.yml,
+  openapi/tyro-connect-menu.yml, openapi/tyro-connect-ordering.yml, openapi/tyro-connect-pay.yml,
+  openapi/tyro-connect-reporting.yml, openapi/tyro-connect-sales.yml, openapi/tyro-connect-tables.yml,
+  openapi/tyro-pos-embedded-payments.yml, openapi/tyro-pos-pay-terminal.yml
+summary:
+  types:
+  - openIdConnect
+schemes:
+- name: JWT
+  type: openIdConnect
+  openIdConnectUrl: https://auth.connect.tyro.com/.well-known/openid-configuration
+  sources:
+  - openapi/tyro-connect-booking.yml
+  - openapi/tyro-connect-locations.yml
+  - openapi/tyro-connect-loyalty.yml
+  - openapi/tyro-connect-menu.yml
+  - openapi/tyro-connect-ordering.yml
+  - openapi/tyro-connect-pay.yml
+  - openapi/tyro-connect-reporting.yml
+  - openapi/tyro-connect-sales.yml
+  - openapi/tyro-connect-tables.yml
+  - openapi/tyro-pos-embedded-payments.yml
+  - openapi/tyro-pos-pay-terminal.yml

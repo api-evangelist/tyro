@@ -1,0 +1,28 @@
+generated: '2026-07-24'
+method: searched
+source: https://docs.connect.tyro.com/app/apis/{api}/changelog
+scheme: per-API changelog pages (each Tyro Connect API maintains its own dated/versioned changelog)
+changelog_index:
+- {api: pay, url: https://docs.connect.tyro.com/app/apis/pay/changelog}
+- {api: booking, url: https://docs.connect.tyro.com/app/apis/booking/changelog}
+- {api: ordering, url: https://docs.connect.tyro.com/app/apis/ordering/changelog}
+- {api: menu-management, url: https://docs.connect.tyro.com/app/apis/menu-management/changelog}
+- {api: tables, url: https://docs.connect.tyro.com/app/apis/tables/changelog}
+- {api: sales, url: https://docs.connect.tyro.com/app/apis/sales/changelog}
+- {api: reporting, url: https://docs.connect.tyro.com/app/apis/reporting/changelog}
+- {api: loyalty, url: https://docs.connect.tyro.com/app/apis/loyalty/changelog}
+- {api: refunds, url: https://docs.connect.tyro.com/app/apis/refunds/changelog}
+- {api: locations, url: https://docs.connect.tyro.com/app/apis/locations/changelog}
+entries:
+- api: pay
+  version: 1.0.1
+  breaking: false
+  additions:
+  - Added firstSixDigits and lastFourDigits to transactionResults[].card on the Fetch Pay Request response
+  - Added authorisationCode to transactionResults[].operationResult
+  - Added additionalData object and additionalData.customerIP (customer IP address) to the Pay Request response
+- api: sales
+  version: '1.1'
+  breaking: false
+  highlights:
+  - Version 1.1 changes to the Sales Data API (get-sale-1.1 / list-sales-1.1 / update-sale-1.1 operations)

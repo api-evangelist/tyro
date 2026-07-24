@@ -1,0 +1,41 @@
+generated: '2026-07-24'
+method: searched
+source:
+- https://docs.connect.tyro.com/app/webhooks
+- https://docs.connect.tyro.com/app/apis/{api}/events
+- https://docs.connect.tyro.com/pos/apis/embedded-payments/events
+spec_type: Webhooks
+note: >-
+  Tyro Connect publishes a webhook (event notification) surface but no AsyncAPI document. Registration is a
+  manual process (partner supplies a webhook URL to Tyro). This artifact captures the webhook catalog and
+  delivery/verification contract verbatim from the docs. NEVER fabricated.
+delivery:
+  transport: HTTP POST
+  ack_success: return HTTP 200
+  ack_failure: return HTTP 500 to trigger up to 3 retries
+  guarantees: at-least-once; consumers must de-duplicate (ignore duplicate type+id), tolerate out-of-order and unknown event types
+verification:
+  signature_header: Tyro-Connect-Signature
+  algorithm: HMAC-SHA256 over the raw request body using a pre-shared signing key (per-URL or per-event-type)
+  compare: equality-compare calculated vs header signature
+envelope:
+  fields:
+    type: The type of event being delivered
+    data.id: Unique identifier for the resource
+    data.uri: Full path to the resource
+    data.resource: Name of the API resource relevant to the event
+  example:
+    type: ORDER_CREATED
+    data: {resource: order, id: abcxyz123-2c32-4a0d-a0dd-f766e965235e, uri: https://api.tyro.com/connect/orders/abcxyz123-...}
+events:
+  ordering: [ORDER_CREATED, ORDER_ACCEPTED, ORDER_REJECTED, ORDER_BEING_PREPARED, ORDER_READY, ORDER_OUT_FOR_DELIVERY, ORDER_FULFILLED, ORDER_CANCELLED_BY_CUSTOMER, ORDER_CANCELLED_BY_MERCHANT]
+  booking: [BOOKING_CREATED, BOOKING_UPDATED, BOOKING_SEATED, BOOKING_DINING, BOOKING_CLOSING, BOOKING_FINALISED]
+  pay: [NEW_PAY_REQUEST, PAY_REQUEST_PROCESSING, PAY_REQUEST_SUCCESS, PAY_REQUEST_FAILED, PAY_REQUEST_VOIDED, NEW_PAY_METHOD, NEW_PAY_REFUND]
+  loyalty: [NEW_LOYALTY_ACTIVITY, NEW_REGISTERED_CARD]
+  sales: [NEW_SALE, SALE_UPDATED, SALE_CLOSED, SALE_REOPENED]
+  referrals: [REFERRAL_STATUS_UPDATED]
+  embedded_payments: [TAPTOPAY_READER_CREATED, TAPTOPAY_READER_STATUS_UPDATED, TAPTOPAY_TRANSACTION_SUCCESS, TAPTOPAY_TRANSACTION_FAILED, TAPTOPAY_TRANSACTION_REFUNDED, TAPTOPAY_MERCHANT_ID_ENABLED, TAPTOPAY_MERCHANT_ID_DISABLED]
+websockets:
+  available: true
+  docs: https://docs.connect.tyro.com/pos/notifications/websockets
+  note: POS Cloud connections can also receive notifications over WebSockets as an alternative to webhooks.

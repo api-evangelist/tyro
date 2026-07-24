@@ -1,0 +1,12 @@
+overlay: 1.0.0
+info:
+  title: API Evangelist enhancements for Pay Terminal API
+  version: 1.0.0
+extends: openapi/tyro-pos-pay-terminal.yml
+actions:
+- target: $.info
+  update:
+    x-apievangelist-enriched: '2026-07-24'
+    x-apievangelist-provider: tyro
+    x-apievangelist-auth: OAuth 2.0 Client Credentials (OIDC JWT bearer, 12h TTL)
+    x-apievangelist-webhooks: Tyro-Connect-Signature HMAC-SHA256 (see asyncapi/tyro-webhooks.yml)

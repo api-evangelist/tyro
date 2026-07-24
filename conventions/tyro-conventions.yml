@@ -1,0 +1,46 @@
+generated: '2026-07-24'
+method: searched
+source:
+- https://docs.connect.tyro.com/app/authentication
+- https://docs.connect.tyro.com/pos/authentication/client-credentials
+- https://docs.connect.tyro.com/app/webhooks
+- openapi/*.yml
+authentication:
+  style: OAuth 2.0 Client Credentials
+  token: JWT (JSON Web Token) passed as Bearer in the Authorization header
+  token_endpoint: https://auth.connect.tyro.com/oauth/token
+  token_ttl: 12 hours (expires_in seconds; cache and refresh before expiry)
+  authz_server_rate_limit: Requesting more than 12 tokens within an 11-hour window is rejected by the authorisation server; cache tokens.
+  cross_ref: authentication/tyro-authentication.yml
+idempotency:
+  supported: false
+  note: >-
+    Tyro Connect does not document an Idempotency-Key header. Webhook consumers, however, are required to
+    de-duplicate delivery (ignore duplicate events with the same type+id) and tolerate out-of-order/unknown
+    events. Payment safety is handled via pay-request state (AUTHORIZED/CAPTURED/VOIDED) rather than idempotency keys.
+pagination:
+  style: page-number
+  params: [limit, page]
+  detail: 'Page-numbering is based on limit; e.g. limit=5 returns 5 records per page and page selects the page. Example: /reporting/merchants/{mid}/transactions?transactionDate=...&limit=100&page=1'
+  applies_to: [reporting, sales]
+versioning:
+  scheme: uri-path (per API version, e.g. /pay/0.9, /booking/1.0, /sales/1.1)
+  spec_version_field: info.version in each OpenAPI
+error_envelope:
+  media_type: application/json
+  fields: [error, errorMessage, errorCode, errorType]
+  rfc9457: false
+  cross_ref: [errors/tyro-error-codes.yml, errors/tyro-decline-codes.yml, errors/tyro-problem-types.yml]
+webhooks:
+  transport: HTTP POST
+  signature_header: Tyro-Connect-Signature
+  signature_algorithm: HMAC-SHA256 over the raw request body using a pre-shared signing key
+  ack: return 200 to acknowledge; return 500 to trigger up to 3 retries
+  delivery_guarantees: at-least-once (consumers must de-duplicate and tolerate out-of-order events)
+  cross_ref: asyncapi/tyro-webhooks.yml
+special_headers:
+  - {name: Pay-Secret, purpose: Client-side secret required to drive a Pay Request from Tyro.js / hosted pay sheet}
+  - {name: Authorization, purpose: Bearer JWT}
+rate_limit_signaling:
+  api: Not documented at the resource-API level.
+  auth_server: 12 token requests per 11 hours (see authentication).

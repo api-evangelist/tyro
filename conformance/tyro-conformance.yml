@@ -1,0 +1,34 @@
+generated: '2026-07-24'
+method: searched
+source:
+- https://auth.connect.tyro.com/.well-known/openid-configuration
+- https://docs.connect.tyro.com/app/authentication
+- openapi/*.yml
+standards:
+- id: oauth2
+  conforms: true
+  evidence: OAuth 2.0 client_credentials grant against auth.connect.tyro.com/oauth/token (documented + advertised in OIDC discovery)
+- id: oidc
+  conforms: true
+  evidence: Live OpenID Connect discovery at auth.connect.tyro.com/.well-known/openid-configuration; securitySchemes type openIdConnect in every spec
+- id: jwt-rfc7519
+  conforms: true
+  evidence: Access tokens are JWTs presented as Bearer; id_token_signing_alg RS256/PS256/HS256
+- id: oauth-token-exchange-rfc8693
+  conforms: true
+  evidence: grant_types_supported includes urn:ietf:params:oauth:grant-type:token-exchange
+- id: rfc9457-problem-details
+  conforms: false
+  evidence: Errors use a custom {error/errorMessage, errorCode} envelope, not application/problem+json
+- id: webhook-hmac-signature
+  conforms: true
+  evidence: Tyro-Connect-Signature HMAC-SHA256 over request body (app/webhooks)
+- id: pagination
+  conforms: true
+  evidence: limit + page query parameters on reporting/sales listings
+- id: idempotency
+  conforms: false
+  evidence: No Idempotency-Key header documented; webhook consumers required to de-duplicate instead
+- id: pci-dss
+  conforms: true
+  evidence: Tyro is an ASX-listed licensed Australian merchant acquirer; Tyro.js / hosted pay sheet reduce partner PCI scope, and sandbox enforces test-card-only card handling. (Card-scheme compliance inherent to acquiring; no standalone certification page harvested.)

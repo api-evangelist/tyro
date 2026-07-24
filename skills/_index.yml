@@ -1,0 +1,21 @@
+generated: '2026-07-24'
+method: generated
+source: openapi/*.yml + conventions/tyro-conventions.yml + errors/tyro-error-codes.yml
+note: Packaged Agent Skills for Tyro Connect marquee flows. Every step is grounded in a real operationId verified in the referenced OpenAPI.
+skills:
+- file: tyro-accept-online-payment.md
+  name: Accept an online card payment and refund it
+  api: openapi/tyro-connect-pay.yml
+  operations: [create-pay-request, get-pay-request, patch-pay-request, create-refund-request, get-refund-request]
+- file: tyro-pay-at-terminal.md
+  name: Take an in-store payment on a Tyro EFTPOS terminal
+  api: openapi/tyro-pos-pay-terminal.yml
+  operations: [create-pay-terminal-request, get-pay-terminal-request, cancel-pay-terminal-request, answer-pay-terminal-prompt]
+- file: tyro-tap-to-pay-onboard.md
+  name: Onboard a merchant device for Tap to Pay (Embedded Payments)
+  api: openapi/tyro-pos-embedded-payments.yml
+  operations: [create-reader, create-embedded-payments-connection, list-embedded-payments-locations, get-embedded-payments-transaction]
+- file: tyro-send-order-to-pos.md
+  name: Send an order into a merchant POS and track its lifecycle
+  api: openapi/tyro-connect-ordering.yml
+  operations: [create-order, get-order, update-order]
