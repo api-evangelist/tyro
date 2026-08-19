@@ -36,7 +36,7 @@ tags:
 - Tap to Pay
 created: '2026-07-24'
 modified: '2026-07-24'
-specificationVersion: '0.19'
+specificationVersion: '0.23'
 apis:
 - aid: tyro:tyro-connect-pay-api
   name: Tyro Connect Pay API
