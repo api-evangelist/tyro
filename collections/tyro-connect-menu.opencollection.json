@@ -1,0 +1,60 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Menu API",
+    "version": "1.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Request latest menu",
+        "type": "http"
+      },
+      "http": {
+        "method": "GET",
+        "url": "https://api.tyro.com/connect/menus/:tcLocationId/app/sync",
+        "headers": [
+          {
+            "name": "Authorization",
+            "value": ""
+          }
+        ],
+        "params": [
+          {
+            "name": "tcLocationId",
+            "value": "",
+            "type": "path",
+            "description": "Tyro Connect Location Id for which menu should be retrieved"
+          }
+        ]
+      },
+      "docs": "This endpoint starts the process of generating the latest published menu"
+    },
+    {
+      "info": {
+        "name": "Fetch Latest Menu",
+        "type": "http"
+      },
+      "http": {
+        "method": "GET",
+        "url": "https://api.tyro.com/connect/menus/:tcLocationId/app/published",
+        "headers": [
+          {
+            "name": "Authorization",
+            "value": ""
+          }
+        ],
+        "params": [
+          {
+            "name": "tcLocationId",
+            "value": "",
+            "type": "path",
+            "description": "Tyro Connect Location Id for which menu should be retrieved"
+          }
+        ]
+      },
+      "docs": "Used to fetch the latest published menu"
+    }
+  ],
+  "bundled": true
+}

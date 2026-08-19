@@ -1,0 +1,207 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Pay Terminal API",
+    "version": "0.9"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Merchants",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Lists merchants",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.tyro.com/connect/pay-terminal/merchants",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              }
+            ]
+          },
+          "docs": "This endpoint is used for retrieving a list of merchants that the POS has access to."
+        },
+        {
+          "info": {
+            "name": "Fetch a merchant",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.tyro.com/connect/pay-terminal/merchants/:merchantId",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              }
+            ]
+          },
+          "docs": "This endpoint is used for retrieving a merchant."
+        },
+        {
+          "info": {
+            "name": "Authorise a Sandbox Merchant Id",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.tyro.com/connect/pay-terminal/merchants/:merchantId/authorise/test",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              },
+              {
+                "name": "Content-Type",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "For testing purposes only. Authorise or de-authorise your POS on behalf of the provided merchant for testing on the Sandbox environment only."
+        },
+        {
+          "info": {
+            "name": "Lists the terminals available to a merchant",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.tyro.com/connect/pay-terminal/merchants/:merchantId/terminals",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              }
+            ]
+          },
+          "docs": "This endpoint is used for retrieving a list of terminals under a mid that the POS has access to."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Pay Requests",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Create a Pay Request",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.tyro.com/connect/pay-terminal/requests",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              },
+              {
+                "name": "Content-Type",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "This endpoint is used for creating a Pay Request. Your server should create a Pay Request as soon as the total payment amount is known. Once the Pay Request is created, given the terminal is not busy, or offline, the process to pay will be initialised."
+        },
+        {
+          "info": {
+            "name": "Retrieve a Pay Request",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.tyro.com/connect/pay-terminal/requests/:payRequestId",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "payRequestId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "This endpoint is for fetching Pay Requests."
+        },
+        {
+          "info": {
+            "name": "Answer a Terminal Prompt",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.tyro.com/connect/pay-terminal/requests/:payRequestId",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              },
+              {
+                "name": "Content-Type",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "payRequestId",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "An async endpoint used for attempting to answer a pending decision prompt on a terminal. The decisionId & answer is returned by the payRequest in the pendingDecision object, and is required to differentiate prompt messages. There is no result to acknowledge that this decision was received by the terminal."
+        },
+        {
+          "info": {
+            "name": "Cancel a Pay Request",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.tyro.com/connect/pay-terminal/requests/:payRequestId",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "payRequestId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "An async endpoint used for attempting to cancel a pending decision prompt on a terminal. There is no result to acknowledge that this cancellation was processed by the terminal. If the transaction is already in a fully processed state, this call will be rejected."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

@@ -1,0 +1,84 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Reporting API",
+    "version": "1.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Get Settlements for a Merchant",
+        "type": "http"
+      },
+      "http": {
+        "method": "GET",
+        "url": "https://api.tyro.com/connect/reporting/merchants/:mid/settlements?settlementDate=:settlementDate",
+        "headers": [
+          {
+            "name": "Authorization",
+            "value": ""
+          }
+        ],
+        "params": [
+          {
+            "name": "mid",
+            "value": "",
+            "type": "path",
+            "description": "The merchant ID associated with the Tyro account. Used to identify the merchant whose settlement data is being retrieved."
+          },
+          {
+            "name": "settlementDate",
+            "value": "",
+            "type": "query",
+            "description": "Requested settlement date (YYYY-MM-DD). Must be within the past 3 years."
+          }
+        ]
+      },
+      "docs": "This endpoint allows you to retrieve BECs-cleared settlement details for a specific merchant on a given date."
+    },
+    {
+      "info": {
+        "name": "Get Transactions for a Merchant",
+        "type": "http"
+      },
+      "http": {
+        "method": "GET",
+        "url": "https://api.tyro.com/connect/reporting/merchants/:mid/transactions?transactionDate=:transactionDate&limit=100&page=1",
+        "headers": [
+          {
+            "name": "Authorization",
+            "value": ""
+          }
+        ],
+        "params": [
+          {
+            "name": "mid",
+            "value": "",
+            "type": "path",
+            "description": "The merchant ID associated with the Tyro account. Used to identify the merchant whose transaction data is being retrieved."
+          },
+          {
+            "name": "transactionDate",
+            "value": "",
+            "type": "query",
+            "description": "The date (YYYY-MM-DD) that the terminal has processed the requested transactions. Must be within the past 3 years."
+          },
+          {
+            "name": "limit",
+            "value": "",
+            "type": "query",
+            "description": "Specifies the amount of results to be retrieved."
+          },
+          {
+            "name": "page",
+            "value": "",
+            "type": "query",
+            "description": "Specify the page to retrieve.\n\nPage-numbering is based on the value of \"limit\". If limit=5, then page=1 will display the hits from 1 to 5, page=3 will display the hits from 11 to 15.\n\nPage numbers start at 1.\n\nA request for a non-existing page will yield 0 results."
+          }
+        ]
+      },
+      "docs": "This endpoint allows you to retrieve a merchant's list of transactions for a given terminal business day."
+    }
+  ],
+  "bundled": true
+}

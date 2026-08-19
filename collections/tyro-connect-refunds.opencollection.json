@@ -1,0 +1,35 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Refunds API",
+    "version": "1.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Create a Refund",
+        "type": "http"
+      },
+      "http": {
+        "method": "POST",
+        "url": "https://api.tyro.com/connect/refunds/search-and-refund",
+        "headers": [
+          {
+            "name": "Authorization",
+            "value": ""
+          },
+          {
+            "name": "Content-Type",
+            "value": ""
+          }
+        ],
+        "body": {
+          "type": "json",
+          "data": "{}"
+        }
+      },
+      "docs": "This endpoint creates a refund for an existing transaction. Refunds are processed as referenced refunds, meaning they require a reference to the original transaction."
+    }
+  ],
+  "bundled": true
+}

@@ -1,0 +1,149 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Table API",
+    "version": "1.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "List Tables",
+        "type": "http"
+      },
+      "http": {
+        "method": "GET",
+        "url": "https://api.tyro.com/connect/tables",
+        "headers": [
+          {
+            "name": "Authorization",
+            "value": ""
+          }
+        ],
+        "params": [
+          {
+            "name": "locationId",
+            "value": "2688fcf2-44dd-4c72-88ac-79d0910f2983",
+            "type": "query",
+            "description": "The Tyro Connect Location Id of the tables to be retrieved. This parameter is required."
+          },
+          {
+            "name": "openSales",
+            "value": "true",
+            "type": "query",
+            "description": "Returns only tables that contain at least one open sale."
+          }
+        ]
+      },
+      "docs": "This endpoint returns all the tables of a given location. It is possible to apply filters to the tables being fetched.\n\n## Filtering\nThe following `locationId=tc-cool-3000&openSales=true` will return all tables with open sales for location `tc-cool-3000`."
+    },
+    {
+      "info": {
+        "name": "Create Table",
+        "type": "http"
+      },
+      "http": {
+        "method": "POST",
+        "url": "https://api.tyro.com/connect/tables",
+        "headers": [
+          {
+            "name": "Authorization",
+            "value": ""
+          },
+          {
+            "name": "Content-Type",
+            "value": ""
+          }
+        ],
+        "body": {
+          "type": "json",
+          "data": "{}"
+        }
+      },
+      "docs": "This endpoint is used to create a table within Tyro Connect.\n\nThe id that is returned as a part of the response should be used to identify the table for subsequent events or retrieving the details."
+    },
+    {
+      "info": {
+        "name": "Get Table",
+        "type": "http"
+      },
+      "http": {
+        "method": "GET",
+        "url": "https://api.tyro.com/connect/tables/:tableId",
+        "headers": [
+          {
+            "name": "Authorization",
+            "value": ""
+          }
+        ],
+        "params": [
+          {
+            "name": "tableId",
+            "value": "",
+            "type": "path",
+            "description": "Id of the table in Tyro Connect that should be retrieved"
+          }
+        ]
+      },
+      "docs": "This endpoint is for fetching the details of a table."
+    },
+    {
+      "info": {
+        "name": "Update Table",
+        "type": "http"
+      },
+      "http": {
+        "method": "PATCH",
+        "url": "https://api.tyro.com/connect/tables/:tableId",
+        "headers": [
+          {
+            "name": "Authorization",
+            "value": ""
+          },
+          {
+            "name": "Content-Type",
+            "value": ""
+          }
+        ],
+        "params": [
+          {
+            "name": "tableId",
+            "value": "",
+            "type": "path",
+            "description": "Id of the table in Tyro Connect that should be updated"
+          }
+        ],
+        "body": {
+          "type": "json",
+          "data": "{}"
+        }
+      },
+      "docs": "This endpoint is for updating a table. Please note table update will not be allowed if the table has open sales."
+    },
+    {
+      "info": {
+        "name": "Delete Table",
+        "type": "http"
+      },
+      "http": {
+        "method": "DELETE",
+        "url": "https://api.tyro.com/connect/tables/:tableId",
+        "headers": [
+          {
+            "name": "Authorization",
+            "value": ""
+          }
+        ],
+        "params": [
+          {
+            "name": "tableId",
+            "value": "",
+            "type": "path",
+            "description": "Id of the table in Tyro Connect that should be deleted"
+          }
+        ]
+      },
+      "docs": "This endpoint is for deleting a table. Please note table delete will not be allowed if the table has open sales."
+    }
+  ],
+  "bundled": true
+}

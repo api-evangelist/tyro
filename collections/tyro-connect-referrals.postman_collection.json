@@ -1,0 +1,473 @@
+{
+  "item": [
+    {
+      "id": "c60812ed-2b5f-4f60-b37f-1c39f72c59bf",
+      "name": "Create Referral",
+      "request": {
+        "name": "Create Referral",
+        "description": {
+          "content": "This endpoint is used to create a referral within Tyro Connect.\n\nUse the *referralId* that is returned in the response to identify the referral for subsequent events or retrieving the details.",
+          "type": "text/plain"
+        },
+        "url": {
+          "path": [
+            "referrals"
+          ],
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "query": [],
+          "variable": []
+        },
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "method": "POST",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"partnerId\": \"<string>\",\n  \"partnerChannelAgreementId\": \"<string>\",\n  \"referralType\": \"<string>\",\n  \"merchantDetails\": {\n    \"abn\": \"<string>\",\n    \"companyName\": \"<string>\",\n    \"merchantStatementValue\": \"<number>\",\n    \"tradingName\": \"<string>\",\n    \"franchiseGroupId\": \"<number>\",\n    \"corporateGroupId\": \"<string>\",\n    \"merchantGroupId\": \"<string>\",\n    \"websiteUrl\": \"<string>\",\n    \"industry\": \"<string>\",\n    \"subIndustry\": \"<string>\"\n  },\n  \"merchantContactDetails\": {\n    \"firstName\": \"<string>\",\n    \"lastName\": \"<string>\",\n    \"email\": \"<string>\",\n    \"phoneNumber\": \"<string>\"\n  },\n  \"productDetails\": {\n    \"productsOfInterest\": [\n      \"<string>\",\n      \"<string>\"\n    ],\n    \"otherProductsOfInterest\": [\n      \"<string>\",\n      \"<string>\"\n    ],\n    \"integrationProduct\": \"<string>\",\n    \"softwareProduct\": \"<string>\"\n  },\n  \"pricingDetails\": {\n    \"retailRate\": \"<number>\",\n    \"wholesaleRate\": \"<number>\",\n    \"noCostEftposRate\": \"<number>\"\n  },\n  \"clientReference\": \"<string>\",\n  \"branchId\": \"<string>\",\n  \"dealerCode\": \"<string>\",\n  \"promotionCode\": \"<string>\",\n  \"dollarPerTransaction\": {\n    \"rate\": \"<number>\",\n    \"value\": \"<number>\"\n  }\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": [
+        {
+          "id": "8a57724d-681d-485a-a747-337844e90a89",
+          "name": "OK",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "referrals"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) ",
+                "key": "Authorization",
+                "value": "Bearer {$$.env.access_token}"
+              },
+              {
+                "disabled": false,
+                "description": "(Required) ",
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"partnerId\": \"5491ec4a-3f46-4b4d-9bc0-23f2260f41c9\",\n  \"partnerChannelAgreementId\": \"123\",\n  \"clientReference\": \"testClientRef3\",\n  \"referralType\": \"WHOLESALE\",\n  \"branchId\": \"456\",\n  \"dealerCode\": \"789\",\n  \"merchantDetails\": {\n    \"abn\": \"18842911556\",\n    \"companyName\": \"Fast Bikes\",\n    \"tradingName\": \"Go Faster Bicycles\",\n    \"merchantStatementValue\": 1000000,\n    \"websiteUrl\": \"https://gofasterbikes.com.au/\",\n    \"industry\": \"Retail\",\n    \"subIndustry\": \"Bicycles Tricycles and Scooters\"\n  },\n  \"merchantContactDetails\": {\n    \"firstName\": \"Joe\",\n    \"lastName\": \"bloggs\",\n    \"email\": \"test+1@tyro.com\",\n    \"phoneNumber\": \"+61255501234\"\n  },\n  \"productDetails\": {\n    \"productsOfInterest\": [\n      \"TYRO_GO_DONGLE\",\n      \"ECOMMERCE\"\n    ],\n    \"otherProductsOfInterest\": [\n      \"BANKING\",\n      \"LOANS\"\n    ],\n    \"integrationProduct\": \"WhizzBangPOS\",\n    \"softwareProduct\": \"ecommForAll\"\n  },\n  \"pricingDetails\": {\n    \"retailRate\": 1.8,\n    \"wholesaleRate\": 1.2,\n    \"noCostEftposRate\": 1.95\n  },\n  \"promotionCode\": \"First 3 months free second 3 months 10 percent discount\",\n  \"dollarPerTransaction\": {\n    \"rate\": 10,\n    \"value\": 0.05\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"referralId\": \"c9999d35-e494-4002-8c93-f090b174307d\"\n}",
+          "cookie": [],
+          "_postman_previewlanguage": "json"
+        },
+        {
+          "id": "847ab899-1406-4fec-8841-2c2594ab9918",
+          "name": "When the provided payload is not valid.",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "referrals"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) ",
+                "key": "Authorization",
+                "value": "Bearer {$$.env.access_token}"
+              },
+              {
+                "disabled": false,
+                "description": "(Required) ",
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"partnerId\": \"5491ec4a-3f46-4b4d-9bc0-23f2260f41c9\",\n  \"partnerChannelAgreementId\": \"123\",\n  \"clientReference\": \"testClientRef3\",\n  \"referralType\": \"WHOLESALE\",\n  \"branchId\": \"456\",\n  \"dealerCode\": \"789\",\n  \"merchantDetails\": {\n    \"abn\": \"18842911556\",\n    \"companyName\": \"Fast Bikes\",\n    \"tradingName\": \"Go Faster Bicycles\",\n    \"merchantStatementValue\": 1000000,\n    \"websiteUrl\": \"https://gofasterbikes.com.au/\",\n    \"industry\": \"Retail\",\n    \"subIndustry\": \"Bicycles Tricycles and Scooters\"\n  },\n  \"merchantContactDetails\": {\n    \"firstName\": \"Joe\",\n    \"lastName\": \"bloggs\",\n    \"email\": \"test+1@tyro.com\",\n    \"phoneNumber\": \"+61255501234\"\n  },\n  \"productDetails\": {\n    \"productsOfInterest\": [\n      \"TYRO_GO_DONGLE\",\n      \"ECOMMERCE\"\n    ],\n    \"otherProductsOfInterest\": [\n      \"BANKING\",\n      \"LOANS\"\n    ],\n    \"integrationProduct\": \"WhizzBangPOS\",\n    \"softwareProduct\": \"ecommForAll\"\n  },\n  \"pricingDetails\": {\n    \"retailRate\": 1.8,\n    \"wholesaleRate\": 1.2,\n    \"noCostEftposRate\": 1.95\n  },\n  \"promotionCode\": \"First 3 months free second 3 months 10 percent discount\",\n  \"dollarPerTransaction\": {\n    \"rate\": 10,\n    \"value\": 0.05\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "status": "Bad Request",
+          "code": 400,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"error\": \"Bad request\",\n  \"errorCode\": \"INVALID_INPUT\",\n  \"data\": [\n    \"Invalid ABN\"\n  ]\n}",
+          "cookie": [],
+          "_postman_previewlanguage": "json"
+        },
+        {
+          "id": "530d61d2-8502-4bec-8e90-c712574163bf",
+          "name": "When you don't have the right permissions to create a referral.",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "referrals"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) ",
+                "key": "Authorization",
+                "value": "Bearer {$$.env.access_token}"
+              },
+              {
+                "disabled": false,
+                "description": "(Required) ",
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"partnerId\": \"5491ec4a-3f46-4b4d-9bc0-23f2260f41c9\",\n  \"partnerChannelAgreementId\": \"123\",\n  \"clientReference\": \"testClientRef3\",\n  \"referralType\": \"WHOLESALE\",\n  \"branchId\": \"456\",\n  \"dealerCode\": \"789\",\n  \"merchantDetails\": {\n    \"abn\": \"18842911556\",\n    \"companyName\": \"Fast Bikes\",\n    \"tradingName\": \"Go Faster Bicycles\",\n    \"merchantStatementValue\": 1000000,\n    \"websiteUrl\": \"https://gofasterbikes.com.au/\",\n    \"industry\": \"Retail\",\n    \"subIndustry\": \"Bicycles Tricycles and Scooters\"\n  },\n  \"merchantContactDetails\": {\n    \"firstName\": \"Joe\",\n    \"lastName\": \"bloggs\",\n    \"email\": \"test+1@tyro.com\",\n    \"phoneNumber\": \"+61255501234\"\n  },\n  \"productDetails\": {\n    \"productsOfInterest\": [\n      \"TYRO_GO_DONGLE\",\n      \"ECOMMERCE\"\n    ],\n    \"otherProductsOfInterest\": [\n      \"BANKING\",\n      \"LOANS\"\n    ],\n    \"integrationProduct\": \"WhizzBangPOS\",\n    \"softwareProduct\": \"ecommForAll\"\n  },\n  \"pricingDetails\": {\n    \"retailRate\": 1.8,\n    \"wholesaleRate\": 1.2,\n    \"noCostEftposRate\": 1.95\n  },\n  \"promotionCode\": \"First 3 months free second 3 months 10 percent discount\",\n  \"dollarPerTransaction\": {\n    \"rate\": 10,\n    \"value\": 0.05\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "status": "Forbidden",
+          "code": 403,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "text/plain"
+            }
+          ],
+          "body": "",
+          "cookie": [],
+          "_postman_previewlanguage": "text"
+        },
+        {
+          "id": "2fc1bdfe-d195-4744-97dc-fec1d749314d",
+          "name": "When the partnerId or partnerChannelAgreementId does not exist.",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "referrals"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) ",
+                "key": "Authorization",
+                "value": "Bearer {$$.env.access_token}"
+              },
+              {
+                "disabled": false,
+                "description": "(Required) ",
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"partnerId\": \"5491ec4a-3f46-4b4d-9bc0-23f2260f41c9\",\n  \"partnerChannelAgreementId\": \"123\",\n  \"clientReference\": \"testClientRef3\",\n  \"referralType\": \"WHOLESALE\",\n  \"branchId\": \"456\",\n  \"dealerCode\": \"789\",\n  \"merchantDetails\": {\n    \"abn\": \"18842911556\",\n    \"companyName\": \"Fast Bikes\",\n    \"tradingName\": \"Go Faster Bicycles\",\n    \"merchantStatementValue\": 1000000,\n    \"websiteUrl\": \"https://gofasterbikes.com.au/\",\n    \"industry\": \"Retail\",\n    \"subIndustry\": \"Bicycles Tricycles and Scooters\"\n  },\n  \"merchantContactDetails\": {\n    \"firstName\": \"Joe\",\n    \"lastName\": \"bloggs\",\n    \"email\": \"test+1@tyro.com\",\n    \"phoneNumber\": \"+61255501234\"\n  },\n  \"productDetails\": {\n    \"productsOfInterest\": [\n      \"TYRO_GO_DONGLE\",\n      \"ECOMMERCE\"\n    ],\n    \"otherProductsOfInterest\": [\n      \"BANKING\",\n      \"LOANS\"\n    ],\n    \"integrationProduct\": \"WhizzBangPOS\",\n    \"softwareProduct\": \"ecommForAll\"\n  },\n  \"pricingDetails\": {\n    \"retailRate\": 1.8,\n    \"wholesaleRate\": 1.2,\n    \"noCostEftposRate\": 1.95\n  },\n  \"promotionCode\": \"First 3 months free second 3 months 10 percent discount\",\n  \"dollarPerTransaction\": {\n    \"rate\": 10,\n    \"value\": 0.05\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "status": "Not Found",
+          "code": 404,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"error\": \"Partner id \\\"1491ec4a-3f46-4b4d-9bc0-23f2260f41c9\\\" not found\"\n}",
+          "cookie": [],
+          "_postman_previewlanguage": "json"
+        }
+      ],
+      "event": [],
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      }
+    },
+    {
+      "id": "26b3db97-53cb-4dfc-9154-72c2f7f22843",
+      "name": "Get Referral",
+      "request": {
+        "name": "Get Referral",
+        "description": {
+          "content": "This endpoint is for fetching the details of a referral.",
+          "type": "text/plain"
+        },
+        "url": {
+          "path": [
+            "referrals",
+            ":referralId"
+          ],
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "query": [],
+          "variable": [
+            {
+              "disabled": false,
+              "type": "any",
+              "value": "<string>",
+              "key": "referralId",
+              "description": "(Required) Id of the referral in Tyro Connect that should be retrieved"
+            }
+          ]
+        },
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "method": "GET"
+      },
+      "response": [
+        {
+          "id": "919fecb2-7512-43d5-9f56-39fb553b3348",
+          "name": "The referral response",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "referrals",
+                ":referralId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "referralId",
+                  "description": "(Required) Id of the referral in Tyro Connect that should be retrieved"
+                }
+              ]
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) ",
+                "key": "Authorization",
+                "value": "Bearer {$$.env.access_token}"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "body": {}
+          },
+          "status": "OK",
+          "code": 200,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"partnerId\": \"5491ec4a-3f46-4b4d-9bc0-23f2260f41c9\",\n  \"referralId\": \"2688fcf2-44dd-4c72-88ac-79d0910f2983\",\n  \"clientReference\": \"client-ref-001\",\n  \"status\": \"MERCHANT_FULLY_APPROVED\"\n}",
+          "cookie": [],
+          "_postman_previewlanguage": "json"
+        },
+        {
+          "id": "2f2c8408-4877-40d8-9bc9-15f9f92e6cd9",
+          "name": "When you don't have the right permissions to get a reference.",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "referrals",
+                ":referralId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "referralId",
+                  "description": "(Required) Id of the referral in Tyro Connect that should be retrieved"
+                }
+              ]
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) ",
+                "key": "Authorization",
+                "value": "Bearer {$$.env.access_token}"
+              }
+            ],
+            "method": "GET",
+            "body": {}
+          },
+          "status": "Forbidden",
+          "code": 403,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "text/plain"
+            }
+          ],
+          "body": "",
+          "cookie": [],
+          "_postman_previewlanguage": "text"
+        },
+        {
+          "id": "08105aba-b193-41dd-9804-42cbb91aed0d",
+          "name": "When the provided `referralId` does not match a referral stored in the system.",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "referrals",
+                ":referralId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "referralId",
+                  "description": "(Required) Id of the referral in Tyro Connect that should be retrieved"
+                }
+              ]
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) ",
+                "key": "Authorization",
+                "value": "Bearer {$$.env.access_token}"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "body": {}
+          },
+          "status": "Not Found",
+          "code": 404,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"error\": \"Not found\"\n}",
+          "cookie": [],
+          "_postman_previewlanguage": "json"
+        }
+      ],
+      "event": [],
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      }
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.tyro.com/connect",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "868c2eda-6c2c-4cac-aab4-4381674ae596",
+    "name": "Referrals API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The API allows the APP to create a referral. Currently the API supports creating and retrieving information about a referral.\n",
+      "type": "text/plain"
+    }
+  }
+}

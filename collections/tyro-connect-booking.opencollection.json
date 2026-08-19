@@ -1,0 +1,105 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Booking API",
+    "version": "1.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Create Booking",
+        "type": "http"
+      },
+      "http": {
+        "method": "POST",
+        "url": "https://api.tyro.com/connect/bookings",
+        "headers": [
+          {
+            "name": "Authorization",
+            "value": ""
+          },
+          {
+            "name": "Accept",
+            "value": ""
+          },
+          {
+            "name": "Content-Type",
+            "value": ""
+          }
+        ],
+        "body": {
+          "type": "json",
+          "data": "{}"
+        }
+      },
+      "docs": "This endpoint is used to create a booking within Tyro Connect. This call will create a booking in the POS system.\n\nThe id that is returned as a part of the response should be used to identify the booking for subsequent events or retrieving the details via the [`GET`](#operation/get-booking) endpoint."
+    },
+    {
+      "info": {
+        "name": "Get Booking",
+        "type": "http"
+      },
+      "http": {
+        "method": "GET",
+        "url": "https://api.tyro.com/connect/bookings/:bookingId",
+        "headers": [
+          {
+            "name": "Authorization",
+            "value": ""
+          },
+          {
+            "name": "Accept",
+            "value": ""
+          }
+        ],
+        "params": [
+          {
+            "name": "bookingId",
+            "value": "",
+            "type": "path",
+            "description": "Id of the booking in Tyro Connect that should be retrieved"
+          }
+        ]
+      },
+      "docs": "This endpoint is for fetching the details of a booking."
+    },
+    {
+      "info": {
+        "name": "Update Booking",
+        "type": "http"
+      },
+      "http": {
+        "method": "PATCH",
+        "url": "https://api.tyro.com/connect/bookings/:bookingId",
+        "headers": [
+          {
+            "name": "Authorization",
+            "value": ""
+          },
+          {
+            "name": "Accept",
+            "value": ""
+          },
+          {
+            "name": "Content-Type",
+            "value": ""
+          }
+        ],
+        "params": [
+          {
+            "name": "bookingId",
+            "value": "",
+            "type": "path",
+            "description": "Id of the booking in Tyro Connect that should be updated"
+          }
+        ],
+        "body": {
+          "type": "json",
+          "data": "{}"
+        }
+      },
+      "docs": "This endpoint is for updating a booking."
+    }
+  ],
+  "bundled": true
+}

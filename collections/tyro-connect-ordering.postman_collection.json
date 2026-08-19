@@ -1,0 +1,887 @@
+{
+  "item": [
+    {
+      "id": "abf9f498-5fa0-403f-ae78-e70f81ae20de",
+      "name": "New Order",
+      "request": {
+        "name": "New Order",
+        "description": {
+          "content": "This endpoint is for creating an order that Tyro Connect will deliver to a POS.\n\n Make sure you create the order in one of the following statuses:\n - `CREATED` - the order has been created but not approved by the merchant.\n - `ACCEPTED` - the order has already been approved by the merchant (eg. via a separate app available to them).\n\nMaking identical requests with the same `orderId` and content **does not** create a new order. In this case, it returns the previously created order's details.\nThis means every new order must have a different `orderId`.\n",
+          "type": "text/plain"
+        },
+        "url": {
+          "path": [
+            "orders"
+          ],
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "query": [],
+          "variable": []
+        },
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "method": "POST",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"origin\": {\n    \"orderId\": \"<string>\",\n    \"orderReference\": \"<string>\"\n  },\n  \"locationId\": \"<string>\",\n  \"status\": \"CREATED\",\n  \"items\": [\n    {\n      \"id\": \"<string>\",\n      \"unitPrice\": {\n        \"amount\": \"<integer>\",\n        \"currency\": \"AUD\"\n      },\n      \"sku\": \"<string>\",\n      \"description\": \"<string>\",\n      \"quantity\": \"<integer>\",\n      \"discounts\": [\n        {\n          \"amount\": \"<integer>\",\n          \"currency\": \"AUD\",\n          \"description\": \"<string>\"\n        },\n        {\n          \"amount\": \"<integer>\",\n          \"currency\": \"AUD\",\n          \"description\": \"<string>\"\n        }\n      ],\n      \"modifiers\": [\n        {\n          \"value\": \"<Circular reference to #/components/schemas/order-item detected>\"\n        },\n        {\n          \"value\": \"<Circular reference to #/components/schemas/order-item detected>\"\n        }\n      ],\n      \"allergens\": [\n        {\n          \"description\": \"<string>\"\n        },\n        {\n          \"description\": \"<string>\"\n        }\n      ],\n      \"notes\": \"<string>\"\n    },\n    {\n      \"id\": \"<string>\",\n      \"unitPrice\": {\n        \"amount\": \"<integer>\",\n        \"currency\": \"AUD\"\n      },\n      \"sku\": \"<string>\",\n      \"description\": \"<string>\",\n      \"quantity\": \"<integer>\",\n      \"discounts\": [\n        {\n          \"amount\": \"<integer>\",\n          \"currency\": \"AUD\",\n          \"description\": \"<string>\"\n        },\n        {\n          \"amount\": \"<integer>\",\n          \"currency\": \"AUD\",\n          \"description\": \"<string>\"\n        }\n      ],\n      \"modifiers\": [\n        {\n          \"value\": \"<Circular reference to #/components/schemas/order-item detected>\"\n        },\n        {\n          \"value\": \"<Circular reference to #/components/schemas/order-item detected>\"\n        }\n      ],\n      \"allergens\": [\n        {\n          \"description\": \"<string>\"\n        },\n        {\n          \"description\": \"<string>\"\n        }\n      ],\n      \"notes\": \"<string>\"\n    }\n  ],\n  \"total\": {\n    \"amount\": \"<integer>\",\n    \"currency\": \"AUD\"\n  },\n  \"fulfilment\": {\n    \"type\": \"<string>\"\n  },\n  \"notes\": \"<string>\",\n  \"table\": {\n    \"id\": \"<string>\",\n    \"section\": \"<string>\"\n  },\n  \"customers\": [\n    {\n      \"firstName\": \"<string>\"\n    },\n    {\n      \"firstName\": \"<string>\"\n    }\n  ],\n  \"discounts\": [\n    {\n      \"amount\": \"<integer>\",\n      \"currency\": \"AUD\",\n      \"description\": \"<string>\"\n    },\n    {\n      \"amount\": \"<integer>\",\n      \"currency\": \"AUD\",\n      \"description\": \"<string>\"\n    }\n  ],\n  \"surcharges\": [\n    {\n      \"amount\": \"<integer>\",\n      \"currency\": \"AUD\",\n      \"description\": \"<string>\"\n    },\n    {\n      \"amount\": \"<integer>\",\n      \"currency\": \"AUD\",\n      \"description\": \"<string>\"\n    }\n  ],\n  \"tip\": {\n    \"amount\": \"<integer>\",\n    \"currency\": \"AUD\"\n  },\n  \"paymentStatus\": \"CLOSED\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": [
+        {
+          "id": "e02f5ae1-1038-4f1b-b6cc-477837d1c8d7",
+          "name": "Created order",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "orders"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) ",
+                "key": "Authorization",
+                "value": "Bearer {$$.env.access_token}"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"locationId\": \"tc-merchant-2000\",\n  \"origin\": {\n    \"orderId\": \"2f8922fb-235f-40c6-af9a-3d6b46ce9635\",\n    \"orderReference\": \"Order for Tom\"\n  },\n  \"items\": [\n    {\n      \"id\": \"unique-item-id\",\n      \"sku\": \"sku-known-to-the-pos\",\n      \"description\": \"Amazing cheese burger\",\n      \"unitPrice\": {\n        \"currency\": \"AUD\",\n        \"amount\": 2000\n      },\n      \"discounts\": [\n        {\n          \"currency\": \"AUD\",\n          \"amount\": 1000,\n          \"description\": \"Half price cheese burgers on the first of the month\"\n        }\n      ],\n      \"modifiers\": [\n        {\n          \"id\": \"uuid-3636-101\",\n          \"sku\": \"634\",\n          \"description\": \"Bacon\",\n          \"unitPrice\": {\n            \"amount\": 0\n          },\n          \"quantity\": 1\n        }\n      ],\n      \"allergens\": [\n        {\n          \"description\": \"Fish\"\n        },\n        {\n          \"description\": \"Nuts\"\n        }\n      ],\n      \"quantity\": 1\n    }\n  ],\n  \"discounts\": [\n    {\n      \"currency\": \"AUD\",\n      \"amount\": 200,\n      \"description\": \"Student discount\"\n    }\n  ],\n  \"surcharges\": [\n    {\n      \"currency\": \"AUD\",\n      \"amount\": 200,\n      \"description\": \"Public Holiday\"\n    },\n    {\n      \"currency\": \"AUD\",\n      \"amount\": 200,\n      \"description\": \"Plastic take away containers\"\n    }\n  ],\n  \"tip\": {\n    \"currency\": \"AUD\",\n    \"amount\": 150\n  },\n  \"total\": {\n    \"currency\": \"AUD\",\n    \"amount\": 1350\n  },\n  \"table\": {\n    \"id\": \"B1\",\n    \"section\": \"Bar\"\n  },\n  \"status\": \"CREATED\",\n  \"customers\": [\n    {\n      \"firstName\": \"Daniel\"\n    },\n    {\n      \"firstName\": \"Elizabeth\"\n    }\n  ],\n  \"fulfilment\": {\n    \"type\": \"PICK_UP\"\n  },\n  \"paymentStatus\": \"CLOSED\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "status": "Created",
+          "code": 201,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"id\": \"order-identifier-in-tyro-connect\",\n  \"locationId\": \"tc-merchant-2000\",\n  \"origin\": {\n    \"orderId\": \"2f8922fb-235f-40c6-af9a-3d6b46ce9635\",\n    \"orderReference\": \"Order for Tom\",\n    \"name\": \"Charlie's Preorder App\"\n  },\n  \"items\": [\n    {\n      \"id\": \"unique-item-id\",\n      \"sku\": \"sku-known-to-the-pos\",\n      \"description\": \"Amazing cheese burger\",\n      \"unitPrice\": {\n        \"currency\": \"AUD\",\n        \"amount\": 2000\n      },\n      \"discounts\": [\n        {\n          \"currency\": \"AUD\",\n          \"amount\": 1000,\n          \"description\": \"Half price cheese burgers on the first of the month\"\n        }\n      ],\n      \"modifiers\": [\n        {\n          \"id\": \"uuid-3636-101\",\n          \"sku\": \"634\",\n          \"description\": \"Bacon\",\n          \"unitPrice\": {\n            \"amount\": 0\n          },\n          \"quantity\": 1\n        }\n      ],\n      \"allergens\": [\n        {\n          \"description\": \"Fish\"\n        },\n        {\n          \"description\": \"Nuts\"\n        }\n      ],\n      \"quantity\": 1\n    }\n  ],\n  \"discounts\": [\n    {\n      \"currency\": \"AUD\",\n      \"amount\": 200,\n      \"description\": \"Student discount\"\n    }\n  ],\n  \"surcharges\": [\n    {\n      \"currency\": \"AUD\",\n      \"amount\": 200,\n      \"description\": \"Public Holiday\"\n    },\n    {\n      \"currency\": \"AUD\",\n      \"amount\": 200,\n      \"description\": \"Plastic take away containers\"\n    }\n  ],\n  \"tip\": {\n    \"currency\": \"AUD\",\n    \"amount\": 150\n  },\n  \"total\": {\n    \"currency\": \"AUD\",\n    \"amount\": 1350\n  },\n  \"table\": {\n    \"id\": \"B1\",\n    \"section\": \"Bar\"\n  },\n  \"status\": \"CREATED\",\n  \"customers\": [\n    {\n      \"firstName\": \"Daniel\"\n    },\n    {\n      \"firstName\": \"Elizabeth\"\n    }\n  ],\n  \"fulfilment\": {\n    \"type\": \"PICK_UP\"\n  },\n  \"paymentStatus\": \"CLOSED\"\n}",
+          "cookie": [],
+          "_postman_previewlanguage": "json"
+        },
+        {
+          "id": "0c26e382-657f-4dbf-99d4-5dbd5e8e8954",
+          "name": "Bad request",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "orders"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) ",
+                "key": "Authorization",
+                "value": "Bearer {$$.env.access_token}"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"locationId\": \"tc-merchant-2000\",\n  \"origin\": {\n    \"orderId\": \"2f8922fb-235f-40c6-af9a-3d6b46ce9635\",\n    \"orderReference\": \"Order for Tom\"\n  },\n  \"items\": [\n    {\n      \"id\": \"unique-item-id\",\n      \"sku\": \"sku-known-to-the-pos\",\n      \"description\": \"Amazing cheese burger\",\n      \"unitPrice\": {\n        \"currency\": \"AUD\",\n        \"amount\": 2000\n      },\n      \"discounts\": [\n        {\n          \"currency\": \"AUD\",\n          \"amount\": 1000,\n          \"description\": \"Half price cheese burgers on the first of the month\"\n        }\n      ],\n      \"modifiers\": [\n        {\n          \"id\": \"uuid-3636-101\",\n          \"sku\": \"634\",\n          \"description\": \"Bacon\",\n          \"unitPrice\": {\n            \"amount\": 0\n          },\n          \"quantity\": 1\n        }\n      ],\n      \"allergens\": [\n        {\n          \"description\": \"Fish\"\n        },\n        {\n          \"description\": \"Nuts\"\n        }\n      ],\n      \"quantity\": 1\n    }\n  ],\n  \"discounts\": [\n    {\n      \"currency\": \"AUD\",\n      \"amount\": 200,\n      \"description\": \"Student discount\"\n    }\n  ],\n  \"surcharges\": [\n    {\n      \"currency\": \"AUD\",\n      \"amount\": 200,\n      \"description\": \"Public Holiday\"\n    },\n    {\n      \"currency\": \"AUD\",\n      \"amount\": 200,\n      \"description\": \"Plastic take away containers\"\n    }\n  ],\n  \"tip\": {\n    \"currency\": \"AUD\",\n    \"amount\": 150\n  },\n  \"total\": {\n    \"currency\": \"AUD\",\n    \"amount\": 1350\n  },\n  \"table\": {\n    \"id\": \"B1\",\n    \"section\": \"Bar\"\n  },\n  \"status\": \"CREATED\",\n  \"customers\": [\n    {\n      \"firstName\": \"Daniel\"\n    },\n    {\n      \"firstName\": \"Elizabeth\"\n    }\n  ],\n  \"fulfilment\": {\n    \"type\": \"PICK_UP\"\n  },\n  \"paymentStatus\": \"CLOSED\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "status": "Bad Request",
+          "code": 400,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"message\": \"Request validation failed\",\n  \"errors\": [\n    {\n      \"segment\": \"body\",\n      \"path\": \"items\",\n      \"message\": \"\\\"items\\\" is required\"\n    }\n  ],\n  \"error\": \"\\\"items\\\" is required\"\n}",
+          "cookie": [],
+          "_postman_previewlanguage": "json"
+        },
+        {
+          "id": "a8b9e9fe-b15c-4a77-8d7c-6b05fc380eb8",
+          "name": "Invalid access token",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "orders"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) ",
+                "key": "Authorization",
+                "value": "Bearer {$$.env.access_token}"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"locationId\": \"tc-merchant-2000\",\n  \"origin\": {\n    \"orderId\": \"2f8922fb-235f-40c6-af9a-3d6b46ce9635\",\n    \"orderReference\": \"Order for Tom\"\n  },\n  \"items\": [\n    {\n      \"id\": \"unique-item-id\",\n      \"sku\": \"sku-known-to-the-pos\",\n      \"description\": \"Amazing cheese burger\",\n      \"unitPrice\": {\n        \"currency\": \"AUD\",\n        \"amount\": 2000\n      },\n      \"discounts\": [\n        {\n          \"currency\": \"AUD\",\n          \"amount\": 1000,\n          \"description\": \"Half price cheese burgers on the first of the month\"\n        }\n      ],\n      \"modifiers\": [\n        {\n          \"id\": \"uuid-3636-101\",\n          \"sku\": \"634\",\n          \"description\": \"Bacon\",\n          \"unitPrice\": {\n            \"amount\": 0\n          },\n          \"quantity\": 1\n        }\n      ],\n      \"allergens\": [\n        {\n          \"description\": \"Fish\"\n        },\n        {\n          \"description\": \"Nuts\"\n        }\n      ],\n      \"quantity\": 1\n    }\n  ],\n  \"discounts\": [\n    {\n      \"currency\": \"AUD\",\n      \"amount\": 200,\n      \"description\": \"Student discount\"\n    }\n  ],\n  \"surcharges\": [\n    {\n      \"currency\": \"AUD\",\n      \"amount\": 200,\n      \"description\": \"Public Holiday\"\n    },\n    {\n      \"currency\": \"AUD\",\n      \"amount\": 200,\n      \"description\": \"Plastic take away containers\"\n    }\n  ],\n  \"tip\": {\n    \"currency\": \"AUD\",\n    \"amount\": 150\n  },\n  \"total\": {\n    \"currency\": \"AUD\",\n    \"amount\": 1350\n  },\n  \"table\": {\n    \"id\": \"B1\",\n    \"section\": \"Bar\"\n  },\n  \"status\": \"CREATED\",\n  \"customers\": [\n    {\n      \"firstName\": \"Daniel\"\n    },\n    {\n      \"firstName\": \"Elizabeth\"\n    }\n  ],\n  \"fulfilment\": {\n    \"type\": \"PICK_UP\"\n  },\n  \"paymentStatus\": \"CLOSED\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "status": "Unauthorized",
+          "code": 401,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "text/plain"
+            }
+          ],
+          "body": "",
+          "cookie": [],
+          "_postman_previewlanguage": "text"
+        },
+        {
+          "id": "19f73ccb-5e65-4fb3-bc35-8c88e4b1a8d6",
+          "name": "Insufficient permissions to create an order",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "orders"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) ",
+                "key": "Authorization",
+                "value": "Bearer {$$.env.access_token}"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"locationId\": \"tc-merchant-2000\",\n  \"origin\": {\n    \"orderId\": \"2f8922fb-235f-40c6-af9a-3d6b46ce9635\",\n    \"orderReference\": \"Order for Tom\"\n  },\n  \"items\": [\n    {\n      \"id\": \"unique-item-id\",\n      \"sku\": \"sku-known-to-the-pos\",\n      \"description\": \"Amazing cheese burger\",\n      \"unitPrice\": {\n        \"currency\": \"AUD\",\n        \"amount\": 2000\n      },\n      \"discounts\": [\n        {\n          \"currency\": \"AUD\",\n          \"amount\": 1000,\n          \"description\": \"Half price cheese burgers on the first of the month\"\n        }\n      ],\n      \"modifiers\": [\n        {\n          \"id\": \"uuid-3636-101\",\n          \"sku\": \"634\",\n          \"description\": \"Bacon\",\n          \"unitPrice\": {\n            \"amount\": 0\n          },\n          \"quantity\": 1\n        }\n      ],\n      \"allergens\": [\n        {\n          \"description\": \"Fish\"\n        },\n        {\n          \"description\": \"Nuts\"\n        }\n      ],\n      \"quantity\": 1\n    }\n  ],\n  \"discounts\": [\n    {\n      \"currency\": \"AUD\",\n      \"amount\": 200,\n      \"description\": \"Student discount\"\n    }\n  ],\n  \"surcharges\": [\n    {\n      \"currency\": \"AUD\",\n      \"amount\": 200,\n      \"description\": \"Public Holiday\"\n    },\n    {\n      \"currency\": \"AUD\",\n      \"amount\": 200,\n      \"description\": \"Plastic take away containers\"\n    }\n  ],\n  \"tip\": {\n    \"currency\": \"AUD\",\n    \"amount\": 150\n  },\n  \"total\": {\n    \"currency\": \"AUD\",\n    \"amount\": 1350\n  },\n  \"table\": {\n    \"id\": \"B1\",\n    \"section\": \"Bar\"\n  },\n  \"status\": \"CREATED\",\n  \"customers\": [\n    {\n      \"firstName\": \"Daniel\"\n    },\n    {\n      \"firstName\": \"Elizabeth\"\n    }\n  ],\n  \"fulfilment\": {\n    \"type\": \"PICK_UP\"\n  },\n  \"paymentStatus\": \"CLOSED\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "status": "Forbidden",
+          "code": 403,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "text/plain"
+            }
+          ],
+          "body": "",
+          "cookie": [],
+          "_postman_previewlanguage": "text"
+        }
+      ],
+      "event": [],
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      }
+    },
+    {
+      "id": "5cc649d6-8fda-47ad-b46f-cc7c6f0e0578",
+      "name": "Get Order",
+      "request": {
+        "name": "Get Order",
+        "description": {
+          "content": "This endpoint is for fetching the details of an order.",
+          "type": "text/plain"
+        },
+        "url": {
+          "path": [
+            "orders",
+            ":orderId"
+          ],
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "query": [],
+          "variable": [
+            {
+              "disabled": false,
+              "type": "any",
+              "value": "<string>",
+              "key": "orderId",
+              "description": "(Required) ID of order to retrieve"
+            }
+          ]
+        },
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "method": "GET"
+      },
+      "response": [
+        {
+          "id": "b05ca9a2-b26d-4545-a74c-847207ce77e6",
+          "name": "The order response",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "orders",
+                ":orderId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "orderId",
+                  "description": "(Required) ID of order to retrieve"
+                }
+              ]
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) ",
+                "key": "Authorization",
+                "value": "Bearer {$$.env.access_token}"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "body": {}
+          },
+          "status": "OK",
+          "code": 200,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"id\": \"order-identifier-in-tyro-connect\",\n  \"locationId\": \"tc-merchant-2000\",\n  \"origin\": {\n    \"orderId\": \"2f8922fb-235f-40c6-af9a-3d6b46ce9635\",\n    \"orderReference\": \"Order for Tom\",\n    \"name\": \"Charlie's Preorder App\"\n  },\n  \"items\": [\n    {\n      \"id\": \"unique-item-id\",\n      \"sku\": \"sku-known-to-the-pos\",\n      \"description\": \"Amazing cheese burger\",\n      \"unitPrice\": {\n        \"currency\": \"AUD\",\n        \"amount\": 2000\n      },\n      \"discounts\": [\n        {\n          \"currency\": \"AUD\",\n          \"amount\": 1000,\n          \"description\": \"Half price cheese burgers on the first of the month\"\n        }\n      ],\n      \"modifiers\": [\n        {\n          \"id\": \"uuid-3636-101\",\n          \"sku\": \"634\",\n          \"description\": \"Bacon\",\n          \"unitPrice\": {\n            \"amount\": 0\n          },\n          \"quantity\": 1\n        }\n      ],\n      \"allergens\": [\n        {\n          \"description\": \"Fish\"\n        },\n        {\n          \"description\": \"Nuts\"\n        }\n      ],\n      \"quantity\": 1\n    }\n  ],\n  \"discounts\": [\n    {\n      \"currency\": \"AUD\",\n      \"amount\": 200,\n      \"description\": \"Student discount\"\n    }\n  ],\n  \"surcharges\": [\n    {\n      \"currency\": \"AUD\",\n      \"amount\": 200,\n      \"description\": \"Public Holiday\"\n    },\n    {\n      \"currency\": \"AUD\",\n      \"amount\": 200,\n      \"description\": \"Plastic take away containers\"\n    }\n  ],\n  \"tip\": {\n    \"currency\": \"AUD\",\n    \"amount\": 150\n  },\n  \"total\": {\n    \"currency\": \"AUD\",\n    \"amount\": 1350\n  },\n  \"table\": {\n    \"id\": \"B1\",\n    \"section\": \"Bar\"\n  },\n  \"status\": \"ACCEPTED\",\n  \"customers\": [\n    {\n      \"firstName\": \"Daniel\"\n    },\n    {\n      \"firstName\": \"Elizabeth\"\n    }\n  ],\n  \"fulfilment\": {\n    \"type\": \"PICK_UP\"\n  },\n  \"paymentStatus\": \"CLOSED\"\n}",
+          "cookie": [],
+          "_postman_previewlanguage": "json"
+        },
+        {
+          "id": "c5ef314a-2dbb-43e5-8732-ff5f3e644119",
+          "name": "Insufficient permissions to view an order",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "orders",
+                ":orderId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "orderId",
+                  "description": "(Required) ID of order to retrieve"
+                }
+              ]
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) ",
+                "key": "Authorization",
+                "value": "Bearer {$$.env.access_token}"
+              }
+            ],
+            "method": "GET",
+            "body": {}
+          },
+          "status": "Forbidden",
+          "code": 403,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "text/plain"
+            }
+          ],
+          "body": "",
+          "cookie": [],
+          "_postman_previewlanguage": "text"
+        },
+        {
+          "id": "bd88fdc5-6b19-463a-890b-08ae380f8a51",
+          "name": "Order id not found",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "orders",
+                ":orderId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "orderId",
+                  "description": "(Required) ID of order to retrieve"
+                }
+              ]
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) ",
+                "key": "Authorization",
+                "value": "Bearer {$$.env.access_token}"
+              }
+            ],
+            "method": "GET",
+            "body": {}
+          },
+          "status": "Not Found",
+          "code": 404,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "text/plain"
+            }
+          ],
+          "body": "",
+          "cookie": [],
+          "_postman_previewlanguage": "text"
+        }
+      ],
+      "event": [],
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      }
+    },
+    {
+      "id": "d26238a7-77a1-40fe-ae27-c6031e0d5ad2",
+      "name": "Update Order",
+      "request": {
+        "name": "Update Order",
+        "description": {
+          "content": "In order to provide more information about the status changes to the order, you can send the following statuses:\n - `CANCELLED_BY_CUSTOMER` - customer has cancelled the order.\n - `FULFILLED` - The order was completed successfully.\n",
+          "type": "text/plain"
+        },
+        "url": {
+          "path": [
+            "orders",
+            ":orderId"
+          ],
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "query": [],
+          "variable": [
+            {
+              "disabled": false,
+              "type": "any",
+              "value": "<string>",
+              "key": "orderId",
+              "description": "(Required) Identifier of the order that needs to be updated"
+            }
+          ]
+        },
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/merge-patch+json"
+          },
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "method": "PATCH",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"status\": \"<string>\",\n  \"reason\": \"<string>\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": [
+        {
+          "id": "fd5756cc-1a2c-4704-ab8e-aa712f64f639",
+          "name": "No body content. Order updated successfully",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "orders",
+                ":orderId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "orderId",
+                  "description": "(Required) Identifier of the order that needs to be updated"
+                }
+              ]
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) ",
+                "key": "Authorization",
+                "value": "Bearer {$$.env.access_token}"
+              }
+            ],
+            "method": "PATCH",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"status\": \"FULFILLED\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "status": "No Content",
+          "code": 204,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "text/plain"
+            }
+          ],
+          "body": "",
+          "cookie": [],
+          "_postman_previewlanguage": "text"
+        },
+        {
+          "id": "afb31c1a-1c32-4ae9-9a8d-a12edec4d96b",
+          "name": "Bad request",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "orders",
+                ":orderId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "orderId",
+                  "description": "(Required) Identifier of the order that needs to be updated"
+                }
+              ]
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) ",
+                "key": "Authorization",
+                "value": "Bearer {$$.env.access_token}"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PATCH",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"status\": \"FULFILLED\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "status": "Bad Request",
+          "code": 400,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"message\": \"string\",\n  \"errors\": [\n    {\n      \"segment\": \"string\",\n      \"path\": \"string\",\n      \"message\": \"string\"\n    },\n    {\n      \"segment\": \"string\",\n      \"path\": \"string\",\n      \"message\": \"string\"\n    }\n  ],\n  \"error\": \"string\"\n}",
+          "cookie": [],
+          "_postman_previewlanguage": "json"
+        },
+        {
+          "id": "e6f96660-46a2-40de-9a1a-adf22e8e3148",
+          "name": "Invalid or missing access token",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "orders",
+                ":orderId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "orderId",
+                  "description": "(Required) Identifier of the order that needs to be updated"
+                }
+              ]
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) ",
+                "key": "Authorization",
+                "value": "Bearer {$$.env.access_token}"
+              }
+            ],
+            "method": "PATCH",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"status\": \"FULFILLED\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "status": "Unauthorized",
+          "code": 401,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "text/plain"
+            }
+          ],
+          "body": "",
+          "cookie": [],
+          "_postman_previewlanguage": "text"
+        },
+        {
+          "id": "1436c1bf-2640-4f61-a17c-3be3767a2424",
+          "name": "Insufficient permissions to edit an order's status",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "orders",
+                ":orderId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "orderId",
+                  "description": "(Required) Identifier of the order that needs to be updated"
+                }
+              ]
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) ",
+                "key": "Authorization",
+                "value": "Bearer {$$.env.access_token}"
+              }
+            ],
+            "method": "PATCH",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"status\": \"FULFILLED\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "status": "Forbidden",
+          "code": 403,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "text/plain"
+            }
+          ],
+          "body": "",
+          "cookie": [],
+          "_postman_previewlanguage": "text"
+        },
+        {
+          "id": "a57b7bef-160c-4a99-9c49-d84d7f28e09b",
+          "name": "Order id not found",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "orders",
+                ":orderId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "orderId",
+                  "description": "(Required) Identifier of the order that needs to be updated"
+                }
+              ]
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) ",
+                "key": "Authorization",
+                "value": "Bearer {$$.env.access_token}"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PATCH",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"status\": \"FULFILLED\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "status": "Not Found",
+          "code": 404,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"error\": \"Order cannot be found.\"\n}",
+          "cookie": [],
+          "_postman_previewlanguage": "json"
+        },
+        {
+          "id": "e36211a7-7654-4e03-b35b-2b4452cb3076",
+          "name": "Conflict when updating order status",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "orders",
+                ":orderId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "orderId",
+                  "description": "(Required) Identifier of the order that needs to be updated"
+                }
+              ]
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) ",
+                "key": "Authorization",
+                "value": "Bearer {$$.env.access_token}"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PATCH",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"status\": \"FULFILLED\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "status": "Conflict",
+          "code": 409,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"error\": \"Order status conflict. Order status REJECTED cannot be updated to CANCELLED_BY_CUSTOMER.\"\n}",
+          "cookie": [],
+          "_postman_previewlanguage": "json"
+        },
+        {
+          "id": "9444671a-8cc8-4880-85d8-680044db11d7",
+          "name": "Internal server error",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "orders",
+                ":orderId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "orderId",
+                  "description": "(Required) Identifier of the order that needs to be updated"
+                }
+              ]
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) ",
+                "key": "Authorization",
+                "value": "Bearer {$$.env.access_token}"
+              }
+            ],
+            "method": "PATCH",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"status\": \"FULFILLED\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "status": "Internal Server Error",
+          "code": 500,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "text/plain"
+            }
+          ],
+          "body": "",
+          "cookie": [],
+          "_postman_previewlanguage": "text"
+        }
+      ],
+      "event": [],
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      }
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.tyro.com/connect",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "d30493c2-e76c-4ba1-8fa8-8e23c45fa1f3",
+    "name": "Ordering API for App Partners",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "This is the API for Apps looking to implement Ordering on Tyro Connect",
+      "type": "text/plain"
+    }
+  }
+}

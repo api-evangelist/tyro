@@ -1,0 +1,519 @@
+{
+  "item": [
+    {
+      "id": "574282a4-cc7e-42cc-b331-0a292d9e552d",
+      "name": "Get Settlements for a Merchant",
+      "request": {
+        "name": "Get Settlements for a Merchant",
+        "description": {
+          "content": "This endpoint allows you to retrieve BECs-cleared settlement details for a specific merchant on a given date.",
+          "type": "text/plain"
+        },
+        "url": {
+          "path": [
+            "reporting",
+            "merchants",
+            ":mid",
+            "settlements"
+          ],
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "query": [
+            {
+              "key": "settlementDate",
+              "value": "{{settlementDate}}"
+            },
+            {
+              "disabled": false,
+              "key": "settlementDate",
+              "value": "<date>",
+              "description": "(Required) Requested settlement date (YYYY-MM-DD). Must be within the past 3 years."
+            }
+          ],
+          "variable": [
+            {
+              "disabled": false,
+              "type": "any",
+              "value": "<string>",
+              "key": "mid",
+              "description": "(Required) The merchant ID associated with the Tyro account. Used to identify the merchant whose settlement data is being retrieved."
+            }
+          ]
+        },
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "method": "GET"
+      },
+      "response": [
+        {
+          "id": "ecfe634f-37e5-4f29-8fee-85e13e065f5e",
+          "name": "Settlements response",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "reporting",
+                "merchants",
+                ":mid",
+                "settlements"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "key": "settlementDate",
+                  "value": "<date>"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "mid",
+                  "description": "(Required) The merchant ID associated with the Tyro account. Used to identify the merchant whose settlement data is being retrieved."
+                }
+              ]
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) ",
+                "key": "Authorization",
+                "value": "Bearer {$$.env.access_token}"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "body": {}
+          },
+          "status": "OK",
+          "code": 200,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"mid\": \"111\",\n  \"settlementDate\": \"2021-07-01\",\n  \"settlements\": [\n    {\n      \"clearingPaymentId\": \"e6da4a8e-70f3-4156-9b81-f027f061d59e\",\n      \"grossAmount\": 20011,\n      \"settlementDetails\": [\n        {\n          \"type\": \"EXTERNAL_BANK_ACCOUNT\",\n          \"bsb\": \"840300\",\n          \"institutionName\": \"MyBank\",\n          \"accountNumber\": \"****9201\",\n          \"accountName\": \"Potene Enterprises Pty Ltd\",\n          \"settlementAmount\": 20011,\n          \"lastUpdatedAt\": \"2021-07-01T13:45:15.000Z\",\n          \"settlementStatus\": \"SENT\",\n          \"lodgementReference\": \"Tyro July 1st\"\n        }\n      ]\n    }\n  ]\n}",
+          "cookie": [],
+          "_postman_previewlanguage": "json"
+        },
+        {
+          "id": "98ba3952-6336-4086-bad3-fe5c78396241",
+          "name": "Bad Request - Missing or invalid parameters",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "reporting",
+                "merchants",
+                ":mid",
+                "settlements"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "key": "settlementDate",
+                  "value": "<date>"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "mid",
+                  "description": "(Required) The merchant ID associated with the Tyro account. Used to identify the merchant whose settlement data is being retrieved."
+                }
+              ]
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) ",
+                "key": "Authorization",
+                "value": "Bearer {$$.env.access_token}"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "body": {}
+          },
+          "status": "Bad Request",
+          "code": 400,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"error\": \"string\",\n  \"errorCode\": \"string\",\n  \"message\": \"string\"\n}",
+          "cookie": [],
+          "_postman_previewlanguage": "json"
+        },
+        {
+          "id": "93af6ea1-b5b3-4a9a-adb6-a231dc94ce47",
+          "name": "Forbidden - When you don't have the required permissions to query the provided location",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "reporting",
+                "merchants",
+                ":mid",
+                "settlements"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "key": "settlementDate",
+                  "value": "<date>"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "mid",
+                  "description": "(Required) The merchant ID associated with the Tyro account. Used to identify the merchant whose settlement data is being retrieved."
+                }
+              ]
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) ",
+                "key": "Authorization",
+                "value": "Bearer {$$.env.access_token}"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "body": {}
+          },
+          "status": "Forbidden",
+          "code": 403,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"error\": \"string\"\n}",
+          "cookie": [],
+          "_postman_previewlanguage": "json"
+        }
+      ],
+      "event": [],
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      }
+    },
+    {
+      "id": "a96828c0-63b0-4ee1-b665-de805c818ae5",
+      "name": "Get Transactions for a Merchant",
+      "request": {
+        "name": "Get Transactions for a Merchant",
+        "description": {
+          "content": "This endpoint allows you to retrieve a merchant's list of transactions for a given terminal business day.",
+          "type": "text/plain"
+        },
+        "url": {
+          "path": [
+            "reporting",
+            "merchants",
+            ":mid",
+            "transactions"
+          ],
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "query": [
+            {
+              "key": "transactionDate",
+              "value": "{{transactionDate}}"
+            },
+            {
+              "key": "limit",
+              "value": "100"
+            },
+            {
+              "key": "page",
+              "value": "1"
+            },
+            {
+              "disabled": false,
+              "key": "transactionDate",
+              "value": "<date>",
+              "description": "(Required) The date (YYYY-MM-DD) that the terminal has processed the requested transactions. Must be within the past 3 years."
+            },
+            {
+              "disabled": false,
+              "key": "limit",
+              "value": "<number>",
+              "description": "(Required) Specifies the amount of results to be retrieved."
+            },
+            {
+              "disabled": false,
+              "key": "page",
+              "value": "<number>",
+              "description": "(Required) Specify the page to retrieve.\n\nPage-numbering is based on the value of \"limit\". If limit=5, then page=1 will display the hits from 1 to 5, page=3 will display the hits from 11 to 15.\n\nPage numbers start at 1.\n\nA request for a non-existing page will yield 0 results."
+            }
+          ],
+          "variable": [
+            {
+              "disabled": false,
+              "type": "any",
+              "value": "<string>",
+              "key": "mid",
+              "description": "(Required) The merchant ID associated with the Tyro account. Used to identify the merchant whose transaction data is being retrieved."
+            }
+          ]
+        },
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "method": "GET"
+      },
+      "response": [
+        {
+          "id": "8426c0ab-bbd2-474e-8acf-9cb27d09ff01",
+          "name": "Transactions response",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "reporting",
+                "merchants",
+                ":mid",
+                "transactions"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "key": "transactionDate",
+                  "value": "<date>"
+                },
+                {
+                  "key": "limit",
+                  "value": "100"
+                },
+                {
+                  "key": "page",
+                  "value": "2"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "mid",
+                  "description": "(Required) The merchant ID associated with the Tyro account. Used to identify the merchant whose transaction data is being retrieved."
+                }
+              ]
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) ",
+                "key": "Authorization",
+                "value": "Bearer {$$.env.access_token}"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "body": {}
+          },
+          "status": "OK",
+          "code": 200,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"terminalBusinessDay\": \"2025-05-26\",\n  \"merchantDetails\": {\n    \"mid\": \"122\",\n    \"tradingName\": \"Test Merchant\"\n  },\n  \"transactions\": [\n    {\n      \"transactionId\": \"5c05f70e3f0e3bd3b5359d5cf20e5a75fb4dd525229350e15137e78f1bfa4de6\",\n      \"transactionLocalDateTime\": \"2025-05-26T00:22:06\",\n      \"transactionStatus\": \"APPROVED\",\n      \"transactionDescription\": null,\n      \"locationId\": \"122\",\n      \"tid\": 7,\n      \"deviceType\": \"BYO\",\n      \"mobilePlatformType\": null,\n      \"paymentType\": \"GOODS_AND_SERVICES\",\n      \"feeType\": \"INTERNATIONAL\",\n      \"fromAccountType\": \"CREDIT\",\n      \"isExpressPayment\": false,\n      \"card\": {\n        \"type\": \"MASTERCARD\",\n        \"cardLastFour\": \"XXXXXXXXXXXX0007\",\n        \"cardEntryMode\": \"MAG_STRIPE\",\n        \"cardPresent\": true\n      },\n      \"isEcommerceTransaction\": false,\n      \"ecommerceOrderId\": null,\n      \"isRefund\": false,\n      \"refundReason\": null,\n      \"isReversal\": false,\n      \"reversalReason\": null,\n      \"isInternational\": true,\n      \"dcc\": {\n        \"currencyCode\": null,\n        \"exchangeRate\": null,\n        \"foreignCurrencyAmount\": null,\n        \"merchantCommissionAmount\": 0\n      },\n      \"amountDetails\": {\n        \"saleAmount\": 9000,\n        \"refundAmount\": 0,\n        \"tipAmount\": 1000,\n        \"cashOutAmount\": 0,\n        \"surchargeAmount\": 409,\n        \"donationAmount\": 0\n      },\n      \"totalAmount\": 10409,\n      \"amountToPayMerchant\": 10000,\n      \"settlementAmount\": 10000,\n      \"merchantAcquiringFee\": 0.2602,\n      \"acquirerActionCode\": \"APPROVED\",\n      \"rrn\": 514600990020,\n      \"tyroReference\": 990020,\n      \"integratedTransactionId\": \"85c9090d-3a80-4c2f-8e3a-f2513f3426f0\"\n    },\n    {\n      \"transactionId\": \"871b9690255b6203b7c2845cde6aebd5bb2b3f7142807472345627055876e7c6\",\n      \"transactionLocalDateTime\": \"2025-05-26T00:22:06\",\n      \"transactionStatus\": \"APPROVED\",\n      \"transactionDescription\": null,\n      \"locationId\": \"122\",\n      \"tid\": 7,\n      \"deviceType\": \"DX4000\",\n      \"mobilePlatformType\": null,\n      \"paymentType\": \"GOODS_AND_SERVICES\",\n      \"feeType\": \"INTERNATIONAL\",\n      \"fromAccountType\": \"CREDIT\",\n      \"isExpressPayment\": false,\n      \"card\": {\n        \"type\": \"VISA\",\n        \"cardLastFour\": \"XXXXXXXXXXXX0002\",\n        \"cardEntryMode\": \"MAG_STRIPE\",\n        \"cardPresent\": true\n      },\n      \"isEcommerceTransaction\": false,\n      \"ecommerceOrderId\": null,\n      \"isRefund\": false,\n      \"refundReason\": null,\n      \"isReversal\": false,\n      \"reversalReason\": null,\n      \"isInternational\": true,\n      \"dcc\": {\n        \"currencyCode\": null,\n        \"exchangeRate\": null,\n        \"foreignCurrencyAmount\": null,\n        \"merchantCommissionAmount\": 0\n      },\n      \"amountDetails\": {\n        \"saleAmount\": 9000,\n        \"refundAmount\": 0,\n        \"tipAmount\": 1000,\n        \"cashOutAmount\": 0,\n        \"surchargeAmount\": 135,\n        \"donationAmount\": 0\n      },\n      \"totalAmount\": 10135,\n      \"amountToPayMerchant\": 10000,\n      \"settlementAmount\": 10000,\n      \"merchantAcquiringFee\": 0.2534,\n      \"acquirerActionCode\": \"APPROVED\",\n      \"rrn\": 514600990018,\n      \"tyroReference\": 990021,\n      \"integratedTransactionId\": \"af40e34f-3a80-4c2f-8e3a-f25139ae342b\"\n    },\n    {\n      \"transactionId\": \"45b60cf98f723bd3b5359d5cf20e5a75fb4dd525229350e15137eae654e210b3\",\n      \"transactionLocalDateTime\": \"2025-05-26T00:22:06\",\n      \"transactionStatus\": \"APPROVED\",\n      \"transactionDescription\": null,\n      \"locationId\": \"122\",\n      \"tid\": 7,\n      \"deviceType\": null,\n      \"mobilePlatformType\": null,\n      \"paymentType\": \"REFUND_GOODS_AND_SERVICES\",\n      \"feeType\": \"INTERNATIONAL\",\n      \"fromAccountType\": \"CREDIT\",\n      \"isExpressPayment\": false,\n      \"card\": {\n        \"type\": \"VISA\",\n        \"cardLastFour\": \"XXXXXXXXXXXX0002\",\n        \"cardEntryMode\": \"MAG_STRIPE\",\n        \"cardPresent\": true\n      },\n      \"isEcommerceTransaction\": false,\n      \"ecommerceOrderId\": null,\n      \"isRefund\": true,\n      \"refundReason\": null,\n      \"isReversal\": false,\n      \"reversalReason\": null,\n      \"isInternational\": true,\n      \"dcc\": {\n        \"currencyCode\": null,\n        \"exchangeRate\": null,\n        \"foreignCurrencyAmount\": null,\n        \"merchantCommissionAmount\": 0\n      },\n      \"amountDetails\": {\n        \"saleAmount\": 0,\n        \"refundAmount\": -10000,\n        \"tipAmount\": 0,\n        \"cashOutAmount\": 0,\n        \"surchargeAmount\": 0,\n        \"donationAmount\": 0\n      },\n      \"totalAmount\": -10000,\n      \"amountToPayMerchant\": -10000,\n      \"settlementAmount\": -10000,\n      \"merchantAcquiringFee\": 0,\n      \"acquirerActionCode\": \"APPROVED\",\n      \"rrn\": 990021002206,\n      \"tyroReference\": 990018,\n      \"integratedTransactionId\": \"5253aa4e-95dd-466b-9e4e-1fee1b640e77\"\n    }\n  ],\n  \"pagination\": {\n    \"page\": 1,\n    \"size\": 3,\n    \"limit\": 100,\n    \"total\": 3\n  }\n}",
+          "cookie": [],
+          "_postman_previewlanguage": "json"
+        },
+        {
+          "id": "44799b90-1329-4c1b-b911-b18b279840aa",
+          "name": "Bad Request - Missing or invalid parameters",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "reporting",
+                "merchants",
+                ":mid",
+                "transactions"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "key": "transactionDate",
+                  "value": "<date>"
+                },
+                {
+                  "key": "limit",
+                  "value": "100"
+                },
+                {
+                  "key": "page",
+                  "value": "2"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "mid",
+                  "description": "(Required) The merchant ID associated with the Tyro account. Used to identify the merchant whose transaction data is being retrieved."
+                }
+              ]
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) ",
+                "key": "Authorization",
+                "value": "Bearer {$$.env.access_token}"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "body": {}
+          },
+          "status": "Bad Request",
+          "code": 400,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"error\": \"string\",\n  \"errorCode\": \"string\",\n  \"message\": \"string\"\n}",
+          "cookie": [],
+          "_postman_previewlanguage": "json"
+        },
+        {
+          "id": "16c11822-4a73-4161-a834-60d8d99ca972",
+          "name": "Forbidden - When you don't have the required permissions to query the provided location",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "reporting",
+                "merchants",
+                ":mid",
+                "transactions"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "key": "transactionDate",
+                  "value": "<date>"
+                },
+                {
+                  "key": "limit",
+                  "value": "100"
+                },
+                {
+                  "key": "page",
+                  "value": "2"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "mid",
+                  "description": "(Required) The merchant ID associated with the Tyro account. Used to identify the merchant whose transaction data is being retrieved."
+                }
+              ]
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) ",
+                "key": "Authorization",
+                "value": "Bearer {$$.env.access_token}"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "body": {}
+          },
+          "status": "Forbidden",
+          "code": 403,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"error\": \"string\"\n}",
+          "cookie": [],
+          "_postman_previewlanguage": "json"
+        }
+      ],
+      "event": [],
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      }
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.tyro.com/connect",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "ebb6dcb6-4cc1-48ba-b5c0-9ae32a5690d1",
+    "name": "Reporting API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "This API allows you to retrieve various transaction and settlements data for a given mid.",
+      "type": "text/plain"
+    }
+  }
+}

@@ -1,0 +1,1529 @@
+{
+  "item": [
+    {
+      "id": "1196ff1b-d0aa-41c2-8be1-d636f477b0bc",
+      "name": "Pay Requests",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "03f19568-f186-411c-86c3-c9c22534ab21",
+          "name": "Create a Pay Request",
+          "request": {
+            "name": "Create a Pay Request",
+            "description": {
+              "content": "This endpoint is used for creating a Pay Request. Your server should create a Pay Request as soon as the total payment amount is known. Once the Pay Request is created, your frontend will use Tyro.js to collect the customer's payment details and invoke submit() to execute the payment.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "pay",
+                "requests"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"locationId\": \"<string>\",\n  \"total\": {\n    \"amount\": \"<integer>\",\n    \"currency\": \"AUD\"\n  },\n  \"provider\": {\n    \"name\": \"<string>\",\n    \"method\": \"<string>\"\n  },\n  \"origin\": {\n    \"orderId\": \"<string>\",\n    \"orderReference\": \"<string>\",\n    \"name\": \"<string>\"\n  },\n  \"payMethod\": {\n    \"id\": \"<string>\",\n    \"customerId\": \"<string>\",\n    \"save\": \"<boolean>\"\n  },\n  \"action\": \"<string>\",\n  \"capture\": {\n    \"method\": \"<string>\",\n    \"total\": {\n      \"amount\": \"<integer>\",\n      \"currency\": \"AUD\"\n    }\n  },\n  \"statementDescriptor\": \"<string>\",\n  \"statementDescriptorLocation\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "1715600d-e34a-436e-8135-e710bf041bd0",
+              "name": "Created",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "pay",
+                    "requests"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Authorization",
+                    "value": "Bearer {$$.env.access_token}"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"locationId\": \"tc-cool-3000\",\n  \"origin\": {\n    \"orderId\": \"0f448ac1-862a-4c7b-bdb4-a3b7cdbf444\"\n  },\n  \"provider\": {\n    \"name\": \"TYRO\",\n    \"method\": \"CARD\"\n  },\n  \"total\": {\n    \"amount\": 10000,\n    \"currency\": \"AUD\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"0f448ac1-862a-4c7b-bdb4-a3b7cdbf6149\",\n  \"locationId\": \"tc-cool-3000\",\n  \"provider\": {\n    \"name\": \"TYRO\",\n    \"method\": \"CARD\"\n  },\n  \"origin\": {\n    \"orderId\": \"1f448ac1-862a-4c7b-bdb4-a3b7cdbf6145\"\n  },\n  \"status\": \"AWAITING_PAYMENT_INPUT\",\n  \"supportedNetworks\": [\n    \"visa\",\n    \"mastercard\"\n  ],\n  \"action\": null,\n  \"capture\": {\n    \"method\": \"AUTOMATIC\"\n  },\n  \"paySecret\": \"$2a$10$20qRi3XjN1PkTlEVDiYjHefra7c6i2i7yVNu9o5GGTO7ADsWNDuya\",\n  \"total\": {\n    \"amount\": 10000,\n    \"currency\": \"AUD\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "0061f8de-7f62-4122-b13e-7edf2ae326e8",
+              "name": "When the provided payload is not valid.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "pay",
+                    "requests"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Authorization",
+                    "value": "Bearer {$$.env.access_token}"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"locationId\": \"tc-cool-3000\",\n  \"origin\": {\n    \"orderId\": \"0f448ac1-862a-4c7b-bdb4-a3b7cdbf444\"\n  },\n  \"provider\": {\n    \"name\": \"TYRO\",\n    \"method\": \"CARD\"\n  },\n  \"total\": {\n    \"amount\": 10000,\n    \"currency\": \"AUD\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"\\\"locationId\\\" is required\",\n  \"errorCode\": \"VALIDATION_ERROR\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "f4e10c71-a068-4abc-a824-9ca6fa4e3ff8",
+              "name": "When you don't have the right permissions to create a Pay Request for the provided location.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "pay",
+                    "requests"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Authorization",
+                    "value": "Bearer {$$.env.access_token}"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"locationId\": \"tc-cool-3000\",\n  \"origin\": {\n    \"orderId\": \"0f448ac1-862a-4c7b-bdb4-a3b7cdbf444\"\n  },\n  \"provider\": {\n    \"name\": \"TYRO\",\n    \"method\": \"CARD\"\n  },\n  \"total\": {\n    \"amount\": 10000,\n    \"currency\": \"AUD\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "dcd25e97-14cd-48b6-93ec-6898ce0226c8",
+          "name": "Retrieve a Pay Request",
+          "request": {
+            "name": "Retrieve a Pay Request",
+            "description": {
+              "content": "This endpoint is for fetching Pay Requests.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "pay",
+                "requests",
+                ":payRequestId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "payRequestId",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET"
+          },
+          "response": [
+            {
+              "id": "8855895d-bf0c-4f98-8d9f-0a028aac7ce3",
+              "name": "The Pay Request response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "pay",
+                    "requests",
+                    ":payRequestId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "payRequestId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Authorization",
+                    "value": "Bearer {$$.env.access_token}"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"string\",\n  \"paySecret\": \"string\",\n  \"locationId\": \"string\",\n  \"provider\": {\n    \"name\": \"TYRO\",\n    \"method\": \"CARD\"\n  },\n  \"origin\": {\n    \"orderId\": \"string\",\n    \"orderReference\": \"string\",\n    \"name\": \"string\"\n  },\n  \"payMethod\": {\n    \"id\": \"string\",\n    \"customerId\": \"string\",\n    \"save\": false\n  },\n  \"capture\": {\n    \"method\": \"MANUAL\",\n    \"total\": {\n      \"amount\": 12520,\n      \"currency\": \"AUD\"\n    }\n  },\n  \"status\": \"AWAITING_AUTHENTICATION\",\n  \"supportedNetworks\": [\n    \"maestro\",\n    \"maestro\"\n  ],\n  \"total\": {\n    \"amount\": 12520,\n    \"currency\": \"AUD\"\n  },\n  \"transactionResults\": [\n    {\n      \"merchant\": \"string\",\n      \"authentication\": {\n        \"accessControlServerEci\": \"string\",\n        \"accessControlServerTransactionId\": \"string\",\n        \"acceptVersions\": \"string\",\n        \"amount\": \"string\",\n        \"additionalInfo\": \"string\",\n        \"authenticationToken\": \"string\",\n        \"3dsServerTransactionId\": \"string\",\n        \"channel\": \"string\",\n        \"directoryServerId\": \"string\",\n        \"directoryServerTransactionId\": \"string\",\n        \"method\": \"string\",\n        \"methodCompleted\": \"string\",\n        \"methodSupported\": \"SUPPORTED\",\n        \"payerInteraction\": \"string\",\n        \"protocolVersion\": \"string\",\n        \"redirectedDomainName\": \"string\",\n        \"requestorId\": \"string\",\n        \"requestorName\": \"string\",\n        \"statusReasonCode\": \"string\",\n        \"transactionId\": \"string\",\n        \"transactionStatus\": \"DECOUPLED\",\n        \"time\": \"string\",\n        \"version\": \"string\"\n      },\n      \"order\": {\n        \"id\": \"string\",\n        \"status\": \"string\",\n        \"currency\": \"string\",\n        \"reference\": \"string\",\n        \"amount\": 7016.825347686812,\n        \"authorisedAmount\": 1585.8985115727276,\n        \"capturedAmount\": 9693.6702165639,\n        \"refundedAmount\": 8576.977317012166,\n        \"merchantCurrency\": \"string\",\n        \"merchantAmount\": 5029.912840989552,\n        \"createdAt\": \"string\",\n        \"updatedAt\": \"string\"\n      },\n      \"card\": {\n        \"brand\": \"string\",\n        \"scheme\": \"string\",\n        \"expiry\": {\n          \"month\": \"string\",\n          \"year\": \"string\"\n        },\n        \"nameOnCard\": \"string\",\n        \"number\": \"string\",\n        \"fundingMethod\": \"string\",\n        \"firstSixDigits\": \"string\",\n        \"lastFourDigits\": \"string\"\n      },\n      \"operationResult\": {\n        \"result\": \"SUCCESS\",\n        \"acquirerCode\": \"string\",\n        \"gatewayCode\": \"string\",\n        \"authorisationCode\": \"string\",\n        \"errorCode\": \"string\",\n        \"errorMessage\": \"string\"\n      },\n      \"transaction\": {\n        \"id\": \"string\",\n        \"type\": \"string\",\n        \"amount\": 1080.2442417633729,\n        \"currency\": \"string\",\n        \"retrievalReferenceNumber\": \"string\",\n        \"acquirer\": {\n          \"id\": \"string\",\n          \"merchantId\": \"string\",\n          \"additionalResponse\": \"string\"\n        }\n      }\n    },\n    {\n      \"merchant\": \"string\",\n      \"authentication\": {\n        \"accessControlServerEci\": \"string\",\n        \"accessControlServerTransactionId\": \"string\",\n        \"acceptVersions\": \"string\",\n        \"amount\": \"string\",\n        \"additionalInfo\": \"string\",\n        \"authenticationToken\": \"string\",\n        \"3dsServerTransactionId\": \"string\",\n        \"channel\": \"string\",\n        \"directoryServerId\": \"string\",\n        \"directoryServerTransactionId\": \"string\",\n        \"method\": \"string\",\n        \"methodCompleted\": \"string\",\n        \"methodSupported\": \"NOT_SUPPORTED\",\n        \"payerInteraction\": \"string\",\n        \"protocolVersion\": \"string\",\n        \"redirectedDomainName\": \"string\",\n        \"requestorId\": \"string\",\n        \"requestorName\": \"string\",\n        \"statusReasonCode\": \"string\",\n        \"transactionId\": \"string\",\n        \"transactionStatus\": \"NO\",\n        \"time\": \"string\",\n        \"version\": \"string\"\n      },\n      \"order\": {\n        \"id\": \"string\",\n        \"status\": \"string\",\n        \"currency\": \"string\",\n        \"reference\": \"string\",\n        \"amount\": 6699.447809694799,\n        \"authorisedAmount\": 8069.8494816257335,\n        \"capturedAmount\": 9674.793562072522,\n        \"refundedAmount\": 6006.466114562817,\n        \"merchantCurrency\": \"string\",\n        \"merchantAmount\": 8009.201663008918,\n        \"createdAt\": \"string\",\n        \"updatedAt\": \"string\"\n      },\n      \"card\": {\n        \"brand\": \"string\",\n        \"scheme\": \"string\",\n        \"expiry\": {\n          \"month\": \"string\",\n          \"year\": \"string\"\n        },\n        \"nameOnCard\": \"string\",\n        \"number\": \"string\",\n        \"fundingMethod\": \"string\",\n        \"firstSixDigits\": \"string\",\n        \"lastFourDigits\": \"string\"\n      },\n      \"operationResult\": {\n        \"result\": \"SUCCESS\",\n        \"acquirerCode\": \"string\",\n        \"gatewayCode\": \"string\",\n        \"authorisationCode\": \"string\",\n        \"errorCode\": \"string\",\n        \"errorMessage\": \"string\"\n      },\n      \"transaction\": {\n        \"id\": \"string\",\n        \"type\": \"string\",\n        \"amount\": 2312.344312796665,\n        \"currency\": \"string\",\n        \"retrievalReferenceNumber\": \"string\",\n        \"acquirer\": {\n          \"id\": \"string\",\n          \"merchantId\": \"string\",\n          \"additionalResponse\": \"string\"\n        }\n      }\n    }\n  ],\n  \"threeDSecureDetails\": {\n    \"status\": \"AWAITING_3DS_METHOD\"\n  },\n  \"additionalData\": {\n    \"customerIP\": \"127.0.0.1\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "13a7fe22-6ad3-43cc-a2c1-701c504c506e",
+              "name": "When the provided `payRequestId` does not match a Pay Request stored in the system.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "pay",
+                    "requests",
+                    ":payRequestId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "payRequestId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Authorization",
+                    "value": "Bearer {$$.env.access_token}"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "8a4c3886-1139-4e72-96fa-796ec8a64aad",
+          "name": "Update or execute actions on the Pay Request",
+          "request": {
+            "name": "Update or execute actions on the Pay Request",
+            "description": {
+              "content": "This endpoint is for updating a Pay Request or executing actions on the Pay Request.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "pay",
+                "requests",
+                ":payRequestId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "payRequestId",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PATCH",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"action\": \"<string>\",\n  \"authorisation\": {\n    \"total\": {\n      \"amount\": \"<integer>\",\n      \"currency\": \"AUD\"\n    }\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "c15e4f39-f986-4d77-af26-dc5f921c8742",
+              "name": "The Pay Request response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "pay",
+                    "requests",
+                    ":payRequestId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "payRequestId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Authorization",
+                    "value": "Bearer {$$.env.access_token}"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"action\": \"CAPTURE\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"string\",\n  \"paySecret\": \"string\",\n  \"locationId\": \"string\",\n  \"provider\": {\n    \"name\": \"TYRO\",\n    \"method\": \"CARD\"\n  },\n  \"origin\": {\n    \"orderId\": \"string\",\n    \"orderReference\": \"string\",\n    \"name\": \"string\"\n  },\n  \"payMethod\": {\n    \"id\": \"string\",\n    \"customerId\": \"string\",\n    \"save\": false\n  },\n  \"capture\": {\n    \"method\": \"MANUAL\",\n    \"total\": {\n      \"amount\": 12520,\n      \"currency\": \"AUD\"\n    }\n  },\n  \"status\": \"AWAITING_AUTHENTICATION\",\n  \"supportedNetworks\": [\n    \"maestro\",\n    \"maestro\"\n  ],\n  \"total\": {\n    \"amount\": 12520,\n    \"currency\": \"AUD\"\n  },\n  \"transactionResults\": [\n    {\n      \"merchant\": \"string\",\n      \"authentication\": {\n        \"accessControlServerEci\": \"string\",\n        \"accessControlServerTransactionId\": \"string\",\n        \"acceptVersions\": \"string\",\n        \"amount\": \"string\",\n        \"additionalInfo\": \"string\",\n        \"authenticationToken\": \"string\",\n        \"3dsServerTransactionId\": \"string\",\n        \"channel\": \"string\",\n        \"directoryServerId\": \"string\",\n        \"directoryServerTransactionId\": \"string\",\n        \"method\": \"string\",\n        \"methodCompleted\": \"string\",\n        \"methodSupported\": \"SUPPORTED\",\n        \"payerInteraction\": \"string\",\n        \"protocolVersion\": \"string\",\n        \"redirectedDomainName\": \"string\",\n        \"requestorId\": \"string\",\n        \"requestorName\": \"string\",\n        \"statusReasonCode\": \"string\",\n        \"transactionId\": \"string\",\n        \"transactionStatus\": \"DECOUPLED\",\n        \"time\": \"string\",\n        \"version\": \"string\"\n      },\n      \"order\": {\n        \"id\": \"string\",\n        \"status\": \"string\",\n        \"currency\": \"string\",\n        \"reference\": \"string\",\n        \"amount\": 7016.825347686812,\n        \"authorisedAmount\": 1585.8985115727276,\n        \"capturedAmount\": 9693.6702165639,\n        \"refundedAmount\": 8576.977317012166,\n        \"merchantCurrency\": \"string\",\n        \"merchantAmount\": 5029.912840989552,\n        \"createdAt\": \"string\",\n        \"updatedAt\": \"string\"\n      },\n      \"card\": {\n        \"brand\": \"string\",\n        \"scheme\": \"string\",\n        \"expiry\": {\n          \"month\": \"string\",\n          \"year\": \"string\"\n        },\n        \"nameOnCard\": \"string\",\n        \"number\": \"string\",\n        \"fundingMethod\": \"string\",\n        \"firstSixDigits\": \"string\",\n        \"lastFourDigits\": \"string\"\n      },\n      \"operationResult\": {\n        \"result\": \"SUCCESS\",\n        \"acquirerCode\": \"string\",\n        \"gatewayCode\": \"string\",\n        \"authorisationCode\": \"string\",\n        \"errorCode\": \"string\",\n        \"errorMessage\": \"string\"\n      },\n      \"transaction\": {\n        \"id\": \"string\",\n        \"type\": \"string\",\n        \"amount\": 1080.2442417633729,\n        \"currency\": \"string\",\n        \"retrievalReferenceNumber\": \"string\",\n        \"acquirer\": {\n          \"id\": \"string\",\n          \"merchantId\": \"string\",\n          \"additionalResponse\": \"string\"\n        }\n      }\n    },\n    {\n      \"merchant\": \"string\",\n      \"authentication\": {\n        \"accessControlServerEci\": \"string\",\n        \"accessControlServerTransactionId\": \"string\",\n        \"acceptVersions\": \"string\",\n        \"amount\": \"string\",\n        \"additionalInfo\": \"string\",\n        \"authenticationToken\": \"string\",\n        \"3dsServerTransactionId\": \"string\",\n        \"channel\": \"string\",\n        \"directoryServerId\": \"string\",\n        \"directoryServerTransactionId\": \"string\",\n        \"method\": \"string\",\n        \"methodCompleted\": \"string\",\n        \"methodSupported\": \"NOT_SUPPORTED\",\n        \"payerInteraction\": \"string\",\n        \"protocolVersion\": \"string\",\n        \"redirectedDomainName\": \"string\",\n        \"requestorId\": \"string\",\n        \"requestorName\": \"string\",\n        \"statusReasonCode\": \"string\",\n        \"transactionId\": \"string\",\n        \"transactionStatus\": \"NO\",\n        \"time\": \"string\",\n        \"version\": \"string\"\n      },\n      \"order\": {\n        \"id\": \"string\",\n        \"status\": \"string\",\n        \"currency\": \"string\",\n        \"reference\": \"string\",\n        \"amount\": 6699.447809694799,\n        \"authorisedAmount\": 8069.8494816257335,\n        \"capturedAmount\": 9674.793562072522,\n        \"refundedAmount\": 6006.466114562817,\n        \"merchantCurrency\": \"string\",\n        \"merchantAmount\": 8009.201663008918,\n        \"createdAt\": \"string\",\n        \"updatedAt\": \"string\"\n      },\n      \"card\": {\n        \"brand\": \"string\",\n        \"scheme\": \"string\",\n        \"expiry\": {\n          \"month\": \"string\",\n          \"year\": \"string\"\n        },\n        \"nameOnCard\": \"string\",\n        \"number\": \"string\",\n        \"fundingMethod\": \"string\",\n        \"firstSixDigits\": \"string\",\n        \"lastFourDigits\": \"string\"\n      },\n      \"operationResult\": {\n        \"result\": \"SUCCESS\",\n        \"acquirerCode\": \"string\",\n        \"gatewayCode\": \"string\",\n        \"authorisationCode\": \"string\",\n        \"errorCode\": \"string\",\n        \"errorMessage\": \"string\"\n      },\n      \"transaction\": {\n        \"id\": \"string\",\n        \"type\": \"string\",\n        \"amount\": 2312.344312796665,\n        \"currency\": \"string\",\n        \"retrievalReferenceNumber\": \"string\",\n        \"acquirer\": {\n          \"id\": \"string\",\n          \"merchantId\": \"string\",\n          \"additionalResponse\": \"string\"\n        }\n      }\n    }\n  ],\n  \"threeDSecureDetails\": {\n    \"status\": \"AWAITING_3DS_METHOD\"\n  },\n  \"additionalData\": {\n    \"customerIP\": \"127.0.0.1\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "55e6a5e5-3bc6-4201-b6ab-a1cd8752a2f4",
+              "name": "When the provided payload is not valid.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "pay",
+                    "requests",
+                    ":payRequestId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "payRequestId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Authorization",
+                    "value": "Bearer {$$.env.access_token}"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"action\": \"CAPTURE\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"Requested capture amount exceeds authorised amount\",\n  \"errorCode\": \"PAY_REQUEST_CAPTURE_AMOUNT_EXCEEDED\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "0c114079-d9ec-414f-9e4a-b9947dfff1f8",
+              "name": "When the provided `payRequestId` does not match a Pay Request stored in the system.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "pay",
+                    "requests",
+                    ":payRequestId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "payRequestId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Authorization",
+                    "value": "Bearer {$$.env.access_token}"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"action\": \"CAPTURE\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    },
+    {
+      "id": "6cd2f0b3-16d4-417f-bab1-ae0277c43a90",
+      "name": "Pay Methods",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "160a6a60-e6df-4ea7-8527-85ff1cd9d926",
+          "name": "List Pay Methods",
+          "request": {
+            "name": "List Pay Methods",
+            "description": {
+              "content": "This endpoint is for fetching Pay Methods",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "pay",
+                "methods"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "customerId",
+                  "value": "<string>",
+                  "description": "(Required) "
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET"
+          },
+          "response": [
+            {
+              "id": "a2aed062-7737-4302-8f8d-aafc3b7c576e",
+              "name": "The Pay Methods response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "pay",
+                    "methods"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "customerId",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Authorization",
+                    "value": "Bearer {$$.env.access_token}"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"payMethods\": [\n    {\n      \"id\": \"0f448ac1-862a-4c7b-bdb4-a3b7cdbf6149\",\n      \"customerId\": \"1d448ac1-862a-4c7b-bdb4-a3b7cdbf6160\",\n      \"card\": {\n        \"brand\": \"VISA\",\n        \"expiryMonth\": 10,\n        \"expiryYear\": 2050,\n        \"firstSixDigits\": \"4365\",\n        \"lastFourDigits\": \"4365\"\n      }\n    },\n    {\n      \"id\": \"0f448ac1-862a-4c7b-bdb4-a3b7cdbf6149\",\n      \"customerId\": \"1d448ac1-862a-4c7b-bdb4-a3b7cdbf6160\",\n      \"card\": {\n        \"brand\": \"VISA\",\n        \"expiryMonth\": 10,\n        \"expiryYear\": 2050,\n        \"firstSixDigits\": \"4365\",\n        \"lastFourDigits\": \"4365\"\n      }\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "c6ee8df7-cf35-4ee4-81ff-7d246526eb0e",
+          "name": "Retrieve a Pay Method",
+          "request": {
+            "name": "Retrieve a Pay Method",
+            "description": {
+              "content": "Retrieve a Pay Method",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "pay",
+                "methods",
+                ":payMethodId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "payMethodId",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET"
+          },
+          "response": [
+            {
+              "id": "d8b190a0-4e06-4019-8ab6-5e7d57a9b78e",
+              "name": "The Pay Method response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "pay",
+                    "methods",
+                    ":payMethodId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "payMethodId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Authorization",
+                    "value": "Bearer {$$.env.access_token}"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"0f448ac1-862a-4c7b-bdb4-a3b7cdbf6149\",\n  \"customerId\": \"1d448ac1-862a-4c7b-bdb4-a3b7cdbf6160\",\n  \"card\": {\n    \"brand\": \"VISA\",\n    \"expiryMonth\": 10,\n    \"expiryYear\": 2050,\n    \"firstSixDigits\": \"4365\",\n    \"lastFourDigits\": \"4365\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "b3df0b00-6fc3-42a6-bc24-13111507a735",
+              "name": "When the provided `payMethodId` does not match a Pay Method stored in the system.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "pay",
+                    "methods",
+                    ":payMethodId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "payMethodId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Authorization",
+                    "value": "Bearer {$$.env.access_token}"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "fe8b76a1-7cc7-447a-a854-b474c999acb0",
+          "name": "Delete a Pay Method",
+          "request": {
+            "name": "Delete a Pay Method",
+            "description": {
+              "content": "Delete a Pay Method",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "pay",
+                "methods",
+                ":payMethodId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "payMethodId",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "method": "DELETE"
+          },
+          "response": [
+            {
+              "id": "feea06f0-dc6c-4f31-a78d-8186c7c29e81",
+              "name": "When succesfully deleted a pay method",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "pay",
+                    "methods",
+                    ":payMethodId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "payMethodId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Authorization",
+                    "value": "Bearer {$$.env.access_token}"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "4ebefe24-e06a-45be-9fd3-e53e61fa555b",
+              "name": "When invalid `payMethodId` format provided.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "pay",
+                    "methods",
+                    ":payMethodId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "payMethodId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Authorization",
+                    "value": "Bearer {$$.env.access_token}"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "389b5cb3-c665-49a7-95fa-c502136b5ed5",
+              "name": "When invalid `payMethodId`,`partnerId` combination provided.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "pay",
+                    "methods",
+                    ":payMethodId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "payMethodId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Authorization",
+                    "value": "Bearer {$$.env.access_token}"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    },
+    {
+      "id": "a3fac940-c68e-4d18-a0a1-102a8c525bf7",
+      "name": "Pay Refunds",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "a8fc20be-1205-4792-94af-ed0b04f51e38",
+          "name": "Create a Refund Request",
+          "request": {
+            "name": "Create a Refund Request",
+            "description": {
+              "content": "This endpoint is used to create a Refund Request.\n\nRefunds can only be created for successful payments made via a Pay Request. If a Pay Request has not yet been captured, then void the Pay Request instead.\n\nRefunds can be made for the total or partial amount of the Pay Request. Multiple refunds can be created for the same Pay Request as long as the total refunds amount does not exceed the original Pay Request total.\n\nRefunds can only be sent back to the original payment method used.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "pay",
+                "refunds"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"payRequestId\": \"<string>\",\n  \"total\": {\n    \"amount\": \"<integer>\",\n    \"currency\": \"AUD\"\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "99a27013-a6de-45ec-a6ae-ff04df902032",
+              "name": "Created",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "pay",
+                    "refunds"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Authorization",
+                    "value": "Bearer {$$.env.access_token}"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"payRequestId\": \"0f448ac1-862a-4c7b-bdb4-a3b7cdbf6149\",\n  \"total\": {\n    \"amount\": 10000,\n    \"currency\": \"AUD\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"2d448ac1-862a-4c7b-bdb4-a3b7cdbf6148\",\n  \"payRequestId\": \"0f448ac1-862a-4c7b-bdb4-a3b7cdbf6149\",\n  \"status\": \"PROCESSING\",\n  \"total\": {\n    \"amount\": 10000,\n    \"currency\": \"AUD\"\n  },\n  \"createdAt\": \"2022-11-23T22:39:54.765Z\",\n  \"updatedAt\": \"2022-11-23T22:39:55.045Z\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "682e5cb4-e2cc-47e6-ab6e-8747584d8ee2",
+              "name": "When the provided payload is not valid.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "pay",
+                    "refunds"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Authorization",
+                    "value": "Bearer {$$.env.access_token}"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"payRequestId\": \"0f448ac1-862a-4c7b-bdb4-a3b7cdbf6149\",\n  \"total\": {\n    \"amount\": 10000,\n    \"currency\": \"AUD\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"\\\"payRequestId\\\" is required\",\n  \"errorCode\": \"VALIDATION_ERROR\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "d8e870b6-2a74-460d-a7cb-f93cf1159d76",
+              "name": "When you don't have the right permissions to create a Refund Request.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "pay",
+                    "refunds"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Authorization",
+                    "value": "Bearer {$$.env.access_token}"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"payRequestId\": \"0f448ac1-862a-4c7b-bdb4-a3b7cdbf6149\",\n  \"total\": {\n    \"amount\": 10000,\n    \"currency\": \"AUD\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "f708d546-3f80-42a2-ac1b-6af7fd23e312",
+          "name": "List all Refunds",
+          "request": {
+            "name": "List all Refunds",
+            "description": {
+              "content": "Returns a list of refunds.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "pay",
+                "refunds"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET"
+          },
+          "response": [
+            {
+              "id": "315eb701-8659-40b4-8b91-3c0c00381ab9",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "pay",
+                    "refunds"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Authorization",
+                    "value": "Bearer {$$.env.access_token}"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"refunds\": [\n    {\n      \"id\": \"2d448ac1-862a-4c7b-bdb4-a3b7cdbf6143\",\n      \"payRequestId\": \"0f448ac1-862a-4c7b-bdb4-a3b7cdbf6149\",\n      \"total\": {\n        \"amount\": 12520,\n        \"currency\": \"AUD\"\n      },\n      \"status\": \"SUCCESS\",\n      \"createdAt\": \"2022-11-23T22:39:54.931Z\",\n      \"updatedAt\": \"2022-11-23T22:40:48.237Z\"\n    },\n    {\n      \"id\": \"2d448ac1-862a-4c7b-bdb4-a3b7cdbf6143\",\n      \"payRequestId\": \"0f448ac1-862a-4c7b-bdb4-a3b7cdbf6149\",\n      \"total\": {\n        \"amount\": 12520,\n        \"currency\": \"AUD\"\n      },\n      \"status\": \"SUCCESS\",\n      \"createdAt\": \"2022-11-23T22:39:54.931Z\",\n      \"updatedAt\": \"2022-11-23T22:40:48.237Z\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "6dfd7db7-129b-45fb-b53f-6369741618dd",
+              "name": "When you don't have the right permissions to list refunds.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "pay",
+                    "refunds"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Authorization",
+                    "value": "Bearer {$$.env.access_token}"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "b7787590-3524-4044-837a-5cdf3d36a735",
+          "name": "Retrieve a Refund Request",
+          "request": {
+            "name": "Retrieve a Refund Request",
+            "description": {
+              "content": "Retrieve a Refund Request.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "pay",
+                "refunds",
+                ":refundRequestId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "refundRequestId",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET"
+          },
+          "response": [
+            {
+              "id": "686ca55d-1a40-4ace-8cae-6acdd5fb7f9c",
+              "name": "The Refund Request response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "pay",
+                    "refunds",
+                    ":refundRequestId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "refundRequestId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Authorization",
+                    "value": "Bearer {$$.env.access_token}"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"2d448ac1-862a-4c7b-bdb4-a3b7cdbf6143\",\n  \"payRequestId\": \"0f448ac1-862a-4c7b-bdb4-a3b7cdbf6149\",\n  \"total\": {\n    \"amount\": 12520,\n    \"currency\": \"AUD\"\n  },\n  \"status\": \"FAILED\",\n  \"createdAt\": \"2022-11-23T22:39:54.931Z\",\n  \"updatedAt\": \"2022-11-23T22:40:48.237Z\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "31705fc2-1cd5-42cc-b5ea-81cc9d15091a",
+              "name": "When the provided `refundRequestId` does not match a Refund Request stored in the system.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "pay",
+                    "refunds",
+                    ":refundRequestId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "refundRequestId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Authorization",
+                    "value": "Bearer {$$.env.access_token}"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.tyro.com/connect",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "59c4d605-57f0-4d73-a3fd-f64dc899a71e",
+    "name": "Pay API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Pay API",
+      "type": "text/plain"
+    }
+  }
+}

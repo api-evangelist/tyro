@@ -1,0 +1,445 @@
+{
+  "item": [
+    {
+      "id": "852eb2f2-12a3-4a36-8cef-95a22cabc944",
+      "name": "Request latest menu",
+      "request": {
+        "name": "Request latest menu",
+        "description": {
+          "content": "This endpoint starts the process of generating the latest published menu",
+          "type": "text/plain"
+        },
+        "url": {
+          "path": [
+            "menus",
+            ":tcLocationId",
+            "app",
+            "sync"
+          ],
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "query": [],
+          "variable": [
+            {
+              "disabled": false,
+              "type": "any",
+              "value": "<string>",
+              "key": "tcLocationId",
+              "description": "(Required) Tyro Connect Location Id for which menu should be retrieved"
+            }
+          ]
+        },
+        "method": "GET"
+      },
+      "response": [
+        {
+          "id": "97335124-44fa-4d4d-8e4c-7f05df48c4b9",
+          "name": "No body content",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "menus",
+                ":tcLocationId",
+                "app",
+                "sync"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "tcLocationId",
+                  "description": "(Required) Tyro Connect Location Id for which menu should be retrieved"
+                }
+              ]
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) ",
+                "key": "Authorization",
+                "value": "Bearer {$$.env.access_token}"
+              }
+            ],
+            "method": "GET",
+            "body": {}
+          },
+          "status": "No Content",
+          "code": 204,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "text/plain"
+            }
+          ],
+          "body": "",
+          "cookie": [],
+          "_postman_previewlanguage": "text"
+        },
+        {
+          "id": "ea1b738a-1d42-48d2-9013-362219f1a4ae",
+          "name": "When you don't have the required permissions to get menu for the given location",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "menus",
+                ":tcLocationId",
+                "app",
+                "sync"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "tcLocationId",
+                  "description": "(Required) Tyro Connect Location Id for which menu should be retrieved"
+                }
+              ]
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) ",
+                "key": "Authorization",
+                "value": "Bearer {$$.env.access_token}"
+              }
+            ],
+            "method": "GET",
+            "body": {}
+          },
+          "status": "Forbidden",
+          "code": 403,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "text/plain"
+            }
+          ],
+          "body": "",
+          "cookie": [],
+          "_postman_previewlanguage": "text"
+        },
+        {
+          "id": "f6a78a1e-f222-49b6-ab6c-3f009a9e58cd",
+          "name": "When the POS associated with the location has not Menu API enabled and we were unable to find a local version of their menu",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "menus",
+                ":tcLocationId",
+                "app",
+                "sync"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "tcLocationId",
+                  "description": "(Required) Tyro Connect Location Id for which menu should be retrieved"
+                }
+              ]
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) ",
+                "key": "Authorization",
+                "value": "Bearer {$$.env.access_token}"
+              }
+            ],
+            "method": "GET",
+            "body": {}
+          },
+          "status": "Not Found",
+          "code": 404,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "text/plain"
+            }
+          ],
+          "body": "",
+          "cookie": [],
+          "_postman_previewlanguage": "text"
+        },
+        {
+          "id": "53861d30-cae8-4b87-be5a-19d251aaa0db",
+          "name": "When an eixsting request for menu sync is still in progress",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "menus",
+                ":tcLocationId",
+                "app",
+                "sync"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "tcLocationId",
+                  "description": "(Required) Tyro Connect Location Id for which menu should be retrieved"
+                }
+              ]
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) ",
+                "key": "Authorization",
+                "value": "Bearer {$$.env.access_token}"
+              }
+            ],
+            "method": "GET",
+            "body": {}
+          },
+          "status": "Conflict",
+          "code": 409,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "text/plain"
+            }
+          ],
+          "body": "",
+          "cookie": [],
+          "_postman_previewlanguage": "text"
+        }
+      ],
+      "event": [],
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      }
+    },
+    {
+      "id": "a20908e1-3211-4507-85aa-abf3cf2f4221",
+      "name": "Fetch Latest Menu",
+      "request": {
+        "name": "Fetch Latest Menu",
+        "description": {
+          "content": "Used to fetch the latest published menu",
+          "type": "text/plain"
+        },
+        "url": {
+          "path": [
+            "menus",
+            ":tcLocationId",
+            "app",
+            "published"
+          ],
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "query": [],
+          "variable": [
+            {
+              "disabled": false,
+              "type": "any",
+              "value": "<string>",
+              "key": "tcLocationId",
+              "description": "(Required) Tyro Connect Location Id for which menu should be retrieved"
+            }
+          ]
+        },
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "method": "GET"
+      },
+      "response": [
+        {
+          "id": "eeda602b-e68d-4381-995e-aa3d25e6f01c",
+          "name": "The published menu response",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "menus",
+                ":tcLocationId",
+                "app",
+                "published"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "tcLocationId",
+                  "description": "(Required) Tyro Connect Location Id for which menu should be retrieved"
+                }
+              ]
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) ",
+                "key": "Authorization",
+                "value": "Bearer {$$.env.access_token}"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "body": {}
+          },
+          "status": "OK",
+          "code": 200,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"items\": [\n    {\n      \"id\": \"0f448ac1-862a-4c7b-bdb4-a3b7cdbf6149\",\n      \"name\": \"Beef Burger\",\n      \"sku\": \"BFB-001\",\n      \"containsAlcohol\": false,\n      \"price\": {\n        \"amount\": 926.2545851869675,\n        \"currency\": \"string\"\n      },\n      \"description\": \"two patty beef burgers\",\n      \"energy\": {\n        \"amount\": 8167.4503590471795,\n        \"unit\": \"string\"\n      },\n      \"images\": {\n        \"DEFAULT\": \"https://validdefaulturl-to-image.com/image.png\",\n        \"DOORDASH\": \"https://validurl-to-image.com/image.png\"\n      },\n      \"options\": [\n        {\n          \"min\": 7883.24528578217,\n          \"name\": \"Choose a sauce\",\n          \"max\": 9720.244851268655,\n          \"description\": \"string\",\n          \"items\": [\n            {\n              \"id\": \"string\",\n              \"min\": 4495.623045224738,\n              \"max\": 85.69090406236593\n            },\n            {\n              \"id\": \"string\",\n              \"min\": 8753.12297002983,\n              \"max\": 2111.532154020305\n            }\n          ]\n        },\n        {\n          \"min\": 4259.651066134133,\n          \"name\": \"Choose a sauce\",\n          \"max\": 566.3033128286279,\n          \"description\": \"string\",\n          \"items\": [\n            {\n              \"id\": \"string\",\n              \"min\": 4723.8818643142085,\n              \"max\": 3755.9239113269746\n            },\n            {\n              \"id\": \"string\",\n              \"min\": 5847.66739776128,\n              \"max\": 5542.958082783849\n            }\n          ]\n        }\n      ]\n    },\n    {\n      \"id\": \"0f448ac1-862a-4c7b-bdb4-a3b7cdbf6149\",\n      \"name\": \"Beef Burger\",\n      \"sku\": \"BFB-001\",\n      \"containsAlcohol\": true,\n      \"price\": {\n        \"amount\": 1499.9442461153767,\n        \"currency\": \"string\"\n      },\n      \"description\": \"two patty beef burgers\",\n      \"energy\": {\n        \"amount\": 3073.1695559835425,\n        \"unit\": \"string\"\n      },\n      \"images\": {\n        \"DEFAULT\": \"https://validdefaulturl-to-image.com/image.png\",\n        \"DOORDASH\": \"https://validurl-to-image.com/image.png\"\n      },\n      \"options\": [\n        {\n          \"min\": 1885.5013330548586,\n          \"name\": \"Choose a sauce\",\n          \"max\": 1717.6362316595635,\n          \"description\": \"string\",\n          \"items\": [\n            {\n              \"id\": \"string\",\n              \"min\": 498.99408935107135,\n              \"max\": 8453.43141557314\n            },\n            {\n              \"id\": \"string\",\n              \"min\": 8014.087277522979,\n              \"max\": 4687.830188056318\n            }\n          ]\n        },\n        {\n          \"min\": 940.3798454281875,\n          \"name\": \"Choose a sauce\",\n          \"max\": 9851.572115362198,\n          \"description\": \"string\",\n          \"items\": [\n            {\n              \"id\": \"string\",\n              \"min\": 7423.395600790599,\n              \"max\": 6014.703945977857\n            },\n            {\n              \"id\": \"string\",\n              \"min\": 7752.753707323502,\n              \"max\": 7565.075044705791\n            }\n          ]\n        }\n      ]\n    }\n  ],\n  \"sections\": [\n    {\n      \"id\": \"string\",\n      \"name\": \"string\",\n      \"availableTimeSlots\": [\n        \"string\",\n        \"string\"\n      ],\n      \"items\": [\n        \"string\",\n        \"string\"\n      ],\n      \"description\": \"string\",\n      \"modifierGroups\": [\n        \"string\",\n        \"string\"\n      ]\n    },\n    {\n      \"id\": \"string\",\n      \"name\": \"string\",\n      \"availableTimeSlots\": [\n        \"string\",\n        \"string\"\n      ],\n      \"items\": [\n        \"string\",\n        \"string\"\n      ],\n      \"description\": \"string\",\n      \"modifierGroups\": [\n        \"string\",\n        \"string\"\n      ]\n    }\n  ],\n  \"timeSlots\": [\n    {\n      \"id\": \"string\",\n      \"startTime\": \"string\",\n      \"endTime\": \"string\",\n      \"days\": [\n        \"Wednesday\",\n        \"Monday\"\n      ],\n      \"description\": \"string\"\n    },\n    {\n      \"id\": \"string\",\n      \"startTime\": \"string\",\n      \"endTime\": \"string\",\n      \"days\": [\n        \"Saturday\",\n        \"Thursday\"\n      ],\n      \"description\": \"string\"\n    }\n  ],\n  \"modifierGroups\": [\n    {\n      \"id\": \"string\",\n      \"name\": \"string\",\n      \"items\": [\n        {\n          \"id\": \"string\",\n          \"min\": 5140.280033582758,\n          \"max\": 217.27902919959712\n        },\n        {\n          \"id\": \"string\",\n          \"min\": 2827.5595649030647,\n          \"max\": 981.4048399527913\n        }\n      ],\n      \"description\": \"string\",\n      \"min\": 0,\n      \"max\": 2369.694861067386\n    },\n    {\n      \"id\": \"string\",\n      \"name\": \"string\",\n      \"items\": [\n        {\n          \"id\": \"string\",\n          \"min\": 7288.971304723892,\n          \"max\": 2513.8829102917384\n        },\n        {\n          \"id\": \"string\",\n          \"min\": 4483.50930619537,\n          \"max\": 7937.682464981027\n        }\n      ],\n      \"description\": \"string\",\n      \"min\": 0,\n      \"max\": 128.68106966091784\n    }\n  ]\n}",
+          "cookie": [],
+          "_postman_previewlanguage": "json"
+        },
+        {
+          "id": "224b5e95-2794-4f83-8a3b-331d5aaecf76",
+          "name": "When you don't have the required permissions to get menu for the given location",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "menus",
+                ":tcLocationId",
+                "app",
+                "published"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "tcLocationId",
+                  "description": "(Required) Tyro Connect Location Id for which menu should be retrieved"
+                }
+              ]
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) ",
+                "key": "Authorization",
+                "value": "Bearer {$$.env.access_token}"
+              }
+            ],
+            "method": "GET",
+            "body": {}
+          },
+          "status": "Forbidden",
+          "code": 403,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "text/plain"
+            }
+          ],
+          "body": "",
+          "cookie": [],
+          "_postman_previewlanguage": "text"
+        },
+        {
+          "id": "412f13a5-4bb0-4707-9e2c-a7e41d208acb",
+          "name": "When an eixsting request for menu sync is still in progress",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "menus",
+                ":tcLocationId",
+                "app",
+                "published"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "tcLocationId",
+                  "description": "(Required) Tyro Connect Location Id for which menu should be retrieved"
+                }
+              ]
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) ",
+                "key": "Authorization",
+                "value": "Bearer {$$.env.access_token}"
+              }
+            ],
+            "method": "GET",
+            "body": {}
+          },
+          "status": "Conflict",
+          "code": 409,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "text/plain"
+            }
+          ],
+          "body": "",
+          "cookie": [],
+          "_postman_previewlanguage": "text"
+        }
+      ],
+      "event": [],
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      }
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.tyro.com/connect",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "c89b7f56-b2eb-499b-94d6-b084c118ce76",
+    "name": "Menu API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "This API allows apps to retrieve menus for a given location",
+      "type": "text/plain"
+    }
+  }
+}

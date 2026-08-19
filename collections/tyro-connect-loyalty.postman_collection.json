@@ -1,0 +1,2043 @@
+{
+  "item": [
+    {
+      "id": "76266bc1-7659-42ae-ba6b-838da3232425",
+      "name": "Registered Card",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "9e421c5b-da72-4b3d-9722-c1d9d1f60d97",
+          "name": "Get registered card by Id",
+          "request": {
+            "name": "Get registered card by Id",
+            "description": {
+              "content": "This endpoint retrieves a registered card for a registered member.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "loyalty",
+                "registered-cards",
+                ":registeredCardId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "registeredCardId",
+                  "description": "(Required) Id of the registered card"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET"
+          },
+          "response": [
+            {
+              "id": "46042f5d-27df-4c9c-bbc2-150591fcc81b",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "loyalty",
+                    "registered-cards",
+                    ":registeredCardId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "registeredCardId",
+                      "description": "(Required) Id of the registered card"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Authorization",
+                    "value": "Bearer {$$.env.access_token}"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"fe6eacb4c5f5afcf650bff0ea56fdc36-6c8a6220e6f73dde3d161ce605ec68fc7a98b93c9fb708e2674b756df6fd5826c7b55516\",\n  \"paymentId\": \"e429f245-4dcb-4961-9d27-c40538e990b2\",\n  \"paymentSource\": \"EFTPOS\",\n  \"origin\": {\n    \"memberId\": \"foo@bar.com\"\n  },\n  \"preAccumulatedReward\": 5000\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "c5196ae6-df68-40ec-9421-289e4477e783",
+              "name": "When you don't have a valid access token.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "loyalty",
+                    "registered-cards",
+                    ":registeredCardId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "registeredCardId",
+                      "description": "(Required) Id of the registered card"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Authorization",
+                    "value": "Bearer {$$.env.access_token}"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "b874564f-b978-4bf4-a890-cdd33716577b",
+              "name": "When the provided `registeredCardId` does not exist.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "loyalty",
+                    "registered-cards",
+                    ":registeredCardId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "registeredCardId",
+                      "description": "(Required) Id of the registered card"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Authorization",
+                    "value": "Bearer {$$.env.access_token}"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"No card was found for id: a72ca942-1cf7-47c8-8808-dd5aa095e81a\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "6b41e83e-87bd-49b3-92de-42335ff7523a",
+          "name": "Delete registered card by Id",
+          "request": {
+            "name": "Delete registered card by Id",
+            "description": {
+              "content": "This endpoint removes a registered card from a registered member.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "loyalty",
+                "registered-cards",
+                ":registeredCardId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "registeredCardId",
+                  "description": "(Required) Id of the registered card"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "DELETE",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"origin\": {\n    \"memberId\": \"<string>\"\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "73814aec-f067-4f6e-9602-64c088a229dc",
+              "name": "No body content",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "loyalty",
+                    "registered-cards",
+                    ":registeredCardId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "registeredCardId",
+                      "description": "(Required) Id of the registered card"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Authorization",
+                    "value": "Bearer {$$.env.access_token}"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"origin\": {\n    \"memberId\": \"member-1\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "dfa992f5-4873-4673-9674-e57c64c897ec",
+              "name": "When you don't have a valid access token.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "loyalty",
+                    "registered-cards",
+                    ":registeredCardId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "registeredCardId",
+                      "description": "(Required) Id of the registered card"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Authorization",
+                    "value": "Bearer {$$.env.access_token}"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"origin\": {\n    \"memberId\": \"member-1\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "f1d429c1-2713-4613-9dbc-1ba17a898ad9",
+              "name": "When the provided `Id` does not exist.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "loyalty",
+                    "registered-cards",
+                    ":registeredCardId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "registeredCardId",
+                      "description": "(Required) Id of the registered card"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Authorization",
+                    "value": "Bearer {$$.env.access_token}"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"origin\": {\n    \"memberId\": \"member-1\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"No card was found for id: a72ca942-1cf7-47c8-8808-dd5aa095e81a\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    },
+    {
+      "id": "4f4539bc-5df9-4be2-85a0-4d6c3f749d44",
+      "name": "Member",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "4d238345-4b8d-45b2-8f92-ed10dcd63089",
+          "name": "Register member for loyalty",
+          "request": {
+            "name": "Register member for loyalty",
+            "description": {
+              "content": "This endpoint registers a member for a participating location with the loyalty API. This notifies you of all future payments performed by the members at locations you have access to. The payment should have taken place within a 60 minute window of the registration.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "loyalty",
+                "members"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"paymentId\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "5831bb8e-80b0-45da-a7a9-071b8ef7fbe2",
+              "name": "The request has been accepted. The member will be registered when a matching payment is found.\n\nClients must not rely on the response body of this endpoint; although a JSON payload may currently be returned, it is deprecated and will be removed in a future version.\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "loyalty",
+                    "members"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Authorization",
+                    "value": "Bearer {$$.env.access_token}"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"origin\": {\n    \"memberId\": \"member-1\"\n  },\n  \"paymentId\": \"6940871887d8\",\n  \"locationId\": \"cafe-on-main-steet\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Accepted",
+              "code": 202,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "809ec9e5-7bb3-4384-81c0-1882751885ca",
+              "name": "When the provided payload is not valid.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "loyalty",
+                    "members"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Authorization",
+                    "value": "Bearer {$$.env.access_token}"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"origin\": {\n    \"memberId\": \"member-1\"\n  },\n  \"paymentId\": \"6940871887d8\",\n  \"locationId\": \"cafe-on-main-steet\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"\\\"paymentId\\\" is required\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "012c0802-48c1-4dcf-b09c-59fa77b6ab01",
+              "name": "When you don't have a valid access token.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "loyalty",
+                    "members"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Authorization",
+                    "value": "Bearer {$$.env.access_token}"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"origin\": {\n    \"memberId\": \"member-1\"\n  },\n  \"paymentId\": \"6940871887d8\",\n  \"locationId\": \"cafe-on-main-steet\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "5d09cf63-4b0b-4a2b-bb11-d62324b81ce9",
+              "name": "When you don't have the right permissions for a location.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "loyalty",
+                    "members"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Authorization",
+                    "value": "Bearer {$$.env.access_token}"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"origin\": {\n    \"memberId\": \"member-1\"\n  },\n  \"paymentId\": \"6940871887d8\",\n  \"locationId\": \"cafe-on-main-steet\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "21d90e46-9921-478d-8fc3-07f167574d92",
+          "name": "Deregister a member for loyalty.",
+          "request": {
+            "name": "Deregister a member for loyalty.",
+            "description": {
+              "content": "This endpoint deregisters a member from all participating locations with the loyalty API. You will no longer receive notifications about the payments performed by the members at locations you have access to.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "loyalty",
+                "members"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "DELETE",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"origin\": {\n    \"memberId\": \"<string>\"\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "dbcd403f-3188-4012-9160-dba83236ae42",
+              "name": "No body content. Member has been successfully deregistered.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "loyalty",
+                    "members"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Authorization",
+                    "value": "Bearer {$$.env.access_token}"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"origin\": {\n    \"memberId\": \"<string>\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "No Content",
+              "code": 204,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "52281aef-b208-4d3d-8b35-831b0216052e",
+              "name": "When any mandatory request parameters are missing.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "loyalty",
+                    "members"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Authorization",
+                    "value": "Bearer {$$.env.access_token}"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"origin\": {\n    \"memberId\": \"<string>\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "992e5078-55e0-46d9-8a8b-6703bd8292df",
+              "name": "When no valid access token is provided.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "loyalty",
+                    "members"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Authorization",
+                    "value": "Bearer {$$.env.access_token}"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"origin\": {\n    \"memberId\": \"<string>\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "3411f591-c678-4fe6-b7bb-fef2452240c0",
+              "name": "When a valid token is provided but it has no permissions to execute the request.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "loyalty",
+                    "members"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Authorization",
+                    "value": "Bearer {$$.env.access_token}"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"origin\": {\n    \"memberId\": \"<string>\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "ed56e89f-34a5-46d4-816d-e580926c0731",
+              "name": "When a member with the provided member id could not be found.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "loyalty",
+                    "members"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Authorization",
+                    "value": "Bearer {$$.env.access_token}"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"origin\": {\n    \"memberId\": \"<string>\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"Failed to find member matching memberId: some-member-id\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    },
+    {
+      "id": "9cbf2939-ec45-450f-98f9-662858237dd5",
+      "name": "Onboarding",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "dbbfb33a-0fa9-4234-b3c5-ffcfbdf837ec",
+          "name": "Get merchant onboarding request by reference",
+          "request": {
+            "name": "Get merchant onboarding request by reference",
+            "description": {
+              "content": "This endpoint retrieves the details of a merchant onboarding request for a loyalty partner to review, including the location details, business details, and the current status of each integration.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "locations",
+                "merchant-onboarding",
+                "loyalty",
+                ":onboardingReference"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "onboardingReference",
+                  "description": "(Required) The unique reference identifier for the merchant onboarding request."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET"
+          },
+          "response": [
+            {
+              "id": "6d116cee-2192-42db-816b-7862578fb881",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "locations",
+                    "merchant-onboarding",
+                    "loyalty",
+                    ":onboardingReference"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "onboardingReference",
+                      "description": "(Required) The unique reference identifier for the merchant onboarding request."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Authorization",
+                    "value": "Bearer {$$.env.access_token}"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"onboardingId\": \"abc-123-ref\",\n  \"tcLocationId\": \"tc-cafe-main-2000\",\n  \"status\": \"IN_PROGRESS\",\n  \"locationDetails\": {\n    \"name\": \"Cafe on Main Street\",\n    \"address\": \"1 Main Street\",\n    \"postcode\": \"2000\",\n    \"countryIsoCode\": \"AUS\",\n    \"timezone\": \"Australia/Sydney\",\n    \"phoneNumber\": \"+61212345678\"\n  },\n  \"businessDetails\": {\n    \"abn\": \"12345678901\",\n    \"entityName\": \"Cafe Holdings Pty Ltd\",\n    \"address\": \"1 Main Street\",\n    \"postcode\": \"2000\",\n    \"countryIsoCode\": \"AUS\"\n  },\n  \"integrations\": []\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "c2bd9207-ee43-48b5-b82f-9c95071a4045",
+              "name": "When you don't have a valid access token.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "locations",
+                    "merchant-onboarding",
+                    "loyalty",
+                    ":onboardingReference"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "onboardingReference",
+                      "description": "(Required) The unique reference identifier for the merchant onboarding request."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Authorization",
+                    "value": "Bearer {$$.env.access_token}"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "e5826b16-e1b3-4dd1-b081-10675900b63a",
+              "name": "When you don't have the right permissions.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "locations",
+                    "merchant-onboarding",
+                    "loyalty",
+                    ":onboardingReference"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "onboardingReference",
+                      "description": "(Required) The unique reference identifier for the merchant onboarding request."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Authorization",
+                    "value": "Bearer {$$.env.access_token}"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "5e790910-3883-4508-9d3f-16013eefd089",
+              "name": "When the provided `onboardingReference` does not exist or does not belong to your partner.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "locations",
+                    "merchant-onboarding",
+                    "loyalty",
+                    ":onboardingReference"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "onboardingReference",
+                      "description": "(Required) The unique reference identifier for the merchant onboarding request."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Authorization",
+                    "value": "Bearer {$$.env.access_token}"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"MerchantOnboardingRequest with onboardingReference abc-123-ref not found\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "0d61060e-a42b-4a7d-867b-3468fa73475c",
+          "name": "Submit a decision for a merchant onboarding request",
+          "request": {
+            "name": "Submit a decision for a merchant onboarding request",
+            "description": {
+              "content": "This endpoint allows a loyalty partner to approve or reject a merchant onboarding request. When approving, a `loyaltyProgramId` must be provided. When rejecting, an optional `reason` may be provided.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "locations",
+                "merchant-onboarding",
+                "loyalty",
+                ":onboardingReference"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "onboardingReference",
+                  "description": "(Required) The unique reference identifier for the merchant onboarding request."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"action\": \"<string>\",\n  \"loyaltyProgramId\": \"<string>\",\n  \"reason\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "1e155db3-cd83-42ee-86f6-d2f10c171350",
+              "name": "The decision has been successfully processed.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "locations",
+                    "merchant-onboarding",
+                    "loyalty",
+                    ":onboardingReference"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "onboardingReference",
+                      "description": "(Required) The unique reference identifier for the merchant onboarding request."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Authorization",
+                    "value": "Bearer {$$.env.access_token}"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"action\": \"APPROVE\",\n  \"loyaltyProgramId\": \"my-loyalty-program-id\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "f89e6cd6-8b06-4b2a-b657-e41ba630b89e",
+              "name": "When the provided payload is not valid.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "locations",
+                    "merchant-onboarding",
+                    "loyalty",
+                    ":onboardingReference"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "onboardingReference",
+                      "description": "(Required) The unique reference identifier for the merchant onboarding request."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Authorization",
+                    "value": "Bearer {$$.env.access_token}"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"action\": \"APPROVE\",\n  \"loyaltyProgramId\": \"my-loyalty-program-id\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"loyaltyProgramId is required when action is APPROVE\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "14072066-c12c-4219-9912-c93f496d14d3",
+              "name": "When you don't have a valid access token.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "locations",
+                    "merchant-onboarding",
+                    "loyalty",
+                    ":onboardingReference"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "onboardingReference",
+                      "description": "(Required) The unique reference identifier for the merchant onboarding request."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Authorization",
+                    "value": "Bearer {$$.env.access_token}"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"action\": \"APPROVE\",\n  \"loyaltyProgramId\": \"my-loyalty-program-id\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "8d94791e-06fe-48df-8b19-219136cdff74",
+              "name": "When you don't have the right permissions.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "locations",
+                    "merchant-onboarding",
+                    "loyalty",
+                    ":onboardingReference"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "onboardingReference",
+                      "description": "(Required) The unique reference identifier for the merchant onboarding request."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Authorization",
+                    "value": "Bearer {$$.env.access_token}"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"action\": \"APPROVE\",\n  \"loyaltyProgramId\": \"my-loyalty-program-id\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "bf7ed869-275b-4949-8b6b-5d6ca763361d",
+              "name": "When the provided `onboardingReference` does not exist or does not belong to your partner.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "locations",
+                    "merchant-onboarding",
+                    "loyalty",
+                    ":onboardingReference"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "onboardingReference",
+                      "description": "(Required) The unique reference identifier for the merchant onboarding request."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Authorization",
+                    "value": "Bearer {$$.env.access_token}"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"action\": \"APPROVE\",\n  \"loyaltyProgramId\": \"my-loyalty-program-id\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"MerchantOnboardingRequest with onboardingReference abc-123-ref not found\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "94c7225f-2559-4225-a507-75b8a6e1a971",
+              "name": "When a decision has already been submitted for this onboarding request.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "locations",
+                    "merchant-onboarding",
+                    "loyalty",
+                    ":onboardingReference"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "onboardingReference",
+                      "description": "(Required) The unique reference identifier for the merchant onboarding request."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Authorization",
+                    "value": "Bearer {$$.env.access_token}"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"action\": \"APPROVE\",\n  \"loyaltyProgramId\": \"my-loyalty-program-id\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Conflict",
+              "code": 409,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"MerchantOnboardingRequest with onboardingReference abc-123-ref has already received a partner decision\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "c0d911e3-ba86-4f95-ae78-6ef3081666a3",
+              "name": "When the provided `loyaltyProgramId` is not recognised.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "locations",
+                    "merchant-onboarding",
+                    "loyalty",
+                    ":onboardingReference"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "onboardingReference",
+                      "description": "(Required) The unique reference identifier for the merchant onboarding request."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Authorization",
+                    "value": "Bearer {$$.env.access_token}"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"action\": \"APPROVE\",\n  \"loyaltyProgramId\": \"my-loyalty-program-id\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"loyaltyProgramId 'my-unknown-program' was not found\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    },
+    {
+      "id": "65cc4f03-8370-4876-9c06-98278a13dd5e",
+      "name": "Get loyalty activity by Id",
+      "request": {
+        "name": "Get loyalty activity by Id",
+        "description": {
+          "content": "This endpoint retrieves a loyalty activity for a registered member.",
+          "type": "text/plain"
+        },
+        "url": {
+          "path": [
+            "loyalty",
+            "activities",
+            ":loyaltyActivityId"
+          ],
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "query": [],
+          "variable": [
+            {
+              "disabled": false,
+              "type": "any",
+              "value": "<string>",
+              "key": "loyaltyActivityId",
+              "description": "(Required) ID of loyalty activity to retrieve"
+            }
+          ]
+        },
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "method": "GET"
+      },
+      "response": [
+        {
+          "id": "af9eb0df-7fb8-4fbf-8960-e8c1c8000a95",
+          "name": "OK",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "loyalty",
+                "activities",
+                ":loyaltyActivityId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "loyaltyActivityId",
+                  "description": "(Required) ID of loyalty activity to retrieve"
+                }
+              ]
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) ",
+                "key": "Authorization",
+                "value": "Bearer {$$.env.access_token}"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "body": {}
+          },
+          "status": "OK",
+          "code": 200,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"id\": \"99fdaa02-4cb4-4948-a79e-4b69e4008feb\",\n  \"locationId\": \"e429f245-4dcb-4961-9d27-c40538e990b2\",\n  \"memberId\": \"foo@bar.com\",\n  \"payment\": {\n    \"origin\": {\n      \"paymentId\": \"e429f245-4dcb-4961-9d27-c40538e990b2\",\n      \"paymentSource\": \"EFTPOS\"\n    },\n    \"type\": \"PURCHASE\",\n    \"zonedDateTime\": \"2021-10-11T11:00:01+11:00\",\n    \"breakdown\": {\n      \"goodsAndServices\": {\n        \"amount\": \"299\",\n        \"currency\": \"AUD\"\n      },\n      \"cashout\": {\n        \"amount\": \"0\",\n        \"currency\": \"AUD\"\n      },\n      \"tip\": {\n        \"amount\": \"0\",\n        \"currency\": \"AUD\"\n      },\n      \"surcharge\": {\n        \"amount\": \"0\",\n        \"currency\": \"AUD\"\n      }\n    },\n    \"total\": {\n      \"amount\": \"299\",\n      \"currency\": \"AUD\"\n    }\n  },\n  \"sale\": null\n}",
+          "cookie": [],
+          "_postman_previewlanguage": "json"
+        },
+        {
+          "id": "1ff8982f-ebed-4d69-bfd5-f78c2c7b1c9c",
+          "name": "When you don't have a valid access token.",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "loyalty",
+                "activities",
+                ":loyaltyActivityId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "loyaltyActivityId",
+                  "description": "(Required) ID of loyalty activity to retrieve"
+                }
+              ]
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) ",
+                "key": "Authorization",
+                "value": "Bearer {$$.env.access_token}"
+              }
+            ],
+            "method": "GET",
+            "body": {}
+          },
+          "status": "Unauthorized",
+          "code": 401,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "text/plain"
+            }
+          ],
+          "body": "",
+          "cookie": [],
+          "_postman_previewlanguage": "text"
+        },
+        {
+          "id": "b649e40f-0c04-4e16-88d9-2a750a0b8241",
+          "name": "When the provided `loyaltyActivityId` does not exist.",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "loyalty",
+                "activities",
+                ":loyaltyActivityId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "loyaltyActivityId",
+                  "description": "(Required) ID of loyalty activity to retrieve"
+                }
+              ]
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) ",
+                "key": "Authorization",
+                "value": "Bearer {$$.env.access_token}"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "body": {}
+          },
+          "status": "Not Found",
+          "code": 404,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"error\": \"No sale was found for id: a72ca942-1cf7-47c8-8808-dd5aa095e81a\"\n}",
+          "cookie": [],
+          "_postman_previewlanguage": "json"
+        }
+      ],
+      "event": [],
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      }
+    },
+    {
+      "id": "473fe978-08ba-4c9c-810c-d80c8e98d8b9",
+      "name": "Create a test payment",
+      "request": {
+        "name": "Create a test payment",
+        "description": {
+          "content": "This endpoint is for creating fake payments that can be used to test your integration with our system. After registering a member, payments can be generated for that member by providing the memberId that you specified during registration. If `memberId` is null the payment will utilise a random card number not associated with any member and the response will include a `memberReference` value that can be used to identify this non-member customer in future test payments.",
+          "type": "text/plain"
+        },
+        "url": {
+          "path": [
+            "payments",
+            "test"
+          ],
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "query": [],
+          "variable": []
+        },
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "method": "POST",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"memberId\": \"<string>\",\n  \"useNewCard\": \"<boolean>\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": [
+        {
+          "id": "b1d3c7fa-4f1e-4719-b667-e575919659b8",
+          "name": "Created",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "payments",
+                "test"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) ",
+                "key": "Authorization",
+                "value": "Bearer {$$.env.access_token}"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"locationId\": \"tc-testlocation-2000\",\n  \"memberId\": \"some-member-id\",\n  \"paymentType\": \"PURCHASE\",\n  \"paymentSource\": \"EFTPOS\",\n  \"goodsAndServicesAmount\": 100\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"memberId\": \"some-member-id\"\n}",
+          "cookie": [],
+          "_postman_previewlanguage": "json"
+        },
+        {
+          "id": "828fdcd2-3229-4c65-9bd3-a9d71fd35bc0",
+          "name": "When you provide a value that we can't reconcile",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "payments",
+                "test"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) ",
+                "key": "Authorization",
+                "value": "Bearer {$$.env.access_token}"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"locationId\": \"tc-testlocation-2000\",\n  \"memberId\": \"some-member-id\",\n  \"paymentType\": \"PURCHASE\",\n  \"paymentSource\": \"EFTPOS\",\n  \"goodsAndServicesAmount\": 100\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "status": "Not Found",
+          "code": 404,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"error\": \"Failed to find member matching memberId: some-member-id\"\n}",
+          "cookie": [],
+          "_postman_previewlanguage": "json"
+        }
+      ],
+      "event": [],
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      }
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.tyro.com/connect",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "33d6a18e-4337-40c1-b86e-ebe55fabd3d9",
+    "name": "Loyalty Data API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The Loyalty Data API provides App partners with the ability to access data regarding members sales to help aggregate loyalty points. Currently the API allows apps to register their members and are notified on every transaction performed.",
+      "type": "text/plain"
+    }
+  }
+}

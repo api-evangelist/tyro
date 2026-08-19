@@ -1,0 +1,35 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Location API",
+    "version": "1.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Get Online/Offline status",
+        "type": "http"
+      },
+      "http": {
+        "method": "GET",
+        "url": "https://api.tyro.com/connect/locations/:tcLocationId",
+        "headers": [
+          {
+            "name": "Authorization",
+            "value": ""
+          }
+        ],
+        "params": [
+          {
+            "name": "tcLocationId",
+            "value": "",
+            "type": "path",
+            "description": "Tyro Connect Location Id for which the online/offline status should be retrieved"
+          }
+        ]
+      },
+      "docs": "This endpoint allows you to query the online/offline status of a POS"
+    }
+  ],
+  "bundled": true
+}

@@ -1,0 +1,313 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Embedded Payments API",
+    "version": "1.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Merchants",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Authorise a Sandbox Merchant Id",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.tyro.com/connect/tap-to-pay/merchants/:merchantId/authorise/test",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              },
+              {
+                "name": "Content-Type",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "For testing purposes only. Authorise or de-authorise your POS on behalf of the provided merchant for testing on the Sandbox environment only."
+        },
+        {
+          "info": {
+            "name": "Lists merchants",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.tyro.com/connect/tap-to-pay/merchants",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              }
+            ]
+          },
+          "docs": "This endpoint is used for retrieving a list of merchants that the POS has access to."
+        },
+        {
+          "info": {
+            "name": "Fetch a merchant",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.tyro.com/connect/tap-to-pay/merchants/:merchantId",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              }
+            ]
+          },
+          "docs": "This endpoint is used for retrieving a merchant."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Transactions",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Fetch an Embedded Payments transaction",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.tyro.com/connect/tap-to-pay/merchants/:merchantId/transactions/:transactionId",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              }
+            ]
+          },
+          "docs": "This endpoint is used for retrieving an Embedded Payments transaction."
+        },
+        {
+          "info": {
+            "name": "List Embedded Payments transactions",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.tyro.com/connect/tap-to-pay/merchants/:merchantId/transactions",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "reference",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "locationId",
+                "value": "",
+                "type": "query",
+                "description": "The location ID of the transactions to be retrieved.\n\nThis is the location ID of the merchant that you are using to retrieve the transactions."
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Specifies the amount of results to be retrieved.\n\nA maximum of 100 results are returned if this value is not provided."
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Specify the page to retrieve.\n\nYou will need to use this setting if you wish to retrieve specific pages.\n\nPage-numbering is based on the value of \"limit\". If limit=5, then page=1 will display the hits from 1 to 5, page=3 will display the hits from 11 to 15.\n\nPage numbers start at 1.\n\nA request for a non-existing page will yield 0 results."
+              }
+            ]
+          },
+          "docs": "This endpoint is used for retrieving Embedded Payments transactions by search."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Connections",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Create Embedded Payments connection",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.tyro.com/connect/tap-to-pay/connections",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              },
+              {
+                "name": "Content-Type",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "When your App is first initialised, a request is sent to your server to establish a Tyro Embedded Payments connection. This is required to connect to the Embedded Payments reader. Upon receiving the client request, authenticate your user and send the request to Tyro with the `readerId` in the request body."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Locations",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Embedded Payments Locations",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.tyro.com/connect/tap-to-pay/merchants/:merchantId/locations",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "merchantId",
+                "value": "",
+                "type": "path",
+                "description": "The Merchant ID requesting the locations"
+              }
+            ]
+          },
+          "docs": "Retrieve the list of location IDs attached to a Tyro Merchant ID. A location ID represents the physical location from which a payment originates and is required in order to create the Reader"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Readers",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Readers",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.tyro.com/connect/tap-to-pay/merchants/:merchantId/readers",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "merchantId",
+                "value": "",
+                "type": "path",
+                "description": "The Merchant ID associated with the reader"
+              },
+              {
+                "name": "locationId",
+                "value": "",
+                "type": "query",
+                "description": "The Tyro Connect Location Id of the Readers to be retrieved. This parameter is optional."
+              }
+            ]
+          },
+          "docs": "This endpoint is used for retrieving a list of Readers. Readers represent the Embedded Payments Reader at the physical location. The Reader ID is required to create a Reader Connection to initialise the Tyro Embedded Payments SDK."
+        },
+        {
+          "info": {
+            "name": "Create a Reader",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.tyro.com/connect/tap-to-pay/merchants/:merchantId/readers",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              },
+              {
+                "name": "Content-Type",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "merchantId",
+                "value": "",
+                "type": "path",
+                "description": "The Merchant ID creating the reader"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "An async endpoint used for creating a Reader. Register a webhook to be notified when a Reader is created after this endpoint is invoked. Readers represent the Embedded Payments Reader at the physical location. The Reader ID is required to create a Reader Connection to initialise the Tyro Embedded Payments SDK."
+        },
+        {
+          "info": {
+            "name": "Get a Reader",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.tyro.com/connect/tap-to-pay/merchants/:merchantId/readers/:readerId",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "merchantId",
+                "value": "",
+                "type": "path",
+                "description": "The Merchant ID associated with the reader"
+              },
+              {
+                "name": "readerId",
+                "value": "",
+                "type": "path",
+                "description": "The Reader ID"
+              }
+            ]
+          },
+          "docs": "This endpoint is used for retrieving a Reader. Readers represent the Embedded Payments Reader at the physical location. The Reader ID is required to create a Reader Connection to initialise the Tyro Embedded Payments SDK"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

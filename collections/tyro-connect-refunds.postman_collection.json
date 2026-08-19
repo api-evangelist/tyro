@@ -1,0 +1,345 @@
+{
+  "item": [
+    {
+      "id": "fb45686d-4c7e-481c-8702-5875143e086e",
+      "name": "Create a Refund",
+      "request": {
+        "name": "Create a Refund",
+        "description": {
+          "content": "This endpoint creates a refund for an existing transaction. Refunds are processed as referenced refunds, meaning they require a reference to the original transaction.",
+          "type": "text/plain"
+        },
+        "url": {
+          "path": [
+            "refunds",
+            "search-and-refund"
+          ],
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "query": [],
+          "variable": []
+        },
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "method": "POST",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"mid\": \"<string>\",\n  \"transactionReference\": \"<string>\",\n  \"originChannel\": \"<string>\",\n  \"transactionDateTime\": \"<dateTime>\",\n  \"refundAmount\": \"<number>\",\n  \"rrn\": \"<string>\",\n  \"refundReason\": \"<string>\",\n  \"partnerReference\": \"<string>\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": [
+        {
+          "id": "ece1738f-0e66-444b-951d-5feb841f0217",
+          "name": "OK",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "refunds",
+                "search-and-refund"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) ",
+                "key": "Authorization",
+                "value": "Bearer {$$.env.access_token}"
+              },
+              {
+                "disabled": false,
+                "description": "(Required) ",
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"mid\": \"98765\",\n  \"transactionReference\": \"<string>\",\n  \"originChannel\": \"<string>\",\n  \"transactionDateTime\": \"2025-10-01T12:00:00.000Z\",\n  \"refundAmount\": 765,\n  \"rrn\": \"<string>\",\n  \"refundReason\": \"Customer changed their mind\",\n  \"partnerReference\": \"122121\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"refundTransactionReference\": \"8cda1097-0095-4000-a90f-c7375eefad3a\",\n  \"refundTransactionRrn\": \"990021002206\",\n  \"refundAmount\": 765,\n  \"amountAvailableForRefund\": 1000\n}",
+          "cookie": [],
+          "_postman_previewlanguage": "json"
+        },
+        {
+          "id": "1b181bdf-f026-431c-ba5a-0027c4cb630f",
+          "name": "When the provided payload is not valid.",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "refunds",
+                "search-and-refund"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) ",
+                "key": "Authorization",
+                "value": "Bearer {$$.env.access_token}"
+              },
+              {
+                "disabled": false,
+                "description": "(Required) ",
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"mid\": \"98765\",\n  \"transactionReference\": \"<string>\",\n  \"originChannel\": \"<string>\",\n  \"transactionDateTime\": \"2025-10-01T12:00:00.000Z\",\n  \"refundAmount\": 765,\n  \"rrn\": \"<string>\",\n  \"refundReason\": \"Customer changed their mind\",\n  \"partnerReference\": \"122121\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "status": "Bad Request",
+          "code": 400,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"error\": \"Bad request\",\n  \"errorCode\": \"INVALID_INPUT\",\n  \"data\": [\n    \"Invalid ABN\"\n  ]\n}",
+          "cookie": [],
+          "_postman_previewlanguage": "json"
+        },
+        {
+          "id": "bc50360b-eb2a-4d58-9af8-e742b7ebb9b8",
+          "name": "When you don't have the right permissions to create a refund.",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "refunds",
+                "search-and-refund"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) ",
+                "key": "Authorization",
+                "value": "Bearer {$$.env.access_token}"
+              },
+              {
+                "disabled": false,
+                "description": "(Required) ",
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"mid\": \"98765\",\n  \"transactionReference\": \"<string>\",\n  \"originChannel\": \"<string>\",\n  \"transactionDateTime\": \"2025-10-01T12:00:00.000Z\",\n  \"refundAmount\": 765,\n  \"rrn\": \"<string>\",\n  \"refundReason\": \"Customer changed their mind\",\n  \"partnerReference\": \"122121\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "status": "Forbidden",
+          "code": 403,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "text/plain"
+            }
+          ],
+          "body": "",
+          "cookie": [],
+          "_postman_previewlanguage": "text"
+        },
+        {
+          "id": "a5f7e0a7-3c94-4cd4-b63c-a36925e2da65",
+          "name": "When the transaction was not found using the fields provided.",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "refunds",
+                "search-and-refund"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) ",
+                "key": "Authorization",
+                "value": "Bearer {$$.env.access_token}"
+              },
+              {
+                "disabled": false,
+                "description": "(Required) ",
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"mid\": \"98765\",\n  \"transactionReference\": \"<string>\",\n  \"originChannel\": \"<string>\",\n  \"transactionDateTime\": \"2025-10-01T12:00:00.000Z\",\n  \"refundAmount\": 765,\n  \"rrn\": \"<string>\",\n  \"refundReason\": \"Customer changed their mind\",\n  \"partnerReference\": \"122121\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "status": "Not Found",
+          "code": 404,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"error\": \"string\"\n}",
+          "cookie": [],
+          "_postman_previewlanguage": "json"
+        },
+        {
+          "id": "071dcca2-158e-433a-85d0-0ff657484a08",
+          "name": "The request was well-formed but business validation failed.",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "refunds",
+                "search-and-refund"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) ",
+                "key": "Authorization",
+                "value": "Bearer {$$.env.access_token}"
+              },
+              {
+                "disabled": false,
+                "description": "(Required) ",
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"mid\": \"98765\",\n  \"transactionReference\": \"<string>\",\n  \"originChannel\": \"<string>\",\n  \"transactionDateTime\": \"2025-10-01T12:00:00.000Z\",\n  \"refundAmount\": 765,\n  \"rrn\": \"<string>\",\n  \"refundReason\": \"Customer changed their mind\",\n  \"partnerReference\": \"122121\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+          "code": 422,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"error\": \"string\",\n  \"errorCode\": \"string\",\n  \"message\": \"string\"\n}",
+          "cookie": [],
+          "_postman_previewlanguage": "json"
+        }
+      ],
+      "event": [],
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      }
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.tyro.com/connect",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "bf085b61-4d3a-4bac-a8a9-bb44b738c469",
+    "name": "Refunds API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The API allows the APP to create a refund for an existing approved Tyro transaction without the need for the card to be present.\n",
+      "type": "text/plain"
+    }
+  }
+}

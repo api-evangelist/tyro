@@ -1,15 +1,13 @@
 generated: '2026-07-24'
 method: derived
 status: candidate
-source: derived from Tyro Connect OpenAPI operations (no official hosted MCP server
-  found)
+source: derived from Tyro Connect OpenAPI operations (no official hosted MCP server found)
 server:
   name: tyro-connect
   transport: http
   url: null
-  note: Candidate only. Tyro Connect publishes REST APIs (OAuth2 client_credentials,
-    JWT bearer). No first-party MCP server was found; these tools map 1:1 to OpenAPI
-    operations for a future MCP wrapper.
+  note: Candidate only. Tyro Connect publishes REST APIs (OAuth2 client_credentials, JWT bearer). No first-party
+    MCP server was found; these tools map 1:1 to OpenAPI operations for a future MCP wrapper.
 auth:
   type: oauth2
   flow: client_credentials
@@ -300,3 +298,9 @@ tools:
   source_operation: openapi/tyro-pos-pay-terminal.yml#cancel-pay-terminal-request
   method: DELETE
   path: /pay-terminal/requests/{payRequestId}
+deployment:
+  mode: none
+  verified: derived
+  tools: 57
+  checked: '2026-08-12'
+  source: catalog MCP census

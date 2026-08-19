@@ -1,0 +1,1096 @@
+{
+  "item": [
+    {
+      "id": "d7f010fb-3914-48c5-bff8-dd4e61351120",
+      "name": "Create Table",
+      "request": {
+        "name": "Create Table",
+        "description": {
+          "content": "This endpoint is used to create a table within Tyro Connect.\n\nThe id that is returned as a part of the response should be used to identify the table for subsequent events or retrieving the details.",
+          "type": "text/plain"
+        },
+        "url": {
+          "path": [
+            "tables"
+          ],
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "query": [],
+          "variable": []
+        },
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "method": "POST",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"number\": \"<string>\",\n  \"locationId\": \"<string>\",\n  \"section\": {\n    \"id\": \"<string>\",\n    \"name\": \"<string>\"\n  }\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": [
+        {
+          "id": "5ec7f4ed-b902-45db-a434-c7a7bd0029b6",
+          "name": "Created",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "tables"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) ",
+                "key": "Authorization",
+                "value": "Bearer {$$.env.access_token}"
+              },
+              {
+                "disabled": false,
+                "description": "(Required) ",
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"number\": \"table-1\",\n  \"locationId\": \"tc-cool-3000\",\n  \"section\": {\n    \"id\": \"section-id\",\n    \"name\": \"awesome section\"\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "status": "Created",
+          "code": 201,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"id\": \"2688fcf2-44dd-4c72-88ac-79d0910f2983\",\n  \"number\": \"table-1\",\n  \"locationId\": \"tc-cool-3000\",\n  \"section\": {\n    \"id\": \"section-id\",\n    \"name\": \"awesome section\"\n  },\n  \"openSales\": []\n}",
+          "cookie": [],
+          "_postman_previewlanguage": "json"
+        },
+        {
+          "id": "7031e52a-98c7-4720-8456-db2410706f41",
+          "name": "When the provided payload is not valid.",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "tables"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) ",
+                "key": "Authorization",
+                "value": "Bearer {$$.env.access_token}"
+              },
+              {
+                "disabled": false,
+                "description": "(Required) ",
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"number\": \"table-1\",\n  \"locationId\": \"tc-cool-3000\",\n  \"section\": {\n    \"id\": \"section-id\",\n    \"name\": \"awesome section\"\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "status": "Bad Request",
+          "code": 400,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"error\": \"\\\"locationId\\\" is required\"\n}",
+          "cookie": [],
+          "_postman_previewlanguage": "json"
+        },
+        {
+          "id": "6fd7206e-e555-4ed7-ac4f-50781dbd0b80",
+          "name": "When you don't have the right permissions to create a table for the provided location.",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "tables"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) ",
+                "key": "Authorization",
+                "value": "Bearer {$$.env.access_token}"
+              },
+              {
+                "disabled": false,
+                "description": "(Required) ",
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"number\": \"table-1\",\n  \"locationId\": \"tc-cool-3000\",\n  \"section\": {\n    \"id\": \"section-id\",\n    \"name\": \"awesome section\"\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "status": "Forbidden",
+          "code": 403,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "text/plain"
+            }
+          ],
+          "body": "",
+          "cookie": [],
+          "_postman_previewlanguage": "text"
+        }
+      ],
+      "event": [],
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      }
+    },
+    {
+      "id": "989bc607-337a-4d92-8d85-7c892b5ff572",
+      "name": "List Tables",
+      "request": {
+        "name": "List Tables",
+        "description": {
+          "content": "This endpoint returns all the tables of a given location. It is possible to apply filters to the tables being fetched.\n\n## Filtering\nThe following `locationId=tc-cool-3000&openSales=true` will return all tables with open sales for location `tc-cool-3000`.",
+          "type": "text/plain"
+        },
+        "url": {
+          "path": [
+            "tables"
+          ],
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "query": [
+            {
+              "disabled": false,
+              "key": "locationId",
+              "value": "<string>",
+              "description": "(Required) The Tyro Connect Location Id of the tables to be retrieved. This parameter is required."
+            },
+            {
+              "disabled": false,
+              "key": "openSales",
+              "value": "<boolean>",
+              "description": "Returns only tables that contain at least one open sale."
+            }
+          ],
+          "variable": []
+        },
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "method": "GET"
+      },
+      "response": [
+        {
+          "id": "ce370759-647d-47c5-8172-45ac78069c20",
+          "name": "The list of tables",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "tables"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "key": "locationId",
+                  "value": "2688fcf2-44dd-4c72-88ac-79d0910f2983"
+                },
+                {
+                  "key": "openSales",
+                  "value": "true"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) ",
+                "key": "Authorization",
+                "value": "Bearer {$$.env.access_token}"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "body": {}
+          },
+          "status": "OK",
+          "code": 200,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"results\": [\n    {\n      \"id\": \"2688fcf2-44dd-4c72-88ac-79d0910f2983\",\n      \"locationId\": \"tc-iscool-3000\",\n      \"section\": {\n        \"id\": \"section-id\",\n        \"name\": \"awesome section1\"\n      },\n      \"openSales\": [\n        \"3288fcf2-44dd-4c72-88ac-79d0910f1234\",\n        \"8788fcf2-44dd-8c72-88ac-79d0910f1678\"\n      ]\n    },\n    {\n      \"id\": \"432423f3-54dd-6c72-88ac-79d0910f2984\",\n      \"locationId\": \"tc-iscool-3000\",\n      \"openSales\": [\n        \"6969fcf2-44dd-4c72-88ac-79d0910f6969\"\n      ]\n    }\n  ]\n}",
+          "cookie": [],
+          "_postman_previewlanguage": "json"
+        },
+        {
+          "id": "649c1635-7e0b-4d62-980b-b48bb40827b0",
+          "name": "When you don't have the right permissions to fetch the tables for the provided location",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "tables"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "key": "locationId",
+                  "value": "2688fcf2-44dd-4c72-88ac-79d0910f2983"
+                },
+                {
+                  "key": "openSales",
+                  "value": "true"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) ",
+                "key": "Authorization",
+                "value": "Bearer {$$.env.access_token}"
+              }
+            ],
+            "method": "GET",
+            "body": {}
+          },
+          "status": "Forbidden",
+          "code": 403,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "text/plain"
+            }
+          ],
+          "body": "",
+          "cookie": [],
+          "_postman_previewlanguage": "text"
+        },
+        {
+          "id": "9956e4c0-5a94-4acb-aa28-6b7c07000cc5",
+          "name": "When the provided `locationId` does not exist in our system",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "tables"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "key": "locationId",
+                  "value": "2688fcf2-44dd-4c72-88ac-79d0910f2983"
+                },
+                {
+                  "key": "openSales",
+                  "value": "true"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) ",
+                "key": "Authorization",
+                "value": "Bearer {$$.env.access_token}"
+              }
+            ],
+            "method": "GET",
+            "body": {}
+          },
+          "status": "Not Found",
+          "code": 404,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "text/plain"
+            }
+          ],
+          "body": "",
+          "cookie": [],
+          "_postman_previewlanguage": "text"
+        }
+      ],
+      "event": [],
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      }
+    },
+    {
+      "id": "a721b1ab-ceab-456e-b98e-ab2231789d4a",
+      "name": "Get Table",
+      "request": {
+        "name": "Get Table",
+        "description": {
+          "content": "This endpoint is for fetching the details of a table.",
+          "type": "text/plain"
+        },
+        "url": {
+          "path": [
+            "tables",
+            ":tableId"
+          ],
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "query": [],
+          "variable": [
+            {
+              "disabled": false,
+              "type": "any",
+              "value": "<string>",
+              "key": "tableId",
+              "description": "(Required) Id of the table in Tyro Connect that should be retrieved"
+            }
+          ]
+        },
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "method": "GET"
+      },
+      "response": [
+        {
+          "id": "6d08486a-0a6e-477b-b276-f75236b687cd",
+          "name": "The table response",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "tables",
+                ":tableId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "tableId",
+                  "description": "(Required) Id of the table in Tyro Connect that should be retrieved"
+                }
+              ]
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) ",
+                "key": "Authorization",
+                "value": "Bearer {$$.env.access_token}"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "body": {}
+          },
+          "status": "OK",
+          "code": 200,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"id\": \"2688fcf2-44dd-4c72-88ac-79d0910f2983\",\n  \"number\": \"table-1\",\n  \"locationId\": \"tc-iscool-3000\",\n  \"section\": {\n    \"id\": \"section-id\",\n    \"name\": \"awesome section\"\n  },\n  \"openSales\": []\n}",
+          "cookie": [],
+          "_postman_previewlanguage": "json"
+        },
+        {
+          "id": "859b91f7-264f-4767-b002-048b6100dcd7",
+          "name": "When you don't have the right permissions to get a table for the provided location.",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "tables",
+                ":tableId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "tableId",
+                  "description": "(Required) Id of the table in Tyro Connect that should be retrieved"
+                }
+              ]
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) ",
+                "key": "Authorization",
+                "value": "Bearer {$$.env.access_token}"
+              }
+            ],
+            "method": "GET",
+            "body": {}
+          },
+          "status": "Forbidden",
+          "code": 403,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "text/plain"
+            }
+          ],
+          "body": "",
+          "cookie": [],
+          "_postman_previewlanguage": "text"
+        },
+        {
+          "id": "f91e4bed-ac25-4128-baf3-3fd110cac194",
+          "name": "When the provided `tableId` does not match a table stored in the system.",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "tables",
+                ":tableId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "tableId",
+                  "description": "(Required) Id of the table in Tyro Connect that should be retrieved"
+                }
+              ]
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) ",
+                "key": "Authorization",
+                "value": "Bearer {$$.env.access_token}"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "body": {}
+          },
+          "status": "Not Found",
+          "code": 404,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"error\": \"No table found for 2688fcf2-44dd-4c72-88ac-79d0910f2983\"\n}",
+          "cookie": [],
+          "_postman_previewlanguage": "json"
+        }
+      ],
+      "event": [],
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      }
+    },
+    {
+      "id": "afdafa17-6ad0-4b6e-b7f7-f55b3f10b1d6",
+      "name": "Update Table",
+      "request": {
+        "name": "Update Table",
+        "description": {
+          "content": "This endpoint is for updating a table. Please note table update will not be allowed if the table has open sales.",
+          "type": "text/plain"
+        },
+        "url": {
+          "path": [
+            "tables",
+            ":tableId"
+          ],
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "query": [],
+          "variable": [
+            {
+              "disabled": false,
+              "type": "any",
+              "value": "<string>",
+              "key": "tableId",
+              "description": "(Required) Id of the table in Tyro Connect that should be updated"
+            }
+          ]
+        },
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "method": "PATCH",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"number\": \"<string>\",\n  \"section\": {\n    \"id\": \"<string>\",\n    \"name\": \"<string>\"\n  }\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": [
+        {
+          "id": "74e42257-e997-4800-8d5e-e562ec121c46",
+          "name": "No body content",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "tables",
+                ":tableId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "tableId",
+                  "description": "(Required) Id of the table in Tyro Connect that should be updated"
+                }
+              ]
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) ",
+                "key": "Authorization",
+                "value": "Bearer {$$.env.access_token}"
+              },
+              {
+                "disabled": false,
+                "description": "(Required) ",
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "method": "PATCH",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"number\": \"new-table-id\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "status": "No Content",
+          "code": 204,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "text/plain"
+            }
+          ],
+          "body": "",
+          "cookie": [],
+          "_postman_previewlanguage": "text"
+        },
+        {
+          "id": "b6b48c96-f321-4754-8e3e-e6742ab0e300",
+          "name": "When the provided request is not valid.",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "tables",
+                ":tableId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "tableId",
+                  "description": "(Required) Id of the table in Tyro Connect that should be updated"
+                }
+              ]
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) ",
+                "key": "Authorization",
+                "value": "Bearer {$$.env.access_token}"
+              },
+              {
+                "disabled": false,
+                "description": "(Required) ",
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PATCH",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"number\": \"new-table-id\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "status": "Bad Request",
+          "code": 400,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"error\": \"string\"\n}",
+          "cookie": [],
+          "_postman_previewlanguage": "json"
+        },
+        {
+          "id": "b3e8e5ed-6fbb-4a95-8e9d-73b655d6c4d7",
+          "name": "When you don't have the right permissions to update the table.",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "tables",
+                ":tableId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "tableId",
+                  "description": "(Required) Id of the table in Tyro Connect that should be updated"
+                }
+              ]
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) ",
+                "key": "Authorization",
+                "value": "Bearer {$$.env.access_token}"
+              },
+              {
+                "disabled": false,
+                "description": "(Required) ",
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "method": "PATCH",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"number\": \"new-table-id\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "status": "Forbidden",
+          "code": 403,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "text/plain"
+            }
+          ],
+          "body": "",
+          "cookie": [],
+          "_postman_previewlanguage": "text"
+        },
+        {
+          "id": "ced43d6c-aa8f-4651-a511-2d5189c20c51",
+          "name": "When the provided `tableId` does not match a table stored in the system.",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "tables",
+                ":tableId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "tableId",
+                  "description": "(Required) Id of the table in Tyro Connect that should be updated"
+                }
+              ]
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) ",
+                "key": "Authorization",
+                "value": "Bearer {$$.env.access_token}"
+              },
+              {
+                "disabled": false,
+                "description": "(Required) ",
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PATCH",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"number\": \"new-table-id\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "status": "Not Found",
+          "code": 404,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"error\": \"No table found for 2688fcf2-44dd-4c72-88ac-79d0910f2983\"\n}",
+          "cookie": [],
+          "_postman_previewlanguage": "json"
+        }
+      ],
+      "event": [],
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      }
+    },
+    {
+      "id": "9ac81ae3-90fa-4d2b-916f-63e7561f5efe",
+      "name": "Delete Table",
+      "request": {
+        "name": "Delete Table",
+        "description": {
+          "content": "This endpoint is for deleting a table. Please note table delete will not be allowed if the table has open sales.",
+          "type": "text/plain"
+        },
+        "url": {
+          "path": [
+            "tables",
+            ":tableId"
+          ],
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "query": [],
+          "variable": [
+            {
+              "disabled": false,
+              "type": "any",
+              "value": "<string>",
+              "key": "tableId",
+              "description": "(Required) Id of the table in Tyro Connect that should be deleted"
+            }
+          ]
+        },
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "method": "DELETE"
+      },
+      "response": [
+        {
+          "id": "ebe06d12-088d-4a0b-abe1-8e6129c0a39c",
+          "name": "The table was successfully deleted",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "tables",
+                ":tableId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "tableId",
+                  "description": "(Required) Id of the table in Tyro Connect that should be deleted"
+                }
+              ]
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) ",
+                "key": "Authorization",
+                "value": "Bearer {$$.env.access_token}"
+              }
+            ],
+            "method": "DELETE",
+            "body": {}
+          },
+          "status": "OK",
+          "code": 200,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "text/plain"
+            }
+          ],
+          "body": "",
+          "cookie": [],
+          "_postman_previewlanguage": "text"
+        },
+        {
+          "id": "a91a5866-ea3f-4213-9ce9-09465e31e2e9",
+          "name": "When you don't have the right permissions to delete a table for the provided location.",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "tables",
+                ":tableId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "tableId",
+                  "description": "(Required) Id of the table in Tyro Connect that should be deleted"
+                }
+              ]
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) ",
+                "key": "Authorization",
+                "value": "Bearer {$$.env.access_token}"
+              }
+            ],
+            "method": "DELETE",
+            "body": {}
+          },
+          "status": "Forbidden",
+          "code": 403,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "text/plain"
+            }
+          ],
+          "body": "",
+          "cookie": [],
+          "_postman_previewlanguage": "text"
+        },
+        {
+          "id": "cdfa5e20-cdd8-497e-af76-f4facb9e864b",
+          "name": "When the provided `tableId` does not match a table stored in the system.",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "tables",
+                ":tableId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "tableId",
+                  "description": "(Required) Id of the table in Tyro Connect that should be deleted"
+                }
+              ]
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) ",
+                "key": "Authorization",
+                "value": "Bearer {$$.env.access_token}"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "DELETE",
+            "body": {}
+          },
+          "status": "Not Found",
+          "code": 404,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"error\": \"No table found for 2688fcf2-44dd-4c72-88ac-79d0910f2983\"\n}",
+          "cookie": [],
+          "_postman_previewlanguage": "json"
+        }
+      ],
+      "event": [],
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      }
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.tyro.com/connect",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "1348de6e-831b-4e04-8dd9-e15cbb245f69",
+    "name": "Table API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The API allows the APP and POS to send and receive information about tables. Currently the API supports creating, updating and retrieving tables.\n",
+      "type": "text/plain"
+    }
+  }
+}

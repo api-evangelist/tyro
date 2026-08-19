@@ -1,0 +1,85 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Ordering API for App Partners",
+    "version": "1.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "New Order",
+        "type": "http"
+      },
+      "http": {
+        "method": "POST",
+        "url": "https://api.tyro.com/connect/orders",
+        "headers": [
+          {
+            "name": "Authorization",
+            "value": ""
+          }
+        ],
+        "body": {
+          "type": "json",
+          "data": "{}"
+        }
+      },
+      "docs": "This endpoint is for creating an order that Tyro Connect will deliver to a POS.\n\n Make sure you create the order in one of the following statuses:\n - `CREATED` - the order has been created but not approved by the merchant.\n - `ACCEPTED` - the order has already been approved by the merchant (eg. via a separate app available to them).\n\nMaking identical requests with the same `orderId` and content **does not** create a new order. In this case, it returns the previously created order's details.\nThis"
+    },
+    {
+      "info": {
+        "name": "Get Order",
+        "type": "http"
+      },
+      "http": {
+        "method": "GET",
+        "url": "https://api.tyro.com/connect/orders/:orderId",
+        "headers": [
+          {
+            "name": "Authorization",
+            "value": ""
+          }
+        ],
+        "params": [
+          {
+            "name": "orderId",
+            "value": "",
+            "type": "path",
+            "description": "ID of order to retrieve"
+          }
+        ]
+      },
+      "docs": "This endpoint is for fetching the details of an order."
+    },
+    {
+      "info": {
+        "name": "Update Order",
+        "type": "http"
+      },
+      "http": {
+        "method": "PATCH",
+        "url": "https://api.tyro.com/connect/orders/:orderId",
+        "headers": [
+          {
+            "name": "Authorization",
+            "value": ""
+          }
+        ],
+        "params": [
+          {
+            "name": "orderId",
+            "value": "",
+            "type": "path",
+            "description": "ID of order to retrieve"
+          }
+        ],
+        "body": {
+          "type": "json",
+          "data": "{}"
+        }
+      },
+      "docs": "In order to provide more information about the status changes to the order, you can send the following statuses:\n - `CANCELLED_BY_CUSTOMER` - customer has cancelled the order.\n - `FULFILLED` - The order was completed successfully.\n"
+    }
+  ],
+  "bundled": true
+}

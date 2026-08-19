@@ -1,0 +1,782 @@
+{
+  "item": [
+    {
+      "id": "da0f2c2f-5d2f-4964-a608-05dd946c908c",
+      "name": "Create Booking",
+      "request": {
+        "name": "Create Booking",
+        "description": {
+          "content": "This endpoint is used to create a booking within Tyro Connect. This call will create a booking in the POS system.\n\nThe id that is returned as a part of the response should be used to identify the booking for subsequent events or retrieving the details via the [`GET`](#operation/get-booking) endpoint.",
+          "type": "text/plain"
+        },
+        "url": {
+          "path": [
+            "bookings"
+          ],
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "query": [],
+          "variable": []
+        },
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/vnd.tyro.connect+json;version=1.0"
+          },
+          {
+            "key": "Accept",
+            "value": "application/vnd.tyro.connect+json;version=1.0"
+          }
+        ],
+        "method": "POST",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"locationId\": \"<string>\",\n  \"numberOfPeople\": \"<number>\",\n  \"startTime\": \"<dateTime>\",\n  \"asset\": {\n    \"type\": \"<string>\",\n    \"rooms\": [\n      {\n        \"number\": \"<string>\"\n      }\n    ]\n  },\n  \"origin\": {\n    \"bookingReference\": \"<string>\"\n  },\n  \"bookingStatus\": \"CREATED\",\n  \"payments\": [\n    {\n      \"amount\": \"<integer>\",\n      \"currency\": \"AUD\",\n      \"description\": \"<string>\"\n    },\n    {\n      \"amount\": \"<integer>\",\n      \"currency\": \"AUD\",\n      \"description\": \"<string>\"\n    }\n  ],\n  \"endTime\": \"<dateTime>\",\n  \"customer\": {\n    \"id\": \"<string>\",\n    \"name\": \"<string>\",\n    \"notes\": \"<string>\",\n    \"email\": \"<string>\",\n    \"address\": {\n      \"line1\": \"<string>\",\n      \"line2\": \"<string>\",\n      \"suburb\": \"<string>\",\n      \"state\": \"<string>\",\n      \"postcode\": \"<string>\",\n      \"country\": \"<string>\"\n    },\n    \"phoneNumber\": \"<string>\",\n    \"birthday\": \"<string>\"\n  },\n  \"notes\": \"<string>\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": [
+        {
+          "id": "d3179eed-2181-4705-a99d-5f5edaec38f5",
+          "name": "Created",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "bookings"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) ",
+                "key": "Authorization",
+                "value": "Bearer {$$.env.access_token}"
+              },
+              {
+                "disabled": false,
+                "description": "(Required) ",
+                "key": "Accept",
+                "value": "application/vnd.tyro.connect+json;version=0.1"
+              },
+              {
+                "disabled": false,
+                "description": "(Required) ",
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/vnd.tyro.connect+json;version=1.0"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"locationId\": \"merchant:abc123\",\n  \"origin\": {\n    \"bookingReference\": \"some-booking-reference\"\n  },\n  \"asset\": {\n    \"type\": \"TABLE\",\n    \"tables\": [\n      {\n        \"number\": \"1\"\n      }\n    ]\n  },\n  \"numberOfPeople\": 2,\n  \"startTime\": \"2020-03-01T18:00:00Z\",\n  \"bookingStatus\": \"CREATED\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "status": "Created",
+          "code": 201,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/vnd.tyro.connect+json;version=1.0"
+            }
+          ],
+          "body": "{\n  \"id\": \"2688fcf2-44dd-4c72-88ac-79d0910f2983\",\n  \"locationId\": \"merchant:abc123\",\n  \"bookingStatus\": \"CREATED\",\n  \"origin\": {\n    \"bookingReference\": \"some-booking-reference\"\n  },\n  \"asset\": {\n    \"type\": \"TABLE\",\n    \"tables\": [\n      {\n        \"number\": \"1\"\n      }\n    ]\n  },\n  \"numberOfPeople\": 2,\n  \"payments\": [\n    {\n      \"amount\": 4321,\n      \"currency\": \"AUD\",\n      \"description\": \"Reservation payment\"\n    }\n  ],\n  \"startTime\": \"2020-03-01T18:00:00Z\"\n}",
+          "cookie": [],
+          "_postman_previewlanguage": "json"
+        },
+        {
+          "id": "96830e17-ee9e-47c5-81f0-e2410ef23ccc",
+          "name": "When the provided payload is not valid.",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "bookings"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) ",
+                "key": "Authorization",
+                "value": "Bearer {$$.env.access_token}"
+              },
+              {
+                "disabled": false,
+                "description": "(Required) ",
+                "key": "Accept",
+                "value": "application/vnd.tyro.connect+json;version=0.1"
+              },
+              {
+                "disabled": false,
+                "description": "(Required) ",
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/vnd.tyro.connect+json;version=1.0"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"locationId\": \"merchant:abc123\",\n  \"origin\": {\n    \"bookingReference\": \"some-booking-reference\"\n  },\n  \"asset\": {\n    \"type\": \"TABLE\",\n    \"tables\": [\n      {\n        \"number\": \"1\"\n      }\n    ]\n  },\n  \"numberOfPeople\": 2,\n  \"startTime\": \"2020-03-01T18:00:00Z\",\n  \"bookingStatus\": \"CREATED\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "status": "Bad Request",
+          "code": 400,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/vnd.tyro.connect+json;version=1.0"
+            }
+          ],
+          "body": "{\n  \"error\": \"\\\"asset.tableStatus\\\" must be [SEATED]\"\n}",
+          "cookie": [],
+          "_postman_previewlanguage": "json"
+        },
+        {
+          "id": "3631dcbd-2a88-4610-a0b9-c11506518239",
+          "name": "When you don't have the right permissions to seat a booking for the provided location.",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "bookings"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) ",
+                "key": "Authorization",
+                "value": "Bearer {$$.env.access_token}"
+              },
+              {
+                "disabled": false,
+                "description": "(Required) ",
+                "key": "Accept",
+                "value": "application/vnd.tyro.connect+json;version=0.1"
+              },
+              {
+                "disabled": false,
+                "description": "(Required) ",
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"locationId\": \"merchant:abc123\",\n  \"origin\": {\n    \"bookingReference\": \"some-booking-reference\"\n  },\n  \"asset\": {\n    \"type\": \"TABLE\",\n    \"tables\": [\n      {\n        \"number\": \"1\"\n      }\n    ]\n  },\n  \"numberOfPeople\": 2,\n  \"startTime\": \"2020-03-01T18:00:00Z\",\n  \"bookingStatus\": \"CREATED\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "status": "Forbidden",
+          "code": 403,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "text/plain"
+            }
+          ],
+          "body": "",
+          "cookie": [],
+          "_postman_previewlanguage": "text"
+        }
+      ],
+      "event": [],
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      }
+    },
+    {
+      "id": "26acc40a-0505-438e-8983-76cc65c5f2f8",
+      "name": "Get Booking",
+      "request": {
+        "name": "Get Booking",
+        "description": {
+          "content": "This endpoint is for fetching the details of a booking.",
+          "type": "text/plain"
+        },
+        "url": {
+          "path": [
+            "bookings",
+            ":bookingId"
+          ],
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "query": [],
+          "variable": [
+            {
+              "disabled": false,
+              "type": "any",
+              "value": "<string>",
+              "key": "bookingId",
+              "description": "(Required) Id of the booking in Tyro Connect that should be retrieved"
+            }
+          ]
+        },
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/vnd.tyro.connect+json;version=1.0"
+          }
+        ],
+        "method": "GET"
+      },
+      "response": [
+        {
+          "id": "e09ba36d-a40b-475d-82df-655f13639e4a",
+          "name": "The booking response",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "bookings",
+                ":bookingId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "bookingId",
+                  "description": "(Required) Id of the booking in Tyro Connect that should be retrieved"
+                }
+              ]
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) ",
+                "key": "Authorization",
+                "value": "Bearer {$$.env.access_token}"
+              },
+              {
+                "disabled": false,
+                "description": "(Required) ",
+                "key": "Accept",
+                "value": "application/vnd.tyro.connect+json;version=0.1"
+              },
+              {
+                "key": "Accept",
+                "value": "application/vnd.tyro.connect+json;version=1.0"
+              }
+            ],
+            "method": "GET",
+            "body": {}
+          },
+          "status": "OK",
+          "code": 200,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/vnd.tyro.connect+json;version=1.0"
+            }
+          ],
+          "body": "{\n  \"id\": \"2688fcf2-44dd-4c72-88ac-79d0910f2983\",\n  \"locationId\": \"merchant:abc123\",\n  \"bookingStatus\": \"CREATED\",\n  \"origin\": {\n    \"bookingReference\": \"some-booking-reference\"\n  },\n  \"asset\": {\n    \"type\": \"TABLE\",\n    \"tables\": [\n      {\n        \"number\": \"1\"\n      }\n    ]\n  },\n  \"numberOfPeople\": 2,\n  \"startTime\": \"2020-03-01T18:00:00Z\"\n}",
+          "cookie": [],
+          "_postman_previewlanguage": "json"
+        },
+        {
+          "id": "a24ffdb9-62a7-489e-937b-cc8929ce444c",
+          "name": "When you don't have the right permissions to create a booking for the provided location.",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "bookings",
+                ":bookingId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "bookingId",
+                  "description": "(Required) Id of the booking in Tyro Connect that should be retrieved"
+                }
+              ]
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) ",
+                "key": "Authorization",
+                "value": "Bearer {$$.env.access_token}"
+              },
+              {
+                "disabled": false,
+                "description": "(Required) ",
+                "key": "Accept",
+                "value": "application/vnd.tyro.connect+json;version=0.1"
+              }
+            ],
+            "method": "GET",
+            "body": {}
+          },
+          "status": "Forbidden",
+          "code": 403,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "text/plain"
+            }
+          ],
+          "body": "",
+          "cookie": [],
+          "_postman_previewlanguage": "text"
+        },
+        {
+          "id": "118dec26-d18c-48c4-93b5-db8d8e543a47",
+          "name": "When the provided `bookingId` does not match a booking stored in the system.",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "bookings",
+                ":bookingId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "bookingId",
+                  "description": "(Required) Id of the booking in Tyro Connect that should be retrieved"
+                }
+              ]
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) ",
+                "key": "Authorization",
+                "value": "Bearer {$$.env.access_token}"
+              },
+              {
+                "disabled": false,
+                "description": "(Required) ",
+                "key": "Accept",
+                "value": "application/vnd.tyro.connect+json;version=0.1"
+              },
+              {
+                "key": "Accept",
+                "value": "application/vnd.tyro.connect+json;version=1.0"
+              }
+            ],
+            "method": "GET",
+            "body": {}
+          },
+          "status": "Not Found",
+          "code": 404,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/vnd.tyro.connect+json;version=1.0"
+            }
+          ],
+          "body": "{\n  \"error\": \"No booking found for 2688fcf2-44dd-4c72-88ac-79d0910f2983\"\n}",
+          "cookie": [],
+          "_postman_previewlanguage": "json"
+        }
+      ],
+      "event": [],
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      }
+    },
+    {
+      "id": "af810368-f604-4a5f-b538-0aa4b580ca3e",
+      "name": "Update Booking",
+      "request": {
+        "name": "Update Booking",
+        "description": {
+          "content": "This endpoint is for updating a booking.",
+          "type": "text/plain"
+        },
+        "url": {
+          "path": [
+            "bookings",
+            ":bookingId"
+          ],
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "query": [],
+          "variable": [
+            {
+              "disabled": false,
+              "type": "any",
+              "value": "<string>",
+              "key": "bookingId",
+              "description": "(Required) Id of the booking in Tyro Connect that should be updated"
+            }
+          ]
+        },
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/merge-patch+json"
+          },
+          {
+            "key": "Accept",
+            "value": "application/vnd.tyro.connect+json;version=1.0"
+          }
+        ],
+        "method": "PATCH",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"asset\": {\n    \"tableStatus\": \"<string>\",\n    \"arrivalStatus\": \"<string>\",\n    \"tables\": [\n      {\n        \"number\": \"<string>\"\n      }\n    ],\n    \"section\": {\n      \"id\": \"<string>\",\n      \"name\": \"<string>\"\n    },\n    \"rooms\": [\n      {\n        \"number\": \"<string>\"\n      }\n    ],\n    \"discounts\": [\n      \"<string>\"\n    ],\n    \"preOrders\": [\n      \"<string>\"\n    ]\n  },\n  \"bookingStatus\": \"CREATED\",\n  \"numberOfPeople\": \"<number>\",\n  \"payments\": [\n    {\n      \"amount\": \"<integer>\",\n      \"currency\": \"AUD\",\n      \"description\": \"<string>\"\n    },\n    {\n      \"amount\": \"<integer>\",\n      \"currency\": \"AUD\",\n      \"description\": \"<string>\"\n    }\n  ],\n  \"reason\": \"<string>\",\n  \"customer\": {\n    \"id\": \"<string>\",\n    \"name\": \"<string>\",\n    \"notes\": \"<string>\",\n    \"email\": \"<string>\",\n    \"address\": {\n      \"line1\": \"<string>\",\n      \"line2\": \"<string>\",\n      \"suburb\": \"<string>\",\n      \"state\": \"<string>\",\n      \"postcode\": \"<string>\",\n      \"country\": \"<string>\"\n    },\n    \"phoneNumber\": \"<string>\",\n    \"birthday\": \"<string>\"\n  },\n  \"notes\": \"<string>\",\n  \"startTime\": \"<dateTime>\",\n  \"endTime\": \"<dateTime>\",\n  \"origin\": {\n    \"bookingReference\": \"<string>\",\n    \"name\": \"<string>\"\n  }\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": [
+        {
+          "id": "eb13f8f3-6315-4d17-9c04-a8042b687fe4",
+          "name": "No body content",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "bookings",
+                ":bookingId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "bookingId",
+                  "description": "(Required) Id of the booking in Tyro Connect that should be updated"
+                }
+              ]
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) ",
+                "key": "Authorization",
+                "value": "Bearer {$$.env.access_token}"
+              },
+              {
+                "disabled": false,
+                "description": "(Required) ",
+                "key": "Accept",
+                "value": "application/vnd.tyro.connect+json;version=0.1"
+              },
+              {
+                "disabled": false,
+                "description": "(Required) ",
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "method": "PATCH",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"bookingStatus\": \"CANCELLED_BY_CUSTOMER\",\n  \"reason\": \"Illness\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "status": "No Content",
+          "code": 204,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "text/plain"
+            }
+          ],
+          "body": "",
+          "cookie": [],
+          "_postman_previewlanguage": "text"
+        },
+        {
+          "id": "803cfb45-4877-49ec-bcf9-286e8a2b7592",
+          "name": "When the provided request is not valid.",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "bookings",
+                ":bookingId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "bookingId",
+                  "description": "(Required) Id of the booking in Tyro Connect that should be updated"
+                }
+              ]
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) ",
+                "key": "Authorization",
+                "value": "Bearer {$$.env.access_token}"
+              },
+              {
+                "disabled": false,
+                "description": "(Required) ",
+                "key": "Accept",
+                "value": "application/vnd.tyro.connect+json;version=0.1"
+              },
+              {
+                "disabled": false,
+                "description": "(Required) ",
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/vnd.tyro.connect+json;version=1.0"
+              }
+            ],
+            "method": "PATCH",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"bookingStatus\": \"CANCELLED_BY_CUSTOMER\",\n  \"reason\": \"Illness\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "status": "Bad Request",
+          "code": 400,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/vnd.tyro.connect+json;version=1.0"
+            }
+          ],
+          "body": "{\n  \"error\": \"\\\"asset.tableStatus\\\" must be one of [SEATED, DINING, FINALISED, CLOSING]\"\n}",
+          "cookie": [],
+          "_postman_previewlanguage": "json"
+        },
+        {
+          "id": "cf89e4d7-fd6e-4d54-8c00-f44d9df8ac81",
+          "name": "When you don't have the right permissions to update the booking.",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "bookings",
+                ":bookingId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "bookingId",
+                  "description": "(Required) Id of the booking in Tyro Connect that should be updated"
+                }
+              ]
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) ",
+                "key": "Authorization",
+                "value": "Bearer {$$.env.access_token}"
+              },
+              {
+                "disabled": false,
+                "description": "(Required) ",
+                "key": "Accept",
+                "value": "application/vnd.tyro.connect+json;version=0.1"
+              },
+              {
+                "disabled": false,
+                "description": "(Required) ",
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "method": "PATCH",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"bookingStatus\": \"CANCELLED_BY_CUSTOMER\",\n  \"reason\": \"Illness\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "status": "Forbidden",
+          "code": 403,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "text/plain"
+            }
+          ],
+          "body": "",
+          "cookie": [],
+          "_postman_previewlanguage": "text"
+        },
+        {
+          "id": "b0c9d176-2395-496e-9121-1458b5f2e3ac",
+          "name": "When the provided `bookingId` does not match a booking stored in the system.",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "bookings",
+                ":bookingId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "bookingId",
+                  "description": "(Required) Id of the booking in Tyro Connect that should be updated"
+                }
+              ]
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) ",
+                "key": "Authorization",
+                "value": "Bearer {$$.env.access_token}"
+              },
+              {
+                "disabled": false,
+                "description": "(Required) ",
+                "key": "Accept",
+                "value": "application/vnd.tyro.connect+json;version=0.1"
+              },
+              {
+                "disabled": false,
+                "description": "(Required) ",
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/vnd.tyro.connect+json;version=1.0"
+              }
+            ],
+            "method": "PATCH",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"bookingStatus\": \"CANCELLED_BY_CUSTOMER\",\n  \"reason\": \"Illness\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "status": "Not Found",
+          "code": 404,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/vnd.tyro.connect+json;version=1.0"
+            }
+          ],
+          "body": "{\n  \"error\": \"No booking found for 2688fcf2-44dd-4c72-88ac-79d0910f2983\"\n}",
+          "cookie": [],
+          "_postman_previewlanguage": "json"
+        }
+      ],
+      "event": [],
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      }
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.tyro.com/connect",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "483c1b6d-2a5c-450c-9834-a2645f671503",
+    "name": "Booking API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The API allows the APP and POS to send and receive information about bookings. Currently the API supports creating, updating and retrieving bookings in the POS or the booking system.\n",
+      "type": "text/plain"
+    }
+  }
+}

@@ -1,0 +1,60 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Referrals API",
+    "version": "1.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Create Referral",
+        "type": "http"
+      },
+      "http": {
+        "method": "POST",
+        "url": "https://api.tyro.com/connect/referrals",
+        "headers": [
+          {
+            "name": "Authorization",
+            "value": ""
+          },
+          {
+            "name": "Content-Type",
+            "value": ""
+          }
+        ],
+        "body": {
+          "type": "json",
+          "data": "{}"
+        }
+      },
+      "docs": "This endpoint is used to create a referral within Tyro Connect.\n\nUse the *referralId* that is returned in the response to identify the referral for subsequent events or retrieving the details."
+    },
+    {
+      "info": {
+        "name": "Get Referral",
+        "type": "http"
+      },
+      "http": {
+        "method": "GET",
+        "url": "https://api.tyro.com/connect/referrals/:referralId",
+        "headers": [
+          {
+            "name": "Authorization",
+            "value": ""
+          }
+        ],
+        "params": [
+          {
+            "name": "referralId",
+            "value": "",
+            "type": "path",
+            "description": "Id of the referral in Tyro Connect that should be retrieved"
+          }
+        ]
+      },
+      "docs": "This endpoint is for fetching the details of a referral."
+    }
+  ],
+  "bundled": true
+}

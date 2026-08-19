@@ -1,0 +1,1718 @@
+{
+  "item": [
+    {
+      "id": "8b61dd98-c80c-41af-a907-72ddc189dcf9",
+      "name": "Pay Requests",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "44fcf5f5-a383-4775-b280-7f38a1ea6247",
+          "name": "Create a Pay Request",
+          "request": {
+            "name": "Create a Pay Request",
+            "description": {
+              "content": "This endpoint is used for creating a Pay Request. Your server should create a Pay Request as soon as the total payment amount is known. Once the Pay Request is created, given the terminal is not busy, or offline, the process to pay will be initialised.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "pay-terminal",
+                "requests"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"mid\": \"<string>\",\n  \"tid\": \"<string>\",\n  \"total\": {\n    \"goodsAndServicesAmount\": \"<integer>\",\n    \"cashoutAmount\": \"<integer>\",\n    \"refundAmount\": \"<integer>\",\n    \"currency\": \"AUD\"\n  },\n  \"origin\": {\n    \"orderId\": \"<string>\",\n    \"transactionId\": \"<string>\",\n    \"name\": \"<string>\"\n  },\n  \"options\": {\n    \"integratedReceipt\": true,\n    \"receiptWidth\": 60\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "a138bbe7-c4be-4113-b95c-b7cbccb54054",
+              "name": "Created",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "pay-terminal",
+                    "requests"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Authorization",
+                    "value": "Bearer {$$.env.access_token}"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"mid\": \"123\",\n  \"tid\": \"456\",\n  \"origin\": {\n    \"orderId\": \"2e6174ae-ba4f-4a02-8072-9304d862e320\",\n    \"transactionId\": \"2e6174ae-ba4f-4a02-8072-9304d862e320\"\n  },\n  \"total\": {\n    \"goodsAndServicesAmount\": 1000,\n    \"cashoutAmount\": 500,\n    \"refundAmount\": 0,\n    \"currency\": \"AUD\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"0f448ac1-862a-4c7b-bdb4-a3b7cdbf6149\",\n  \"mid\": \"123\",\n  \"tid\": \"456\",\n  \"status\": \"AWAITING_INITIALISATION\",\n  \"origin\": {\n    \"orderId\": \"2e6174ae-ba4f-4a02-8072-9304d862e320\",\n    \"transactionId\": \"2e6174ae-ba4f-4a02-8072-9304d862e320\"\n  },\n  \"options\": {\n    \"integratedReceipt\": true,\n    \"receiptWidth\": 60\n  },\n  \"total\": {\n    \"goodsAndServicesAmount\": 1000,\n    \"cashoutAmount\": 500,\n    \"refundAmount\": 0,\n    \"currency\": \"AUD\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "b353689c-7d85-4784-854d-fb8fda0a8aac",
+              "name": "When the provided payload is not valid.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "pay-terminal",
+                    "requests"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Authorization",
+                    "value": "Bearer {$$.env.access_token}"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"mid\": \"123\",\n  \"tid\": \"456\",\n  \"origin\": {\n    \"orderId\": \"2e6174ae-ba4f-4a02-8072-9304d862e320\",\n    \"transactionId\": \"2e6174ae-ba4f-4a02-8072-9304d862e320\"\n  },\n  \"total\": {\n    \"goodsAndServicesAmount\": 1000,\n    \"cashoutAmount\": 500,\n    \"refundAmount\": 0,\n    \"currency\": \"AUD\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"\\\"mid\\\" is required\",\n  \"errorCode\": \"VALIDATION_ERROR\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "22faaf05-7a55-4f30-9c49-f6d35d136652",
+              "name": "When you don't have the right permissions to create a Pay Request for the provided mid.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "pay-terminal",
+                    "requests"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Authorization",
+                    "value": "Bearer {$$.env.access_token}"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"mid\": \"123\",\n  \"tid\": \"456\",\n  \"origin\": {\n    \"orderId\": \"2e6174ae-ba4f-4a02-8072-9304d862e320\",\n    \"transactionId\": \"2e6174ae-ba4f-4a02-8072-9304d862e320\"\n  },\n  \"total\": {\n    \"goodsAndServicesAmount\": 1000,\n    \"cashoutAmount\": 500,\n    \"refundAmount\": 0,\n    \"currency\": \"AUD\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "3c078e25-a5ec-4cb5-b893-2bd6551fb096",
+              "name": "When the provided mid is not found.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "pay-terminal",
+                    "requests"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Authorization",
+                    "value": "Bearer {$$.env.access_token}"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"mid\": \"123\",\n  \"tid\": \"456\",\n  \"origin\": {\n    \"orderId\": \"2e6174ae-ba4f-4a02-8072-9304d862e320\",\n    \"transactionId\": \"2e6174ae-ba4f-4a02-8072-9304d862e320\"\n  },\n  \"total\": {\n    \"goodsAndServicesAmount\": 1000,\n    \"cashoutAmount\": 500,\n    \"refundAmount\": 0,\n    \"currency\": \"AUD\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"Merchant ID not found.\",\n  \"errorCode\": \"MID_NOT_FOUND\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "7816ca60-b78a-4f59-8a1e-6c0c40f4caa2",
+              "name": "When the terminal is not paired.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "pay-terminal",
+                    "requests"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Authorization",
+                    "value": "Bearer {$$.env.access_token}"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"mid\": \"123\",\n  \"tid\": \"456\",\n  \"origin\": {\n    \"orderId\": \"2e6174ae-ba4f-4a02-8072-9304d862e320\",\n    \"transactionId\": \"2e6174ae-ba4f-4a02-8072-9304d862e320\"\n  },\n  \"total\": {\n    \"goodsAndServicesAmount\": 1000,\n    \"cashoutAmount\": 500,\n    \"refundAmount\": 0,\n    \"currency\": \"AUD\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Precondition Failed",
+              "code": 412,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"Terminal is not paired.\",\n  \"errorCode\": \"TERMINAL_NOT_PAIRED\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "8175a0d3-cbbd-4981-84ea-adc8f51bcb44",
+          "name": "Retrieve a Pay Request",
+          "request": {
+            "name": "Retrieve a Pay Request",
+            "description": {
+              "content": "This endpoint is for fetching Pay Requests.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "pay-terminal",
+                "requests",
+                ":payRequestId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "payRequestId",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET"
+          },
+          "response": [
+            {
+              "id": "0332f8fb-fc9a-49d4-ae1f-7850cded25d0",
+              "name": "The Pay Request response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "pay-terminal",
+                    "requests",
+                    ":payRequestId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "payRequestId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Authorization",
+                    "value": "Bearer {$$.env.access_token}"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"a2be1eaf-b873-4aa9-9530-fc3007231572\",\n  \"mid\": \"123\",\n  \"tid\": \"456\",\n  \"status\": \"SUCCESS\",\n  \"total\": {\n    \"currency\": \"AUD\",\n    \"cashoutAmount\": 1000,\n    \"goodsAndServicesAmount\": 5000,\n    \"refundAmount\": 0\n  },\n  \"options\": {\n    \"integratedReceipt\": true,\n    \"receiptWidth\": 60\n  },\n  \"origin\": {\n    \"name\": \"Example\",\n    \"orderId\": \"Pay Terminal Example\",\n    \"transactionId\": \"cffd6564-0023-44d8-996e-2932292277c2\"\n  },\n  \"transactionProgress\": {\n    \"id\": \"COMPLETE\",\n    \"description\": \"The transaction is processed\"\n  },\n  \"pendingDecision\": {\n    \"decisionId\": \"0f448ac1-862a-4c7b-bdb4-a3b7cdbf6149\",\n    \"question\": \"Would you like to print a receipt?\",\n    \"options\": [\n      \"YES\",\n      \"NO\"\n    ]\n  },\n  \"receipts\": {\n    \"customer\": \"<This will be a printable receipt for the customer>\",\n    \"merchant\": \"<This will be a printable receipt for the merchant>\",\n    \"signature\": \"<This will be a printable receipt for the merchant if signature is required>\"\n  },\n  \"transactionOutcome\": {\n    \"transactionResult\": \"Approved\",\n    \"approvalCode\": \"00\",\n    \"transactionReference\": \"xa29boybbo\",\n    \"authorisationNumber\": \"674574564\",\n    \"cardType\": \"visa\",\n    \"elidedPan\": \"XXXXXXXXXXXX8635\",\n    \"retrievalReferenceNumber\": \"63594680046125834000\",\n    \"surchargeAmount\": 300,\n    \"tipAmount\": 500,\n    \"totalAmount\": 6800\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "65a1464b-ae47-41e4-949c-bee4593e44d7",
+              "name": "When the provided `payRequestId` does not match a Pay Request stored in the system.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "pay-terminal",
+                    "requests",
+                    ":payRequestId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "payRequestId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Authorization",
+                    "value": "Bearer {$$.env.access_token}"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "b621d893-de1e-4fcb-b744-2ac69f3e79cf",
+          "name": "Answer a Terminal Prompt",
+          "request": {
+            "name": "Answer a Terminal Prompt",
+            "description": {
+              "content": "An async endpoint used for attempting to answer a pending decision prompt on a terminal. The decisionId & answer is returned by the payRequest in the pendingDecision object, and is required to differentiate prompt messages. There is no result to acknowledge that this decision was received by the terminal.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "pay-terminal",
+                "requests",
+                ":payRequestId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "payRequestId",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PUT",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"decisionId\": \"<string>\",\n  \"answer\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "4bfc3493-02a8-4f99-a123-f9e498a25cfe",
+              "name": "Accepted",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "pay-terminal",
+                    "requests",
+                    ":payRequestId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "payRequestId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Authorization",
+                    "value": "Bearer {$$.env.access_token}"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"decisionId\": \"0f448ac1-862a-4c7b-bdb4-a3b7cdbf6149\",\n  \"answer\": \"YES\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Accepted",
+              "code": 202,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "1dcf496d-bd94-445b-ac99-c695106fe1fe",
+              "name": "When the provided payload is not valid.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "pay-terminal",
+                    "requests",
+                    ":payRequestId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "payRequestId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Authorization",
+                    "value": "Bearer {$$.env.access_token}"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"decisionId\": \"0f448ac1-862a-4c7b-bdb4-a3b7cdbf6149\",\n  \"answer\": \"YES\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"\\\"decisionId\\\" is required\",\n  \"errorCode\": \"VALIDATION_ERROR\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "d57f63df-5507-487f-ac25-cd20e76b5305",
+              "name": "When you don't have the right permissions to answer a pending decision for the provided payRequest.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "pay-terminal",
+                    "requests",
+                    ":payRequestId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "payRequestId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Authorization",
+                    "value": "Bearer {$$.env.access_token}"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"decisionId\": \"0f448ac1-862a-4c7b-bdb4-a3b7cdbf6149\",\n  \"answer\": \"YES\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "146e75e2-909d-492c-9cd8-19401eb1b250",
+              "name": "When the terminal is not paired.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "pay-terminal",
+                    "requests",
+                    ":payRequestId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "payRequestId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Authorization",
+                    "value": "Bearer {$$.env.access_token}"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"decisionId\": \"0f448ac1-862a-4c7b-bdb4-a3b7cdbf6149\",\n  \"answer\": \"YES\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Precondition Failed",
+              "code": 412,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"Terminal is not paired.\",\n  \"errorCode\": \"TERMINAL_NOT_PAIRED\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "5c7d4bcc-13d1-41ac-9806-83f4b887f808",
+          "name": "Cancel a Pay Request",
+          "request": {
+            "name": "Cancel a Pay Request",
+            "description": {
+              "content": "An async endpoint used for attempting to cancel a pending decision prompt on a terminal. There is no result to acknowledge that this cancellation was processed by the terminal. If the transaction is already in a fully processed state, this call will be rejected.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "pay-terminal",
+                "requests",
+                ":payRequestId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "payRequestId",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "DELETE"
+          },
+          "response": [
+            {
+              "id": "0bf07d44-815c-456d-9afd-5c69c4247a0b",
+              "name": "Accepted",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "pay-terminal",
+                    "requests",
+                    ":payRequestId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "payRequestId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Authorization",
+                    "value": "Bearer {$$.env.access_token}"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Accepted",
+              "code": 202,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "f9829671-aee6-49ac-9ea2-891ca95dc460",
+              "name": "When you don't have the right permissions to cancel a pending payRequest.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "pay-terminal",
+                    "requests",
+                    ":payRequestId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "payRequestId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Authorization",
+                    "value": "Bearer {$$.env.access_token}"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "20c68bc4-c77b-43c9-8e75-aff752b86aa4",
+              "name": "When the terminal is not paired.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "pay-terminal",
+                    "requests",
+                    ":payRequestId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "payRequestId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Authorization",
+                    "value": "Bearer {$$.env.access_token}"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Precondition Failed",
+              "code": 412,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"Terminal is not paired.\",\n  \"errorCode\": \"TERMINAL_NOT_PAIRED\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    },
+    {
+      "id": "f7994239-dc4a-4f05-8ce9-11111c61d868",
+      "name": "Merchants",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "ff69852e-7b8a-43d5-8f72-a9ece9be40eb",
+          "name": "Lists merchants",
+          "request": {
+            "name": "Lists merchants",
+            "description": {
+              "content": "This endpoint is used for retrieving a list of merchants that the POS has access to.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "pay-terminal",
+                "merchants"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET"
+          },
+          "response": [
+            {
+              "id": "481ca986-0608-4e5a-861c-6b23d9c240a8",
+              "name": "The list of Merchants associated with the POS.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "pay-terminal",
+                    "merchants"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Authorization",
+                    "value": "Bearer {$$.env.access_token}"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"results\": [\n    {\n      \"mid\": \"98765\",\n      \"posReference\": \"SydneyShop\",\n      \"isAuthorised\": true,\n      \"displayName\": \"Sydney Shop 123\"\n    },\n    {\n      \"mid\": \"56789\",\n      \"posReference\": \"SydneyShop\",\n      \"isAuthorised\": false,\n      \"displayName\": \"Sydney Shop 456\"\n    },\n    {\n      \"mid\": \"12345\",\n      \"posReference\": \"MelbourneShop\",\n      \"isAuthorised\": true,\n      \"displayName\": \"Melbourne Shop 3000\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "42c0c7d7-4d67-4cf7-a3d2-582dd7c48a47",
+              "name": "When you don't have the right permissions to list Merchants.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "pay-terminal",
+                    "merchants"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Authorization",
+                    "value": "Bearer {$$.env.access_token}"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "7012b384-fce4-4d44-9ebb-6afeb38aa285",
+          "name": "Fetch a merchant",
+          "request": {
+            "name": "Fetch a merchant",
+            "description": {
+              "content": "This endpoint is used for retrieving a merchant.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "pay-terminal",
+                "merchants",
+                ":merchantId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET"
+          },
+          "response": [
+            {
+              "id": "ce2454e2-65bf-4f44-91bf-e2b84c657d85",
+              "name": "The details of the fetched Merchant",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "pay-terminal",
+                    "merchants",
+                    ":merchantId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Authorization",
+                    "value": "Bearer {$$.env.access_token}"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"mid\": \"98765\",\n  \"posReference\": \"SydneyShop\",\n  \"isAuthorised\": true,\n  \"displayName\": \"Bobs Burger Shop\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "d4f5572c-1197-4d09-aa36-85ee580502d8",
+              "name": "When the provided merchantId is not valid.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "pay-terminal",
+                    "merchants",
+                    ":merchantId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Authorization",
+                    "value": "Bearer {$$.env.access_token}"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"\\\"merchantId\\\" is not a number\",\n  \"errorCode\": \"VALIDATION_ERROR\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "3fb17214-ae6c-46e1-85f4-1c8632b0526f",
+              "name": "When you don't have the right permissions to view details of the provided `merchantId`.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "pay-terminal",
+                    "merchants",
+                    ":merchantId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Authorization",
+                    "value": "Bearer {$$.env.access_token}"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "fc83e24d-028d-409c-8266-c7324edc0508",
+              "name": "When the provided `merchantId` does not exist in our system.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "pay-terminal",
+                    "merchants",
+                    ":merchantId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Authorization",
+                    "value": "Bearer {$$.env.access_token}"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "23babbd3-af7e-4639-9dbe-10846b4ef136",
+          "name": "Authorise a Sandbox Merchant Id",
+          "request": {
+            "name": "Authorise a Sandbox Merchant Id",
+            "description": {
+              "content": "For testing purposes only. Authorise or de-authorise your POS on behalf of the provided merchant for testing on the Sandbox environment only.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "pay-terminal",
+                "merchants",
+                ":merchantId",
+                "authorise",
+                "test"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"posReference\": \"<string>\",\n  \"isAuthorised\": \"<boolean>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "a41141a0-7064-4cb9-943f-88317a524681",
+              "name": "No body Content",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "pay-terminal",
+                    "merchants",
+                    ":merchantId",
+                    "authorise",
+                    "test"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Authorization",
+                    "value": "Bearer {$$.env.access_token}"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"posReference\": \"0f448ac1-862a-4c7b-bdb4-a3b7cdbf6149\",\n  \"isAuthorised\": true\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "No Content",
+              "code": 204,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "86248f54-97c9-4099-99cd-02016e72c90a",
+              "name": "When the provided payload is not valid.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "pay-terminal",
+                    "merchants",
+                    ":merchantId",
+                    "authorise",
+                    "test"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Authorization",
+                    "value": "Bearer {$$.env.access_token}"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"posReference\": \"0f448ac1-862a-4c7b-bdb4-a3b7cdbf6149\",\n  \"isAuthorised\": true\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"\\\"posReference\\\" is required\",\n  \"errorCode\": \"VALIDATION_ERROR\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "01203209-567d-442b-97aa-16704173bf1c",
+              "name": "When you don't have the right permissions to authorise the merchant Id",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "pay-terminal",
+                    "merchants",
+                    ":merchantId",
+                    "authorise",
+                    "test"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Authorization",
+                    "value": "Bearer {$$.env.access_token}"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"posReference\": \"0f448ac1-862a-4c7b-bdb4-a3b7cdbf6149\",\n  \"isAuthorised\": true\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "dd0348b0-8d73-4ce4-80c9-a3b1d2c0e7a6",
+              "name": "When the provided `merchantId` does not exist in our system.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "pay-terminal",
+                    "merchants",
+                    ":merchantId",
+                    "authorise",
+                    "test"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Authorization",
+                    "value": "Bearer {$$.env.access_token}"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"posReference\": \"0f448ac1-862a-4c7b-bdb4-a3b7cdbf6149\",\n  \"isAuthorised\": true\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "9e0dec48-4797-48e9-a83a-52a5be5b174b",
+          "name": "Lists the terminals available to a merchant",
+          "request": {
+            "name": "Lists the terminals available to a merchant",
+            "description": {
+              "content": "This endpoint is used for retrieving a list of terminals under a mid that the POS has access to.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "pay-terminal",
+                "merchants",
+                ":merchantId",
+                "terminals"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET"
+          },
+          "response": [
+            {
+              "id": "4593cef5-8f16-4695-a418-032fd8bc0685",
+              "name": "The list of Merchants Terminals associated with the POS.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "pay-terminal",
+                    "merchants",
+                    ":merchantId",
+                    "terminals"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Authorization",
+                    "value": "Bearer {$$.env.access_token}"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"results\": [\n    {\n      \"tid\": \"1\",\n      \"terminalName\": \"Front Counter\",\n      \"serialNumber\": \"DX800012341\"\n    },\n    {\n      \"tid\": \"2\",\n      \"terminalName\": \"Johns Device\",\n      \"serialNumber\": \"DX800012342\"\n    },\n    {\n      \"tid\": \"5\",\n      \"terminalName\": \"Backup Terminal\",\n      \"serialNumber\": \"DX800012345\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "3ed7e24a-2f8f-4e11-b19d-f624a8b792d0",
+              "name": "When you don't have the right permissions to list this Merchants Terminals.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "pay-terminal",
+                    "merchants",
+                    ":merchantId",
+                    "terminals"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Authorization",
+                    "value": "Bearer {$$.env.access_token}"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.tyro.com/connect",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "691e171f-c1a6-4e8d-ab12-f52a1e53b2b6",
+    "name": "Pay Terminal API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Pay Terminal API",
+      "type": "text/plain"
+    }
+  }
+}

@@ -1,0 +1,2118 @@
+{
+  "item": [
+    {
+      "id": "e51954c8-f2e2-4aa4-8cc4-c2d223061b99",
+      "name": "Merchants",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "1ab5c5ab-6a4b-4e82-ba4a-eed9141bfa48",
+          "name": "Authorise a Sandbox Merchant Id",
+          "request": {
+            "name": "Authorise a Sandbox Merchant Id",
+            "description": {
+              "content": "For testing purposes only. Authorise or de-authorise your POS on behalf of the provided merchant for testing on the Sandbox environment only.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "tap-to-pay",
+                "merchants",
+                ":merchantId",
+                "authorise",
+                "test"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"posReference\": \"<string>\",\n  \"isAuthorised\": \"<boolean>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "d3f75397-ab4b-459d-a622-1e0a858d5461",
+              "name": "No body Content",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "tap-to-pay",
+                    "merchants",
+                    ":merchantId",
+                    "authorise",
+                    "test"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Authorization",
+                    "value": "Bearer {$$.env.access_token}"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"posReference\": \"0f448ac1-862a-4c7b-bdb4-a3b7cdbf6149\",\n  \"isAuthorised\": true\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "No Content",
+              "code": 204,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "bb1f97f4-9f6d-47cb-bf30-c2a48c591dc9",
+              "name": "When the provided payload is not valid.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "tap-to-pay",
+                    "merchants",
+                    ":merchantId",
+                    "authorise",
+                    "test"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Authorization",
+                    "value": "Bearer {$$.env.access_token}"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"posReference\": \"0f448ac1-862a-4c7b-bdb4-a3b7cdbf6149\",\n  \"isAuthorised\": true\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"\\\"posReference\\\" is required\",\n  \"errorCode\": \"VALIDATION_ERROR\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "1d9197c9-c06d-41ca-82c5-cecca0e2f8e6",
+              "name": "When you don't have the right permissions to authorise the merchant Id",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "tap-to-pay",
+                    "merchants",
+                    ":merchantId",
+                    "authorise",
+                    "test"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Authorization",
+                    "value": "Bearer {$$.env.access_token}"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"posReference\": \"0f448ac1-862a-4c7b-bdb4-a3b7cdbf6149\",\n  \"isAuthorised\": true\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "e7682020-7b58-40a5-8580-422d8bbb5129",
+              "name": "When the provided `merchantId` does not exist in our system.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "tap-to-pay",
+                    "merchants",
+                    ":merchantId",
+                    "authorise",
+                    "test"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Authorization",
+                    "value": "Bearer {$$.env.access_token}"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"posReference\": \"0f448ac1-862a-4c7b-bdb4-a3b7cdbf6149\",\n  \"isAuthorised\": true\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "853960aa-757f-4963-b763-8d3d20784dcb",
+          "name": "Lists merchants",
+          "request": {
+            "name": "Lists merchants",
+            "description": {
+              "content": "This endpoint is used for retrieving a list of merchants that the POS has access to.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "tap-to-pay",
+                "merchants"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET"
+          },
+          "response": [
+            {
+              "id": "487cc4c3-04b3-46b7-b0af-5922f8795627",
+              "name": "The list of Merchants associated with the POS.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "tap-to-pay",
+                    "merchants"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Authorization",
+                    "value": "Bearer {$$.env.access_token}"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"results\": [\n    {\n      \"mid\": \"98765\",\n      \"posReference\": \"SydneyShop\",\n      \"isAuthorised\": true,\n      \"displayName\": \"Sydney Shop 123\"\n    },\n    {\n      \"mid\": \"56789\",\n      \"posReference\": \"SydneyShop\",\n      \"isAuthorised\": false,\n      \"displayName\": \"Sydney Shop 456\"\n    },\n    {\n      \"mid\": \"12345\",\n      \"posReference\": \"MelbourneShop\",\n      \"isAuthorised\": true,\n      \"displayName\": \"Melbourne Shop 3000\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "4c257dbc-f8f7-4b77-ad6f-899703f3496d",
+              "name": "When you don't have the right permissions to list Merchants.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "tap-to-pay",
+                    "merchants"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Authorization",
+                    "value": "Bearer {$$.env.access_token}"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "34e6531a-eebc-4cd9-acc4-1e5b70d685c3",
+          "name": "Fetch a merchant",
+          "request": {
+            "name": "Fetch a merchant",
+            "description": {
+              "content": "This endpoint is used for retrieving a merchant.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "tap-to-pay",
+                "merchants",
+                ":merchantId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET"
+          },
+          "response": [
+            {
+              "id": "908f8009-5bf7-4bbf-942d-a9b26e8ecbd7",
+              "name": "The details of the fetched Merchant",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "tap-to-pay",
+                    "merchants",
+                    ":merchantId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Authorization",
+                    "value": "Bearer {$$.env.access_token}"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"mid\": \"98765\",\n  \"posReference\": \"SydneyShop\",\n  \"isAuthorised\": true,\n  \"displayName\": \"Bobs Burger Shop\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "e4c057eb-602e-413e-909e-d86f5ce1db14",
+              "name": "When the provided merchantId is not valid.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "tap-to-pay",
+                    "merchants",
+                    ":merchantId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Authorization",
+                    "value": "Bearer {$$.env.access_token}"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"\\\"merchantId\\\" is not a number\",\n  \"errorCode\": \"VALIDATION_ERROR\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "8f9c3841-ad23-4e0b-a377-b9e2d0ffc080",
+              "name": "When you don't have the right permissions to view details of the provided `merchantId`.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "tap-to-pay",
+                    "merchants",
+                    ":merchantId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Authorization",
+                    "value": "Bearer {$$.env.access_token}"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "9fe6b69e-a60a-4414-ab0a-7802b17b4f50",
+              "name": "When the provided `merchantId` does not exist in our system.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "tap-to-pay",
+                    "merchants",
+                    ":merchantId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Authorization",
+                    "value": "Bearer {$$.env.access_token}"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    },
+    {
+      "id": "abf70694-4593-4fb9-ac2b-6f586d83c43b",
+      "name": "Locations",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "8d89a06c-b038-4bb0-b021-c3a64e8b989a",
+          "name": "List Embedded Payments Locations",
+          "request": {
+            "name": "List Embedded Payments Locations",
+            "description": {
+              "content": "Retrieve the list of location IDs attached to a Tyro Merchant ID. A location ID represents the physical location from which a payment originates and is required in order to create the Reader",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "tap-to-pay",
+                "merchants",
+                ":merchantId",
+                "locations"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "merchantId",
+                  "description": "(Required) The Merchant ID requesting the locations"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET"
+          },
+          "response": [
+            {
+              "id": "d8a27597-3163-43f2-8be7-c5b5dbe94a8c",
+              "name": "The list of locations for the provided merchant ID",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "tap-to-pay",
+                    "merchants",
+                    ":merchantId",
+                    "locations"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "merchantId",
+                      "description": "(Required) The Merchant ID requesting the locations"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Authorization",
+                    "value": "Bearer {$$.env.access_token}"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"results\": [\n    {\n      \"locationId\": \"tc-exampleshop-3000\",\n      \"name\": \"Example Shop Melbourne\",\n      \"address\": {\n        \"street\": \"123 Hight Street\",\n        \"suburb\": \"Melbourne\",\n        \"state\": \"VIC\",\n        \"postcode\": \"3000\",\n        \"country\": \"Australia\"\n      }\n    },\n    {\n      \"locationId\": \"tc-exampleshop-2000\",\n      \"name\": \"Example Shop Sydney\",\n      \"address\": {\n        \"street\": \"Level 33, 456 George Street\",\n        \"suburb\": \"Sydney\",\n        \"state\": \"NSW\",\n        \"postcode\": \"2000\",\n        \"country\": \"Australia\"\n      }\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "42d725d3-fe52-4181-874c-f1843e3d908a",
+              "name": "When you don't have the right permissions to fetch the locations",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "tap-to-pay",
+                    "merchants",
+                    ":merchantId",
+                    "locations"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "merchantId",
+                      "description": "(Required) The Merchant ID requesting the locations"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Authorization",
+                    "value": "Bearer {$$.env.access_token}"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "e283bfd6-ae94-4492-8a62-4e9181e5cdd9",
+              "name": "When the provided `merchantId` does not exist in our system",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "tap-to-pay",
+                    "merchants",
+                    ":merchantId",
+                    "locations"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "merchantId",
+                      "description": "(Required) The Merchant ID requesting the locations"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Authorization",
+                    "value": "Bearer {$$.env.access_token}"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    },
+    {
+      "id": "080e8b16-4973-4741-af90-4bb3132b4ccc",
+      "name": "Connections",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "4ed36252-cf20-4fc6-929a-777376a561db",
+          "name": "Create Embedded Payments connection",
+          "request": {
+            "name": "Create Embedded Payments connection",
+            "description": {
+              "content": "When your App is first initialised, a request is sent to your server to establish a Tyro Embedded Payments connection. This is required to connect to the Embedded Payments reader. Upon receiving the client request, authenticate your user and send the request to Tyro with the `readerId` in the request body.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "tap-to-pay",
+                "connections"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"readerId\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "fe2fd436-2ddd-4a13-a8e5-3c87e44aaa96",
+              "name": "Created",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "tap-to-pay",
+                    "connections"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Authorization",
+                    "value": "Bearer {$$.env.access_token}"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"readerId\": \"0f448ac1-862a-4c7b-bdb4-a3b7cdbf6149\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"2688fcf2-44dd-4c72-88ac-79d0910f2983\",\n  \"connectionSecret\": \"$2a$10$OjXTE/Ul4UVVlW8RtKNtcuV3NdoP8sFc.5Lqov0N5wp6vU8Dmj8H3\",\n  \"createdDate\": \"2023-05-02T08:28:13+10:00\",\n  \"readerId\": \"0f448ac1-862a-4c7b-bdb4-a3b7cdbf6149\",\n  \"readerName\": \"Reader 1 - Example Shop Sydney\",\n  \"locationId\": \"tc-exampleshop-3000\",\n  \"locationName\": \"Example Shop Melbourne\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "0376f80b-5ec9-4c8a-974c-2d60865a573e",
+              "name": "When the provided payload is not valid.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "tap-to-pay",
+                    "connections"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Authorization",
+                    "value": "Bearer {$$.env.access_token}"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"readerId\": \"0f448ac1-862a-4c7b-bdb4-a3b7cdbf6149\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"\\\"readerId\\\" is required\",\n  \"errorCode\": \"VALIDATION_ERROR\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "54d4c3ab-d4f2-4d7a-9ea4-ca7e11728cd5",
+              "name": "When you don't have the right permissions to create a Connection for the provided Reader ID.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "tap-to-pay",
+                    "connections"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Authorization",
+                    "value": "Bearer {$$.env.access_token}"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"readerId\": \"0f448ac1-862a-4c7b-bdb4-a3b7cdbf6149\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "d15b3d76-ea4c-4bfd-8580-3d4db868a5c3",
+              "name": "When the provided `readerId` does not exist in our system.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "tap-to-pay",
+                    "connections"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Authorization",
+                    "value": "Bearer {$$.env.access_token}"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"readerId\": \"0f448ac1-862a-4c7b-bdb4-a3b7cdbf6149\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    },
+    {
+      "id": "d227c455-d2f7-4ee0-8bee-edebdd22076e",
+      "name": "Readers",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "419184de-e2a0-4fbf-af60-75449fc9eff6",
+          "name": "List Readers",
+          "request": {
+            "name": "List Readers",
+            "description": {
+              "content": "This endpoint is used for retrieving a list of Readers. Readers represent the Embedded Payments Reader at the physical location. The Reader ID is required to create a Reader Connection to initialise the Tyro Embedded Payments SDK.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "tap-to-pay",
+                "merchants",
+                ":merchantId",
+                "readers"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "locationId",
+                  "value": "<string>",
+                  "description": "The Tyro Connect Location Id of the Readers to be retrieved. This parameter is optional."
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "merchantId",
+                  "description": "(Required) The Merchant ID associated with the reader"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET"
+          },
+          "response": [
+            {
+              "id": "6cf69d90-8493-4cbc-bd55-049e54314c04",
+              "name": "The list Readers",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "tap-to-pay",
+                    "merchants",
+                    ":merchantId",
+                    "readers"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "locationId",
+                      "value": "tc-exampleshop-3000"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "merchantId",
+                      "description": "(Required) The Merchant ID associated with the reader"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Authorization",
+                    "value": "Bearer {$$.env.access_token}"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"results\": [\n    {\n      \"readerId\": \"0f448ac1-862a-4c7b-bdb4-a3b7cdbf6149\",\n      \"locationId\": \"tc-exampleshop-3000\",\n      \"name\": \"Reader 1 - Example Shop Sydney\",\n      \"status\": \"DEACTIVATED\",\n      \"caid\": \"string\"\n    },\n    {\n      \"readerId\": \"0f448ac1-862a-4c7b-bdb4-a3b7cdbf6149\",\n      \"locationId\": \"tc-exampleshop-3000\",\n      \"name\": \"Reader 1 - Example Shop Sydney\",\n      \"status\": \"DEACTIVATED\",\n      \"caid\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "26dfc837-26ae-4146-8192-04a4ed17ffcf",
+              "name": "When you don't have the right permissions to retrieve the Readers for the provided location or Merchant ID.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "tap-to-pay",
+                    "merchants",
+                    ":merchantId",
+                    "readers"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "locationId",
+                      "value": "tc-exampleshop-3000"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "merchantId",
+                      "description": "(Required) The Merchant ID associated with the reader"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Authorization",
+                    "value": "Bearer {$$.env.access_token}"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "94a113c3-ff75-4081-8c04-ee2dda29b93b",
+          "name": "Create a Reader",
+          "request": {
+            "name": "Create a Reader",
+            "description": {
+              "content": "An async endpoint used for creating a Reader. Register a webhook to be notified when a Reader is created after this endpoint is invoked. Readers represent the Embedded Payments Reader at the physical location. The Reader ID is required to create a Reader Connection to initialise the Tyro Embedded Payments SDK.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "tap-to-pay",
+                "merchants",
+                ":merchantId",
+                "readers"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "merchantId",
+                  "description": "(Required) The Merchant ID creating the reader"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"<string>\",\n  \"locationId\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "5e12bb24-6aa0-484a-983e-488c7619f183",
+              "name": "Accepted",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "tap-to-pay",
+                    "merchants",
+                    ":merchantId",
+                    "readers"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "merchantId",
+                      "description": "(Required) The Merchant ID creating the reader"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Authorization",
+                    "value": "Bearer {$$.env.access_token}"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"Reader 1 - Example Shop Sydney\",\n  \"locationId\": \"tc-exampleshop-3000\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Accepted",
+              "code": 202,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "51190748-3162-4a5a-abbc-a7d7df87d3b0",
+              "name": "When the provided payload is not valid.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "tap-to-pay",
+                    "merchants",
+                    ":merchantId",
+                    "readers"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "merchantId",
+                      "description": "(Required) The Merchant ID creating the reader"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Authorization",
+                    "value": "Bearer {$$.env.access_token}"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"Reader 1 - Example Shop Sydney\",\n  \"locationId\": \"tc-exampleshop-3000\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"\\\"locationId\\\" is required\",\n  \"errorCode\": \"VALIDATION_ERROR\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "88c44d58-36ae-4998-820c-f711b6031003",
+              "name": "When you don't have the right permissions to create a Reader for the provided location or Merchant ID.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "tap-to-pay",
+                    "merchants",
+                    ":merchantId",
+                    "readers"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "merchantId",
+                      "description": "(Required) The Merchant ID creating the reader"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Authorization",
+                    "value": "Bearer {$$.env.access_token}"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"Reader 1 - Example Shop Sydney\",\n  \"locationId\": \"tc-exampleshop-3000\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "e90cb342-18be-47cf-b157-7aba8ddf7cee",
+          "name": "Get a Reader",
+          "request": {
+            "name": "Get a Reader",
+            "description": {
+              "content": "This endpoint is used for retrieving a Reader. Readers represent the Embedded Payments Reader at the physical location. The Reader ID is required to create a Reader Connection to initialise the Tyro Embedded Payments SDK",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "tap-to-pay",
+                "merchants",
+                ":merchantId",
+                "readers",
+                ":readerId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "merchantId",
+                  "description": "(Required) The Merchant ID associated with the reader"
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "readerId",
+                  "description": "(Required) The Reader ID"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET"
+          },
+          "response": [
+            {
+              "id": "c15a3ecc-bd7e-4ef7-96da-d0742fed5bd8",
+              "name": "The requested Reader",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "tap-to-pay",
+                    "merchants",
+                    ":merchantId",
+                    "readers",
+                    ":readerId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "merchantId",
+                      "description": "(Required) The Merchant ID associated with the reader"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "readerId",
+                      "description": "(Required) The Reader ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Authorization",
+                    "value": "Bearer {$$.env.access_token}"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"readerId\": \"0f448ac1-862a-4c7b-bdb4-a3b7cdbf6149\",\n  \"locationId\": \"tc-exampleshop-3000\",\n  \"name\": \"Reader 1 - Example Shop Sydney\",\n  \"status\": \"PENDING_CREATION\",\n  \"caid\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "d9f966f9-da5c-4b53-b440-22f44aa2cd7d",
+              "name": "When you don't have the right permissions to retrieve a Reader for the provided location or Merchant ID.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "tap-to-pay",
+                    "merchants",
+                    ":merchantId",
+                    "readers",
+                    ":readerId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "merchantId",
+                      "description": "(Required) The Merchant ID associated with the reader"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "readerId",
+                      "description": "(Required) The Reader ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Authorization",
+                    "value": "Bearer {$$.env.access_token}"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "7daf537c-491a-4ec6-b8c7-d8d2f8b4d5f4",
+              "name": "When the provided merchant or reader ID does not exist in our system",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "tap-to-pay",
+                    "merchants",
+                    ":merchantId",
+                    "readers",
+                    ":readerId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "merchantId",
+                      "description": "(Required) The Merchant ID associated with the reader"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "readerId",
+                      "description": "(Required) The Reader ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Authorization",
+                    "value": "Bearer {$$.env.access_token}"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    },
+    {
+      "id": "b37cb201-a029-43e9-9fcd-0b6117908b3d",
+      "name": "Transactions",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "9bbba7d0-b471-45e5-bf95-8303a9e2d61d",
+          "name": "Fetch an Embedded Payments transaction",
+          "request": {
+            "name": "Fetch an Embedded Payments transaction",
+            "description": {
+              "content": "This endpoint is used for retrieving an Embedded Payments transaction.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "tap-to-pay",
+                "merchants",
+                ":merchantId",
+                "transactions",
+                ":transactionId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET"
+          },
+          "response": [
+            {
+              "id": "e798fd56-1662-47c6-9f36-c51b5aa8ff76",
+              "name": "Success",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "tap-to-pay",
+                    "merchants",
+                    ":merchantId",
+                    "transactions",
+                    ":transactionId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Authorization",
+                    "value": "Bearer {$$.env.access_token}"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"transactionId\": \"string\",\n  \"transactionLocalDateTime\": \"2023-05-02T08:28:13\",\n  \"reference\": \"string\",\n  \"transactionReference\": \"string\",\n  \"locationId\": \"tc-exampleshop-3000\",\n  \"mid\": \"string\",\n  \"tid\": \"string\",\n  \"amount\": 479.4111404759571,\n  \"paymentType\": \"Refund\",\n  \"surchargeAmount\": 2003.7871454040812,\n  \"tipAmount\": 6037.049154443598,\n  \"elidedPan\": \"string\",\n  \"cardType\": \"string\",\n  \"approvalCode\": \"string\",\n  \"transactionResult\": \"APPROVED\",\n  \"retrievalReferenceNumber\": \"string\",\n  \"customerReceipt\": \"      Example Restaurant\\n        55 Market St\\n       Sydney NSW 2000\\n\\n    Tyro Payments EFTPOS\\n\\nVisa DEBIT\\nAID: A0000000031010\\nCard: XXXXXXXXX2989(T)\\nPSN: 00, ATC: 0007\\nTVR: 0000000000\\n\\nPurchase     AUD       $4.55\\n----------------------------\\nTotal        AUD       $4.55\\n\\nAPPROVED                  00\\n\\nTerminal ID: 4\\nTransaction Ref: 395001\\nAuthorisation No: 000184\\n02 Apr 2024 at 04:52 PM\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "840ce1d7-5ad5-4017-8524-da2218f26720",
+              "name": "When you don't have the right permissions to access the transactions",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "tap-to-pay",
+                    "merchants",
+                    ":merchantId",
+                    "transactions",
+                    ":transactionId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Authorization",
+                    "value": "Bearer {$$.env.access_token}"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "24b9226e-637c-4282-84ff-0dc1ccb61f79",
+          "name": "List Embedded Payments transactions",
+          "request": {
+            "name": "List Embedded Payments transactions",
+            "description": {
+              "content": "This endpoint is used for retrieving Embedded Payments transactions by search.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "tap-to-pay",
+                "merchants",
+                ":merchantId",
+                "transactions"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "reference",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "locationId",
+                  "value": "<string>",
+                  "description": "The location ID of the transactions to be retrieved.\n\nThis is the location ID of the merchant that you are using to retrieve the transactions."
+                },
+                {
+                  "disabled": false,
+                  "key": "limit",
+                  "value": "<number>",
+                  "description": "Specifies the amount of results to be retrieved.\n\nA maximum of 100 results are returned if this value is not provided."
+                },
+                {
+                  "disabled": false,
+                  "key": "page",
+                  "value": "<number>",
+                  "description": "Specify the page to retrieve.\n\nYou will need to use this setting if you wish to retrieve specific pages.\n\nPage-numbering is based on the value of \"limit\". If limit=5, then page=1 will display the hits from 1 to 5, page=3 will display the hits from 11 to 15.\n\nPage numbers start at 1.\n\nA request for a non-existing page will yield 0 results."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET"
+          },
+          "response": [
+            {
+              "id": "6f6751a0-53be-4916-8c52-60a56e27d71d",
+              "name": "Success",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "tap-to-pay",
+                    "merchants",
+                    ":merchantId",
+                    "transactions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "reference",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "locationId",
+                      "value": "tc-location-2000"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "10"
+                    },
+                    {
+                      "key": "page",
+                      "value": "2"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Authorization",
+                    "value": "Bearer {$$.env.access_token}"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"results\": [\n    {\n      \"transactionId\": \"string\",\n      \"transactionLocalDateTime\": \"2023-05-02T08:28:13\",\n      \"reference\": \"string\",\n      \"transactionReference\": \"string\",\n      \"locationId\": \"tc-exampleshop-3000\",\n      \"mid\": \"string\",\n      \"tid\": \"string\",\n      \"amount\": 5071.320300416786,\n      \"paymentType\": \"Purchase\",\n      \"surchargeAmount\": 2900.284049051619,\n      \"tipAmount\": 2795.717475900229,\n      \"elidedPan\": \"string\",\n      \"cardType\": \"string\",\n      \"approvalCode\": \"string\",\n      \"transactionResult\": \"APPROVED\",\n      \"retrievalReferenceNumber\": \"string\",\n      \"customerReceipt\": \"      Example Restaurant\\n        55 Market St\\n       Sydney NSW 2000\\n\\n    Tyro Payments EFTPOS\\n\\nVisa DEBIT\\nAID: A0000000031010\\nCard: XXXXXXXXX2989(T)\\nPSN: 00, ATC: 0007\\nTVR: 0000000000\\n\\nPurchase     AUD       $4.55\\n----------------------------\\nTotal        AUD       $4.55\\n\\nAPPROVED                  00\\n\\nTerminal ID: 4\\nTransaction Ref: 395001\\nAuthorisation No: 000184\\n02 Apr 2024 at 04:52 PM\"\n    },\n    {\n      \"transactionId\": \"string\",\n      \"transactionLocalDateTime\": \"2023-05-02T08:28:13\",\n      \"reference\": \"string\",\n      \"transactionReference\": \"string\",\n      \"locationId\": \"tc-exampleshop-3000\",\n      \"mid\": \"string\",\n      \"tid\": \"string\",\n      \"amount\": 4908.456028142745,\n      \"paymentType\": \"Purchase\",\n      \"surchargeAmount\": 3702.4684432184663,\n      \"tipAmount\": 3930.0951782583647,\n      \"elidedPan\": \"string\",\n      \"cardType\": \"string\",\n      \"approvalCode\": \"string\",\n      \"transactionResult\": \"APPROVED\",\n      \"retrievalReferenceNumber\": \"string\",\n      \"customerReceipt\": \"      Example Restaurant\\n        55 Market St\\n       Sydney NSW 2000\\n\\n    Tyro Payments EFTPOS\\n\\nVisa DEBIT\\nAID: A0000000031010\\nCard: XXXXXXXXX2989(T)\\nPSN: 00, ATC: 0007\\nTVR: 0000000000\\n\\nPurchase     AUD       $4.55\\n----------------------------\\nTotal        AUD       $4.55\\n\\nAPPROVED                  00\\n\\nTerminal ID: 4\\nTransaction Ref: 395001\\nAuthorisation No: 000184\\n02 Apr 2024 at 04:52 PM\"\n    }\n  ],\n  \"pagination\": {\n    \"page\": 1,\n    \"size\": 10,\n    \"limit\": 100,\n    \"total\": 45\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "f639ffab-729d-40c9-976f-28423f12963a",
+              "name": "When you don't have the right permissions to access the transactions",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "tap-to-pay",
+                    "merchants",
+                    ":merchantId",
+                    "transactions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "reference",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "locationId",
+                      "value": "tc-location-2000"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "10"
+                    },
+                    {
+                      "key": "page",
+                      "value": "2"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Authorization",
+                    "value": "Bearer {$$.env.access_token}"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "7c5d3690-e9ce-4c69-886e-849295110101",
+              "name": "When the provided merchant or location ID does not exist in our system",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "tap-to-pay",
+                    "merchants",
+                    ":merchantId",
+                    "transactions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "reference",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "locationId",
+                      "value": "tc-location-2000"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "10"
+                    },
+                    {
+                      "key": "page",
+                      "value": "2"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Authorization",
+                    "value": "Bearer {$$.env.access_token}"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.tyro.com/connect",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "49a660c4-d9a3-4a50-a86c-e82bd6e86600",
+    "name": "Embedded Payments API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The API allows a POS to accept Embedded Payments payments.\n",
+      "type": "text/plain"
+    }
+  }
+}

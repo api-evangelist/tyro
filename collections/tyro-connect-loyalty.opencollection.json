@@ -1,0 +1,238 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Loyalty Data API",
+    "version": "1.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Member",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Register member for loyalty",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.tyro.com/connect/loyalty/members",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "This endpoint registers a member for a participating location with the loyalty API. This notifies you of all future payments performed by the members at locations you have access to. The payment should have taken place within a 60 minute window of the registration."
+        },
+        {
+          "info": {
+            "name": "Deregister a member for loyalty.",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.tyro.com/connect/loyalty/members",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "This endpoint deregisters a member from all participating locations with the loyalty API. You will no longer receive notifications about the payments performed by the members at locations you have access to."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Default",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get loyalty activity by Id",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.tyro.com/connect/loyalty/activities/:loyaltyActivityId",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "loyaltyActivityId",
+                "value": "",
+                "type": "path",
+                "description": "ID of loyalty activity to retrieve"
+              }
+            ]
+          },
+          "docs": "This endpoint retrieves a loyalty activity for a registered member."
+        },
+        {
+          "info": {
+            "name": "Create a test payment",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.tyro.com/connect/payments/test",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "This endpoint is for creating fake payments that can be used to test your integration with our system. After registering a member, payments can be generated for that member by providing the memberId that you specified during registration. If `memberId` is null the payment will utilise a random card number not associated with any member and the response will include a `memberReference` value that can be used to identify this non-member customer in future test payments."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Registered Card",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get registered card by Id",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.tyro.com/connect/loyalty/registered-cards/:registeredCardId",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "registeredCardId",
+                "value": "",
+                "type": "path",
+                "description": "Id of the registered card"
+              }
+            ]
+          },
+          "docs": "This endpoint retrieves a registered card for a registered member."
+        },
+        {
+          "info": {
+            "name": "Delete registered card by Id",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.tyro.com/connect/loyalty/registered-cards/:registeredCardId",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "registeredCardId",
+                "value": "",
+                "type": "path",
+                "description": "Id of the registered card"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "This endpoint removes a registered card from a registered member."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Onboarding",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get merchant onboarding request by reference",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.tyro.com/connect/locations/merchant-onboarding/loyalty/:onboardingReference",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "onboardingReference",
+                "value": "",
+                "type": "path",
+                "description": "The unique reference identifier for the merchant onboarding request."
+              }
+            ]
+          },
+          "docs": "This endpoint retrieves the details of a merchant onboarding request for a loyalty partner to review, including the location details, business details, and the current status of each integration."
+        },
+        {
+          "info": {
+            "name": "Submit a decision for a merchant onboarding request",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.tyro.com/connect/locations/merchant-onboarding/loyalty/:onboardingReference",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "onboardingReference",
+                "value": "",
+                "type": "path",
+                "description": "The unique reference identifier for the merchant onboarding request."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "This endpoint allows a loyalty partner to approve or reject a merchant onboarding request. When approving, a `loyaltyProgramId` must be provided. When rejecting, an optional `reason` may be provided."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

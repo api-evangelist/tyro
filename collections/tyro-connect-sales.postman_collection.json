@@ -1,0 +1,577 @@
+{
+  "item": [
+    {
+      "id": "b022af74-0a30-441f-9120-d3a8938671a9",
+      "name": "List Sales",
+      "request": {
+        "name": "List Sales",
+        "description": {
+          "content": "This endpoint returns all the sales of a given location. The list of sales is paginated and it is possible to apply filters to the sales being fetched.\n\n## Filtering\n\nThe filtering options use an \"OR\" clause within the same filter criteria and an \"AND\" clause between criteria.\n\nThis means that a request with `saleStatus=OPEN&saleType=SALE` will return the sales that were `OPEN` *and* that of type `SALE`.\n\nA request with `saleType=SALE&saleType=REFUND` will return the sales that have either sale type `SALE` *or* `REFUND`.\n\n## Pagination\n\nThe paginated results are ordered using the sequence they were created in the Tyro Connect. For example `results[0]` on page 1 is the first matching sale that was created in the Tyro Connect system.\n",
+          "type": "text/plain"
+        },
+        "url": {
+          "path": [
+            "sales"
+          ],
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "query": [
+            {
+              "disabled": false,
+              "key": "locationId",
+              "value": "<string>",
+              "description": "(Required) The Tyro Connect Location Id of the sales to be retrieved. This parameter is required."
+            },
+            {
+              "disabled": false,
+              "key": "saleStatus",
+              "value": "<string>",
+              "description": "Returns results based on the status of a sale."
+            },
+            {
+              "disabled": false,
+              "key": "saleType",
+              "value": "<string>",
+              "description": "Returns results based on the type of a sale.\n\nCan be a single string or multi string value."
+            },
+            {
+              "disabled": false,
+              "key": "fromDate",
+              "value": "<date>",
+              "description": "Returns results that have a \"startTime\" later than or equal to the provided value.\n\nFormat: YYYY-MM-DD"
+            },
+            {
+              "disabled": false,
+              "key": "toDate",
+              "value": "<string>",
+              "description": "Returns results that have a \"startTime\" before than or equal to the provided value.\n\nFormat: YYYY-MM-DD"
+            },
+            {
+              "disabled": false,
+              "key": "dateType",
+              "value": "CREATED",
+              "description": "Specifies the date type of the 'fromDate' and 'toDate' parameters."
+            },
+            {
+              "disabled": false,
+              "key": "limit",
+              "value": "<number>",
+              "description": "Specifies the amount of results to be retrieved.\n\nA maximum of 50 results are returned if this value is not provided."
+            },
+            {
+              "disabled": false,
+              "key": "page",
+              "value": "<number>",
+              "description": "Specify the page to retrieve.\n\nYou will need to use this setting if you wish to retrieve specific pages.\n\nPage-numbering is based on the value of \"limit\". If limit=5, then page=1 will display the hits from 1 to 5, page=3 will display the hits from 11 to 15.\n\nPage numbers start at 1.\n\nA request for a non-existing page will yield 0 results."
+            }
+          ],
+          "variable": []
+        },
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "method": "GET"
+      },
+      "response": [
+        {
+          "id": "d83bed14-03b7-4ce8-bdaf-8d8c045c4d12",
+          "name": "The sales list",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "sales"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "key": "locationId",
+                  "value": "luna-park"
+                },
+                {
+                  "key": "saleStatus",
+                  "value": "<string>"
+                },
+                {
+                  "key": "saleType",
+                  "value": "<string>"
+                },
+                {
+                  "key": "fromDate",
+                  "value": "2023-04-29"
+                },
+                {
+                  "key": "toDate",
+                  "value": "2023-04-28"
+                },
+                {
+                  "key": "dateType",
+                  "value": "CREATED"
+                },
+                {
+                  "key": "limit",
+                  "value": "10"
+                },
+                {
+                  "key": "page",
+                  "value": "2"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) ",
+                "key": "Authorization",
+                "value": "Bearer {$$.env.access_token}"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "body": {}
+          },
+          "status": "OK",
+          "code": 200,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"pagination\": {\n    \"page\": 1,\n    \"size\": 2,\n    \"limit\": 10,\n    \"total\": 2\n  },\n  \"results\": [\n    {\n      \"version\": 69,\n      \"locationId\": \"luna-park\",\n      \"origin\": {\n        \"saleId\": \"SaleId\"\n      },\n      \"source\": {\n        \"type\": \"MEANDU\"\n      },\n      \"type\": \"SALE\",\n      \"status\": \"CLOSED\",\n      \"openedZonedDateTime\": \"2018-05-02T08:28:13+10:00\",\n      \"closedZonedDateTime\": \"2018-05-02T08:28:13+10:00\",\n      \"staff\": {\n        \"id\": \"8675309\"\n      },\n      \"bookingId\": \"6dca53a9-04c7-46aa-991c-cfdf51a8f652\",\n      \"items\": [\n        {\n          \"id\": \"DRINK-123\",\n          \"name\": \"Diet Soda\",\n          \"sku\": \"1123581321\",\n          \"unitPrice\": {\n            \"amount\": 123,\n            \"currency\": \"AUD\"\n          },\n          \"unitPriceTax\": {\n            \"amount\": 123,\n            \"currency\": \"AUD\"\n          },\n          \"quantity\": 3,\n          \"tax\": {\n            \"amount\": 369,\n            \"currency\": \"AUD\"\n          },\n          \"total\": {\n            \"amount\": 369,\n            \"currency\": \"AUD\"\n          }\n        }\n      ],\n      \"payments\": [\n        {\n          \"acquirer\": {\n            \"name\": \"TYRO\",\n            \"transactionReference\": \"88888888-4444-4444-4444-121212121212\",\n            \"terminalId\": \"57\"\n          },\n          \"method\": \"EFTPOS\",\n          \"type\": \"SALE\",\n          \"goodsAndServicesAmount\": {\n            \"amount\": 123,\n            \"currency\": \"AUD\"\n          }\n        }\n      ],\n      \"tax\": {\n        \"amount\": 123,\n        \"currency\": \"AUD\"\n      },\n      \"total\": {\n        \"amount\": 369,\n        \"currency\": \"AUD\"\n      },\n      \"table\": {\n        \"seats\": 1,\n        \"number\": \"11\"\n      },\n      \"subtotal\": {\n        \"amount\": 369,\n        \"currency\": \"AUD\"\n      }\n    },\n    {\n      \"version\": 69,\n      \"locationId\": \"luna-park\",\n      \"origin\": {\n        \"saleId\": \"SaleId\",\n        \"locationId\": \"POS-0000001\"\n      },\n      \"source\": {\n        \"type\": \"MEANDU\"\n      },\n      \"type\": \"COMBINATION\",\n      \"status\": \"CLOSED\",\n      \"openedZonedDateTime\": \"2018-05-02T08:28:13+10:00\",\n      \"closedZonedDateTime\": \"2018-05-02T08:28:13+10:00\",\n      \"staff\": {\n        \"id\": \"8675309\"\n      },\n      \"bookingId\": \"6dca53a9-04c7-46aa-991c-cfdf51a8f652\",\n      \"items\": [\n        {\n          \"id\": \"DRINK-123\",\n          \"name\": \"Diet Soda\",\n          \"sku\": \"1123581321\",\n          \"sale\": {\n            \"type\": \"SALE\"\n          },\n          \"unitPrice\": {\n            \"amount\": 123,\n            \"currency\": \"AUD\"\n          },\n          \"unitPriceTax\": {\n            \"amount\": 123,\n            \"currency\": \"AUD\"\n          },\n          \"quantity\": 3,\n          \"tax\": {\n            \"amount\": 369,\n            \"currency\": \"AUD\"\n          },\n          \"total\": {\n            \"amount\": 369,\n            \"currency\": \"AUD\"\n          }\n        },\n        {\n          \"id\": \"DRINK-1322\",\n          \"name\": \"Soda\",\n          \"sku\": \"1123581322\",\n          \"sale\": {\n            \"type\": \"REFUND\"\n          },\n          \"unitPrice\": {\n            \"amount\": 123,\n            \"currency\": \"AUD\"\n          },\n          \"unitPriceTax\": {\n            \"amount\": 123,\n            \"currency\": \"AUD\"\n          },\n          \"quantity\": 3,\n          \"tax\": {\n            \"amount\": 369,\n            \"currency\": \"AUD\"\n          },\n          \"total\": {\n            \"amount\": 369,\n            \"currency\": \"AUD\"\n          }\n        }\n      ],\n      \"payments\": [\n        {\n          \"acquirer\": {\n            \"name\": \"TYRO\",\n            \"transactionReference\": \"88888888-4444-4444-4444-121212121212\",\n            \"terminalId\": \"57\"\n          },\n          \"method\": \"EFTPOS\",\n          \"type\": \"SALE\",\n          \"goodsAndServicesAmount\": {\n            \"amount\": 123,\n            \"currency\": \"AUD\"\n          }\n        }\n      ],\n      \"tax\": {\n        \"amount\": 123,\n        \"currency\": \"AUD\"\n      },\n      \"total\": {\n        \"amount\": 369,\n        \"currency\": \"AUD\"\n      }\n    }\n  ]\n}",
+          "cookie": [],
+          "_postman_previewlanguage": "json"
+        },
+        {
+          "id": "7713df20-0e36-40b6-831e-b883bb076961",
+          "name": "When you don't have the right permissions to fetch the sales for the provided location",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "sales"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "key": "locationId",
+                  "value": "luna-park"
+                },
+                {
+                  "key": "saleStatus",
+                  "value": "<string>"
+                },
+                {
+                  "key": "saleType",
+                  "value": "<string>"
+                },
+                {
+                  "key": "fromDate",
+                  "value": "2023-04-29"
+                },
+                {
+                  "key": "toDate",
+                  "value": "2023-04-28"
+                },
+                {
+                  "key": "dateType",
+                  "value": "CREATED"
+                },
+                {
+                  "key": "limit",
+                  "value": "10"
+                },
+                {
+                  "key": "page",
+                  "value": "2"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) ",
+                "key": "Authorization",
+                "value": "Bearer {$$.env.access_token}"
+              }
+            ],
+            "method": "GET",
+            "body": {}
+          },
+          "status": "Forbidden",
+          "code": 403,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "text/plain"
+            }
+          ],
+          "body": "",
+          "cookie": [],
+          "_postman_previewlanguage": "text"
+        }
+      ],
+      "event": [],
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      }
+    },
+    {
+      "id": "c4dc4ca4-10b6-40d4-8a92-f4d0eb581f73",
+      "name": "Get Sales Data by SalesId",
+      "request": {
+        "name": "Get Sales Data by SalesId",
+        "description": {
+          "content": "This endpoint is for fetching the details of a sale.\n",
+          "type": "text/plain"
+        },
+        "url": {
+          "path": [
+            "sales",
+            ":saleId"
+          ],
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "query": [],
+          "variable": [
+            {
+              "disabled": false,
+              "type": "any",
+              "value": "<string>",
+              "key": "saleId",
+              "description": "(Required) "
+            }
+          ]
+        },
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "method": "GET"
+      },
+      "response": [
+        {
+          "id": "197482f8-45a1-4ec8-9f90-7809e6e72cb2",
+          "name": "The sales response",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "sales",
+                ":saleId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "saleId",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) ",
+                "key": "Authorization",
+                "value": "Bearer {$$.env.access_token}"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "body": {}
+          },
+          "status": "OK",
+          "code": 200,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"version\": 69,\n  \"locationId\": \"luna-park\",\n  \"origin\": {\n    \"saleId\": \"SaleId\"\n  },\n  \"source\": {\n    \"type\": \"MEANDU\"\n  },\n  \"type\": \"SALE\",\n  \"status\": \"CLOSED\",\n  \"openedZonedDateTime\": \"2018-05-02T08:28:13+10:00\",\n  \"closedZonedDateTime\": \"2018-05-02T08:28:13+10:00\",\n  \"staff\": {\n    \"id\": \"8675309\"\n  },\n  \"bookingId\": \"6dca53a9-04c7-46aa-991c-cfdf51a8f652\",\n  \"items\": [\n    {\n      \"id\": \"DRINK-123\",\n      \"name\": \"Diet Soda\",\n      \"sku\": \"1123581321\",\n      \"unitPrice\": {\n        \"amount\": 123,\n        \"currency\": \"AUD\"\n      },\n      \"unitPriceTax\": {\n        \"amount\": 123,\n        \"currency\": \"AUD\"\n      },\n      \"quantity\": 3,\n      \"tax\": {\n        \"amount\": 369,\n        \"currency\": \"AUD\"\n      },\n      \"total\": {\n        \"amount\": 369,\n        \"currency\": \"AUD\"\n      }\n    }\n  ],\n  \"payments\": [\n    {\n      \"acquirer\": {\n        \"name\": \"TYRO\",\n        \"transactionReference\": \"88888888-4444-4444-4444-121212121212\",\n        \"terminalId\": \"57\"\n      },\n      \"method\": \"EFTPOS\",\n      \"type\": \"SALE\",\n      \"goodsAndServicesAmount\": {\n        \"amount\": 123,\n        \"currency\": \"AUD\"\n      }\n    }\n  ],\n  \"tax\": {\n    \"amount\": 123,\n    \"currency\": \"AUD\"\n  },\n  \"total\": {\n    \"amount\": 369,\n    \"currency\": \"AUD\"\n  },\n  \"table\": {\n    \"seats\": 1,\n    \"number\": \"11\"\n  },\n  \"subtotal\": {\n    \"amount\": 369,\n    \"currency\": \"AUD\"\n  }\n}",
+          "cookie": [],
+          "_postman_previewlanguage": "json"
+        },
+        {
+          "id": "63e4d834-e057-418d-b2fc-edf475e92e7d",
+          "name": "When the provided `saleId` does not match a Sale stored in the system.",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "sales",
+                ":saleId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "saleId",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) ",
+                "key": "Authorization",
+                "value": "Bearer {$$.env.access_token}"
+              }
+            ],
+            "method": "GET",
+            "body": {}
+          },
+          "status": "Not Found",
+          "code": 404,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "text/plain"
+            }
+          ],
+          "body": "",
+          "cookie": [],
+          "_postman_previewlanguage": "text"
+        }
+      ],
+      "event": [],
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      }
+    },
+    {
+      "id": "493fb3fc-7302-4975-9b31-ca23fb56ec16",
+      "name": "Update Sale",
+      "request": {
+        "name": "Update Sale",
+        "description": {
+          "content": "This endpoint is used to updates Sales. Please note, updates with the same contents are ignored and all items in a sale must be of an identical currency.",
+          "type": "text/plain"
+        },
+        "url": {
+          "path": [
+            "sales",
+            ":saleId"
+          ],
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "query": [],
+          "variable": []
+        },
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "method": "PATCH",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"version\": \"<number>\",\n  \"status\": \"CLOSED\",\n  \"closedZonedDateTime\": \"<dateTime>\",\n  \"items\": [\n    {\n      \"id\": \"<string>\",\n      \"name\": \"<string>\",\n      \"sku\": \"<string>\",\n      \"unitPrice\": {\n        \"amount\": \"<integer>\",\n        \"currency\": \"AUD\"\n      },\n      \"unitPriceTax\": {\n        \"amount\": \"<integer>\",\n        \"currency\": \"AUD\"\n      },\n      \"quantity\": \"<number>\",\n      \"tax\": {\n        \"amount\": \"<integer>\",\n        \"currency\": \"AUD\"\n      },\n      \"total\": {\n        \"amount\": \"<integer>\",\n        \"currency\": \"AUD\"\n      },\n      \"category\": \"<string>\",\n      \"description\": \"<string>\",\n      \"barcode\": \"<string>\",\n      \"modifiers\": [\n        {\n          \"value\": \"<Circular reference to #/components/schemas/line-item detected>\"\n        },\n        {\n          \"value\": \"<Circular reference to #/components/schemas/line-item detected>\"\n        }\n      ],\n      \"unitCost\": {\n        \"amount\": \"<integer>\",\n        \"currency\": \"AUD\"\n      },\n      \"unitCostTax\": {\n        \"amount\": \"<integer>\",\n        \"currency\": \"AUD\"\n      },\n      \"discounts\": [\n        {\n          \"amount\": \"<integer>\",\n          \"currency\": \"AUD\",\n          \"description\": \"<string>\"\n        },\n        {\n          \"amount\": \"<integer>\",\n          \"currency\": \"AUD\",\n          \"description\": \"<string>\"\n        }\n      ],\n      \"sale\": {\n        \"type\": \"<string>\"\n      },\n      \"surcharges\": [\n        {\n          \"amount\": \"<integer>\",\n          \"currency\": \"AUD\",\n          \"description\": \"<string>\"\n        },\n        {\n          \"amount\": \"<integer>\",\n          \"currency\": \"AUD\",\n          \"description\": \"<string>\"\n        }\n      ],\n      \"hidden\": \"<boolean>\"\n    },\n    {\n      \"id\": \"<string>\",\n      \"name\": \"<string>\",\n      \"sku\": \"<string>\",\n      \"unitPrice\": {\n        \"amount\": \"<integer>\",\n        \"currency\": \"AUD\"\n      },\n      \"unitPriceTax\": {\n        \"amount\": \"<integer>\",\n        \"currency\": \"AUD\"\n      },\n      \"quantity\": \"<number>\",\n      \"tax\": {\n        \"amount\": \"<integer>\",\n        \"currency\": \"AUD\"\n      },\n      \"total\": {\n        \"amount\": \"<integer>\",\n        \"currency\": \"AUD\"\n      },\n      \"category\": \"<string>\",\n      \"description\": \"<string>\",\n      \"barcode\": \"<string>\",\n      \"modifiers\": [\n        {\n          \"value\": \"<Circular reference to #/components/schemas/line-item detected>\"\n        },\n        {\n          \"value\": \"<Circular reference to #/components/schemas/line-item detected>\"\n        }\n      ],\n      \"unitCost\": {\n        \"amount\": \"<integer>\",\n        \"currency\": \"AUD\"\n      },\n      \"unitCostTax\": {\n        \"amount\": \"<integer>\",\n        \"currency\": \"AUD\"\n      },\n      \"discounts\": [\n        {\n          \"amount\": \"<integer>\",\n          \"currency\": \"AUD\",\n          \"description\": \"<string>\"\n        },\n        {\n          \"amount\": \"<integer>\",\n          \"currency\": \"AUD\",\n          \"description\": \"<string>\"\n        }\n      ],\n      \"sale\": {\n        \"type\": \"<string>\"\n      },\n      \"surcharges\": [\n        {\n          \"amount\": \"<integer>\",\n          \"currency\": \"AUD\",\n          \"description\": \"<string>\"\n        },\n        {\n          \"amount\": \"<integer>\",\n          \"currency\": \"AUD\",\n          \"description\": \"<string>\"\n        }\n      ],\n      \"hidden\": \"<boolean>\"\n    }\n  ],\n  \"discounts\": [\n    {\n      \"amount\": \"<integer>\",\n      \"currency\": \"AUD\",\n      \"description\": \"<string>\"\n    },\n    {\n      \"amount\": \"<integer>\",\n      \"currency\": \"AUD\",\n      \"description\": \"<string>\"\n    }\n  ],\n  \"surcharges\": [\n    {\n      \"amount\": \"<integer>\",\n      \"currency\": \"AUD\",\n      \"description\": \"<string>\"\n    },\n    {\n      \"amount\": \"<integer>\",\n      \"currency\": \"AUD\",\n      \"description\": \"<string>\"\n    }\n  ],\n  \"tax\": {\n    \"amount\": \"<integer>\",\n    \"currency\": \"AUD\"\n  },\n  \"payments\": [\n    {\n      \"method\": \"<string>\",\n      \"goodsAndServicesAmount\": {\n        \"amount\": \"<integer>\",\n        \"currency\": \"AUD\"\n      },\n      \"acquirer\": {\n        \"name\": \"<string>\",\n        \"transactionReference\": \"<string>\",\n        \"terminalId\": \"<string>\"\n      },\n      \"type\": \"SALE\",\n      \"tipAmount\": {\n        \"amount\": \"<integer>\",\n        \"currency\": \"AUD\"\n      },\n      \"cashoutAmount\": {\n        \"amount\": \"<integer>\",\n        \"currency\": \"AUD\"\n      },\n      \"surchargeAmount\": {\n        \"amount\": \"<integer>\",\n        \"currency\": \"AUD\"\n      },\n      \"items\": [\n        {\n          \"itemId\": \"<string>\",\n          \"total\": {\n            \"amount\": \"<integer>\",\n            \"currency\": \"AUD\"\n          }\n        },\n        {\n          \"itemId\": \"<string>\",\n          \"total\": {\n            \"amount\": \"<integer>\",\n            \"currency\": \"AUD\"\n          }\n        }\n      ]\n    },\n    {\n      \"method\": \"<string>\",\n      \"goodsAndServicesAmount\": {\n        \"amount\": \"<integer>\",\n        \"currency\": \"AUD\"\n      },\n      \"acquirer\": {\n        \"name\": \"<string>\",\n        \"transactionReference\": \"<string>\",\n        \"terminalId\": \"<string>\"\n      },\n      \"type\": \"SALE\",\n      \"tipAmount\": {\n        \"amount\": \"<integer>\",\n        \"currency\": \"AUD\"\n      },\n      \"cashoutAmount\": {\n        \"amount\": \"<integer>\",\n        \"currency\": \"AUD\"\n      },\n      \"surchargeAmount\": {\n        \"amount\": \"<integer>\",\n        \"currency\": \"AUD\"\n      },\n      \"items\": [\n        {\n          \"itemId\": \"<string>\",\n          \"total\": {\n            \"amount\": \"<integer>\",\n            \"currency\": \"AUD\"\n          }\n        },\n        {\n          \"itemId\": \"<string>\",\n          \"total\": {\n            \"amount\": \"<integer>\",\n            \"currency\": \"AUD\"\n          }\n        }\n      ]\n    }\n  ],\n  \"total\": {\n    \"amount\": \"<integer>\",\n    \"currency\": \"AUD\"\n  }\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": [
+        {
+          "id": "adc6709b-cfd9-4c39-9648-5785b8f67dba",
+          "name": "If the Sale was successfully updated on the server you will receive a 200 `OK` and the updated Sale with a new version.",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "sales",
+                ":saleId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) ",
+                "key": "Authorization",
+                "value": "Bearer {$$.env.access_token}"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PATCH",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"version\": \"<number>\",\n  \"status\": \"CLOSED\",\n  \"closedZonedDateTime\": \"2018-05-02T08:28:13+10:00\",\n  \"items\": [\n    {\n      \"id\": \"string\",\n      \"name\": \"string\",\n      \"sku\": \"string\",\n      \"unitPrice\": {\n        \"amount\": 12520,\n        \"currency\": \"AUD\"\n      },\n      \"unitPriceTax\": {\n        \"amount\": 12520,\n        \"currency\": \"AUD\"\n      },\n      \"quantity\": 6677.234566713088,\n      \"tax\": {\n        \"amount\": 12520,\n        \"currency\": \"AUD\"\n      },\n      \"total\": {\n        \"amount\": 12520,\n        \"currency\": \"AUD\"\n      },\n      \"category\": \"string\",\n      \"description\": \"string\",\n      \"barcode\": \"string\",\n      \"modifiers\": [\n        {\n          \"value\": \"<Circular reference to #/components/schemas/line-item detected>\"\n        },\n        {\n          \"value\": \"<Circular reference to #/components/schemas/line-item detected>\"\n        }\n      ],\n      \"unitCost\": {\n        \"amount\": 12520,\n        \"currency\": \"AUD\"\n      },\n      \"unitCostTax\": {\n        \"amount\": 12520,\n        \"currency\": \"AUD\"\n      },\n      \"discounts\": [\n        {\n          \"amount\": 12520,\n          \"currency\": \"AUD\",\n          \"description\": \"Tuesday Happy Hour Discount\"\n        },\n        {\n          \"amount\": 12520,\n          \"currency\": \"AUD\",\n          \"description\": \"Tuesday Happy Hour Discount\"\n        }\n      ],\n      \"sale\": {\n        \"type\": \"REFUND\"\n      },\n      \"surcharges\": [\n        {\n          \"amount\": 12520,\n          \"currency\": \"AUD\",\n          \"description\": \"Tuesday Happy Hour Discount\"\n        },\n        {\n          \"amount\": 12520,\n          \"currency\": \"AUD\",\n          \"description\": \"Tuesday Happy Hour Discount\"\n        }\n      ],\n      \"hidden\": false\n    },\n    {\n      \"id\": \"string\",\n      \"name\": \"string\",\n      \"sku\": \"string\",\n      \"unitPrice\": {\n        \"amount\": 12520,\n        \"currency\": \"AUD\"\n      },\n      \"unitPriceTax\": {\n        \"amount\": 12520,\n        \"currency\": \"AUD\"\n      },\n      \"quantity\": 3457.9991263827005,\n      \"tax\": {\n        \"amount\": 12520,\n        \"currency\": \"AUD\"\n      },\n      \"total\": {\n        \"amount\": 12520,\n        \"currency\": \"AUD\"\n      },\n      \"category\": \"string\",\n      \"description\": \"string\",\n      \"barcode\": \"string\",\n      \"modifiers\": [\n        {\n          \"value\": \"<Circular reference to #/components/schemas/line-item detected>\"\n        },\n        {\n          \"value\": \"<Circular reference to #/components/schemas/line-item detected>\"\n        }\n      ],\n      \"unitCost\": {\n        \"amount\": 12520,\n        \"currency\": \"AUD\"\n      },\n      \"unitCostTax\": {\n        \"amount\": 12520,\n        \"currency\": \"AUD\"\n      },\n      \"discounts\": [\n        {\n          \"amount\": 12520,\n          \"currency\": \"AUD\",\n          \"description\": \"Tuesday Happy Hour Discount\"\n        },\n        {\n          \"amount\": 12520,\n          \"currency\": \"AUD\",\n          \"description\": \"Tuesday Happy Hour Discount\"\n        }\n      ],\n      \"sale\": {\n        \"type\": \"SALE\"\n      },\n      \"surcharges\": [\n        {\n          \"amount\": 12520,\n          \"currency\": \"AUD\",\n          \"description\": \"Tuesday Happy Hour Discount\"\n        },\n        {\n          \"amount\": 12520,\n          \"currency\": \"AUD\",\n          \"description\": \"Tuesday Happy Hour Discount\"\n        }\n      ],\n      \"hidden\": true\n    }\n  ],\n  \"discounts\": [\n    {\n      \"amount\": 12520,\n      \"currency\": \"AUD\",\n      \"description\": \"Tuesday Happy Hour Discount\"\n    },\n    {\n      \"amount\": 12520,\n      \"currency\": \"AUD\",\n      \"description\": \"Tuesday Happy Hour Discount\"\n    }\n  ],\n  \"surcharges\": [\n    {\n      \"amount\": 12520,\n      \"currency\": \"AUD\",\n      \"description\": \"Tuesday Happy Hour Discount\"\n    },\n    {\n      \"amount\": 12520,\n      \"currency\": \"AUD\",\n      \"description\": \"Tuesday Happy Hour Discount\"\n    }\n  ],\n  \"tax\": {\n    \"amount\": 12520,\n    \"currency\": \"AUD\"\n  },\n  \"payments\": [\n    {\n      \"method\": \"<string>\",\n      \"goodsAndServicesAmount\": {\n        \"amount\": 12520,\n        \"currency\": \"AUD\"\n      },\n      \"acquirer\": {\n        \"name\": \"TYRO\",\n        \"transactionReference\": \"<string>\",\n        \"terminalId\": \"<string>\"\n      },\n      \"type\": \"SALE\",\n      \"tipAmount\": {\n        \"amount\": 12520,\n        \"currency\": \"AUD\"\n      },\n      \"cashoutAmount\": {\n        \"amount\": 12520,\n        \"currency\": \"AUD\"\n      },\n      \"surchargeAmount\": {\n        \"amount\": 12520,\n        \"currency\": \"AUD\"\n      },\n      \"items\": [\n        {\n          \"itemId\": \"<string>\",\n          \"total\": {\n            \"amount\": 12520,\n            \"currency\": \"AUD\"\n          }\n        },\n        {\n          \"itemId\": \"<string>\",\n          \"total\": {\n            \"amount\": 12520,\n            \"currency\": \"AUD\"\n          }\n        }\n      ]\n    },\n    {\n      \"method\": \"<string>\",\n      \"goodsAndServicesAmount\": {\n        \"amount\": 12520,\n        \"currency\": \"AUD\"\n      },\n      \"acquirer\": {\n        \"name\": \"TYRO\",\n        \"transactionReference\": \"<string>\",\n        \"terminalId\": \"<string>\"\n      },\n      \"type\": \"SALE\",\n      \"tipAmount\": {\n        \"amount\": 12520,\n        \"currency\": \"AUD\"\n      },\n      \"cashoutAmount\": {\n        \"amount\": 12520,\n        \"currency\": \"AUD\"\n      },\n      \"surchargeAmount\": {\n        \"amount\": 12520,\n        \"currency\": \"AUD\"\n      },\n      \"items\": [\n        {\n          \"itemId\": \"<string>\",\n          \"total\": {\n            \"amount\": 12520,\n            \"currency\": \"AUD\"\n          }\n        },\n        {\n          \"itemId\": \"<string>\",\n          \"total\": {\n            \"amount\": 12520,\n            \"currency\": \"AUD\"\n          }\n        }\n      ]\n    }\n  ],\n  \"total\": {\n    \"amount\": 12520,\n    \"currency\": \"AUD\"\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"id\": \"string\",\n  \"version\": 7038.018432616822,\n  \"locationId\": \"string\",\n  \"origin\": {\n    \"saleId\": \"string\",\n    \"locationId\": \"string\"\n  },\n  \"source\": {\n    \"type\": \"OTHER\",\n    \"other\": \"string\"\n  },\n  \"type\": \"SALE\",\n  \"openedZonedDateTime\": \"2018-05-02T08:28:13+10:00\",\n  \"staff\": {\n    \"id\": \"string\"\n  },\n  \"status\": \"CLOSED\",\n  \"closedZonedDateTime\": \"2018-05-02T08:28:13+10:00\",\n  \"parentSaleId\": \"string\",\n  \"customer\": {\n    \"id\": \"string\"\n  },\n  \"register\": {\n    \"id\": \"string\",\n    \"name\": \"string\"\n  },\n  \"section\": {\n    \"id\": \"string\",\n    \"name\": \"string\"\n  },\n  \"table\": {\n    \"number\": \"MAIN-33\",\n    \"seats\": 8750\n  },\n  \"bookingId\": \"string\",\n  \"items\": [\n    {\n      \"id\": \"string\",\n      \"name\": \"string\",\n      \"sku\": \"string\",\n      \"unitPrice\": {\n        \"amount\": 12520,\n        \"currency\": \"AUD\"\n      },\n      \"unitPriceTax\": {\n        \"amount\": 12520,\n        \"currency\": \"AUD\"\n      },\n      \"quantity\": 7727.298843199743,\n      \"tax\": {\n        \"amount\": 12520,\n        \"currency\": \"AUD\"\n      },\n      \"total\": {\n        \"amount\": 12520,\n        \"currency\": \"AUD\"\n      },\n      \"category\": \"string\",\n      \"description\": \"string\",\n      \"barcode\": \"string\",\n      \"modifiers\": [\n        {\n          \"value\": \"<Circular reference to #/components/schemas/line-item detected>\"\n        },\n        {\n          \"value\": \"<Circular reference to #/components/schemas/line-item detected>\"\n        }\n      ],\n      \"unitCost\": {\n        \"amount\": 12520,\n        \"currency\": \"AUD\"\n      },\n      \"unitCostTax\": {\n        \"amount\": 12520,\n        \"currency\": \"AUD\"\n      },\n      \"discounts\": [\n        {\n          \"amount\": 12520,\n          \"currency\": \"AUD\",\n          \"description\": \"Tuesday Happy Hour Discount\"\n        },\n        {\n          \"amount\": 12520,\n          \"currency\": \"AUD\",\n          \"description\": \"Tuesday Happy Hour Discount\"\n        }\n      ],\n      \"sale\": {\n        \"type\": \"REFUND\"\n      },\n      \"surcharges\": [\n        {\n          \"amount\": 12520,\n          \"currency\": \"AUD\",\n          \"description\": \"Tuesday Happy Hour Discount\"\n        },\n        {\n          \"amount\": 12520,\n          \"currency\": \"AUD\",\n          \"description\": \"Tuesday Happy Hour Discount\"\n        }\n      ],\n      \"hidden\": false\n    },\n    {\n      \"id\": \"string\",\n      \"name\": \"string\",\n      \"sku\": \"string\",\n      \"unitPrice\": {\n        \"amount\": 12520,\n        \"currency\": \"AUD\"\n      },\n      \"unitPriceTax\": {\n        \"amount\": 12520,\n        \"currency\": \"AUD\"\n      },\n      \"quantity\": 8901.545774651633,\n      \"tax\": {\n        \"amount\": 12520,\n        \"currency\": \"AUD\"\n      },\n      \"total\": {\n        \"amount\": 12520,\n        \"currency\": \"AUD\"\n      },\n      \"category\": \"string\",\n      \"description\": \"string\",\n      \"barcode\": \"string\",\n      \"modifiers\": [\n        {\n          \"value\": \"<Circular reference to #/components/schemas/line-item detected>\"\n        },\n        {\n          \"value\": \"<Circular reference to #/components/schemas/line-item detected>\"\n        }\n      ],\n      \"unitCost\": {\n        \"amount\": 12520,\n        \"currency\": \"AUD\"\n      },\n      \"unitCostTax\": {\n        \"amount\": 12520,\n        \"currency\": \"AUD\"\n      },\n      \"discounts\": [\n        {\n          \"amount\": 12520,\n          \"currency\": \"AUD\",\n          \"description\": \"Tuesday Happy Hour Discount\"\n        },\n        {\n          \"amount\": 12520,\n          \"currency\": \"AUD\",\n          \"description\": \"Tuesday Happy Hour Discount\"\n        }\n      ],\n      \"sale\": {\n        \"type\": \"REFUND\"\n      },\n      \"surcharges\": [\n        {\n          \"amount\": 12520,\n          \"currency\": \"AUD\",\n          \"description\": \"Tuesday Happy Hour Discount\"\n        },\n        {\n          \"amount\": 12520,\n          \"currency\": \"AUD\",\n          \"description\": \"Tuesday Happy Hour Discount\"\n        }\n      ],\n      \"hidden\": false\n    }\n  ],\n  \"discounts\": [\n    {\n      \"amount\": 12520,\n      \"currency\": \"AUD\",\n      \"description\": \"Tuesday Happy Hour Discount\"\n    },\n    {\n      \"amount\": 12520,\n      \"currency\": \"AUD\",\n      \"description\": \"Tuesday Happy Hour Discount\"\n    }\n  ],\n  \"surcharges\": [\n    {\n      \"amount\": 12520,\n      \"currency\": \"AUD\",\n      \"description\": \"Tuesday Happy Hour Discount\"\n    },\n    {\n      \"amount\": 12520,\n      \"currency\": \"AUD\",\n      \"description\": \"Tuesday Happy Hour Discount\"\n    }\n  ],\n  \"tax\": {\n    \"amount\": 12520,\n    \"currency\": \"AUD\"\n  },\n  \"payments\": [\n    {\n      \"method\": \"POINTS\",\n      \"goodsAndServicesAmount\": {\n        \"amount\": 12520,\n        \"currency\": \"AUD\"\n      },\n      \"acquirer\": {\n        \"name\": \"TYRO\",\n        \"transactionReference\": \"string\",\n        \"terminalId\": \"string\"\n      },\n      \"type\": \"REFUND\",\n      \"tipAmount\": {\n        \"amount\": 12520,\n        \"currency\": \"AUD\"\n      },\n      \"cashoutAmount\": {\n        \"amount\": 12520,\n        \"currency\": \"AUD\"\n      },\n      \"surchargeAmount\": {\n        \"amount\": 12520,\n        \"currency\": \"AUD\"\n      },\n      \"items\": [\n        {\n          \"itemId\": \"string\",\n          \"total\": {\n            \"amount\": 12520,\n            \"currency\": \"AUD\"\n          }\n        },\n        {\n          \"itemId\": \"string\",\n          \"total\": {\n            \"amount\": 12520,\n            \"currency\": \"AUD\"\n          }\n        }\n      ]\n    },\n    {\n      \"method\": \"GIFT_CARD\",\n      \"goodsAndServicesAmount\": {\n        \"amount\": 12520,\n        \"currency\": \"AUD\"\n      },\n      \"acquirer\": {\n        \"name\": \"TYRO\",\n        \"transactionReference\": \"string\",\n        \"terminalId\": \"string\"\n      },\n      \"type\": \"VOID\",\n      \"tipAmount\": {\n        \"amount\": 12520,\n        \"currency\": \"AUD\"\n      },\n      \"cashoutAmount\": {\n        \"amount\": 12520,\n        \"currency\": \"AUD\"\n      },\n      \"surchargeAmount\": {\n        \"amount\": 12520,\n        \"currency\": \"AUD\"\n      },\n      \"items\": [\n        {\n          \"itemId\": \"string\",\n          \"total\": {\n            \"amount\": 12520,\n            \"currency\": \"AUD\"\n          }\n        },\n        {\n          \"itemId\": \"string\",\n          \"total\": {\n            \"amount\": 12520,\n            \"currency\": \"AUD\"\n          }\n        }\n      ]\n    }\n  ],\n  \"total\": {\n    \"amount\": 12520,\n    \"currency\": \"AUD\"\n  },\n  \"subtotal\": {\n    \"amount\": 12520,\n    \"currency\": \"AUD\"\n  }\n}",
+          "cookie": [],
+          "_postman_previewlanguage": "json"
+        },
+        {
+          "id": "ca3823d5-8037-4be8-9d6e-334f7d2b87d7",
+          "name": "The provided payload is malformed or request tries to perform an update of an item of the sale that is not discounts, surcharges, tax or total.",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "sales",
+                ":saleId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) ",
+                "key": "Authorization",
+                "value": "Bearer {$$.env.access_token}"
+              }
+            ],
+            "method": "PATCH",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"version\": \"<number>\",\n  \"status\": \"CLOSED\",\n  \"closedZonedDateTime\": \"2018-05-02T08:28:13+10:00\",\n  \"items\": [\n    {\n      \"id\": \"string\",\n      \"name\": \"string\",\n      \"sku\": \"string\",\n      \"unitPrice\": {\n        \"amount\": 12520,\n        \"currency\": \"AUD\"\n      },\n      \"unitPriceTax\": {\n        \"amount\": 12520,\n        \"currency\": \"AUD\"\n      },\n      \"quantity\": 6677.234566713088,\n      \"tax\": {\n        \"amount\": 12520,\n        \"currency\": \"AUD\"\n      },\n      \"total\": {\n        \"amount\": 12520,\n        \"currency\": \"AUD\"\n      },\n      \"category\": \"string\",\n      \"description\": \"string\",\n      \"barcode\": \"string\",\n      \"modifiers\": [\n        {\n          \"value\": \"<Circular reference to #/components/schemas/line-item detected>\"\n        },\n        {\n          \"value\": \"<Circular reference to #/components/schemas/line-item detected>\"\n        }\n      ],\n      \"unitCost\": {\n        \"amount\": 12520,\n        \"currency\": \"AUD\"\n      },\n      \"unitCostTax\": {\n        \"amount\": 12520,\n        \"currency\": \"AUD\"\n      },\n      \"discounts\": [\n        {\n          \"amount\": 12520,\n          \"currency\": \"AUD\",\n          \"description\": \"Tuesday Happy Hour Discount\"\n        },\n        {\n          \"amount\": 12520,\n          \"currency\": \"AUD\",\n          \"description\": \"Tuesday Happy Hour Discount\"\n        }\n      ],\n      \"sale\": {\n        \"type\": \"REFUND\"\n      },\n      \"surcharges\": [\n        {\n          \"amount\": 12520,\n          \"currency\": \"AUD\",\n          \"description\": \"Tuesday Happy Hour Discount\"\n        },\n        {\n          \"amount\": 12520,\n          \"currency\": \"AUD\",\n          \"description\": \"Tuesday Happy Hour Discount\"\n        }\n      ],\n      \"hidden\": false\n    },\n    {\n      \"id\": \"string\",\n      \"name\": \"string\",\n      \"sku\": \"string\",\n      \"unitPrice\": {\n        \"amount\": 12520,\n        \"currency\": \"AUD\"\n      },\n      \"unitPriceTax\": {\n        \"amount\": 12520,\n        \"currency\": \"AUD\"\n      },\n      \"quantity\": 3457.9991263827005,\n      \"tax\": {\n        \"amount\": 12520,\n        \"currency\": \"AUD\"\n      },\n      \"total\": {\n        \"amount\": 12520,\n        \"currency\": \"AUD\"\n      },\n      \"category\": \"string\",\n      \"description\": \"string\",\n      \"barcode\": \"string\",\n      \"modifiers\": [\n        {\n          \"value\": \"<Circular reference to #/components/schemas/line-item detected>\"\n        },\n        {\n          \"value\": \"<Circular reference to #/components/schemas/line-item detected>\"\n        }\n      ],\n      \"unitCost\": {\n        \"amount\": 12520,\n        \"currency\": \"AUD\"\n      },\n      \"unitCostTax\": {\n        \"amount\": 12520,\n        \"currency\": \"AUD\"\n      },\n      \"discounts\": [\n        {\n          \"amount\": 12520,\n          \"currency\": \"AUD\",\n          \"description\": \"Tuesday Happy Hour Discount\"\n        },\n        {\n          \"amount\": 12520,\n          \"currency\": \"AUD\",\n          \"description\": \"Tuesday Happy Hour Discount\"\n        }\n      ],\n      \"sale\": {\n        \"type\": \"SALE\"\n      },\n      \"surcharges\": [\n        {\n          \"amount\": 12520,\n          \"currency\": \"AUD\",\n          \"description\": \"Tuesday Happy Hour Discount\"\n        },\n        {\n          \"amount\": 12520,\n          \"currency\": \"AUD\",\n          \"description\": \"Tuesday Happy Hour Discount\"\n        }\n      ],\n      \"hidden\": true\n    }\n  ],\n  \"discounts\": [\n    {\n      \"amount\": 12520,\n      \"currency\": \"AUD\",\n      \"description\": \"Tuesday Happy Hour Discount\"\n    },\n    {\n      \"amount\": 12520,\n      \"currency\": \"AUD\",\n      \"description\": \"Tuesday Happy Hour Discount\"\n    }\n  ],\n  \"surcharges\": [\n    {\n      \"amount\": 12520,\n      \"currency\": \"AUD\",\n      \"description\": \"Tuesday Happy Hour Discount\"\n    },\n    {\n      \"amount\": 12520,\n      \"currency\": \"AUD\",\n      \"description\": \"Tuesday Happy Hour Discount\"\n    }\n  ],\n  \"tax\": {\n    \"amount\": 12520,\n    \"currency\": \"AUD\"\n  },\n  \"payments\": [\n    {\n      \"method\": \"<string>\",\n      \"goodsAndServicesAmount\": {\n        \"amount\": 12520,\n        \"currency\": \"AUD\"\n      },\n      \"acquirer\": {\n        \"name\": \"TYRO\",\n        \"transactionReference\": \"<string>\",\n        \"terminalId\": \"<string>\"\n      },\n      \"type\": \"SALE\",\n      \"tipAmount\": {\n        \"amount\": 12520,\n        \"currency\": \"AUD\"\n      },\n      \"cashoutAmount\": {\n        \"amount\": 12520,\n        \"currency\": \"AUD\"\n      },\n      \"surchargeAmount\": {\n        \"amount\": 12520,\n        \"currency\": \"AUD\"\n      },\n      \"items\": [\n        {\n          \"itemId\": \"<string>\",\n          \"total\": {\n            \"amount\": 12520,\n            \"currency\": \"AUD\"\n          }\n        },\n        {\n          \"itemId\": \"<string>\",\n          \"total\": {\n            \"amount\": 12520,\n            \"currency\": \"AUD\"\n          }\n        }\n      ]\n    },\n    {\n      \"method\": \"<string>\",\n      \"goodsAndServicesAmount\": {\n        \"amount\": 12520,\n        \"currency\": \"AUD\"\n      },\n      \"acquirer\": {\n        \"name\": \"TYRO\",\n        \"transactionReference\": \"<string>\",\n        \"terminalId\": \"<string>\"\n      },\n      \"type\": \"SALE\",\n      \"tipAmount\": {\n        \"amount\": 12520,\n        \"currency\": \"AUD\"\n      },\n      \"cashoutAmount\": {\n        \"amount\": 12520,\n        \"currency\": \"AUD\"\n      },\n      \"surchargeAmount\": {\n        \"amount\": 12520,\n        \"currency\": \"AUD\"\n      },\n      \"items\": [\n        {\n          \"itemId\": \"<string>\",\n          \"total\": {\n            \"amount\": 12520,\n            \"currency\": \"AUD\"\n          }\n        },\n        {\n          \"itemId\": \"<string>\",\n          \"total\": {\n            \"amount\": 12520,\n            \"currency\": \"AUD\"\n          }\n        }\n      ]\n    }\n  ],\n  \"total\": {\n    \"amount\": 12520,\n    \"currency\": \"AUD\"\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "status": "Bad Request",
+          "code": 400,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "text/plain"
+            }
+          ],
+          "body": "",
+          "cookie": [],
+          "_postman_previewlanguage": "text"
+        },
+        {
+          "id": "d19cb59f-e7bc-46b6-895a-febbe21a8131",
+          "name": "The provided version is outdated. This indicates that another process has made updates to the same Sale. Get the latest sale object and retry with the latest version.",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "sales",
+                ":saleId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) ",
+                "key": "Authorization",
+                "value": "Bearer {$$.env.access_token}"
+              }
+            ],
+            "method": "PATCH",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"version\": \"<number>\",\n  \"status\": \"CLOSED\",\n  \"closedZonedDateTime\": \"2018-05-02T08:28:13+10:00\",\n  \"items\": [\n    {\n      \"id\": \"string\",\n      \"name\": \"string\",\n      \"sku\": \"string\",\n      \"unitPrice\": {\n        \"amount\": 12520,\n        \"currency\": \"AUD\"\n      },\n      \"unitPriceTax\": {\n        \"amount\": 12520,\n        \"currency\": \"AUD\"\n      },\n      \"quantity\": 6677.234566713088,\n      \"tax\": {\n        \"amount\": 12520,\n        \"currency\": \"AUD\"\n      },\n      \"total\": {\n        \"amount\": 12520,\n        \"currency\": \"AUD\"\n      },\n      \"category\": \"string\",\n      \"description\": \"string\",\n      \"barcode\": \"string\",\n      \"modifiers\": [\n        {\n          \"value\": \"<Circular reference to #/components/schemas/line-item detected>\"\n        },\n        {\n          \"value\": \"<Circular reference to #/components/schemas/line-item detected>\"\n        }\n      ],\n      \"unitCost\": {\n        \"amount\": 12520,\n        \"currency\": \"AUD\"\n      },\n      \"unitCostTax\": {\n        \"amount\": 12520,\n        \"currency\": \"AUD\"\n      },\n      \"discounts\": [\n        {\n          \"amount\": 12520,\n          \"currency\": \"AUD\",\n          \"description\": \"Tuesday Happy Hour Discount\"\n        },\n        {\n          \"amount\": 12520,\n          \"currency\": \"AUD\",\n          \"description\": \"Tuesday Happy Hour Discount\"\n        }\n      ],\n      \"sale\": {\n        \"type\": \"REFUND\"\n      },\n      \"surcharges\": [\n        {\n          \"amount\": 12520,\n          \"currency\": \"AUD\",\n          \"description\": \"Tuesday Happy Hour Discount\"\n        },\n        {\n          \"amount\": 12520,\n          \"currency\": \"AUD\",\n          \"description\": \"Tuesday Happy Hour Discount\"\n        }\n      ],\n      \"hidden\": false\n    },\n    {\n      \"id\": \"string\",\n      \"name\": \"string\",\n      \"sku\": \"string\",\n      \"unitPrice\": {\n        \"amount\": 12520,\n        \"currency\": \"AUD\"\n      },\n      \"unitPriceTax\": {\n        \"amount\": 12520,\n        \"currency\": \"AUD\"\n      },\n      \"quantity\": 3457.9991263827005,\n      \"tax\": {\n        \"amount\": 12520,\n        \"currency\": \"AUD\"\n      },\n      \"total\": {\n        \"amount\": 12520,\n        \"currency\": \"AUD\"\n      },\n      \"category\": \"string\",\n      \"description\": \"string\",\n      \"barcode\": \"string\",\n      \"modifiers\": [\n        {\n          \"value\": \"<Circular reference to #/components/schemas/line-item detected>\"\n        },\n        {\n          \"value\": \"<Circular reference to #/components/schemas/line-item detected>\"\n        }\n      ],\n      \"unitCost\": {\n        \"amount\": 12520,\n        \"currency\": \"AUD\"\n      },\n      \"unitCostTax\": {\n        \"amount\": 12520,\n        \"currency\": \"AUD\"\n      },\n      \"discounts\": [\n        {\n          \"amount\": 12520,\n          \"currency\": \"AUD\",\n          \"description\": \"Tuesday Happy Hour Discount\"\n        },\n        {\n          \"amount\": 12520,\n          \"currency\": \"AUD\",\n          \"description\": \"Tuesday Happy Hour Discount\"\n        }\n      ],\n      \"sale\": {\n        \"type\": \"SALE\"\n      },\n      \"surcharges\": [\n        {\n          \"amount\": 12520,\n          \"currency\": \"AUD\",\n          \"description\": \"Tuesday Happy Hour Discount\"\n        },\n        {\n          \"amount\": 12520,\n          \"currency\": \"AUD\",\n          \"description\": \"Tuesday Happy Hour Discount\"\n        }\n      ],\n      \"hidden\": true\n    }\n  ],\n  \"discounts\": [\n    {\n      \"amount\": 12520,\n      \"currency\": \"AUD\",\n      \"description\": \"Tuesday Happy Hour Discount\"\n    },\n    {\n      \"amount\": 12520,\n      \"currency\": \"AUD\",\n      \"description\": \"Tuesday Happy Hour Discount\"\n    }\n  ],\n  \"surcharges\": [\n    {\n      \"amount\": 12520,\n      \"currency\": \"AUD\",\n      \"description\": \"Tuesday Happy Hour Discount\"\n    },\n    {\n      \"amount\": 12520,\n      \"currency\": \"AUD\",\n      \"description\": \"Tuesday Happy Hour Discount\"\n    }\n  ],\n  \"tax\": {\n    \"amount\": 12520,\n    \"currency\": \"AUD\"\n  },\n  \"payments\": [\n    {\n      \"method\": \"<string>\",\n      \"goodsAndServicesAmount\": {\n        \"amount\": 12520,\n        \"currency\": \"AUD\"\n      },\n      \"acquirer\": {\n        \"name\": \"TYRO\",\n        \"transactionReference\": \"<string>\",\n        \"terminalId\": \"<string>\"\n      },\n      \"type\": \"SALE\",\n      \"tipAmount\": {\n        \"amount\": 12520,\n        \"currency\": \"AUD\"\n      },\n      \"cashoutAmount\": {\n        \"amount\": 12520,\n        \"currency\": \"AUD\"\n      },\n      \"surchargeAmount\": {\n        \"amount\": 12520,\n        \"currency\": \"AUD\"\n      },\n      \"items\": [\n        {\n          \"itemId\": \"<string>\",\n          \"total\": {\n            \"amount\": 12520,\n            \"currency\": \"AUD\"\n          }\n        },\n        {\n          \"itemId\": \"<string>\",\n          \"total\": {\n            \"amount\": 12520,\n            \"currency\": \"AUD\"\n          }\n        }\n      ]\n    },\n    {\n      \"method\": \"<string>\",\n      \"goodsAndServicesAmount\": {\n        \"amount\": 12520,\n        \"currency\": \"AUD\"\n      },\n      \"acquirer\": {\n        \"name\": \"TYRO\",\n        \"transactionReference\": \"<string>\",\n        \"terminalId\": \"<string>\"\n      },\n      \"type\": \"SALE\",\n      \"tipAmount\": {\n        \"amount\": 12520,\n        \"currency\": \"AUD\"\n      },\n      \"cashoutAmount\": {\n        \"amount\": 12520,\n        \"currency\": \"AUD\"\n      },\n      \"surchargeAmount\": {\n        \"amount\": 12520,\n        \"currency\": \"AUD\"\n      },\n      \"items\": [\n        {\n          \"itemId\": \"<string>\",\n          \"total\": {\n            \"amount\": 12520,\n            \"currency\": \"AUD\"\n          }\n        },\n        {\n          \"itemId\": \"<string>\",\n          \"total\": {\n            \"amount\": 12520,\n            \"currency\": \"AUD\"\n          }\n        }\n      ]\n    }\n  ],\n  \"total\": {\n    \"amount\": 12520,\n    \"currency\": \"AUD\"\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "status": "Precondition Failed",
+          "code": 412,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "text/plain"
+            }
+          ],
+          "body": "",
+          "cookie": [],
+          "_postman_previewlanguage": "text"
+        }
+      ],
+      "event": [],
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      }
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.tyro.com/connect",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "80be6112-06b9-44ad-83be-79d73a22012c",
+    "name": "Sales Data API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "This is the API for Apps looking to implement sales data on Tyro Connect\n",
+      "type": "text/plain"
+    }
+  }
+}

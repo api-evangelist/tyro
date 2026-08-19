@@ -1,0 +1,122 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Sales Data API",
+    "version": "1.1"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "List Sales",
+        "type": "http"
+      },
+      "http": {
+        "method": "GET",
+        "url": "https://api.tyro.com/connect/sales",
+        "headers": [
+          {
+            "name": "Authorization",
+            "value": ""
+          }
+        ],
+        "params": [
+          {
+            "name": "locationId",
+            "value": "",
+            "type": "query",
+            "description": "The Tyro Connect Location Id of the sales to be retrieved. This parameter is required."
+          },
+          {
+            "name": "saleStatus",
+            "value": "",
+            "type": "query",
+            "description": "Returns results based on the status of a sale."
+          },
+          {
+            "name": "saleType",
+            "value": "",
+            "type": "query",
+            "description": "Returns results based on the type of a sale.\n\nCan be a single string or multi string value."
+          },
+          {
+            "name": "fromDate",
+            "value": "",
+            "type": "query",
+            "description": "Returns results that have a \"startTime\" later than or equal to the provided value.\n\nFormat: YYYY-MM-DD"
+          },
+          {
+            "name": "toDate",
+            "value": "",
+            "type": "query",
+            "description": "Returns results that have a \"startTime\" before than or equal to the provided value.\n\nFormat: YYYY-MM-DD"
+          },
+          {
+            "name": "dateType",
+            "value": "",
+            "type": "query",
+            "description": "Specifies the date type of the 'fromDate' and 'toDate' parameters."
+          },
+          {
+            "name": "limit",
+            "value": "",
+            "type": "query",
+            "description": "Specifies the amount of results to be retrieved.\n\nA maximum of 50 results are returned if this value is not provided."
+          },
+          {
+            "name": "page",
+            "value": "",
+            "type": "query",
+            "description": "Specify the page to retrieve.\n\nYou will need to use this setting if you wish to retrieve specific pages.\n\nPage-numbering is based on the value of \"limit\". If limit=5, then page=1 will display the hits from 1 to 5, page=3 will display the hits from 11 to 15.\n\nPage numbers start at 1.\n\nA request for a non-existing page will yield 0 results."
+          }
+        ]
+      },
+      "docs": "This endpoint returns all the sales of a given location. The list of sales is paginated and it is possible to apply filters to the sales being fetched.\n\n## Filtering\n\nThe filtering options use an \"OR\" clause within the same filter criteria and an \"AND\" clause between criteria.\n\nThis means that a request with `saleStatus=OPEN&saleType=SALE` will return the sales that were `OPEN` *and* that of type `SALE`.\n\nA request with `saleType=SALE&saleType=REFUND` will return the sales that have either sale "
+    },
+    {
+      "info": {
+        "name": "Get Sales Data by SalesId",
+        "type": "http"
+      },
+      "http": {
+        "method": "GET",
+        "url": "https://api.tyro.com/connect/sales/:saleId",
+        "headers": [
+          {
+            "name": "Authorization",
+            "value": ""
+          }
+        ],
+        "params": [
+          {
+            "name": "saleId",
+            "value": "",
+            "type": "path"
+          }
+        ]
+      },
+      "docs": "This endpoint is for fetching the details of a sale.\n"
+    },
+    {
+      "info": {
+        "name": "Update Sale",
+        "type": "http"
+      },
+      "http": {
+        "method": "PATCH",
+        "url": "https://api.tyro.com/connect/sales/:saleId",
+        "headers": [
+          {
+            "name": "Authorization",
+            "value": ""
+          }
+        ],
+        "body": {
+          "type": "json",
+          "data": "{}"
+        }
+      },
+      "docs": "This endpoint is used to updates Sales. Please note, updates with the same contents are ignored and all items in a sale must be of an identical currency."
+    }
+  ],
+  "bundled": true
+}

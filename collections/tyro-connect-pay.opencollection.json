@@ -1,0 +1,253 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Pay API",
+    "version": "0.9"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Pay Requests",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Create a Pay Request",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.tyro.com/connect/pay/requests",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              },
+              {
+                "name": "Content-Type",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "This endpoint is used for creating a Pay Request. Your server should create a Pay Request as soon as the total payment amount is known. Once the Pay Request is created, your frontend will use Tyro.js to collect the customer's payment details and invoke submit() to execute the payment."
+        },
+        {
+          "info": {
+            "name": "Retrieve a Pay Request",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.tyro.com/connect/pay/requests/:payRequestId",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "payRequestId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "This endpoint is for fetching Pay Requests."
+        },
+        {
+          "info": {
+            "name": "Update or execute actions on the Pay Request",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://api.tyro.com/connect/pay/requests/:payRequestId",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "payRequestId",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "This endpoint is for updating a Pay Request or executing actions on the Pay Request."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Pay Methods",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Pay Methods",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.tyro.com/connect/pay/methods",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "customerId",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "This endpoint is for fetching Pay Methods"
+        },
+        {
+          "info": {
+            "name": "Retrieve a Pay Method",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.tyro.com/connect/pay/methods/:payMethodId",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "payMethodId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Retrieve a Pay Method"
+        },
+        {
+          "info": {
+            "name": "Delete a Pay Method",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.tyro.com/connect/pay/methods/:payMethodId",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "payMethodId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Delete a Pay Method"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Pay Refunds",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List all Refunds",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.tyro.com/connect/pay/refunds",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              },
+              {
+                "name": "Content-Type",
+                "value": ""
+              }
+            ]
+          },
+          "docs": "Returns a list of refunds."
+        },
+        {
+          "info": {
+            "name": "Create a Refund Request",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.tyro.com/connect/pay/refunds",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              },
+              {
+                "name": "Content-Type",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "This endpoint is used to create a Refund Request.\n\nRefunds can only be created for successful payments made via a Pay Request. If a Pay Request has not yet been captured, then void the Pay Request instead.\n\nRefunds can be made for the total or partial amount of the Pay Request. Multiple refunds can be created for the same Pay Request as long as the total refunds amount does not exceed the original Pay Request total.\n\nRefunds can only be sent back to the original payment method used."
+        },
+        {
+          "info": {
+            "name": "Retrieve a Refund Request",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.tyro.com/connect/pay/refunds/:refundRequestId",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "refundRequestId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Retrieve a Refund Request."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}
