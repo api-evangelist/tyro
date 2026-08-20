@@ -31,6 +31,16 @@ tags:
 - Payment Gateway
 - In-Person Payments
 - EFTPOS
+- Point-of-Sale
+- Online Payments
+- Tap to Pay
+tags_raw:
+- Payments
+- Australia
+- Merchant Acquiring
+- Payment Gateway
+- In-Person Payments
+- EFTPOS
 - Point of Sale
 - Online Payments
 - Tap to Pay
@@ -122,6 +132,12 @@ apis:
   - Reservations
   - Hospitality
   - POS Integration
+  - Webhook
+  tags_raw:
+  - Bookings
+  - Reservations
+  - Hospitality
+  - POS Integration
   - Webhooks
   properties:
   - type: OpenAPI
@@ -141,6 +157,12 @@ apis:
   humanURL: https://docs.connect.tyro.com/app/apis/ordering
   baseURL: https://api.tyro.com/connect
   tags:
+  - Ordering
+  - Food Ordering
+  - Hospitality
+  - POS Integration
+  - Webhook
+  tags_raw:
   - Ordering
   - Food Ordering
   - Hospitality
@@ -213,6 +235,12 @@ apis:
   baseURL: https://api.tyro.com/connect
   tags:
   - Sales Data
+  - Transaction
+  - Reporting
+  - POS Integration
+  - Analytics
+  tags_raw:
+  - Sales Data
   - Transactions
   - Reporting
   - POS Integration
@@ -236,6 +264,12 @@ apis:
   humanURL: https://docs.connect.tyro.com/app/apis/reporting
   baseURL: https://api.tyro.com/connect
   tags:
+  - Reporting
+  - Settlement
+  - Transaction
+  - Reconciliation
+  - Analytics
+  tags_raw:
   - Reporting
   - Settlements
   - Transactions
@@ -283,6 +317,12 @@ apis:
   humanURL: https://docs.connect.tyro.com/app/apis/refunds
   baseURL: https://api.tyro.com/connect
   tags:
+  - Refunds
+  - Payments
+  - Transaction
+  - POS Integration
+  - Acquiring
+  tags_raw:
   - Refunds
   - Payments
   - Transactions
