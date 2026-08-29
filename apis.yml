@@ -10,6 +10,18 @@ description: 'Tyro Payments is an ASX-listed Australian payments company and one
   with OpenID Connect / OAuth 2.0) that links Point of Sale software, ordering, booking, loyalty and reporting
   apps to Tyro merchants, alongside Tyro.js, mobile SDKs and Tap to Pay (SoftPOS) for card-present and
   online payments. Home market is Australia.'
+deliveryModel:
+  model: saas
+  open_source: false
+  commercial: true
+  callable_host: true
+  label: Hosted service · you call their endpoint
+  confidence: high
+  source:
+  - openapi
+  - pricing
+  generated: '2026-08-28'
+  method: derived
 accessModel:
   pricing: paid
   onboarding: partner
