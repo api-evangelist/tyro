@@ -1,0 +1,208 @@
+openapi: 3.2.0
+info:
+  title: Embedded Payments Transactions API
+  version: '1.0'
+  contact: {}
+  description: 'The API allows a POS to accept Embedded Payments payments.
+
+    '
+servers:
+- url: https://api.tyro.com/connect
+  description: Production
+tags:
+- name: Transactions
+paths:
+  /tap-to-pay/merchants/{merchantId}/transactions/{transactionId}:
+    get:
+      summary: Fetch an Embedded Payments transaction
+      operationId: get-embedded-payments-transaction
+      description: This endpoint is used for retrieving an Embedded Payments transaction.
+      parameters:
+      - $ref: '#/components/parameters/header-bearer-token'
+      security:
+      - JWT: []
+      tags:
+      - Transactions
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/embedded-payments-transaction-response'
+          headers: {}
+        '403':
+          description: When you don't have the right permissions to access the transactions
+  /tap-to-pay/merchants/{merchantId}/transactions:
+    get:
+      summary: List Embedded Payments transactions
+      operationId: list-embedded-payments-transactions
+      description: This endpoint is used for retrieving Embedded Payments transactions by search.
+      parameters:
+      - $ref: '#/components/parameters/header-bearer-token'
+      - schema:
+          type: string
+        name: reference
+        in: query
+      - schema:
+          type: string
+          example: tc-location-2000
+        name: locationId
+        in: query
+        description: 'The location ID of the transactions to be retrieved.
+
+
+          This is the location ID of the merchant that you are using to retrieve the transactions.'
+      - schema:
+          type: number
+          minimum: 1
+          maximum: 100
+          example: 10
+        in: query
+        name: limit
+        description: 'Specifies the amount of results to be retrieved.
+
+
+          A maximum of 100 results are returned if this value is not provided.'
+      - schema:
+          type: number
+          minimum: 1
+          example: 2
+        in: query
+        name: page
+        description: 'Specify the page to retrieve.
+
+
+          You will need to use this setting if you wish to retrieve specific pages.
+
+
+          Page-numbering is based on the value of "limit". If limit=5, then page=1 will display the hits from 1 to 5, page=3 will display the hits from 11 to 15.
+
+
+          Page numbers start at 1.
+
+
+          A request for a non-existing page will yield 0 results.'
+      security:
+      - JWT: []
+      tags:
+      - Transactions
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  results:
+                    type: array
+                    description: The results for the location that satisfy the filtering criteria
+                    items:
+                      $ref: '#/components/schemas/embedded-payments-transaction-response'
+                  pagination:
+                    type: object
+                    properties:
+                      page:
+                        type: integer
+                        minimum: 1
+                        example: 1
+                      size:
+                        type: integer
+                        example: 10
+                      limit:
+                        type: integer
+                        example: 100
+                      total:
+                        type: integer
+                        example: 45
+                    required:
+                    - page
+                    - size
+                    - limit
+                    - total
+                required:
+                - results
+                - pagination
+          headers: {}
+        '403':
+          description: When you don't have the right permissions to access the transactions
+        '404':
+          description: When the provided merchant or location ID does not exist in our system
+components:
+  schemas:
+    embedded-payments-transaction-response:
+      title: Embedded Payments Transaction Response
+      type: object
+      properties:
+        transactionId:
+          type: string
+          description: The ID for this transaction
+        transactionLocalDateTime:
+          type: string
+          format: date-time
+          example: '2023-05-02T08:28:13'
+          description: The time the transaction was created. The format of the date time is the notation as defined by [RFC 3339, section 5.6](https://tools.ietf.org/html/rfc3339#section-5.6)
+        reference:
+          type: string
+          description: The unique reference supplied by the partner to initialize this transaction.
+        transactionReference:
+          type: string
+          description: The terminalStan ID associated with this transaction.
+        locationId:
+          type: string
+          description: The locationId that was used for this transaction.
+          example: tc-exampleshop-3000
+        mid:
+          type: string
+          description: The merchant id.
+        tid:
+          type: string
+          description: The terminal id.
+        amount:
+          type: number
+          description: The amount (in cents) being paid for the goods and services.
+        paymentType:
+          type: string
+          enum:
+          - Purchase
+          - Refund
+          description: The payment type
+        surchargeAmount:
+          type: number
+          description: Surcharge amount in cents.
+        tipAmount:
+          type: number
+          description: Tip amount in cents.
+        elidedPan:
+          type: string
+          description: The last four digits of the PAN number.
+        cardType:
+          type: string
+          description: The card type that was used, e.g. Visa
+        approvalCode:
+          type: string
+          description: Approval code.
+        transactionResult:
+          type: string
+          description: Transaction result.
+          example: APPROVED
+        retrievalReferenceNumber:
+          type: string
+          description: Retrieval reference number.
+        customerReceipt:
+          type: string
+          description: Customer receipt.
+          example: "      Example Restaurant\n        55 Market St\n       Sydney NSW 2000\n\n    Tyro Payments EFTPOS\n\nVisa DEBIT\nAID: A0000000031010\nCard: XXXXXXXXX2989(T)\nPSN: 00, ATC: 0007\nTVR: 0000000000\n\nPurchase     AUD       $4.55\n----------------------------\nTotal        AUD       $4.55\n\nAPPROVED                  00\n\nTerminal ID: 4\nTransaction Ref: 395001\nAuthorisation No: 000184\n02 Apr 2024 at 04:52 PM"
+  parameters:
+    header-bearer-token:
+      schema:
+        type: string
+        default: Bearer {$$.env.access_token}
+      in: header
+      name: Authorization
+      required: true
+  securitySchemes:
+    JWT:
+      type: openIdConnect
+      openIdConnectUrl: https://auth.connect.tyro.com/.well-known/openid-configuration

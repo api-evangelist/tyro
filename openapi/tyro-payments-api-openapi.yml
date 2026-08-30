@@ -1,0 +1,181 @@
+openapi: 3.2.0
+info:
+  title: Loyalty Data Payments API
+  version: '1.0'
+  description: The Loyalty Data API provides App partners with the ability to access data regarding members sales to help aggregate loyalty points. Currently the API allows apps to register their members and are notified on every transaction performed.
+  contact: {}
+servers:
+- url: https://api.tyro.com/connect
+  description: Production
+tags:
+- name: Payments
+paths:
+  /payments/test:
+    post:
+      operationId: create-test-payment
+      summary: Create a test payment
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/create-test-payment'
+            examples:
+              Create a test payment for a member:
+                value:
+                  locationId: tc-testlocation-2000
+                  memberId: some-member-id
+                  paymentType: PURCHASE
+                  paymentSource: EFTPOS
+                  goodsAndServicesAmount: 100
+              Create a test payment for member with a new card:
+                value:
+                  locationId: tc-testlocation-2000
+                  memberId: some-member-id
+                  paymentType: PURCHASE
+                  paymentSource: EFTPOS
+                  goodsAndServicesAmount: 100
+                  useNewCard: true
+              Create a test payment for a non-member:
+                value:
+                  locationId: tc-testlocation-2000
+                  memberId: null
+                  paymentType: PURCHASE
+                  paymentSource: EFTPOS
+                  goodsAndServicesAmount: 200
+              Create a test payment for a returning non-member:
+                value:
+                  locationId: tc-testlocation-2000
+                  memberReference: ab6775c4-b446-4cd7-b2b6-d4dae6e9563b
+                  paymentType: PURCHASE
+                  paymentSource: EFTPOS
+                  goodsAndServicesAmount: 300
+        description: ''
+      responses:
+        '200':
+          description: Created
+          content:
+            application/json:
+              schema:
+                oneOf:
+                - title: Registered Member Payment
+                  type: object
+                  properties:
+                    memberId:
+                      type: string
+                      description: The memberId of the created test payment. This is the same `memberId` value that is passed in.
+                      example: some-member-id
+                  required:
+                  - memberId
+                - title: Non-Member Payment
+                  type: object
+                  properties:
+                    memberReference:
+                      type: string
+                      description: The memberReference of the created test payment. This value can be used to identify returning non-member customers in future test payments.
+                      example: ab6775c4-b446-4cd7-b2b6-d4dae6e9563b
+                  required:
+                  - memberReference
+        '404':
+          description: When you provide a value that we can't reconcile
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    description: The error message.
+              examples:
+                Unknown memberId:
+                  value:
+                    error: 'Failed to find member matching memberId: some-member-id'
+                Unknown locationId:
+                  value:
+                    error: 'Failed to retrieve caid for the provided locationId: tc-somelocation-2000'
+      description: This endpoint is for creating fake payments that can be used to test your integration with our system. After registering a member, payments can be generated for that member by providing the memberId that you specified during registration. If `memberId` is null the payment will utilise a random card number not associated with any member and the response will include a `memberReference` value that can be used to identify this non-member customer in future test payments.
+      security:
+      - JWT: []
+      parameters:
+      - $ref: '#/components/parameters/header-bearer-token'
+      tags:
+      - Payments
+components:
+  schemas:
+    create-test-payment:
+      type: object
+      title: Request body to create a test payment
+      anyOf:
+      - title: Test payment for a registered member
+        properties:
+          memberId:
+            type: string
+            description: The identifier of the member who should be associated with this payment. This value corresponds to the `origin.memberId` provided during member registration.
+          useNewCard:
+            type: boolean
+            description: This will simulate the member registering a new card and will trigger corresponding event NEW_REGISTERED_CARD
+        required:
+        - memberId
+      - title: Test payment for a non-member
+        properties:
+          memberId:
+            type: null
+            example: null
+        required:
+        - memberId
+      - title: Test payment for a returning non-member
+        properties:
+          memberReference:
+            type: string
+            description: The identifier of the non-member. This value corresponds to the `memberReference` attribute returned when a test payment was made for a non-member.
+            example: ab6775c4-b446-4cd7-b2b6-d4dae6e9563b
+        required:
+        - memberReference
+      properties:
+        locationId:
+          type: string
+          description: Tyro Connect's identifier for the location.
+          example: tc-testlocation-2000
+        paymentType:
+          type: string
+          description: The type of payment being made
+          enum:
+          - PURCHASE
+          - REFUND
+          - CASHOUT
+          - OPEN_PRE_AUTH
+          - CLOSE_PRE_AUTH
+          - VOID
+        paymentSource:
+          type: string
+          description: The method used to make the payment
+          enum:
+          - EFTPOS
+          - ONLINE
+        goodsAndServicesAmount:
+          type: number
+          description: The amount paid for goods and services
+        tipAmount:
+          type: number
+          description: The amount paid as part of a tip
+        surchargeAmount:
+          type: number
+          description: The amount paid as part of a surcharge
+        cashoutAmount:
+          type: number
+          description: The amount paid as part of a cash withdrawal
+      required:
+      - locationId
+      - paymentType
+      - paymentSource
+  parameters:
+    header-bearer-token:
+      schema:
+        type: string
+        default: Bearer {$$.env.access_token}
+      in: header
+      name: Authorization
+      required: true
+  securitySchemes:
+    JWT:
+      type: openIdConnect
+      openIdConnectUrl: https://auth.connect.tyro.com/.well-known/openid-configuration

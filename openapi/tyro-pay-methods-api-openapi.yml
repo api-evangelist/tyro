@@ -1,0 +1,141 @@
+openapi: 3.2.0
+info:
+  title: Pay Methods API
+  version: '0.9'
+  contact: {}
+  description: Pay API
+servers:
+- url: https://api.tyro.com/connect
+  description: Production
+tags:
+- name: Pay Methods
+paths:
+  /pay/methods:
+    get:
+      operationId: list-pay-methods
+      tags:
+      - Pay Methods
+      description: This endpoint is for fetching Pay Methods
+      summary: List Pay Methods
+      responses:
+        '200':
+          description: The Pay Methods response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/pay-methods-response'
+      security:
+      - JWT: []
+      parameters:
+      - $ref: '#/components/parameters/header-bearer-token'
+      - schema:
+          type: string
+        name: customerId
+        in: query
+        required: true
+  /pay/methods/{payMethodId}:
+    get:
+      operationId: get-pay-method
+      tags:
+      - Pay Methods
+      description: Retrieve a Pay Method
+      summary: Retrieve a Pay Method
+      responses:
+        '200':
+          description: The Pay Method response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/pay-method'
+        '404':
+          description: When the provided `payMethodId` does not match a Pay Method stored in the system.
+      security:
+      - JWT: []
+      parameters:
+      - $ref: '#/components/parameters/header-bearer-token'
+      - schema:
+          type: string
+        in: path
+        name: payMethodId
+        required: true
+    delete:
+      operationId: delete-pay-method
+      tags:
+      - Pay Methods
+      description: Delete a Pay Method
+      summary: Delete a Pay Method
+      responses:
+        '200':
+          description: When succesfully deleted a pay method
+        '400':
+          description: When invalid `payMethodId` format provided.
+        '404':
+          description: When invalid `payMethodId`,`partnerId` combination provided.
+      security:
+      - JWT: []
+      parameters:
+      - $ref: '#/components/parameters/header-bearer-token'
+      - schema:
+          type: string
+        in: path
+        name: payMethodId
+        required: true
+components:
+  schemas:
+    pay-methods-response:
+      title: Pay Methods Response
+      type: object
+      properties:
+        payMethods:
+          type: array
+          description: List of pay methods
+          items:
+            $ref: '#/components/schemas/pay-method'
+    pay-method:
+      title: Pay Method
+      type: object
+      properties:
+        id:
+          type: string
+          description: The id of the Pay Method in the Tyro Connect system. This id can be specified in the Pay Request when making payments for the associated customer.
+          example: 0f448ac1-862a-4c7b-bdb4-a3b7cdbf6149
+        customerId:
+          type: string
+          description: The id of the Customer in the Tyro Connect system linked to this Pay Method.
+          example: 1d448ac1-862a-4c7b-bdb4-a3b7cdbf6160
+        card:
+          type: object
+          description: The card used by the Pay Method
+          properties:
+            brand:
+              type: string
+              description: Card brand such as Visa or Mastercard
+              example: VISA
+            expiryMonth:
+              type: number
+              description: Month of card expiry
+              example: 10
+            expiryYear:
+              type: number
+              description: Year of card expiry
+              example: 2050
+            firstSixDigits:
+              type: string
+              description: First six digits of the card number
+              example: '4365'
+            lastFourDigits:
+              type: string
+              description: Last four digits of the card number
+              example: '4365'
+  parameters:
+    header-bearer-token:
+      schema:
+        type: string
+        default: Bearer {$$.env.access_token}
+      in: header
+      name: Authorization
+      required: true
+  securitySchemes:
+    JWT:
+      type: openIdConnect
+      openIdConnectUrl: https://auth.connect.tyro.com/.well-known/openid-configuration

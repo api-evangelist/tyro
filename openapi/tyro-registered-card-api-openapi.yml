@@ -1,0 +1,155 @@
+openapi: 3.2.0
+info:
+  title: Loyalty Data Registered Card API
+  version: '1.0'
+  description: The Loyalty Data API provides App partners with the ability to access data regarding members sales to help aggregate loyalty points. Currently the API allows apps to register their members and are notified on every transaction performed.
+  contact: {}
+servers:
+- url: https://api.tyro.com/connect
+  description: Production
+tags:
+- name: Registered Card
+paths:
+  /loyalty/registered-cards/{registeredCardId}:
+    parameters:
+    - name: registeredCardId
+      in: path
+      description: Id of the registered card
+      required: true
+      schema:
+        type: string
+    get:
+      summary: Get registered card by Id
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/loyalty-card'
+              examples:
+                New member card:
+                  value:
+                    id: fe6eacb4c5f5afcf650bff0ea56fdc36-6c8a6220e6f73dde3d161ce605ec68fc7a98b93c9fb708e2674b756df6fd5826c7b55516
+                    paymentId: e429f245-4dcb-4961-9d27-c40538e990b2
+                    paymentSource: EFTPOS
+                    origin:
+                      memberId: foo@bar.com
+                    preAccumulatedReward: 5000
+        '401':
+          description: When you don't have a valid access token.
+        '404':
+          description: When the provided `registeredCardId` does not exist.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    description: The error message.
+              examples:
+                Missing property:
+                  value:
+                    error: 'No card was found for id: a72ca942-1cf7-47c8-8808-dd5aa095e81a'
+      description: This endpoint retrieves a registered card for a registered member.
+      operationId: get-loyalty-card-by-id
+      security:
+      - JWT: []
+      tags:
+      - Registered Card
+      parameters:
+      - $ref: '#/components/parameters/header-bearer-token'
+    delete:
+      summary: Delete registered card by Id
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/deregister-member-card-request'
+            examples:
+              Register Member:
+                value:
+                  origin:
+                    memberId: member-1
+      responses:
+        '200':
+          description: No body content
+          content: {}
+        '401':
+          description: When you don't have a valid access token.
+        '404':
+          description: When the provided `Id` does not exist.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    description: The error message.
+              examples:
+                Missing property:
+                  value:
+                    error: 'No card was found for id: a72ca942-1cf7-47c8-8808-dd5aa095e81a'
+      description: This endpoint removes a registered card from a registered member.
+      operationId: deregister-member-card
+      security:
+      - JWT: []
+      tags:
+      - Registered Card
+      parameters:
+      - $ref: '#/components/parameters/header-bearer-token'
+components:
+  schemas:
+    loyalty-card:
+      title: Loyalty Card object
+      type: object
+      properties:
+        id:
+          type: string
+          description: The Id of the registered card in the Tyro Connect system.
+        paymentId:
+          type: string
+          description: Payment Identifier generated from the payment source. It refers to the `transaction.receipt` (from Tyro eCommerce APIs) or otherwise referred to as the RRN.
+        paymentSource:
+          type: string
+          description: Source of payment.
+          enum:
+          - EFTPOS
+          - ONLINE
+        origin:
+          type: object
+          properties:
+            memberId:
+              type: string
+              description: The identifier of the member who is associated with this card.
+        preAccumulatedReward:
+          type: integer
+          description: The pre-accumulated reward amount on the card at the time of registration. If you have opted to represent rewards in AUD, then this value is in cents.
+    deregister-member-card-request:
+      type: object
+      title: Request body to deregister a member's card
+      required:
+      - origin
+      properties:
+        origin:
+          type: object
+          required:
+          - memberId
+          properties:
+            memberId:
+              type: string
+              description: Member's Identifier on the app.
+  parameters:
+    header-bearer-token:
+      schema:
+        type: string
+        default: Bearer {$$.env.access_token}
+      in: header
+      name: Authorization
+      required: true
+  securitySchemes:
+    JWT:
+      type: openIdConnect
+      openIdConnectUrl: https://auth.connect.tyro.com/.well-known/openid-configuration

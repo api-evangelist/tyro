@@ -1,0 +1,225 @@
+openapi: 3.2.0
+info:
+  title: Pay Refunds API
+  version: '0.9'
+  contact: {}
+  description: Pay API
+servers:
+- url: https://api.tyro.com/connect
+  description: Production
+tags:
+- name: Pay Refunds
+paths:
+  /pay/refunds:
+    post:
+      summary: Create a Refund Request
+      operationId: create-refund-request
+      tags:
+      - Pay Refunds
+      description: 'This endpoint is used to create a Refund Request.
+
+
+        Refunds can only be created for successful payments made via a Pay Request. If a Pay Request has not yet been captured, then void the Pay Request instead.
+
+
+        Refunds can be made for the total or partial amount of the Pay Request. Multiple refunds can be created for the same Pay Request as long as the total refunds amount does not exceed the original Pay Request total.
+
+
+        Refunds can only be sent back to the original payment method used.'
+      security:
+      - JWT: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/new-refund-request'
+            examples:
+              Refund Request:
+                value:
+                  payRequestId: 0f448ac1-862a-4c7b-bdb4-a3b7cdbf6149
+                  total:
+                    amount: 10000
+                    currency: AUD
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/refund-request-response'
+              examples:
+                Refund Response:
+                  value:
+                    id: 2d448ac1-862a-4c7b-bdb4-a3b7cdbf6148
+                    payRequestId: 0f448ac1-862a-4c7b-bdb4-a3b7cdbf6149
+                    status: PROCESSING
+                    total:
+                      amount: 10000
+                      currency: AUD
+                    createdAt: '2022-11-23T22:39:54.765Z'
+                    updatedAt: '2022-11-23T22:39:55.045Z'
+          headers: {}
+        '400':
+          description: When the provided payload is not valid.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    description: The validation error message.
+                  errorCode:
+                    type: string
+                    description: The unique error code for message.
+              examples:
+                Missing property:
+                  value:
+                    error: '"payRequestId" is required'
+                    errorCode: VALIDATION_ERROR
+        '403':
+          description: When you don't have the right permissions to create a Refund Request.
+      parameters:
+      - $ref: '#/components/parameters/header-bearer-token'
+      - $ref: '#/components/parameters/header-content-json'
+    get:
+      summary: List all Refunds
+      operationId: list-all-refunds
+      tags:
+      - Pay Refunds
+      description: Returns a list of refunds.
+      security:
+      - JWT: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/list-refunds-response'
+          headers: {}
+        '403':
+          description: When you don't have the right permissions to list refunds.
+      parameters:
+      - $ref: '#/components/parameters/header-bearer-token'
+      - $ref: '#/components/parameters/header-content-json'
+  /pay/refunds/{refundRequestId}:
+    get:
+      operationId: get-refund-request
+      tags:
+      - Pay Refunds
+      description: Retrieve a Refund Request.
+      summary: Retrieve a Refund Request
+      responses:
+        '200':
+          description: The Refund Request response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/refund-request-response'
+        '404':
+          description: When the provided `refundRequestId` does not match a Refund Request stored in the system.
+      security:
+      - JWT: []
+      parameters:
+      - $ref: '#/components/parameters/header-bearer-token'
+      - schema:
+          type: string
+        name: refundRequestId
+        in: path
+        required: true
+components:
+  schemas:
+    list-refunds-response:
+      title: List Refunds Response
+      type: object
+      properties:
+        refunds:
+          type: array
+          description: List of refunds
+          items:
+            $ref: '#/components/schemas/refund-request-response'
+    new-refund-request:
+      title: Create Refund Request
+      type: object
+      properties:
+        payRequestId:
+          description: The id of the Pay Request to be refunded
+          type: string
+          example: 0f448ac1-862a-4c7b-bdb4-a3b7cdbf6148
+        total:
+          allOf:
+          - $ref: '#/components/schemas/money-positive-aud'
+          - description: The total amount to be refunded (in smallest currency unit). Defaults to the total of the Pay Request.
+      required:
+      - payRequestId
+    money-positive-aud:
+      title: Money Positive Amount
+      type: object
+      properties:
+        amount:
+          type: integer
+          description: This is the amount in smallest currency unit. e.g 12520 (in cents) is $125.20
+          example: 12520
+          minimum: 0
+        currency:
+          type: string
+          default: AUD
+          enum:
+          - AUD
+          example: AUD
+          description: This is always AUD
+      required:
+      - amount
+      - currency
+    refund-request-response:
+      title: Refund Request Response
+      type: object
+      properties:
+        id:
+          description: The id of the Refund Request
+          type: string
+          example: 2d448ac1-862a-4c7b-bdb4-a3b7cdbf6143
+        payRequestId:
+          description: The id of the Pay Request to be refunded
+          type: string
+          example: 0f448ac1-862a-4c7b-bdb4-a3b7cdbf6149
+        total:
+          allOf:
+          - $ref: '#/components/schemas/money-positive-aud'
+          - description: The total amount to be refunded (in smallest currency unit). Defaults to the total of the Pay Request.
+        status:
+          description: The current status of the refund
+          type: string
+          enum:
+          - SUCCESS
+          - FAILED
+          - PROCESSING
+        createdAt:
+          description: The timestamp when the Refund Request was created
+          type: string
+          example: '2022-11-23T22:39:54.931Z'
+        updatedAt:
+          description: The timestamp when the Refund Request was last updated
+          type: string
+          example: '2022-11-23T22:40:48.237Z'
+  parameters:
+    header-bearer-token:
+      schema:
+        type: string
+        default: Bearer {$$.env.access_token}
+      in: header
+      name: Authorization
+      required: true
+    header-content-json:
+      schema:
+        type: string
+        enum:
+        - application/json
+      in: header
+      name: Content-Type
+      required: true
+  securitySchemes:
+    JWT:
+      type: openIdConnect
+      openIdConnectUrl: https://auth.connect.tyro.com/.well-known/openid-configuration

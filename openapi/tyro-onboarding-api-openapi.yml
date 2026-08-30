@@ -1,0 +1,304 @@
+openapi: 3.2.0
+info:
+  title: Loyalty Data Onboarding API
+  version: '1.0'
+  description: The Loyalty Data API provides App partners with the ability to access data regarding members sales to help aggregate loyalty points. Currently the API allows apps to register their members and are notified on every transaction performed.
+  contact: {}
+servers:
+- url: https://api.tyro.com/connect
+  description: Production
+tags:
+- name: Onboarding
+paths:
+  /locations/merchant-onboarding/loyalty/{onboardingReference}:
+    parameters:
+    - name: onboardingReference
+      in: path
+      description: The unique reference identifier for the merchant onboarding request.
+      required: true
+      schema:
+        type: string
+    get:
+      summary: Get merchant onboarding request by reference
+      description: This endpoint retrieves the details of a merchant onboarding request for a loyalty partner to review, including the location details, business details, and the current status of each integration.
+      operationId: get-merchant-onboarding-request-by-reference
+      security:
+      - JWT: []
+      tags:
+      - Onboarding
+      parameters:
+      - $ref: '#/components/parameters/header-bearer-token'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/merchant-onboarding-request-response'
+              examples:
+                In progress onboarding:
+                  value:
+                    onboardingId: abc-123-ref
+                    tcLocationId: tc-cafe-main-2000
+                    status: IN_PROGRESS
+                    locationDetails:
+                      name: Cafe on Main Street
+                      address: 1 Main Street
+                      postcode: '2000'
+                      countryIsoCode: AUS
+                      timezone: Australia/Sydney
+                      phoneNumber: '+61212345678'
+                    businessDetails:
+                      abn: '12345678901'
+                      entityName: Cafe Holdings Pty Ltd
+                      address: 1 Main Street
+                      postcode: '2000'
+                      countryIsoCode: AUS
+                    integrations: []
+                Completed onboarding with loyalty success:
+                  value:
+                    onboardingId: abc-123-ref
+                    tcLocationId: tc-cafe-main-2000
+                    status: COMPLETED
+                    locationDetails:
+                      name: Cafe on Main Street
+                      address: 1 Main Street
+                      postcode: '2000'
+                      countryIsoCode: AUS
+                      timezone: Australia/Sydney
+                      phoneNumber: '+61212345678'
+                    businessDetails:
+                      abn: '12345678901'
+                      entityName: Cafe Holdings Pty Ltd
+                      address: 1 Main Street
+                      postcode: '2000'
+                      countryIsoCode: AUS
+                    integrations:
+                    - name: loyalty
+                      status: SUCCESS
+        '401':
+          description: When you don't have a valid access token.
+        '403':
+          description: When you don't have the right permissions.
+        '404':
+          description: When the provided `onboardingReference` does not exist or does not belong to your partner.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    description: The error message.
+              examples:
+                Not found:
+                  value:
+                    error: MerchantOnboardingRequest with onboardingReference abc-123-ref not found
+    post:
+      summary: Submit a decision for a merchant onboarding request
+      description: This endpoint allows a loyalty partner to approve or reject a merchant onboarding request. When approving, a `loyaltyProgramId` must be provided. When rejecting, an optional `reason` may be provided.
+      operationId: submit-merchant-onboarding-decision
+      security:
+      - JWT: []
+      tags:
+      - Onboarding
+      parameters:
+      - $ref: '#/components/parameters/header-bearer-token'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/merchant-onboarding-decision-request'
+            examples:
+              Approve onboarding:
+                value:
+                  action: APPROVE
+                  loyaltyProgramId: my-loyalty-program-id
+              Reject onboarding:
+                value:
+                  action: REJECT
+                  reason: Merchant does not meet eligibility criteria.
+      responses:
+        '200':
+          description: The decision has been successfully processed.
+        '400':
+          description: When the provided payload is not valid.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    description: The validation error message.
+              examples:
+                Missing loyaltyProgramId on approve:
+                  value:
+                    error: loyaltyProgramId is required when action is APPROVE
+        '401':
+          description: When you don't have a valid access token.
+        '403':
+          description: When you don't have the right permissions.
+        '404':
+          description: When the provided `onboardingReference` does not exist or does not belong to your partner.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    description: The error message.
+              examples:
+                Not found:
+                  value:
+                    error: MerchantOnboardingRequest with onboardingReference abc-123-ref not found
+        '409':
+          description: When a decision has already been submitted for this onboarding request.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    description: The error message.
+              examples:
+                Already decided:
+                  value:
+                    error: MerchantOnboardingRequest with onboardingReference abc-123-ref has already received a partner decision
+        '422':
+          description: When the provided `loyaltyProgramId` is not recognised.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    description: The error message.
+              examples:
+                Unknown loyaltyProgramId:
+                  value:
+                    error: loyaltyProgramId 'my-unknown-program' was not found
+components:
+  schemas:
+    merchant-onboarding-decision-request:
+      type: object
+      title: Request body to submit a merchant onboarding decision
+      properties:
+        action:
+          type: string
+          enum:
+          - APPROVE
+          - REJECT
+          description: The decision to approve or reject the merchant onboarding request.
+        loyaltyProgramId:
+          type: string
+          description: The loyalty program identifier to associate with this merchant. Required when `action` is `APPROVE`.
+        reason:
+          type: string
+          description: An optional reason for the rejection. Only applicable when `action` is `REJECT`.
+      required:
+      - action
+    merchant-onboarding-request-response:
+      type: object
+      title: Merchant onboarding request response
+      description: The details of a merchant onboarding request, including location and business details, and the current status of each integration.
+      properties:
+        onboardingId:
+          type: string
+          description: The unique reference identifier for the merchant onboarding request.
+        tcLocationId:
+          type: string
+          description: The Tyro Connect location identifier.
+        status:
+          type: string
+          enum:
+          - IN_PROGRESS
+          - COMPLETED
+          description: The overall status of the onboarding request.
+        locationDetails:
+          type: object
+          description: Details about the merchant location being onboarded.
+          properties:
+            name:
+              type: string
+              description: Name of the merchant location.
+            address:
+              type: string
+              description: Street address of the merchant location.
+            postcode:
+              type: string
+              description: Postal code of the merchant location.
+            countryIsoCode:
+              type: string
+              description: ISO code of the country where the merchant location is situated.
+            timezone:
+              type: string
+              description: Timezone of the merchant location (e.g., "Australia/Sydney").
+            phoneNumber:
+              type: string
+              description: Contact phone number for the merchant location.
+        businessDetails:
+          type: object
+          description: Details about the merchant's business.
+          properties:
+            abn:
+              type: string
+              description: Australian Business Number (ABN) of the merchant.
+            entityName:
+              type: string
+              description: Registered entity name of the merchant.
+            address:
+              type: string
+              description: Street address of the merchant's business.
+            postcode:
+              type: string
+              description: Postal code of the merchant's business.
+            countryIsoCode:
+              type: string
+              description: ISO code of the country where the merchant's business is situated.
+          required:
+          - abn
+          - address
+          - postcode
+          - countryIsoCode
+        integrations:
+          type: array
+          description: The list of integrations and their current onboarding status.
+          items:
+            type: object
+            properties:
+              name:
+                type: string
+                description: The name of the integration (e.g., `loyalty`).
+              status:
+                type: string
+                enum:
+                - PENDING
+                - SUCCESS
+                - REJECTED_BY_PARTNER
+                description: The current status of this integration's onboarding.
+            required:
+            - name
+            - status
+      required:
+      - onboardingId
+      - tcLocationId
+      - status
+      - businessDetails
+      - integrations
+  parameters:
+    header-bearer-token:
+      schema:
+        type: string
+        default: Bearer {$$.env.access_token}
+      in: header
+      name: Authorization
+      required: true
+  securitySchemes:
+    JWT:
+      type: openIdConnect
+      openIdConnectUrl: https://auth.connect.tyro.com/.well-known/openid-configuration

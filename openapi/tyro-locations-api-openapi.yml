@@ -1,0 +1,242 @@
+openapi: 3.2.0
+info:
+  title: Tyro Locations API
+  version: '1.0'
+  contact: {}
+  description: 'Operations tagged Locations across 2 of this provider''s published API definitions: tyro-connect-locations.yml, tyro-pos-embedded-payments.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://api.tyro.com/connect
+  description: Production
+tags:
+- name: Locations
+paths:
+  /locations/{tcLocationId}:
+    get:
+      responses:
+        '200':
+          description: Online/Offline status response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/heartbeat-response'
+              examples:
+                Get Online/Offline status:
+                  value:
+                    locationId: merchant:abc123
+                    pos:
+                      vendor: goodpos
+                    status:
+                      code: GREEN
+                      lastOnlineAt: '2021-02-10T23:53:15.533Z'
+        '403':
+          description: When you don't have the required permissions to query the online/offline status of the provided location
+      description: This endpoint allows you to query the online/offline status of a POS
+      parameters:
+      - in: path
+        description: Tyro Connect Location Id for which the online/offline status should be retrieved
+        name: tcLocationId
+        required: true
+        schema:
+          type: string
+      - $ref: '#/components/parameters/header-bearer-token'
+      operationId: get-online-status
+      summary: Get Online/Offline status
+      security:
+      - JWT: []
+      tags:
+      - Locations
+    servers:
+    - url: https://api.tyro.com/connect
+      description: Production
+  /tap-to-pay/merchants/{merchantId}/locations:
+    get:
+      summary: List Embedded Payments Locations
+      operationId: list-embedded-payments-locations
+      description: Retrieve the list of location IDs attached to a Tyro Merchant ID. A location ID represents the physical location from which a payment originates and is required in order to create the Reader
+      parameters:
+      - in: path
+        description: The Merchant ID requesting the locations
+        name: merchantId
+        required: true
+        schema:
+          type: string
+          example: 98765
+      - $ref: '#/components/parameters/header-bearer-token'
+      security:
+      - JWT: []
+      tags:
+      - Locations
+      responses:
+        '200':
+          description: The list of locations for the provided merchant ID
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  results:
+                    type: array
+                    description: The results for the locations for the provided merchant ID
+                    items:
+                      $ref: '#/components/schemas/location'
+                required:
+                - results
+              examples:
+                merchantId=98765:
+                  value:
+                    results:
+                    - locationId: tc-exampleshop-3000
+                      name: Example Shop Melbourne
+                      address:
+                        street: 123 Hight Street
+                        suburb: Melbourne
+                        state: VIC
+                        postcode: '3000'
+                        country: Australia
+                    - locationId: tc-exampleshop-2000
+                      name: Example Shop Sydney
+                      address:
+                        street: Level 33, 456 George Street
+                        suburb: Sydney
+                        state: NSW
+                        postcode: '2000'
+                        country: Australia
+        '403':
+          description: When you don't have the right permissions to fetch the locations
+        '404':
+          description: When the provided `merchantId` does not exist in our system
+    servers:
+    - url: https://api.tyro.com/connect
+      description: Production
+components:
+  schemas:
+    online-status-spec:
+      title: Online/Offline status
+      type: object
+      properties:
+        code:
+          type: string
+          enum:
+          - GREEN
+          - RED
+          description: The online (GREEN) / offline (RED) status of the POS
+        lastOnlineAt:
+          type: string
+          format: date-time
+          description: Time stamp of when Tyro received the last GREEN status update. Can be null if the status has never been GREEN.
+        reason:
+          type: string
+          description: When the code changed to RED, this property provides the reason for the change
+      required:
+      - code
+      - lastOnlineAt
+    heartbeat-response:
+      title: Online/Offline status response
+      type: object
+      properties:
+        locationId:
+          type: string
+          description: The Tyro Connect Location Id for which the following information applies
+        pos:
+          allOf:
+          - $ref: '#/components/schemas/vendor-spec'
+          - description: Information about the POS itself
+        status:
+          allOf:
+          - $ref: '#/components/schemas/online-status-spec'
+          - description: Information about the online/offline status
+      required:
+      - locationId
+      - pos
+      - status
+    api-spec:
+      title: Supported API version
+      type: object
+      properties:
+        api:
+          type: string
+          description: The name of the supported API
+          enum:
+          - BOOKING
+          - FOOD_ORDERING
+          - LOYALTY
+          - PAYMENTS
+          - SALES
+          - LOCATION
+        version:
+          type: string
+          description: The supported version of the API
+      required:
+      - api
+      - version
+    vendor-spec:
+      title: POS information
+      type: object
+      properties:
+        vendor:
+          type: string
+          description: The POS vendor
+        version:
+          type: string
+          description: The version of the POS software
+        apis:
+          type: array
+          description: This is a list of all APIs supported by the POS
+          items:
+            $ref: '#/components/schemas/api-spec'
+      required:
+      - vendor
+    location:
+      title: Location
+      type: object
+      properties:
+        locationId:
+          type: string
+          description: The ID of the location as specified by the Tyro Connect system
+          example: tc-exampleshop-3000
+        name:
+          type: string
+          description: The name of the location, this could be a description or address for the location
+          example: Example Shop Melbourne
+        address:
+          type: object
+          description: The address of the location
+          properties:
+            street:
+              type: string
+              description: The street address of the location
+              example: 123 Hight Street
+            suburb:
+              type: string
+              description: The suburb of the location
+              example: Melbourne
+            state:
+              type: string
+              description: The state of the location
+              example: VIC
+            postcode:
+              type: string
+              description: The postcode of the location
+              example: '3000'
+            country:
+              type: string
+              description: The country of the location
+              example: Australia
+      required:
+      - locationId
+      - name
+  parameters:
+    header-bearer-token:
+      schema:
+        type: string
+        default: Bearer {$$.env.access_token}
+      in: header
+      name: Authorization
+      required: true
+  securitySchemes:
+    JWT:
+      type: openIdConnect
+      openIdConnectUrl: https://auth.connect.tyro.com/.well-known/openid-configuration
+x-refined-from:
+- tyro-connect-locations.yml
+- tyro-pos-embedded-payments.yml

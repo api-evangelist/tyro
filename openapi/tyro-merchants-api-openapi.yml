@@ -1,0 +1,418 @@
+openapi: 3.2.0
+info:
+  title: Tyro Merchants API
+  contact: {}
+  version: '1.0'
+  description: 'Operations tagged Merchants across 2 of this provider''s published API definitions: tyro-pos-embedded-payments.yml, tyro-pos-pay-terminal.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://api.tyro.com/connect
+  description: Production
+tags:
+- name: Merchants
+paths:
+  /tap-to-pay/merchants/{merchantId}/authorise/test:
+    post:
+      summary: Authorise a Sandbox Merchant Id
+      operationId: authorise-embedded-payments-mid-test
+      description: For testing purposes only. Authorise or de-authorise your POS on behalf of the provided merchant for testing on the Sandbox environment only.
+      parameters:
+      - $ref: '#/components/parameters/header-bearer-token'
+      - $ref: '#/components/parameters/header-content-json'
+      security:
+      - JWT: []
+      tags:
+      - Merchants
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                posReference:
+                  type: string
+                  description: The posReference of the merchant, supplied during the integration process.
+                  example: 0f448ac1-862a-4c7b-bdb4-a3b7cdbf6149
+                isAuthorised:
+                  type: boolean
+                  description: To authorise or de-authorise the merchant Id.
+                  example: true
+              required:
+              - posReference
+              - isAuthorised
+      responses:
+        '204':
+          description: No body Content
+        '400':
+          description: When the provided payload is not valid.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    description: The validation error message.
+                  errorCode:
+                    type: string
+                    description: The unique error code for message.
+              examples:
+                Missing property:
+                  value:
+                    error: '"posReference" is required'
+                    errorCode: VALIDATION_ERROR
+        '403':
+          description: When you don't have the right permissions to authorise the merchant Id
+        '404':
+          description: When the provided `merchantId` does not exist in our system.
+    servers:
+    - url: https://api.tyro.com/connect
+      description: Production
+  /tap-to-pay/merchants:
+    get:
+      summary: Lists merchants
+      operationId: list-embedded-payments-merchants
+      description: This endpoint is used for retrieving a list of merchants that the POS has access to.
+      parameters:
+      - $ref: '#/components/parameters/header-bearer-token'
+      security:
+      - JWT: []
+      tags:
+      - Merchants
+      responses:
+        '200':
+          description: The list of Merchants associated with the POS.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  results:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/merchant-object'
+              examples:
+                List Merchants:
+                  value:
+                    results:
+                    - mid: '98765'
+                      posReference: SydneyShop
+                      isAuthorised: true
+                      displayName: Sydney Shop 123
+                    - mid: '56789'
+                      posReference: SydneyShop
+                      isAuthorised: false
+                      displayName: Sydney Shop 456
+                    - mid: '12345'
+                      posReference: MelbourneShop
+                      isAuthorised: true
+                      displayName: Melbourne Shop 3000
+        '403':
+          description: When you don't have the right permissions to list Merchants.
+    servers:
+    - url: https://api.tyro.com/connect
+      description: Production
+  /tap-to-pay/merchants/{merchantId}:
+    get:
+      summary: Fetch a merchant
+      operationId: fetch-embedded-payments-merchant
+      description: This endpoint is used for retrieving a merchant.
+      parameters:
+      - $ref: '#/components/parameters/header-bearer-token'
+      security:
+      - JWT: []
+      tags:
+      - Merchants
+      responses:
+        '200':
+          description: The details of the fetched Merchant
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/merchant-object'
+          headers: {}
+        '400':
+          description: When the provided merchantId is not valid.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    description: The validation error message.
+                  errorCode:
+                    type: string
+                    description: The unique error code for message.
+              examples:
+                Missing property:
+                  value:
+                    error: '"merchantId" is not a number'
+                    errorCode: VALIDATION_ERROR
+        '403':
+          description: When you don't have the right permissions to view details of the provided `merchantId`.
+        '404':
+          description: When the provided `merchantId` does not exist in our system.
+    servers:
+    - url: https://api.tyro.com/connect
+      description: Production
+  /pay-terminal/merchants:
+    get:
+      summary: Lists merchants
+      operationId: list-pay-terminal-merchants
+      description: This endpoint is used for retrieving a list of merchants that the POS has access to.
+      parameters:
+      - $ref: '#/components/parameters/header-bearer-token'
+      security:
+      - JWT: []
+      tags:
+      - Merchants
+      responses:
+        '200':
+          description: The list of Merchants associated with the POS.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  results:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/merchant'
+              examples:
+                List Merchants:
+                  value:
+                    results:
+                    - mid: '98765'
+                      posReference: SydneyShop
+                      isAuthorised: true
+                      displayName: Sydney Shop 123
+                    - mid: '56789'
+                      posReference: SydneyShop
+                      isAuthorised: false
+                      displayName: Sydney Shop 456
+                    - mid: '12345'
+                      posReference: MelbourneShop
+                      isAuthorised: true
+                      displayName: Melbourne Shop 3000
+        '403':
+          description: When you don't have the right permissions to list Merchants.
+    servers:
+    - url: https://api.tyro.com/connect
+      description: Production
+  /pay-terminal/merchants/{merchantId}:
+    get:
+      summary: Fetch a merchant
+      operationId: fetch-pay-terminal-merchant
+      description: This endpoint is used for retrieving a merchant.
+      parameters:
+      - $ref: '#/components/parameters/header-bearer-token'
+      security:
+      - JWT: []
+      tags:
+      - Merchants
+      responses:
+        '200':
+          description: The details of the fetched Merchant
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/merchant'
+          headers: {}
+        '400':
+          description: When the provided merchantId is not valid.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    description: The validation error message.
+                  errorCode:
+                    type: string
+                    description: The unique error code for message.
+              examples:
+                Missing property:
+                  value:
+                    error: '"merchantId" is not a number'
+                    errorCode: VALIDATION_ERROR
+        '403':
+          description: When you don't have the right permissions to view details of the provided `merchantId`.
+        '404':
+          description: When the provided `merchantId` does not exist in our system.
+    servers:
+    - url: https://api.tyro.com/connect
+      description: Production
+  /pay-terminal/merchants/{merchantId}/authorise/test:
+    post:
+      summary: Authorise a Sandbox Merchant Id
+      operationId: authorise-pay-terminal-mid-test
+      description: For testing purposes only. Authorise or de-authorise your POS on behalf of the provided merchant for testing on the Sandbox environment only.
+      parameters:
+      - $ref: '#/components/parameters/header-bearer-token'
+      - $ref: '#/components/parameters/header-content-json'
+      security:
+      - JWT: []
+      tags:
+      - Merchants
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                posReference:
+                  type: string
+                  description: The posReference of the merchant, supplied during the integration process.
+                  example: 0f448ac1-862a-4c7b-bdb4-a3b7cdbf6149
+                isAuthorised:
+                  type: boolean
+                  description: To authorise or de-authorise the merchant Id.
+                  example: true
+              required:
+              - posReference
+              - isAuthorised
+      responses:
+        '204':
+          description: No body Content
+        '400':
+          description: When the provided payload is not valid.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    description: The validation error message.
+                  errorCode:
+                    type: string
+                    description: The unique error code for message.
+              examples:
+                Missing property:
+                  value:
+                    error: '"posReference" is required'
+                    errorCode: VALIDATION_ERROR
+        '403':
+          description: When you don't have the right permissions to authorise the merchant Id
+        '404':
+          description: When the provided `merchantId` does not exist in our system.
+    servers:
+    - url: https://api.tyro.com/connect
+      description: Production
+  /pay-terminal/merchants/{merchantId}/terminals:
+    get:
+      summary: Lists the terminals available to a merchant
+      operationId: list-pay-terminal-merchants-terminals
+      description: This endpoint is used for retrieving a list of terminals under a mid that the POS has access to.
+      parameters:
+      - $ref: '#/components/parameters/header-bearer-token'
+      security:
+      - JWT: []
+      tags:
+      - Merchants
+      responses:
+        '200':
+          description: The list of Merchants Terminals associated with the POS.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  results:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        tid:
+                          type: string
+                          description: The terminal id or "tid".
+                        terminalName:
+                          type: string
+                          description: The terminal name.
+                        serialNumber:
+                          type: string
+                          description: The serial number on the device located on the barcode.
+              examples:
+                List Terminals:
+                  value:
+                    results:
+                    - tid: '1'
+                      terminalName: Front Counter
+                      serialNumber: DX800012341
+                    - tid: '2'
+                      terminalName: Johns Device
+                      serialNumber: DX800012342
+                    - tid: '5'
+                      terminalName: Backup Terminal
+                      serialNumber: DX800012345
+        '403':
+          description: When you don't have the right permissions to list this Merchants Terminals.
+    servers:
+    - url: https://api.tyro.com/connect
+      description: Production
+components:
+  parameters:
+    header-content-json:
+      schema:
+        type: string
+        enum:
+        - application/json
+      in: header
+      name: Content-Type
+      required: true
+    header-bearer-token:
+      schema:
+        type: string
+        default: Bearer {$$.env.access_token}
+      in: header
+      name: Authorization
+      required: true
+  schemas:
+    merchant-object:
+      title: Merchant
+      type: object
+      properties:
+        mid:
+          type: string
+          description: The ID of the merchant as specified by the Tyro Connect system
+          example: '98765'
+        posReference:
+          type: string
+          description: The posReference of the merchant, supplied during the integration process.
+          example: SydneyShop
+        isAuthorised:
+          type: boolean
+          description: If the POS is authorised for this merchant.
+          example: true
+        displayName:
+          type: string
+          description: The display name of the Merchant
+          example: Bobs Burger Shop
+    merchant:
+      title: Merchant
+      type: object
+      properties:
+        mid:
+          type: string
+          description: The ID of the merchant as specified by the Tyro Connect system
+          example: '98765'
+        posReference:
+          type: string
+          description: The posReference of the merchant, supplied during the integration process.
+          example: SydneyShop
+        isAuthorised:
+          type: boolean
+          description: If the POS is authorised for this merchant.
+          example: true
+        displayName:
+          type: string
+          description: The display name of the Merchant
+          example: Bobs Burger Shop
+  securitySchemes:
+    JWT:
+      type: openIdConnect
+      openIdConnectUrl: https://auth.connect.tyro.com/.well-known/openid-configuration
+x-refined-from:
+- tyro-pos-embedded-payments.yml
+- tyro-pos-pay-terminal.yml

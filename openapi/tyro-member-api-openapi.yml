@@ -1,0 +1,165 @@
+openapi: 3.2.0
+info:
+  title: Loyalty Data Member API
+  version: '1.0'
+  description: The Loyalty Data API provides App partners with the ability to access data regarding members sales to help aggregate loyalty points. Currently the API allows apps to register their members and are notified on every transaction performed.
+  contact: {}
+servers:
+- url: https://api.tyro.com/connect
+  description: Production
+tags:
+- name: Member
+paths:
+  /loyalty/members:
+    post:
+      summary: Register member for loyalty
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/register-member-request'
+            examples:
+              Register Member with paymentId:
+                value:
+                  origin:
+                    memberId: member-1
+                  paymentId: 6940871887d8
+                  locationId: cafe-on-main-steet
+              Register Member with memberReference:
+                value:
+                  origin:
+                    memberId: member-1
+                  memberReference: 8f5e6eac-4adb-4b4c-93c0-eb72fad3be35
+                  locationId: cafe-on-main-steet
+        description: ''
+      responses:
+        '202':
+          description: 'The request has been accepted. The member will be registered when a matching payment is found.
+
+
+            Clients must not rely on the response body of this endpoint; although a JSON payload may currently be returned, it is deprecated and will be removed in a future version.
+
+            '
+        '400':
+          description: When the provided payload is not valid.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    description: The validation error message.
+              examples:
+                Missing property:
+                  value:
+                    error: '"paymentId" is required'
+        '401':
+          description: When you don't have a valid access token.
+        '403':
+          description: When you don't have the right permissions for a location.
+      description: This endpoint registers a member for a participating location with the loyalty API. This notifies you of all future payments performed by the members at locations you have access to. The payment should have taken place within a 60 minute window of the registration.
+      operationId: get-payment-by-id
+      security:
+      - JWT: []
+      tags:
+      - Member
+      parameters:
+      - $ref: '#/components/parameters/header-bearer-token'
+    delete:
+      summary: Deregister a member for loyalty.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/deregister-member-request'
+      responses:
+        '204':
+          description: No body content. Member has been successfully deregistered.
+        '400':
+          description: When any mandatory request parameters are missing.
+        '401':
+          description: When no valid access token is provided.
+        '403':
+          description: When a valid token is provided but it has no permissions to execute the request.
+        '404':
+          description: When a member with the provided member id could not be found.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    description: The error message.
+              examples:
+                Unknown memberId:
+                  value:
+                    error: 'Failed to find member matching memberId: some-member-id'
+      description: This endpoint deregisters a member from all participating locations with the loyalty API. You will no longer receive notifications about the payments performed by the members at locations you have access to.
+      operationId: deregister-member
+      security:
+      - JWT: []
+      tags:
+      - Member
+      parameters:
+      - $ref: '#/components/parameters/header-bearer-token'
+components:
+  schemas:
+    register-member-request:
+      properties:
+        origin:
+          type: object
+          properties:
+            memberId:
+              type: string
+              description: Member's Identifier on the app.
+          required:
+          - memberId
+        locationId:
+          type: string
+          description: Tyro Connect's identifier for the location.
+      anyOf:
+      - title: Using paymentId
+        properties:
+          paymentId:
+            type: string
+            description: Payment Identifier generated from the payment source. Typically this is listed as the `payRequest.transaction.retrievalReferenceNumber` or as `transaction.receipt` depending on your ecommerce integration type.
+        required:
+        - paymentId
+      - title: Using memberReference
+        properties:
+          memberReference:
+            type: string
+            description: The reference provided by the terminal via the QR code sign-up flow. By passing this value back to us here it allows us to more accurately identify the payment instrument(s) used by the customer.
+        required:
+        - memberReference
+      required:
+      - origin
+      - locationId
+    deregister-member-request:
+      type: object
+      title: Request body to deregister a member
+      required:
+      - origin
+      properties:
+        origin:
+          type: object
+          required:
+          - memberId
+          properties:
+            memberId:
+              type: string
+              description: Member's Identifier on the app.
+  parameters:
+    header-bearer-token:
+      schema:
+        type: string
+        default: Bearer {$$.env.access_token}
+      in: header
+      name: Authorization
+      required: true
+  securitySchemes:
+    JWT:
+      type: openIdConnect
+      openIdConnectUrl: https://auth.connect.tyro.com/.well-known/openid-configuration

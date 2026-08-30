@@ -1,0 +1,123 @@
+openapi: 3.2.0
+info:
+  title: Embedded Payments Connections API
+  version: '1.0'
+  contact: {}
+  description: 'The API allows a POS to accept Embedded Payments payments.
+
+    '
+servers:
+- url: https://api.tyro.com/connect
+  description: Production
+tags:
+- name: Connections
+paths:
+  /tap-to-pay/connections:
+    post:
+      summary: Create Embedded Payments connection
+      operationId: create-embedded-payments-connection
+      description: When your App is first initialised, a request is sent to your server to establish a Tyro Embedded Payments connection. This is required to connect to the Embedded Payments reader. Upon receiving the client request, authenticate your user and send the request to Tyro with the `readerId` in the request body.
+      parameters:
+      - $ref: '#/components/parameters/header-bearer-token'
+      - $ref: '#/components/parameters/header-content-json'
+      security:
+      - JWT: []
+      tags:
+      - Connections
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                readerId:
+                  type: string
+                  description: The ID of the reader to be used to establish the connection.
+                  example: 0f448ac1-862a-4c7b-bdb4-a3b7cdbf6149
+              required:
+              - readerId
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/create-connection-response'
+          headers: {}
+        '400':
+          description: When the provided payload is not valid.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    description: The validation error message.
+                  errorCode:
+                    type: string
+                    description: The unique error code for message.
+              examples:
+                Missing property:
+                  value:
+                    error: '"readerId" is required'
+                    errorCode: VALIDATION_ERROR
+        '403':
+          description: When you don't have the right permissions to create a Connection for the provided Reader ID.
+        '404':
+          description: When the provided `readerId` does not exist in our system.
+components:
+  parameters:
+    header-content-json:
+      schema:
+        type: string
+        enum:
+        - application/json
+      in: header
+      name: Content-Type
+      required: true
+    header-bearer-token:
+      schema:
+        type: string
+        default: Bearer {$$.env.access_token}
+      in: header
+      name: Authorization
+      required: true
+  schemas:
+    create-connection-response:
+      title: Connection Response
+      type: object
+      properties:
+        id:
+          type: string
+          description: The ID of this connection
+          example: 2688fcf2-44dd-4c72-88ac-79d0910f2983
+        connectionSecret:
+          type: string
+          description: The connectionSecret must be returned to your frontend to which is required for Embedded Payments transaction with the SDK. Do not cache or hardcode the connectionSecret. Tyro already manages the lifecycle of this secret.
+          example: $2a$10$OjXTE/Ul4UVVlW8RtKNtcuV3NdoP8sFc.5Lqov0N5wp6vU8Dmj8H3
+        createdDate:
+          type: string
+          format: date-time
+          example: '2023-05-02T08:28:13+10:00'
+          description: The time the connection was created. The format of the date time is the notation as defined by [RFC 3339, section 5.6](https://tools.ietf.org/html/rfc3339#section-5.6)
+        readerId:
+          type: string
+          description: The ID of the reader for this connection.
+          example: 0f448ac1-862a-4c7b-bdb4-a3b7cdbf6149
+        readerName:
+          type: string
+          description: The name of the reader for this connection.
+          example: Reader 1 - Example Shop Sydney
+        locationId:
+          type: string
+          description: The ID of the location for this connection.
+          example: tc-exampleshop-3000
+        locationName:
+          type: string
+          description: The name of the location, this could be a description or address for the location
+          example: Example Shop Melbourne
+  securitySchemes:
+    JWT:
+      type: openIdConnect
+      openIdConnectUrl: https://auth.connect.tyro.com/.well-known/openid-configuration

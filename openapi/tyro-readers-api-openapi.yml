@@ -1,0 +1,200 @@
+openapi: 3.2.0
+info:
+  title: Embedded Payments Readers API
+  version: '1.0'
+  contact: {}
+  description: 'The API allows a POS to accept Embedded Payments payments.
+
+    '
+servers:
+- url: https://api.tyro.com/connect
+  description: Production
+tags:
+- name: Readers
+paths:
+  /tap-to-pay/merchants/{merchantId}/readers:
+    get:
+      summary: List Readers
+      operationId: list-reader
+      description: This endpoint is used for retrieving a list of Readers. Readers represent the Embedded Payments Reader at the physical location. The Reader ID is required to create a Reader Connection to initialise the Tyro Embedded Payments SDK.
+      parameters:
+      - in: path
+        description: The Merchant ID associated with the reader
+        name: merchantId
+        required: true
+        schema:
+          type: string
+          example: 98765
+      - schema:
+          type: string
+          example: tc-exampleshop-3000
+        in: query
+        name: locationId
+        required: false
+        description: The Tyro Connect Location Id of the Readers to be retrieved. This parameter is optional.
+      - $ref: '#/components/parameters/header-bearer-token'
+      security:
+      - JWT: []
+      tags:
+      - Readers
+      responses:
+        '200':
+          description: The list Readers
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  results:
+                    type: array
+                    description: The list of Readers
+                    items:
+                      $ref: '#/components/schemas/reader-object'
+          headers: {}
+        '403':
+          description: When you don't have the right permissions to retrieve the Readers for the provided location or Merchant ID.
+    post:
+      summary: Create a Reader
+      operationId: create-reader
+      description: An async endpoint used for creating a Reader. Register a webhook to be notified when a Reader is created after this endpoint is invoked. Readers represent the Embedded Payments Reader at the physical location. The Reader ID is required to create a Reader Connection to initialise the Tyro Embedded Payments SDK.
+      parameters:
+      - in: path
+        description: The Merchant ID creating the reader
+        name: merchantId
+        required: true
+        schema:
+          type: string
+          example: 98765
+      - $ref: '#/components/parameters/header-bearer-token'
+      - $ref: '#/components/parameters/header-content-json'
+      security:
+      - JWT: []
+      tags:
+      - Readers
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: The name or description used to identify the reader
+                  example: Reader 1 - Example Shop Sydney
+                locationId:
+                  type: string
+                  description: The Tyro Connect Location ID
+                  example: tc-exampleshop-3000
+              required:
+              - name
+              - locationId
+      responses:
+        '202':
+          description: Accepted
+          headers: {}
+        '400':
+          description: When the provided payload is not valid.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    description: The validation error message.
+                  errorCode:
+                    type: string
+                    description: The unique error code for message.
+              examples:
+                Missing property:
+                  value:
+                    error: '"locationId" is required'
+                    errorCode: VALIDATION_ERROR
+        '403':
+          description: When you don't have the right permissions to create a Reader for the provided location or Merchant ID.
+  /tap-to-pay/merchants/{merchantId}/readers/{readerId}:
+    get:
+      summary: Get a Reader
+      operationId: get-reader
+      description: This endpoint is used for retrieving a Reader. Readers represent the Embedded Payments Reader at the physical location. The Reader ID is required to create a Reader Connection to initialise the Tyro Embedded Payments SDK
+      parameters:
+      - in: path
+        description: The Merchant ID associated with the reader
+        name: merchantId
+        required: true
+        schema:
+          type: string
+          example: 98765
+      - in: path
+        description: The Reader ID
+        name: readerId
+        required: true
+        schema:
+          type: string
+          example: 0f448ac1-862a-4c7b-bdb4-a3b7cdbf6149
+      - $ref: '#/components/parameters/header-bearer-token'
+      security:
+      - JWT: []
+      tags:
+      - Readers
+      responses:
+        '200':
+          description: The requested Reader
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/reader-object'
+          headers: {}
+        '403':
+          description: When you don't have the right permissions to retrieve a Reader for the provided location or Merchant ID.
+        '404':
+          description: When the provided merchant or reader ID does not exist in our system
+components:
+  parameters:
+    header-content-json:
+      schema:
+        type: string
+        enum:
+        - application/json
+      in: header
+      name: Content-Type
+      required: true
+    header-bearer-token:
+      schema:
+        type: string
+        default: Bearer {$$.env.access_token}
+      in: header
+      name: Authorization
+      required: true
+  schemas:
+    reader-object:
+      title: Reader
+      type: object
+      properties:
+        readerId:
+          type: string
+          description: The ID of the reader as specified by the Tyro Connect system. This value will be required when creating an Embedded Payments connection.
+          example: 0f448ac1-862a-4c7b-bdb4-a3b7cdbf6149
+        locationId:
+          type: string
+          description: The ID of the location as specified by the Tyro Connect system
+          example: tc-exampleshop-3000
+        name:
+          type: string
+          description: The name of the reader, a readable identifier for the reader.
+          example: Reader 1 - Example Shop Sydney
+        status:
+          type: string
+          description: Status of the ReaderID
+          enum:
+          - ACTIVE
+          - SUSPENDED
+          - PENDING_CREATION
+          - DEACTIVATED
+        caid:
+          type: string
+          description: a secondary id which represents the location
+  securitySchemes:
+    JWT:
+      type: openIdConnect
+      openIdConnectUrl: https://auth.connect.tyro.com/.well-known/openid-configuration
