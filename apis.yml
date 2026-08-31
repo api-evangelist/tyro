@@ -578,6 +578,8 @@ apis:
   humanURL: https://docs.connect.tyro.com/app/apis/pay
   baseURL: https://api.tyro.com/connect
   tags:
+  - Order
+  tags_raw:
   - Orders
   properties:
   - type: OpenAPI
@@ -1346,6 +1348,8 @@ apis:
   humanURL: https://docs.connect.tyro.com/app/apis/pay
   baseURL: https://api.tyro.com/connect
   tags:
+  - Transaction
+  tags_raw:
   - Transactions
   properties:
   - type: OpenAPI
