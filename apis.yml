@@ -57,7 +57,7 @@ tags_raw:
 - Online Payments
 - Tap to Pay
 created: '2026-07-24'
-modified: '2026-07-24'
+modified: '2026-09-16'
 specificationVersion: '0.23'
 apis:
 - aid: tyro:tyro-bookings-api
@@ -831,7 +831,7 @@ apis:
   - type: APIReference
     url: https://docs.connect.tyro.com/app/apis/referrals/1.0
 - aid: tyro:tyro-payments-api
-  name: Tyro Payments Payments API
+  name: Tyro Payments API
   description: The Payments API from Tyro Payments — 1 operation(s) for payments.
   humanURL: https://docs.connect.tyro.com/app/apis/pay
   baseURL: https://api.tyro.com/connect
@@ -1497,7 +1497,10 @@ common:
   url: asyncapi/tyro-webhooks.yml
 - type: X-MCPServerCandidate
   url: mcp/tyro-mcp.yml
-  note: 'Renamed from MCPServer 2026-09-03 (roadmap#247): the manifest self-describes as status: candidate — a tool list derived from the published API contracts, not an existing server. The scorer already read the manifest and reported mcp_server correctly; the MCPServer type was crediting the artifact-type surfaces with a server that does not exist.'
+  note: 'Renamed from MCPServer 2026-09-03 (roadmap#247): the manifest self-describes as status: candidate
+    — a tool list derived from the published API contracts, not an existing server. The scorer already
+    read the manifest and reported mcp_server correctly; the MCPServer type was crediting the artifact-type
+    surfaces with a server that does not exist.'
 - type: AgentSkill
   url: skills/_index.yml
 - type: LLMsTxt
