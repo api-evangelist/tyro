@@ -66,6 +66,8 @@ apis:
   humanURL: https://docs.connect.tyro.com/app/apis/pay
   baseURL: https://api.tyro.com/connect
   tags:
+  - Booking
+  tags_raw:
   - Bookings
   properties:
   - type: OpenAPI
@@ -194,6 +196,8 @@ apis:
   humanURL: https://docs.connect.tyro.com/app/apis/pay
   baseURL: https://api.tyro.com/connect
   tags:
+  - Location
+  tags_raw:
   - Locations
   properties:
   - type: OpenAPI
