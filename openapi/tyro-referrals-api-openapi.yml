@@ -3,9 +3,7 @@ info:
   title: Referrals API
   version: '1.0'
   contact: {}
-  description: 'The API allows the APP to create a referral. Currently the API supports creating and retrieving information about a referral.
-
-    '
+  description: The API allows the APP to create a referral. Currently the API supports creating and retrieving information about a referral.
 servers:
 - url: https://api.tyro.com/connect
   description: Production
@@ -365,6 +363,13 @@ paths:
       - Referrals
 components:
   parameters:
+    header-bearer-token:
+      schema:
+        type: string
+        default: Bearer {$$.env.access_token}
+      in: header
+      name: Authorization
+      required: true
     header-content-json:
       schema:
         type: string
@@ -372,11 +377,4 @@ components:
         - application/json
       in: header
       name: Content-Type
-      required: true
-    header-bearer-token:
-      schema:
-        type: string
-        default: Bearer {$$.env.access_token}
-      in: header
-      name: Authorization
       required: true

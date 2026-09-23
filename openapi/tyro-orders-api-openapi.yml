@@ -48,7 +48,19 @@ paths:
           description: Invalid access token
         '403':
           description: Insufficient permissions to create an order
-      description: "This endpoint is for creating an order that Tyro Connect will deliver to a POS.\n\n Make sure you create the order in one of the following statuses:\n - `CREATED` - the order has been created but not approved by the merchant.\n - `ACCEPTED` - the order has already been approved by the merchant (eg. via a separate app available to them).\n\nMaking identical requests with the same `orderId` and content **does not** create a new order. In this case, it returns the previously created order's details.\nThis means every new order must have a different `orderId`.\n"
+      description: 'This endpoint is for creating an order that Tyro Connect will deliver to a POS.
+
+
+        Make sure you create the order in one of the following statuses:
+
+        - `CREATED` - the order has been created but not approved by the merchant.
+
+        - `ACCEPTED` - the order has already been approved by the merchant (eg. via a separate app available to them).
+
+
+        Making identical requests with the same `orderId` and content **does not** create a new order. In this case, it returns the previously created order''s details.
+
+        This means every new order must have a different `orderId`.'
       security:
       - JWT: []
       requestBody:
@@ -458,7 +470,11 @@ paths:
                     error: Order status conflict. Order status REJECTED cannot be updated to CANCELLED_BY_CUSTOMER.
         '500':
           description: Internal server error
-      description: "In order to provide more information about the status changes to the order, you can send the following statuses:\n - `CANCELLED_BY_CUSTOMER` - customer has cancelled the order.\n - `FULFILLED` - The order was completed successfully.\n"
+      description: 'In order to provide more information about the status changes to the order, you can send the following statuses:
+
+        - `CANCELLED_BY_CUSTOMER` - customer has cancelled the order.
+
+        - `FULFILLED` - The order was completed successfully.'
       requestBody:
         content:
           application/merge-patch+json:
@@ -560,32 +576,12 @@ components:
       - sku
       - description
       - quantity
-    existing-order:
-      title: Existing Order
-      allOf:
-      - $ref: '#/components/schemas/new-order'
-      - type: object
-        properties:
-          id:
-            type: string
-            description: This is the Tyro Connect system order Id. It uniquely identifies the order.
-          origin:
-            type: object
-            properties:
-              name:
-                type: string
-                description: This will be your name. It is mostly used by POS's to identify where an order came from
-      description: This is the representation of the order as provided by Tyro Connect.
-    get-order:
-      title: Get order
-      allOf:
-      - $ref: '#/components/schemas/existing-order'
-      - properties:
-          statusInfo:
-            type: string
-            enum:
-            - AUTO_REJECTED_BY_TIMEOUT
-            description: This field provides additional information about the status of an order
+    order-update-status-conflict:
+      title: Order conflict status
+      properties:
+        error:
+          type: string
+          description: Error message
     money:
       title: Money
       type: object
@@ -607,31 +603,16 @@ components:
       required:
       - amount
       - currency
-    bad-request-validation-errors-response:
-      title: List of errors
-      type: object
-      properties:
-        message:
-          type: string
-          description: General error message
-        errors:
-          type: array
-          description: List of errors for further information about the error
-          items:
-            type: object
-            properties:
-              segment:
-                type: string
-                description: Location in the request where the error occured
-              path:
-                type: string
-                description: Path of where the error occurred
-              message:
-                type: string
-                description: Error message
-        error:
-          type: string
-          description: Error message
+    get-order:
+      title: Get order
+      allOf:
+      - $ref: '#/components/schemas/existing-order'
+      - properties:
+          statusInfo:
+            type: string
+            enum:
+            - AUTO_REJECTED_BY_TIMEOUT
+            description: This field provides additional information about the status of an order
     new-order:
       title: New Order
       type: object
@@ -735,9 +716,28 @@ components:
       - items
       - total
       - fulfilment
-    order-update-status-conflict:
-      title: Order conflict status
+    bad-request-validation-errors-response:
+      title: List of errors
+      type: object
       properties:
+        message:
+          type: string
+          description: General error message
+        errors:
+          type: array
+          description: List of errors for further information about the error
+          items:
+            type: object
+            properties:
+              segment:
+                type: string
+                description: Location in the request where the error occured
+              path:
+                type: string
+                description: Path of where the error occurred
+              message:
+                type: string
+                description: Error message
         error:
           type: string
           description: Error message
@@ -763,6 +763,22 @@ components:
       required:
       - amount
       - currency
+    existing-order:
+      title: Existing Order
+      allOf:
+      - $ref: '#/components/schemas/new-order'
+      - type: object
+        properties:
+          id:
+            type: string
+            description: This is the Tyro Connect system order Id. It uniquely identifies the order.
+          origin:
+            type: object
+            properties:
+              name:
+                type: string
+                description: This will be your name. It is mostly used by POS's to identify where an order came from
+      description: This is the representation of the order as provided by Tyro Connect.
     money-positive-with-description:
       title: Money Positive Amount With Description
       allOf:

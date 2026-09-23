@@ -341,120 +341,6 @@ paths:
       - Reporting
 components:
   schemas:
-    settlement-details:
-      title: Settlements Detail
-      type: object
-      properties:
-        type:
-          type: string
-          enum:
-          - EXTERNAL_BANK_ACCOUNT
-          - ATO
-          - TYRO_TRANSACTION_ACCOUNT
-          - TYRO_BANK_ACCOUNT
-          - LOAN
-          description: Settlement type indicating the destination account for the payment or transfer. More values may be added in the future.
-        institutionName:
-          type: string
-          description: Name of the institution receiving the settlement.
-        bsb:
-          type: string
-          description: BSB code in the format 'XXXXXX'.
-          example: '123456'
-        accountNumber:
-          type: string
-          description: Account number of the settlement destination, partially masked.
-          example: '*****7890'
-        accountName:
-          type: string
-          description: Name associated with the settlement destination account.
-        settlementAmount:
-          type: number
-          description: Signed amount settled, in cents.
-          example: -10001
-        lastUpdatedAt:
-          type: string
-          format: date-time
-          description: Indicates the time of the latest settlement status update. The format of the date time is the notation as defined by [RFC 3339, section 5.6](https://tools.ietf.org/html/rfc3339#section-5.6)
-          example: '2023-10-01T12:00:00.00Z'
-        settlementStatus:
-          type: string
-          enum:
-          - SENT
-          - PENDING
-          - ON_HOLD
-          - RESUBMISSION_INITIATED
-          - RESUBMISSION_SENT
-          - RESUBMISSION_ON_HOLD
-          - WITHHELD_BY_ACQUIRER
-          - WITHHELD_BY_BANK
-          description: "Status of the settlement.\n  * `SENT` - The settlement has been successfully sent from Tyro to the merchant’s destination financial institution. Note: The actual deposit time into the merchant’s account is determined by their bank and is not known by Tyro.\n  * `PENDING` - The settlement process has been initiated by Tyro, but funds have not yet left Tyro’s systems.\n  * `ON_HOLD` - The settlement is currently withheld. This may occur due to account suspension, suspected fraud, or participation in a net settlement arrangement. Funds are retained by Tyro until resolution.\n  * `RESUBMISSION_INITIATED` - The settlement got returned back by customer's bank and Tyro initiated its resubmission.\n  * `RESUBMISSION_SENT` - The settlement got returned back by customer's bank and resubmission was successfully sent from Tyro.\n  * `RESUBMISSION_ON_HOLD` - The settlement got returned back by customer's bank and resubmission is on hold and funds are withheld by Tyro.\n  * `WITHHELD_BY_ACQUIRER` - The settlement failed and funds are withheld by Tyro.\n  * `WITHHELD_BY_BANK` - The settlement failed and funds are withheld by the customer's bank.\n"
-        lodgementReference:
-          type: string
-          description: Lodgement reference provided with the settlement to the receiving institution, up to 18 characters.
-      required:
-      - type
-    reporting-transactions-response:
-      title: Transactions Report
-      type: object
-      properties:
-        terminalBusinessDay:
-          type: string
-          format: date
-          description: The date (YYYY-MM-DD) that the terminal has processed the requested transactions.
-          example: '2025-05-26'
-        merchantDetails:
-          title: Merchant Details
-          type: object
-          description: Details of the merchant for whom the transactions are reported.
-          properties:
-            mid:
-              type: string
-              description: The merchant ID associated with the Tyro account.
-              example: '111'
-            tradingName:
-              type: string
-              description: The trading name of the merchant.
-              example: Test Merchant
-          required:
-          - mid
-          - tradingName
-        transactions:
-          type: array
-          description: List of transactions for the specified merchant and date.
-          items:
-            $ref: '#/components/schemas/transaction'
-        pagination:
-          type: object
-          description: Pagination details for the transaction results.
-          properties:
-            page:
-              type: integer
-              description: The current page number.
-              minimum: 1
-              example: 1
-            size:
-              type: integer
-              description: The number of transactions per page.
-              example: 10
-            limit:
-              type: integer
-              description: The maximum number of transactions that can be returned per page.
-              example: 100
-            total:
-              type: integer
-              description: The total number of transactions.
-              example: 45
-          required:
-          - page
-          - size
-          - limit
-          - total
-      required:
-      - terminalBusinessDay
-      - merchantDetails
-      - transactions
-      - pagination
     transaction:
       title: Transaction
       type: object
@@ -716,24 +602,120 @@ components:
       - rrn
       - tyroReference
       - integratedTransactionId
-    settlement:
-      title: Settlements
+    reporting-transactions-response:
+      title: Transactions Report
       type: object
       properties:
-        clearingPaymentId:
+        terminalBusinessDay:
           type: string
-          description: ID of the clearing payment run used to bundle transactions for a settlement.
-        grossAmount:
-          type: number
-          description: Signed gross amount settled, in cents.
-          example: 10001
-        settlementDetails:
+          format: date
+          description: The date (YYYY-MM-DD) that the terminal has processed the requested transactions.
+          example: '2025-05-26'
+        merchantDetails:
+          title: Merchant Details
+          type: object
+          description: Details of the merchant for whom the transactions are reported.
+          properties:
+            mid:
+              type: string
+              description: The merchant ID associated with the Tyro account.
+              example: '111'
+            tradingName:
+              type: string
+              description: The trading name of the merchant.
+              example: Test Merchant
+          required:
+          - mid
+          - tradingName
+        transactions:
           type: array
-          description: Multiple settlement entries may be returned due to settlement splits by scheme, by location, or due to additional settlement destinations such as loan repayments or ATO garnishees.
+          description: List of transactions for the specified merchant and date.
           items:
-            $ref: '#/components/schemas/settlement-details'
+            $ref: '#/components/schemas/transaction'
+        pagination:
+          type: object
+          description: Pagination details for the transaction results.
+          properties:
+            page:
+              type: integer
+              description: The current page number.
+              minimum: 1
+              example: 1
+            size:
+              type: integer
+              description: The number of transactions per page.
+              example: 10
+            limit:
+              type: integer
+              description: The maximum number of transactions that can be returned per page.
+              example: 100
+            total:
+              type: integer
+              description: The total number of transactions.
+              example: 45
+          required:
+          - page
+          - size
+          - limit
+          - total
       required:
-      - settlementDetails
+      - terminalBusinessDay
+      - merchantDetails
+      - transactions
+      - pagination
+    settlement-details:
+      title: Settlements Detail
+      type: object
+      properties:
+        type:
+          type: string
+          enum:
+          - EXTERNAL_BANK_ACCOUNT
+          - ATO
+          - TYRO_TRANSACTION_ACCOUNT
+          - TYRO_BANK_ACCOUNT
+          - LOAN
+          description: Settlement type indicating the destination account for the payment or transfer. More values may be added in the future.
+        institutionName:
+          type: string
+          description: Name of the institution receiving the settlement.
+        bsb:
+          type: string
+          description: BSB code in the format 'XXXXXX'.
+          example: '123456'
+        accountNumber:
+          type: string
+          description: Account number of the settlement destination, partially masked.
+          example: '*****7890'
+        accountName:
+          type: string
+          description: Name associated with the settlement destination account.
+        settlementAmount:
+          type: number
+          description: Signed amount settled, in cents.
+          example: -10001
+        lastUpdatedAt:
+          type: string
+          format: date-time
+          description: Indicates the time of the latest settlement status update. The format of the date time is the notation as defined by [RFC 3339, section 5.6](https://tools.ietf.org/html/rfc3339#section-5.6)
+          example: '2023-10-01T12:00:00.00Z'
+        settlementStatus:
+          type: string
+          enum:
+          - SENT
+          - PENDING
+          - ON_HOLD
+          - RESUBMISSION_INITIATED
+          - RESUBMISSION_SENT
+          - RESUBMISSION_ON_HOLD
+          - WITHHELD_BY_ACQUIRER
+          - WITHHELD_BY_BANK
+          description: "Status of the settlement.\n  * `SENT` - The settlement has been successfully sent from Tyro to the merchant’s destination financial institution. Note: The actual deposit time into the merchant’s account is determined by their bank and is not known by Tyro.\n  * `PENDING` - The settlement process has been initiated by Tyro, but funds have not yet left Tyro’s systems.\n  * `ON_HOLD` - The settlement is currently withheld. This may occur due to account suspension, suspected fraud, or participation in a net settlement arrangement. Funds are retained by Tyro until resolution.\n  * `RESUBMISSION_INITIATED` - The settlement got returned back by customer's bank and Tyro initiated its resubmission.\n  * `RESUBMISSION_SENT` - The settlement got returned back by customer's bank and resubmission was successfully sent from Tyro.\n  * `RESUBMISSION_ON_HOLD` - The settlement got returned back by customer's bank and resubmission is on hold and funds are withheld by Tyro.\n  * `WITHHELD_BY_ACQUIRER` - The settlement failed and funds are withheld by Tyro.\n  * `WITHHELD_BY_BANK` - The settlement failed and funds are withheld by the customer's bank.\n"
+        lodgementReference:
+          type: string
+          description: Lodgement reference provided with the settlement to the receiving institution, up to 18 characters.
+      required:
+      - type
     reporting-settlements-response:
       title: Settlements Response
       type: object
@@ -754,6 +736,24 @@ components:
       - mid
       - settlementDate
       - settlements
+    settlement:
+      title: Settlements
+      type: object
+      properties:
+        clearingPaymentId:
+          type: string
+          description: ID of the clearing payment run used to bundle transactions for a settlement.
+        grossAmount:
+          type: number
+          description: Signed gross amount settled, in cents.
+          example: 10001
+        settlementDetails:
+          type: array
+          description: Multiple settlement entries may be returned due to settlement splits by scheme, by location, or due to additional settlement destinations such as loan repayments or ATO garnishees.
+          items:
+            $ref: '#/components/schemas/settlement-details'
+      required:
+      - settlementDetails
   parameters:
     header-bearer-token:
       schema:

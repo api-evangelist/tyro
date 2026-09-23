@@ -66,6 +66,51 @@ paths:
       - Menus
 components:
   schemas:
+    modifier-group:
+      type: object
+      description: Modifier groups are a convenience added to the schema for managing the options that can be added to items (e.g. within a menu management app). They are, however, not necessary for rendering a menu to a customer
+      properties:
+        id:
+          type: string
+          description: A unique id that represents the modifier group within the menu
+        description:
+          type: string
+        name:
+          type: string
+          description: The name of the modifier group will correspond to the name of any item.options that reference items contained within the modifier group
+        min:
+          type: number
+          default: 0
+          description: This number represents the minimum number of items within this modifier group that a user will have to select if they are applied to an item
+        max:
+          type: number
+          minimum: 1
+        items:
+          type: array
+          minimum: 1
+          description: A list of objects whose id's reference items that belong to this modifierGroup
+          items:
+            type: object
+            properties:
+              id:
+                type: string
+                uniqueItems: true
+              min:
+                type: number
+                minimum: 0
+                description: The minimum quantity of this modifier that needs to be selected by the customer
+              max:
+                type: number
+                minimum: 1
+                description: The maximum quantity of this modifier that can be selected by the customer
+            required:
+            - id
+            - min
+            - max
+      required:
+      - id
+      - name
+      - items
     section:
       type: object
       properties:
@@ -131,51 +176,6 @@ components:
       - startTime
       - endTime
       - days
-    modifier-group:
-      type: object
-      description: Modifier groups are a convenience added to the schema for managing the options that can be added to items (e.g. within a menu management app). They are, however, not necessary for rendering a menu to a customer
-      properties:
-        id:
-          type: string
-          description: A unique id that represents the modifier group within the menu
-        description:
-          type: string
-        name:
-          type: string
-          description: The name of the modifier group will correspond to the name of any item.options that reference items contained within the modifier group
-        min:
-          type: number
-          default: 0
-          description: This number represents the minimum number of items within this modifier group that a user will have to select if they are applied to an item
-        max:
-          type: number
-          minimum: 1
-        items:
-          type: array
-          minimum: 1
-          description: A list of objects whose id's reference items that belong to this modifierGroup
-          items:
-            type: object
-            properties:
-              id:
-                type: string
-                uniqueItems: true
-              min:
-                type: number
-                minimum: 0
-                description: The minimum quantity of this modifier that needs to be selected by the customer
-              max:
-                type: number
-                minimum: 1
-                description: The maximum quantity of this modifier that can be selected by the customer
-            required:
-            - id
-            - min
-            - max
-      required:
-      - id
-      - name
-      - items
     item:
       type: object
       properties:

@@ -38,7 +38,6 @@ paths:
       operationId: get-pay-method
       tags:
       - Pay Methods
-      description: Retrieve a Pay Method
       summary: Retrieve a Pay Method
       responses:
         '200':
@@ -62,7 +61,6 @@ paths:
       operationId: delete-pay-method
       tags:
       - Pay Methods
-      description: Delete a Pay Method
       summary: Delete a Pay Method
       responses:
         '200':
@@ -81,16 +79,15 @@ paths:
         name: payMethodId
         required: true
 components:
+  parameters:
+    header-bearer-token:
+      schema:
+        type: string
+        default: Bearer {$$.env.access_token}
+      in: header
+      name: Authorization
+      required: true
   schemas:
-    pay-methods-response:
-      title: Pay Methods Response
-      type: object
-      properties:
-        payMethods:
-          type: array
-          description: List of pay methods
-          items:
-            $ref: '#/components/schemas/pay-method'
     pay-method:
       title: Pay Method
       type: object
@@ -127,14 +124,15 @@ components:
               type: string
               description: Last four digits of the card number
               example: '4365'
-  parameters:
-    header-bearer-token:
-      schema:
-        type: string
-        default: Bearer {$$.env.access_token}
-      in: header
-      name: Authorization
-      required: true
+    pay-methods-response:
+      title: Pay Methods Response
+      type: object
+      properties:
+        payMethods:
+          type: array
+          description: List of pay methods
+          items:
+            $ref: '#/components/schemas/pay-method'
   securitySchemes:
     JWT:
       type: openIdConnect

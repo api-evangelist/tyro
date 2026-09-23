@@ -67,7 +67,7 @@ paths:
       parameters:
       - $ref: '#/components/parameters/header-bearer-token'
     delete:
-      summary: Deregister a member for loyalty.
+      summary: Deregister a member for loyalty
       requestBody:
         content:
           application/json:
@@ -105,6 +105,14 @@ paths:
       parameters:
       - $ref: '#/components/parameters/header-bearer-token'
 components:
+  parameters:
+    header-bearer-token:
+      schema:
+        type: string
+        default: Bearer {$$.env.access_token}
+      in: header
+      name: Authorization
+      required: true
   schemas:
     register-member-request:
       properties:
@@ -151,14 +159,6 @@ components:
             memberId:
               type: string
               description: Member's Identifier on the app.
-  parameters:
-    header-bearer-token:
-      schema:
-        type: string
-        default: Bearer {$$.env.access_token}
-      in: header
-      name: Authorization
-      required: true
   securitySchemes:
     JWT:
       type: openIdConnect

@@ -130,25 +130,23 @@ components:
       required:
       - code
       - lastOnlineAt
-    heartbeat-response:
-      title: Online/Offline status response
+    vendor-spec:
+      title: POS information
       type: object
       properties:
-        locationId:
+        vendor:
           type: string
-          description: The Tyro Connect Location Id for which the following information applies
-        pos:
-          allOf:
-          - $ref: '#/components/schemas/vendor-spec'
-          - description: Information about the POS itself
-        status:
-          allOf:
-          - $ref: '#/components/schemas/online-status-spec'
-          - description: Information about the online/offline status
+          description: The POS vendor
+        version:
+          type: string
+          description: The version of the POS software
+        apis:
+          type: array
+          description: This is a list of all APIs supported by the POS
+          items:
+            $ref: '#/components/schemas/api-spec'
       required:
-      - locationId
-      - pos
-      - status
+      - vendor
     api-spec:
       title: Supported API version
       type: object
@@ -169,23 +167,25 @@ components:
       required:
       - api
       - version
-    vendor-spec:
-      title: POS information
+    heartbeat-response:
+      title: Online/Offline status response
       type: object
       properties:
-        vendor:
+        locationId:
           type: string
-          description: The POS vendor
-        version:
-          type: string
-          description: The version of the POS software
-        apis:
-          type: array
-          description: This is a list of all APIs supported by the POS
-          items:
-            $ref: '#/components/schemas/api-spec'
+          description: The Tyro Connect Location Id for which the following information applies
+        pos:
+          allOf:
+          - $ref: '#/components/schemas/vendor-spec'
+          - description: Information about the POS itself
+        status:
+          allOf:
+          - $ref: '#/components/schemas/online-status-spec'
+          - description: Information about the online/offline status
       required:
-      - vendor
+      - locationId
+      - pos
+      - status
     location:
       title: Location
       type: object

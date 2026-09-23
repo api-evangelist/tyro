@@ -3,9 +3,7 @@ info:
   title: Bookings API
   version: '1.0'
   contact: {}
-  description: 'The API allows the APP and POS to send and receive information about bookings. Currently the API supports creating, updating and retrieving bookings in the POS or the booking system.
-
-    '
+  description: The API allows the APP and POS to send and receive information about bookings. Currently the API supports creating, updating and retrieving bookings in the POS or the booking system.
 servers:
 - url: https://api.tyro.com/connect
   description: Production
@@ -68,7 +66,7 @@ paths:
       description: 'This endpoint is used to create a booking within Tyro Connect. This call will create a booking in the POS system.
 
 
-        The id that is returned as a part of the response should be used to identify the booking for subsequent events or retrieving the details via the [`GET`](#operation/get-booking) endpoint.'
+        The id that is returned as a part of the response should be used to identify the booking for subsequent events or retrieving the details via the `GET` endpoint.'
       security:
       - JWT: []
       requestBody:
@@ -230,25 +228,11 @@ paths:
       - Bookings
 components:
   schemas:
-    section:
-      type: object
-      description: The section within the venue
-      properties:
-        id:
-          type: string
-          description: The POS system's Id of the section
-        name:
-          type: string
-          description: The readable name of the section. E.g. Front bar, drive through for hospitality or for retail men's clothes, womens shoes etc
-    room:
-      type: object
-      properties:
-        number:
-          type: string
-          description: The room number or room id. This field accepts alphanumeric characters e.g `MAIN-33`
-          example: MAIN-33
-      required:
-      - number
+    payments:
+      type: array
+      description: A list of payments applied to the booking.
+      items:
+        $ref: '#/components/schemas/payment-with-description'
     new-booking-request:
       title: New booking request
       type: object
@@ -298,36 +282,35 @@ components:
       - numberOfPeople
       - startTime
       - asset
-    table:
+    time:
+      type: string
+      description: The format of the date time is the notation as defined by [RFC 3339, section 5.6](https://tools.ietf.org/html/rfc3339#section-5.6)
+      example: '2018-05-02T17:30:00.000Z'
+      format: date-time
+    origin:
+      type: object
+      description: Information relevant to the booking partner that this booking was created with
+      properties:
+        name:
+          type: string
+          description: Name of the booking app
+        bookingReference:
+          $ref: '#/components/schemas/bookingReference'
+      required:
+      - bookingReference
+    bookingStatus:
+      type: string
+      description: The current status of the booking
+      enum:
+      - CREATED
+      - ACCEPTED
+      - CANCELLED_BY_CUSTOMER
+      - CANCELLED_BY_MERCHANT
+      - REJECTED
+      default: CREATED
+    assetUpdate:
       type: object
       properties:
-        number:
-          type: string
-          minLength: 1
-          description: The table number or table id. This field accepts alphanumeric characters e.g `MAIN-33`
-          example: MAIN-33
-    payment:
-      title: Payment
-      type: object
-      properties:
-        amount:
-          type: integer
-          description: This is the amount in cents. e.g 12520 is $125.20
-          minimum: 0
-        currency:
-          type: string
-          default: AUD
-          enum:
-          - AUD
-          example: AUD
-          description: This is always AUD
-    tableAsset:
-      type: object
-      properties:
-        type:
-          type: string
-          enum:
-          - TABLE
         tableStatus:
           $ref: '#/components/schemas/tableStatus'
         arrivalStatus:
@@ -340,6 +323,12 @@ components:
             $ref: '#/components/schemas/table'
         section:
           $ref: '#/components/schemas/section'
+        rooms:
+          type: array
+          minItems: 1
+          description: The rooms in the booking
+          items:
+            $ref: '#/components/schemas/room'
         discounts:
           type: array
           minItems: 1
@@ -350,34 +339,26 @@ components:
           minItems: 1
           items:
             type: string
-      required:
-      - type
-    tableStatus:
+    address:
+      title: address
+      type: object
+      description: The customer address
+      properties:
+        line1:
+          type: string
+        line2:
+          type: string
+        suburb:
+          type: string
+        state:
+          type: string
+        postcode:
+          type: string
+        country:
+          type: string
+    bookingReference:
       type: string
-      description: 'The current table status of the booking
-
-        The supported statuses are:
-
-        * `SEATED` - indicates that the customer connected to the booking has been seated.
-
-        * `DINING` - indicate that the customer connected to the booking has started dining.
-
-        * `CLOSING` - indicates that the customer connected to the booking is close to finishing their meal (e.g. when the bill has been printed).
-
-        * `FINALISED` - indicates that the booking has been finalised (e.g. when the bill has been finalised).'
-      enum:
-      - SEATED
-      - DINING
-      - CLOSING
-      - FINALISED
-    arrivalStatus:
-      type: string
-      description: The customer's arrival status in relation to the booking
-      enum:
-      - ON_TIME
-      - EARLY
-      - RUNNING_LATE
-      - NO_SHOW
+      description: Reference for the booking. It is used to facilitate identification of the booking in the app and pos systems and must be unique per location and booking partner.
     acceptHeaderBooking1_0:
       type: string
       enum:
@@ -385,6 +366,43 @@ components:
       - application/vnd.tyro.connect+json;version=0.1
       default: application/vnd.tyro.connect+json;version=0.1
       description: Specifies which version of the API to use. If no value is provided then 0.1 version will be used
+    update-booking-request:
+      title: Update booking request
+      type: object
+      description: The message to be sent to Tyro Connect in order to update the booking
+      properties:
+        asset:
+          $ref: '#/components/schemas/assetUpdate'
+        bookingStatus:
+          $ref: '#/components/schemas/bookingStatus'
+        numberOfPeople:
+          $ref: '#/components/schemas/numberOfPeople'
+        payments:
+          $ref: '#/components/schemas/payments'
+        reason:
+          $ref: '#/components/schemas/reason'
+        customer:
+          $ref: '#/components/schemas/customer'
+        notes:
+          type: string
+          minLength: 1
+          maxLength: 500
+          description: 'Notes specific to the booking. Example: ''Window seat please'''
+        startTime:
+          $ref: '#/components/schemas/time'
+        endTime:
+          $ref: '#/components/schemas/time'
+        origin:
+          $ref: '#/components/schemas/origin'
+    room:
+      type: object
+      properties:
+        number:
+          type: string
+          description: The room number or room id. This field accepts alphanumeric characters e.g `MAIN-33`
+          example: MAIN-33
+      required:
+      - number
     booking:
       title: Booking
       type: object
@@ -432,76 +450,18 @@ components:
       - locationId
       - numberOfPeople
       - asset
-    bookingReference:
-      type: string
-      description: Reference for the booking. It is used to facilitate identification of the booking in the app and pos systems and must be unique per location and booking partner.
+    table:
+      type: object
+      properties:
+        number:
+          type: string
+          minLength: 1
+          description: The table number or table id. This field accepts alphanumeric characters e.g `MAIN-33`
+          example: MAIN-33
     reason:
       type: string
       maxLength: 50
       description: The reason the booking was rejected or cancelled. Provided only when bookingStatus is `REJECTED`, `CANCELLED_BY_MERCHANT` or `CANCELLED_BY_CUSTOMER`
-    bookingStatus:
-      type: string
-      description: The current status of the booking
-      enum:
-      - CREATED
-      - ACCEPTED
-      - CANCELLED_BY_CUSTOMER
-      - CANCELLED_BY_MERCHANT
-      - REJECTED
-      default: CREATED
-    address:
-      title: address
-      type: object
-      description: The customer address
-      properties:
-        line1:
-          type: string
-        line2:
-          type: string
-        suburb:
-          type: string
-        state:
-          type: string
-        postcode:
-          type: string
-        country:
-          type: string
-    assetUpdate:
-      type: object
-      properties:
-        tableStatus:
-          $ref: '#/components/schemas/tableStatus'
-        arrivalStatus:
-          $ref: '#/components/schemas/arrivalStatus'
-        tables:
-          type: array
-          minItems: 1
-          description: The tables used for the booking
-          items:
-            $ref: '#/components/schemas/table'
-        section:
-          $ref: '#/components/schemas/section'
-        rooms:
-          type: array
-          minItems: 1
-          description: The rooms in the booking
-          items:
-            $ref: '#/components/schemas/room'
-        discounts:
-          type: array
-          minItems: 1
-          items:
-            type: string
-        preOrders:
-          type: array
-          minItems: 1
-          items:
-            type: string
-    payments:
-      type: array
-      description: A list of payments applied to the booking.
-      items:
-        $ref: '#/components/schemas/payment-with-description'
     customer:
       type: object
       description: The customer making the booking
@@ -534,11 +494,55 @@ components:
           type: string
           minLength: 1
           description: Customer's birthday
-    time:
+    tableStatus:
       type: string
-      description: The format of the date time is the notation as defined by [RFC 3339, section 5.6](https://tools.ietf.org/html/rfc3339#section-5.6)
-      example: '2018-05-02T17:30:00.000Z'
-      format: date-time
+      description: 'The current table status of the booking
+
+        The supported statuses are:
+
+        * `SEATED` - indicates that the customer connected to the booking has been seated.
+
+        * `DINING` - indicate that the customer connected to the booking has started dining.
+
+        * `CLOSING` - indicates that the customer connected to the booking is close to finishing their meal (e.g. when the bill has been printed).
+
+        * `FINALISED` - indicates that the booking has been finalised (e.g. when the bill has been finalised).'
+      enum:
+      - SEATED
+      - DINING
+      - CLOSING
+      - FINALISED
+    tableAsset:
+      type: object
+      properties:
+        type:
+          type: string
+          enum:
+          - TABLE
+        tableStatus:
+          $ref: '#/components/schemas/tableStatus'
+        arrivalStatus:
+          $ref: '#/components/schemas/arrivalStatus'
+        tables:
+          type: array
+          minItems: 1
+          description: The tables used for the booking
+          items:
+            $ref: '#/components/schemas/table'
+        section:
+          $ref: '#/components/schemas/section'
+        discounts:
+          type: array
+          minItems: 1
+          items:
+            type: string
+        preOrders:
+          type: array
+          minItems: 1
+          items:
+            type: string
+      required:
+      - type
     payment-with-description:
       title: Payment With Description
       allOf:
@@ -548,45 +552,31 @@ components:
             type: string
             description: A description of what this payment amount represents
             example: Deposit for booking
-    origin:
+    section:
       type: object
-      description: Information relevant to the booking partner that this booking was created with
+      description: The section within the venue
       properties:
+        id:
+          type: string
+          description: The POS system's Id of the section
         name:
           type: string
-          description: Name of the booking app
-        bookingReference:
-          $ref: '#/components/schemas/bookingReference'
-      required:
-      - bookingReference
-    update-booking-request:
-      title: Update booking request
+          description: The readable name of the section. E.g. Front bar, drive through for hospitality or for retail men's clothes, womens shoes etc
+    payment:
+      title: Payment
       type: object
-      description: The message to be sent to Tyro Connect in order to update the booking
       properties:
-        asset:
-          $ref: '#/components/schemas/assetUpdate'
-        bookingStatus:
-          $ref: '#/components/schemas/bookingStatus'
-        numberOfPeople:
-          $ref: '#/components/schemas/numberOfPeople'
-        payments:
-          $ref: '#/components/schemas/payments'
-        reason:
-          $ref: '#/components/schemas/reason'
-        customer:
-          $ref: '#/components/schemas/customer'
-        notes:
+        amount:
+          type: integer
+          description: This is the amount in cents. e.g 12520 is $125.20
+          minimum: 0
+        currency:
           type: string
-          minLength: 1
-          maxLength: 500
-          description: 'Notes specific to the booking. Example: ''Window seat please'''
-        startTime:
-          $ref: '#/components/schemas/time'
-        endTime:
-          $ref: '#/components/schemas/time'
-        origin:
-          $ref: '#/components/schemas/origin'
+          default: AUD
+          enum:
+          - AUD
+          example: AUD
+          description: This is always AUD
     roomAsset:
       type: object
       description: The section within the venue
@@ -608,7 +598,22 @@ components:
       type: number
       minimum: 1
       description: The number of expected guests
+    arrivalStatus:
+      type: string
+      description: The customer's arrival status in relation to the booking
+      enum:
+      - ON_TIME
+      - EARLY
+      - RUNNING_LATE
+      - NO_SHOW
   parameters:
+    header-bearer-token:
+      schema:
+        type: string
+        default: Bearer {$$.env.access_token}
+      in: header
+      name: Authorization
+      required: true
     header-content-json:
       schema:
         type: string
@@ -616,13 +621,6 @@ components:
         - application/json
       in: header
       name: Content-Type
-      required: true
-    header-bearer-token:
-      schema:
-        type: string
-        default: Bearer {$$.env.access_token}
-      in: header
-      name: Authorization
       required: true
   securitySchemes:
     JWT:

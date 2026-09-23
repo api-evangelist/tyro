@@ -3,9 +3,7 @@ info:
   title: Data Sales API
   version: '1.1'
   contact: {}
-  description: 'This is the API for Apps looking to implement sales data on Tyro Connect
-
-    '
+  description: This is the API for Apps looking to implement sales data on Tyro Connect
 servers:
 - url: https://api.tyro.com/connect
   description: Production
@@ -34,9 +32,7 @@ paths:
         ## Pagination
 
 
-        The paginated results are ordered using the sequence they were created in the Tyro Connect. For example `results[0]` on page 1 is the first matching sale that was created in the Tyro Connect system.
-
-        '
+        The paginated results are ordered using the sequence they were created in the Tyro Connect. For example `results[0]` on page 1 is the first matching sale that was created in the Tyro Connect system.'
       security:
       - JWT: []
       parameters:
@@ -433,9 +429,7 @@ paths:
         '404':
           description: When the provided `saleId` does not match a Sale stored in the system.
       operationId: get-sale-1.1
-      description: 'This endpoint is for fetching the details of a sale.
-
-        '
+      description: This endpoint is for fetching the details of a sale.
       security:
       - JWT: []
       parameters:
@@ -831,28 +825,6 @@ components:
       - type
       - openedZonedDateTime
       - staff
-    money-positive:
-      title: Money Positive Amount
-      type: object
-      properties:
-        amount:
-          type: integer
-          description: This is the amount in smallest currency unit. e.g 12520 (in cents) is $125.20
-          example: 12520
-          minimum: 0
-        currency:
-          type: string
-          default: AUD
-          enum:
-          - AUD
-          - EUR
-          - NZD
-          - GBP
-          - USD
-          example: AUD
-      required:
-      - amount
-      - currency
     line-item:
       type: object
       title: Line Item
@@ -940,6 +912,28 @@ components:
       - quantity
       - tax
       - total
+    money-positive:
+      title: Money Positive Amount
+      type: object
+      properties:
+        amount:
+          type: integer
+          description: This is the amount in smallest currency unit. e.g 12520 (in cents) is $125.20
+          example: 12520
+          minimum: 0
+        currency:
+          type: string
+          default: AUD
+          enum:
+          - AUD
+          - EUR
+          - NZD
+          - GBP
+          - USD
+          example: AUD
+      required:
+      - amount
+      - currency
     money-positive-with-description:
       title: Money Positive Amount With Description
       allOf:

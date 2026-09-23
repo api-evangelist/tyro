@@ -3,9 +3,7 @@ info:
   title: Embedded Payments Transactions API
   version: '1.0'
   contact: {}
-  description: 'The API allows a POS to accept Embedded Payments payments.
-
-    '
+  description: The API allows a POS to accept Embedded Payments payments.
 servers:
 - url: https://api.tyro.com/connect
   description: Production
@@ -130,6 +128,14 @@ paths:
         '404':
           description: When the provided merchant or location ID does not exist in our system
 components:
+  parameters:
+    header-bearer-token:
+      schema:
+        type: string
+        default: Bearer {$$.env.access_token}
+      in: header
+      name: Authorization
+      required: true
   schemas:
     embedded-payments-transaction-response:
       title: Embedded Payments Transaction Response
@@ -194,14 +200,6 @@ components:
           type: string
           description: Customer receipt.
           example: "      Example Restaurant\n        55 Market St\n       Sydney NSW 2000\n\n    Tyro Payments EFTPOS\n\nVisa DEBIT\nAID: A0000000031010\nCard: XXXXXXXXX2989(T)\nPSN: 00, ATC: 0007\nTVR: 0000000000\n\nPurchase     AUD       $4.55\n----------------------------\nTotal        AUD       $4.55\n\nAPPROVED                  00\n\nTerminal ID: 4\nTransaction Ref: 395001\nAuthorisation No: 000184\n02 Apr 2024 at 04:52 PM"
-  parameters:
-    header-bearer-token:
-      schema:
-        type: string
-        default: Bearer {$$.env.access_token}
-      in: header
-      name: Authorization
-      required: true
   securitySchemes:
     JWT:
       type: openIdConnect

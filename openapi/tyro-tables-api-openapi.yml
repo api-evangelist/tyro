@@ -3,9 +3,7 @@ info:
   title: Tables API
   version: '1.0'
   contact: {}
-  description: 'The API allows the APP and POS to send and receive information about tables. Currently the API supports creating, updating and retrieving tables.
-
-    '
+  description: The API allows the APP and POS to send and receive information about tables. Currently the API supports creating, updating and retrieving tables.
 servers:
 - url: https://api.tyro.com/connect
   description: Production
@@ -324,6 +322,17 @@ components:
         name:
           type: string
           description: The readable name of the section. E.g. Front bar, drive through for hospitality or for retail men's clothes, women's shoes etc
+    update-table-request:
+      title: Update table request
+      type: object
+      description: The request to be sent to Tyro Connect in order to update the table
+      properties:
+        number:
+          type: string
+          description: This value must be unique and represents the table number or table id. This field accepts alphanumeric characters e.g `MAIN-33`
+          example: MAIN-33
+        section:
+          $ref: '#/components/schemas/section'
     new-table-request:
       title: New table request
       type: object
@@ -341,17 +350,6 @@ components:
       required:
       - number
       - locationId
-    update-table-request:
-      title: Update table request
-      type: object
-      description: The request to be sent to Tyro Connect in order to update the table
-      properties:
-        number:
-          type: string
-          description: This value must be unique and represents the table number or table id. This field accepts alphanumeric characters e.g `MAIN-33`
-          example: MAIN-33
-        section:
-          $ref: '#/components/schemas/section'
     table:
       title: Table
       type: object
@@ -380,13 +378,6 @@ components:
       - locationId
       - openSales
   parameters:
-    header-bearer-token:
-      schema:
-        type: string
-        default: Bearer {$$.env.access_token}
-      in: header
-      name: Authorization
-      required: true
     header-content-json:
       schema:
         type: string
@@ -394,6 +385,13 @@ components:
         - application/json
       in: header
       name: Content-Type
+      required: true
+    header-bearer-token:
+      schema:
+        type: string
+        default: Bearer {$$.env.access_token}
+      in: header
+      name: Authorization
       required: true
   securitySchemes:
     JWT:
