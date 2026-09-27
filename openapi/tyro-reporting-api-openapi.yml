@@ -341,6 +341,24 @@ paths:
       - Reporting
 components:
   schemas:
+    settlement:
+      title: Settlements
+      type: object
+      properties:
+        clearingPaymentId:
+          type: string
+          description: ID of the clearing payment run used to bundle transactions for a settlement.
+        grossAmount:
+          type: number
+          description: Signed gross amount settled, in cents.
+          example: 10001
+        settlementDetails:
+          type: array
+          description: Multiple settlement entries may be returned due to settlement splits by scheme, by location, or due to additional settlement destinations such as loan repayments or ATO garnishees.
+          items:
+            $ref: '#/components/schemas/settlement-details'
+      required:
+      - settlementDetails
     transaction:
       title: Transaction
       type: object
@@ -602,67 +620,6 @@ components:
       - rrn
       - tyroReference
       - integratedTransactionId
-    reporting-transactions-response:
-      title: Transactions Report
-      type: object
-      properties:
-        terminalBusinessDay:
-          type: string
-          format: date
-          description: The date (YYYY-MM-DD) that the terminal has processed the requested transactions.
-          example: '2025-05-26'
-        merchantDetails:
-          title: Merchant Details
-          type: object
-          description: Details of the merchant for whom the transactions are reported.
-          properties:
-            mid:
-              type: string
-              description: The merchant ID associated with the Tyro account.
-              example: '111'
-            tradingName:
-              type: string
-              description: The trading name of the merchant.
-              example: Test Merchant
-          required:
-          - mid
-          - tradingName
-        transactions:
-          type: array
-          description: List of transactions for the specified merchant and date.
-          items:
-            $ref: '#/components/schemas/transaction'
-        pagination:
-          type: object
-          description: Pagination details for the transaction results.
-          properties:
-            page:
-              type: integer
-              description: The current page number.
-              minimum: 1
-              example: 1
-            size:
-              type: integer
-              description: The number of transactions per page.
-              example: 10
-            limit:
-              type: integer
-              description: The maximum number of transactions that can be returned per page.
-              example: 100
-            total:
-              type: integer
-              description: The total number of transactions.
-              example: 45
-          required:
-          - page
-          - size
-          - limit
-          - total
-      required:
-      - terminalBusinessDay
-      - merchantDetails
-      - transactions
-      - pagination
     settlement-details:
       title: Settlements Detail
       type: object
@@ -736,24 +693,67 @@ components:
       - mid
       - settlementDate
       - settlements
-    settlement:
-      title: Settlements
+    reporting-transactions-response:
+      title: Transactions Report
       type: object
       properties:
-        clearingPaymentId:
+        terminalBusinessDay:
           type: string
-          description: ID of the clearing payment run used to bundle transactions for a settlement.
-        grossAmount:
-          type: number
-          description: Signed gross amount settled, in cents.
-          example: 10001
-        settlementDetails:
+          format: date
+          description: The date (YYYY-MM-DD) that the terminal has processed the requested transactions.
+          example: '2025-05-26'
+        merchantDetails:
+          title: Merchant Details
+          type: object
+          description: Details of the merchant for whom the transactions are reported.
+          properties:
+            mid:
+              type: string
+              description: The merchant ID associated with the Tyro account.
+              example: '111'
+            tradingName:
+              type: string
+              description: The trading name of the merchant.
+              example: Test Merchant
+          required:
+          - mid
+          - tradingName
+        transactions:
           type: array
-          description: Multiple settlement entries may be returned due to settlement splits by scheme, by location, or due to additional settlement destinations such as loan repayments or ATO garnishees.
+          description: List of transactions for the specified merchant and date.
           items:
-            $ref: '#/components/schemas/settlement-details'
+            $ref: '#/components/schemas/transaction'
+        pagination:
+          type: object
+          description: Pagination details for the transaction results.
+          properties:
+            page:
+              type: integer
+              description: The current page number.
+              minimum: 1
+              example: 1
+            size:
+              type: integer
+              description: The number of transactions per page.
+              example: 10
+            limit:
+              type: integer
+              description: The maximum number of transactions that can be returned per page.
+              example: 100
+            total:
+              type: integer
+              description: The total number of transactions.
+              example: 45
+          required:
+          - page
+          - size
+          - limit
+          - total
       required:
-      - settlementDetails
+      - terminalBusinessDay
+      - merchantDetails
+      - transactions
+      - pagination
   parameters:
     header-bearer-token:
       schema:

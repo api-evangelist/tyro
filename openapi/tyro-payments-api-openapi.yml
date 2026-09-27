@@ -100,6 +100,14 @@ paths:
       tags:
       - Payments
 components:
+  parameters:
+    header-bearer-token:
+      schema:
+        type: string
+        default: Bearer {$$.env.access_token}
+      in: header
+      name: Authorization
+      required: true
   schemas:
     create-test-payment:
       type: object
@@ -167,14 +175,6 @@ components:
       - locationId
       - paymentType
       - paymentSource
-  parameters:
-    header-bearer-token:
-      schema:
-        type: string
-        default: Bearer {$$.env.access_token}
-      in: header
-      name: Authorization
-      required: true
   securitySchemes:
     JWT:
       type: openIdConnect

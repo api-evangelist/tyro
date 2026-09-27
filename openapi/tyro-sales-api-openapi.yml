@@ -586,7 +586,124 @@ paths:
       tags:
       - Sales
 components:
+  parameters:
+    header-bearer-token:
+      schema:
+        type: string
+        default: Bearer {$$.env.access_token}
+      in: header
+      name: Authorization
+      required: true
   schemas:
+    money-positive:
+      title: Money Positive Amount
+      type: object
+      properties:
+        amount:
+          type: integer
+          description: This is the amount in smallest currency unit. e.g 12520 (in cents) is $125.20
+          example: 12520
+          minimum: 0
+        currency:
+          type: string
+          default: AUD
+          enum:
+          - AUD
+          - EUR
+          - NZD
+          - GBP
+          - USD
+          example: AUD
+      required:
+      - amount
+      - currency
+    line-item:
+      type: object
+      title: Line Item
+      description: This object represents a line item within a sale.
+      properties:
+        id:
+          type: string
+          description: A unique to the sale id representing the item within the overall order, i.e. 2 of the same items will have unique ids.
+        name:
+          type: string
+        category:
+          type: string
+        description:
+          type: string
+        sku:
+          type: string
+          description: Id of the item that is aligned with the ID of the item in the POS.
+        barcode:
+          type: string
+        modifiers:
+          type: array
+          description: 'A list of modifications to be made to the parent item.
+
+            Each object in this array is a [`Line Item`](#/components/schemas/line-item)'
+          items:
+            $ref: '#/components/schemas/line-item'
+        unitPrice:
+          allOf:
+          - $ref: '#/components/schemas/money-positive'
+          - description: The single unit price (in cents) including tax but excluding discounts (if any)
+        unitPriceTax:
+          allOf:
+          - $ref: '#/components/schemas/money-positive'
+          - description: The single unit amount (in cents) of tax collected by the merchant
+        unitCost:
+          allOf:
+          - $ref: '#/components/schemas/money-positive'
+          - description: The single unit cost (in cents) paid by the merchant
+        unitCostTax:
+          allOf:
+          - $ref: '#/components/schemas/money-positive'
+          - description: The single unit amount (in cents) of tax paid by the merchant
+        discounts:
+          type: array
+          description: A list of discounts applied to the line item (this is not a per unit discount). e.g if the line item has a quantity of 3, and each item has a 20 cent discount, you could include one discount of 60 cents in the list, or three 20 cent discounts in the list.
+          items:
+            $ref: '#/components/schemas/money-positive-with-description'
+        sale:
+          title: Sale info
+          description: Provides additional information about the sale. Only required when top-level sale type is COMBINATION. Allows a POS to record a sale that contains item/s that are returned or exchanged as part of the sale.
+          type: object
+          properties:
+            type:
+              type: string
+              enum:
+              - SALE
+              - REFUND
+        surcharges:
+          type: array
+          description: A list of surcharges applied to the line item (this is not a per unit surcharge). e.g if the line item has a quantity of 5, and each item has a $2 surcharge, you could include one surcharge of $10 in the list, or five $2 surcharges in the list.
+          items:
+            $ref: '#/components/schemas/money-positive-with-description'
+        quantity:
+          type: number
+          minimum: 0
+          exclusiveMinimum: 0
+          description: The number of units of this item in the sale. It can be fractional.
+        tax:
+          allOf:
+          - $ref: '#/components/schemas/money-positive'
+          - description: The amount (in cents) of tax collected by the merchant for this line item
+        total:
+          allOf:
+          - $ref: '#/components/schemas/money-positive'
+          - description: 'The total (in cents) of this line item. This value is expected to calculate to: (unitPrice * quantity) - discounts + surcharges + sum(modifiers[].total)'
+        hidden:
+          type: boolean
+          description: This can be set by the POS to indicate that this item should be hidden by the partner App. Examples include, $0 items, notes by POS staff etc...
+      required:
+      - id
+      - name
+      - sku
+      - unitPrice
+      - unitPriceTax
+      - quantity
+      - tax
+      - total
     sale:
       type: object
       title: Sale
@@ -825,115 +942,6 @@ components:
       - type
       - openedZonedDateTime
       - staff
-    line-item:
-      type: object
-      title: Line Item
-      description: This object represents a line item within a sale.
-      properties:
-        id:
-          type: string
-          description: A unique to the sale id representing the item within the overall order, i.e. 2 of the same items will have unique ids.
-        name:
-          type: string
-        category:
-          type: string
-        description:
-          type: string
-        sku:
-          type: string
-          description: Id of the item that is aligned with the ID of the item in the POS.
-        barcode:
-          type: string
-        modifiers:
-          type: array
-          description: 'A list of modifications to be made to the parent item.
-
-            Each object in this array is a [`Line Item`](#/components/schemas/line-item)'
-          items:
-            $ref: '#/components/schemas/line-item'
-        unitPrice:
-          allOf:
-          - $ref: '#/components/schemas/money-positive'
-          - description: The single unit price (in cents) including tax but excluding discounts (if any)
-        unitPriceTax:
-          allOf:
-          - $ref: '#/components/schemas/money-positive'
-          - description: The single unit amount (in cents) of tax collected by the merchant
-        unitCost:
-          allOf:
-          - $ref: '#/components/schemas/money-positive'
-          - description: The single unit cost (in cents) paid by the merchant
-        unitCostTax:
-          allOf:
-          - $ref: '#/components/schemas/money-positive'
-          - description: The single unit amount (in cents) of tax paid by the merchant
-        discounts:
-          type: array
-          description: A list of discounts applied to the line item (this is not a per unit discount). e.g if the line item has a quantity of 3, and each item has a 20 cent discount, you could include one discount of 60 cents in the list, or three 20 cent discounts in the list.
-          items:
-            $ref: '#/components/schemas/money-positive-with-description'
-        sale:
-          title: Sale info
-          description: Provides additional information about the sale. Only required when top-level sale type is COMBINATION. Allows a POS to record a sale that contains item/s that are returned or exchanged as part of the sale.
-          type: object
-          properties:
-            type:
-              type: string
-              enum:
-              - SALE
-              - REFUND
-        surcharges:
-          type: array
-          description: A list of surcharges applied to the line item (this is not a per unit surcharge). e.g if the line item has a quantity of 5, and each item has a $2 surcharge, you could include one surcharge of $10 in the list, or five $2 surcharges in the list.
-          items:
-            $ref: '#/components/schemas/money-positive-with-description'
-        quantity:
-          type: number
-          minimum: 0
-          exclusiveMinimum: 0
-          description: The number of units of this item in the sale. It can be fractional.
-        tax:
-          allOf:
-          - $ref: '#/components/schemas/money-positive'
-          - description: The amount (in cents) of tax collected by the merchant for this line item
-        total:
-          allOf:
-          - $ref: '#/components/schemas/money-positive'
-          - description: 'The total (in cents) of this line item. This value is expected to calculate to: (unitPrice * quantity) - discounts + surcharges + sum(modifiers[].total)'
-        hidden:
-          type: boolean
-          description: This can be set by the POS to indicate that this item should be hidden by the partner App. Examples include, $0 items, notes by POS staff etc...
-      required:
-      - id
-      - name
-      - sku
-      - unitPrice
-      - unitPriceTax
-      - quantity
-      - tax
-      - total
-    money-positive:
-      title: Money Positive Amount
-      type: object
-      properties:
-        amount:
-          type: integer
-          description: This is the amount in smallest currency unit. e.g 12520 (in cents) is $125.20
-          example: 12520
-          minimum: 0
-        currency:
-          type: string
-          default: AUD
-          enum:
-          - AUD
-          - EUR
-          - NZD
-          - GBP
-          - USD
-          example: AUD
-      required:
-      - amount
-      - currency
     money-positive-with-description:
       title: Money Positive Amount With Description
       allOf:
@@ -944,14 +952,6 @@ components:
             type: string
             description: A description of what this amount of money represents
             example: Tuesday Happy Hour Discount
-  parameters:
-    header-bearer-token:
-      schema:
-        type: string
-        default: Bearer {$$.env.access_token}
-      in: header
-      name: Authorization
-      required: true
   securitySchemes:
     JWT:
       type: openIdConnect

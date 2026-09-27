@@ -65,7 +65,76 @@ paths:
       tags:
       - Menus
 components:
+  parameters:
+    header-bearer-token:
+      schema:
+        type: string
+        default: Bearer {$$.env.access_token}
+      in: header
+      name: Authorization
+      required: true
   schemas:
+    menu:
+      title: Menu
+      type: object
+      properties:
+        items:
+          type: array
+          description: A list of objects that describe the different items available within the menu
+          items:
+            $ref: '#/components/schemas/item'
+        sections:
+          type: array
+          description: A list of objects that describe the different sections of the menu
+          items:
+            $ref: '#/components/schemas/section'
+        timeSlots:
+          type: array
+          description: A list of objects that describe the time periods that different sections of the menu can be made available within
+          items:
+            $ref: '#/components/schemas/time-slot'
+        modifierGroups:
+          type: array
+          description: A list of objects that describe the different modifier groups that will be available to the merchant within the portal to apply to different sections
+          items:
+            $ref: '#/components/schemas/modifier-group'
+      required:
+      - items
+      - sections
+      - timeSlots
+      - modifierGroups
+    section:
+      type: object
+      properties:
+        id:
+          uniqueItems: true
+          type: string
+          description: A unique id that represents the section within the menu
+        name:
+          type: string
+          description: A name describing the section
+        description:
+          type: string
+        availableTimeSlots:
+          type: array
+          description: A list of ids referencing the timeslots that this section will be available within
+          items:
+            type: string
+        items:
+          type: array
+          description: A list of ids referencing the menu items that are available within this section - only parent items will be referenced here, not items that are used as modifiers
+          items:
+            type: string
+        modifierGroups:
+          type: array
+          description: A list of ids that reference the modifierGroups that are used in this section. Any item contained within the 'option' of another item will exist within a modifierGroup that belongs to the same section of that parent item
+          items:
+            type: string
+      required:
+      - id
+      - name
+      - availableTimeSlots
+      - items
     modifier-group:
       type: object
       description: Modifier groups are a convenience added to the schema for managing the options that can be added to items (e.g. within a menu management app). They are, however, not necessary for rendering a menu to a customer
@@ -111,71 +180,6 @@ components:
       - id
       - name
       - items
-    section:
-      type: object
-      properties:
-        id:
-          uniqueItems: true
-          type: string
-          description: A unique id that represents the section within the menu
-        name:
-          type: string
-          description: A name describing the section
-        description:
-          type: string
-        availableTimeSlots:
-          type: array
-          description: A list of ids referencing the timeslots that this section will be available within
-          items:
-            type: string
-        items:
-          type: array
-          description: A list of ids referencing the menu items that are available within this section - only parent items will be referenced here, not items that are used as modifiers
-          items:
-            type: string
-        modifierGroups:
-          type: array
-          description: A list of ids that reference the modifierGroups that are used in this section. Any item contained within the 'option' of another item will exist within a modifierGroup that belongs to the same section of that parent item
-          items:
-            type: string
-      required:
-      - id
-      - name
-      - availableTimeSlots
-      - items
-    time-slot:
-      type: object
-      properties:
-        id:
-          uniqueItems: true
-          type: string
-          description: A unique id that represents the time slot within the menu
-        description:
-          type: string
-        startTime:
-          type: string
-          description: A valid time formatted value
-        endTime:
-          type: string
-          description: A valid time formatted value
-        days:
-          type: array
-          minimum: 1
-          items:
-            type: string
-            enum:
-            - Monday
-            - Tuesday
-            - Wednesday
-            - Thursday
-            - Friday
-            - Saturday
-            - Sunday
-      required:
-      - id
-      - startTime
-      - endTime
-      - days
     item:
       type: object
       properties:
@@ -287,43 +291,39 @@ components:
       - sku
       - containsAlcohol
       - price
-    menu:
-      title: Menu
+    time-slot:
       type: object
       properties:
-        items:
+        id:
+          uniqueItems: true
+          type: string
+          description: A unique id that represents the time slot within the menu
+        description:
+          type: string
+        startTime:
+          type: string
+          description: A valid time formatted value
+        endTime:
+          type: string
+          description: A valid time formatted value
+        days:
           type: array
-          description: A list of objects that describe the different items available within the menu
+          minimum: 1
           items:
-            $ref: '#/components/schemas/item'
-        sections:
-          type: array
-          description: A list of objects that describe the different sections of the menu
-          items:
-            $ref: '#/components/schemas/section'
-        timeSlots:
-          type: array
-          description: A list of objects that describe the time periods that different sections of the menu can be made available within
-          items:
-            $ref: '#/components/schemas/time-slot'
-        modifierGroups:
-          type: array
-          description: A list of objects that describe the different modifier groups that will be available to the merchant within the portal to apply to different sections
-          items:
-            $ref: '#/components/schemas/modifier-group'
+            type: string
+            enum:
+            - Monday
+            - Tuesday
+            - Wednesday
+            - Thursday
+            - Friday
+            - Saturday
+            - Sunday
       required:
-      - items
-      - sections
-      - timeSlots
-      - modifierGroups
-  parameters:
-    header-bearer-token:
-      schema:
-        type: string
-        default: Bearer {$$.env.access_token}
-      in: header
-      name: Authorization
-      required: true
+      - id
+      - startTime
+      - endTime
+      - days
   securitySchemes:
     JWT:
       type: openIdConnect

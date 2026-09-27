@@ -102,6 +102,20 @@ paths:
       - $ref: '#/components/parameters/header-bearer-token'
 components:
   schemas:
+    deregister-member-card-request:
+      type: object
+      title: Request body to deregister a member's card
+      required:
+      - origin
+      properties:
+        origin:
+          type: object
+          required:
+          - memberId
+          properties:
+            memberId:
+              type: string
+              description: Member's Identifier on the app.
     loyalty-card:
       title: Loyalty Card object
       type: object
@@ -127,20 +141,6 @@ components:
         preAccumulatedReward:
           type: integer
           description: The pre-accumulated reward amount on the card at the time of registration. If you have opted to represent rewards in AUD, then this value is in cents.
-    deregister-member-card-request:
-      type: object
-      title: Request body to deregister a member's card
-      required:
-      - origin
-      properties:
-        origin:
-          type: object
-          required:
-          - memberId
-          properties:
-            memberId:
-              type: string
-              description: Member's Identifier on the app.
   parameters:
     header-bearer-token:
       schema:

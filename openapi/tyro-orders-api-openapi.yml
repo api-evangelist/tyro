@@ -517,8 +517,8 @@ paths:
       - Orders
 components:
   schemas:
-    bad-request-single-error-response:
-      title: Single error
+    order-update-status-conflict:
+      title: Order conflict status
       properties:
         error:
           type: string
@@ -576,20 +576,21 @@ components:
       - sku
       - description
       - quantity
-    order-update-status-conflict:
-      title: Order conflict status
+    bad-request-single-error-response:
+      title: Single error
       properties:
         error:
           type: string
           description: Error message
-    money:
-      title: Money
+    money-positive:
+      title: Money Positive Amount
       type: object
       properties:
         amount:
           type: integer
           description: This is the amount in smallest currency unit. e.g 12520 (in cents) is $125.20
           example: 12520
+          minimum: 0
         currency:
           type: string
           default: AUD
@@ -613,6 +614,22 @@ components:
             enum:
             - AUTO_REJECTED_BY_TIMEOUT
             description: This field provides additional information about the status of an order
+    existing-order:
+      title: Existing Order
+      allOf:
+      - $ref: '#/components/schemas/new-order'
+      - type: object
+        properties:
+          id:
+            type: string
+            description: This is the Tyro Connect system order Id. It uniquely identifies the order.
+          origin:
+            type: object
+            properties:
+              name:
+                type: string
+                description: This will be your name. It is mostly used by POS's to identify where an order came from
+      description: This is the representation of the order as provided by Tyro Connect.
     new-order:
       title: New Order
       type: object
@@ -741,15 +758,14 @@ components:
         error:
           type: string
           description: Error message
-    money-positive:
-      title: Money Positive Amount
+    money:
+      title: Money
       type: object
       properties:
         amount:
           type: integer
           description: This is the amount in smallest currency unit. e.g 12520 (in cents) is $125.20
           example: 12520
-          minimum: 0
         currency:
           type: string
           default: AUD
@@ -763,22 +779,6 @@ components:
       required:
       - amount
       - currency
-    existing-order:
-      title: Existing Order
-      allOf:
-      - $ref: '#/components/schemas/new-order'
-      - type: object
-        properties:
-          id:
-            type: string
-            description: This is the Tyro Connect system order Id. It uniquely identifies the order.
-          origin:
-            type: object
-            properties:
-              name:
-                type: string
-                description: This will be your name. It is mostly used by POS's to identify where an order came from
-      description: This is the representation of the order as provided by Tyro Connect.
     money-positive-with-description:
       title: Money Positive Amount With Description
       allOf:

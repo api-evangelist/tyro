@@ -110,26 +110,6 @@ paths:
       description: Production
 components:
   schemas:
-    online-status-spec:
-      title: Online/Offline status
-      type: object
-      properties:
-        code:
-          type: string
-          enum:
-          - GREEN
-          - RED
-          description: The online (GREEN) / offline (RED) status of the POS
-        lastOnlineAt:
-          type: string
-          format: date-time
-          description: Time stamp of when Tyro received the last GREEN status update. Can be null if the status has never been GREEN.
-        reason:
-          type: string
-          description: When the code changed to RED, this property provides the reason for the change
-      required:
-      - code
-      - lastOnlineAt
     vendor-spec:
       title: POS information
       type: object
@@ -167,6 +147,26 @@ components:
       required:
       - api
       - version
+    online-status-spec:
+      title: Online/Offline status
+      type: object
+      properties:
+        code:
+          type: string
+          enum:
+          - GREEN
+          - RED
+          description: The online (GREEN) / offline (RED) status of the POS
+        lastOnlineAt:
+          type: string
+          format: date-time
+          description: Time stamp of when Tyro received the last GREEN status update. Can be null if the status has never been GREEN.
+        reason:
+          type: string
+          description: When the code changed to RED, this property provides the reason for the change
+      required:
+      - code
+      - lastOnlineAt
     heartbeat-response:
       title: Online/Offline status response
       type: object

@@ -486,7 +486,42 @@ paths:
     - url: https://api.tyro.com/connect
       description: Production
 components:
+  parameters:
+    header-bearer-token:
+      schema:
+        type: string
+        default: Bearer {$$.env.access_token}
+      in: header
+      name: Authorization
+      required: true
+    header-content-json:
+      schema:
+        type: string
+        enum:
+        - application/json
+      in: header
+      name: Content-Type
+      required: true
   schemas:
+    money-positive-aud:
+      title: Money Positive Amount
+      type: object
+      properties:
+        amount:
+          type: integer
+          description: This is the amount in smallest currency unit. e.g 12520 (in cents) is $125.20
+          example: 12520
+          minimum: 0
+        currency:
+          type: string
+          default: AUD
+          enum:
+          - AUD
+          example: AUD
+          description: This is always AUD
+      required:
+      - amount
+      - currency
     transaction-result:
       title: Transaction Result
       type: object
@@ -782,6 +817,76 @@ components:
             customerIP:
               type: string
               example: 127.0.0.1
+    update-pay-request:
+      title: Update Pay Request
+      type: object
+      oneOf:
+      - title: Updating Authorisation
+        required:
+        - action
+        - authorisation
+        description: 'When the capture method is `MANUAL_ESTIMATED`, submitting this request will extend the authorisation holding period and allow you to increase the authorised amount.
+
+
+          **Note:** This feature is only supported for Visa and Mastercard transactions and may not enabled by default for your account.
+
+          '
+        properties:
+          action:
+            type: string
+            enum:
+            - UPDATE_AUTHORISATION
+          authorisation:
+            type: object
+            required:
+            - total
+            properties:
+              total:
+                allOf:
+                - $ref: '#/components/schemas/money-positive-aud'
+                - description: The new total amount to authorise (in smallest currency unit). It has to be greater than the original authorised amount.
+      - title: Capturing Authorisation
+        required:
+        - action
+        properties:
+          action:
+            type: string
+            enum:
+            - CAPTURE
+          capture:
+            type: object
+            required:
+            - total
+            properties:
+              total:
+                allOf:
+                - $ref: '#/components/schemas/money-positive-aud'
+                - description: The total amount to capture (in smallest currency unit). You cannot capture more than the authorised amount.
+      - title: Voiding Authorisation
+        required:
+        - action
+        properties:
+          action:
+            type: string
+            enum:
+            - VOID
+      - title: Updating Pay Request without performing an action
+        properties:
+          total:
+            allOf:
+            - $ref: '#/components/schemas/money-positive-aud'
+            - description: The total amount (in smallest currency unit). The total can be updated without performing an action.
+          payMethod:
+            type: object
+            properties:
+              customerId:
+                type: string
+                description: The Tyro generated ID of the customer linked to this Pay Method. Pass `null` to remove a `customerId` from the pay request.
+              save:
+                type: boolean
+                description: Indicates whether the pay method should be saved after a successful payment.
+            required:
+            - save
     new-pay-request:
       title: New Pay Request
       type: object
@@ -878,13 +983,23 @@ components:
       - total
       - provider
       - origin
-    money-positive-aud:
-      title: Money Positive Amount
+    pay-terminal-total:
+      title: Pay Terminal Money Amounts
       type: object
       properties:
-        amount:
+        goodsAndServicesAmount:
           type: integer
-          description: This is the amount in smallest currency unit. e.g 12520 (in cents) is $125.20
+          description: This is the goods and services amount in smallest currency unit. e.g 12520 (in cents) is $125.20. It can be used in combination with cashoutAmount. It cannot be used in combination with refundAmount.
+          example: 12520
+          minimum: 0
+        cashoutAmount:
+          type: integer
+          description: This is the requested cashout amount in smallest currency unit. e.g 5000 (in cents) is $50.00. It can be used in combination with goodsAndServicesAmount. It cannot be used in combination with refundAmount.
+          example: 5000
+          minimum: 0
+        refundAmount:
+          type: integer
+          description: This is the refund amount in smallest currency unit. e.g 12520 (in cents) is $125.20. It cannot be used in combination with goodsAndServicesAmount or cashoutAmount.
           example: 12520
           minimum: 0
         currency:
@@ -895,78 +1010,10 @@ components:
           example: AUD
           description: This is always AUD
       required:
-      - amount
+      - goodsAndServicesAmount
+      - cashoutAmount
+      - refundAmount
       - currency
-    update-pay-request:
-      title: Update Pay Request
-      type: object
-      oneOf:
-      - title: Updating Authorisation
-        required:
-        - action
-        - authorisation
-        description: 'When the capture method is `MANUAL_ESTIMATED`, submitting this request will extend the authorisation holding period and allow you to increase the authorised amount.
-
-
-          **Note:** This feature is only supported for Visa and Mastercard transactions and may not enabled by default for your account.
-
-          '
-        properties:
-          action:
-            type: string
-            enum:
-            - UPDATE_AUTHORISATION
-          authorisation:
-            type: object
-            required:
-            - total
-            properties:
-              total:
-                allOf:
-                - $ref: '#/components/schemas/money-positive-aud'
-                - description: The new total amount to authorise (in smallest currency unit). It has to be greater than the original authorised amount.
-      - title: Capturing Authorisation
-        required:
-        - action
-        properties:
-          action:
-            type: string
-            enum:
-            - CAPTURE
-          capture:
-            type: object
-            required:
-            - total
-            properties:
-              total:
-                allOf:
-                - $ref: '#/components/schemas/money-positive-aud'
-                - description: The total amount to capture (in smallest currency unit). You cannot capture more than the authorised amount.
-      - title: Voiding Authorisation
-        required:
-        - action
-        properties:
-          action:
-            type: string
-            enum:
-            - VOID
-      - title: Updating Pay Request without performing an action
-        properties:
-          total:
-            allOf:
-            - $ref: '#/components/schemas/money-positive-aud'
-            - description: The total amount (in smallest currency unit). The total can be updated without performing an action.
-          payMethod:
-            type: object
-            properties:
-              customerId:
-                type: string
-                description: The Tyro generated ID of the customer linked to this Pay Method. Pass `null` to remove a `customerId` from the pay request.
-              save:
-                type: boolean
-                description: Indicates whether the pay method should be saved after a successful payment.
-            required:
-            - save
     pay-request-response_2:
       title: Pay Request Response
       type: object
@@ -1138,53 +1185,6 @@ components:
       - tid
       - total
       - origin
-    pay-terminal-total:
-      title: Pay Terminal Money Amounts
-      type: object
-      properties:
-        goodsAndServicesAmount:
-          type: integer
-          description: This is the goods and services amount in smallest currency unit. e.g 12520 (in cents) is $125.20. It can be used in combination with cashoutAmount. It cannot be used in combination with refundAmount.
-          example: 12520
-          minimum: 0
-        cashoutAmount:
-          type: integer
-          description: This is the requested cashout amount in smallest currency unit. e.g 5000 (in cents) is $50.00. It can be used in combination with goodsAndServicesAmount. It cannot be used in combination with refundAmount.
-          example: 5000
-          minimum: 0
-        refundAmount:
-          type: integer
-          description: This is the refund amount in smallest currency unit. e.g 12520 (in cents) is $125.20. It cannot be used in combination with goodsAndServicesAmount or cashoutAmount.
-          example: 12520
-          minimum: 0
-        currency:
-          type: string
-          default: AUD
-          enum:
-          - AUD
-          example: AUD
-          description: This is always AUD
-      required:
-      - goodsAndServicesAmount
-      - cashoutAmount
-      - refundAmount
-      - currency
-  parameters:
-    header-content-json:
-      schema:
-        type: string
-        enum:
-        - application/json
-      in: header
-      name: Content-Type
-      required: true
-    header-bearer-token:
-      schema:
-        type: string
-        default: Bearer {$$.env.access_token}
-      in: header
-      name: Authorization
-      required: true
   securitySchemes:
     JWT:
       type: openIdConnect

@@ -79,14 +79,6 @@ paths:
         name: payMethodId
         required: true
 components:
-  parameters:
-    header-bearer-token:
-      schema:
-        type: string
-        default: Bearer {$$.env.access_token}
-      in: header
-      name: Authorization
-      required: true
   schemas:
     pay-method:
       title: Pay Method
@@ -133,6 +125,14 @@ components:
           description: List of pay methods
           items:
             $ref: '#/components/schemas/pay-method'
+  parameters:
+    header-bearer-token:
+      schema:
+        type: string
+        default: Bearer {$$.env.access_token}
+      in: header
+      name: Authorization
+      required: true
   securitySchemes:
     JWT:
       type: openIdConnect
