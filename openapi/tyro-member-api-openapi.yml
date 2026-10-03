@@ -114,20 +114,6 @@ components:
       name: Authorization
       required: true
   schemas:
-    deregister-member-request:
-      type: object
-      title: Request body to deregister a member
-      required:
-      - origin
-      properties:
-        origin:
-          type: object
-          required:
-          - memberId
-          properties:
-            memberId:
-              type: string
-              description: Member's Identifier on the app.
     register-member-request:
       properties:
         origin:
@@ -159,6 +145,20 @@ components:
       required:
       - origin
       - locationId
+    deregister-member-request:
+      type: object
+      title: Request body to deregister a member
+      required:
+      - origin
+      properties:
+        origin:
+          type: object
+          required:
+          - memberId
+          properties:
+            memberId:
+              type: string
+              description: Member's Identifier on the app.
   securitySchemes:
     JWT:
       type: openIdConnect

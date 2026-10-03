@@ -517,80 +517,24 @@ paths:
       - Orders
 components:
   schemas:
-    order-update-status-conflict:
-      title: Order conflict status
-      properties:
-        error:
-          type: string
-          description: Error message
-    order-item:
-      type: object
-      title: Order Item
-      description: This object represents an item within a food order.
-      properties:
-        id:
-          type: string
-          description: 'An id unique to the order, representing the item within the overall order.
-
-            order, i.e. 2 of the same items will have unique ids.'
-        unitPrice:
-          description: The basic price of a single item in cents excluding discounts (if any).
-          allOf:
-          - $ref: '#/components/schemas/money'
-        discounts:
-          title: Money with Itemisation
-          type: array
-          description: Each entry in the discounts array will apply to each single item - it represents unit discounts (eg. if the quantity of this object is defined as 2 and the discounts array contains one $1 entry, each of the 2 items should be discounted by $1). item.total = (item.unitPrice + item.modifiersTotal - item.discounts) * item.quantity
-          items:
-            $ref: '#/components/schemas/money-positive-with-description'
-        modifiers:
-          type: array
-          description: A list of modifications to be made to the parent item. Each entry in this array will apply to each single item - it represents unit modifiers (eg. if the quantity of this object is defined as 2 and the modifiers array contains one $1 entry, each of the 2 items should be modified by $1). item.total = (item.unitPrice + item.modifiersTotal - item.discounts) * item.quantity'
-          items:
-            $ref: '#/components/schemas/order-item'
-        allergens:
-          description: Allergens that need to be removed from the parent item.
-          type: array
-          items:
-            type: object
-            properties:
-              description:
-                type: string
-                description: Fish Nuts etc
-        sku:
-          type: string
-          description: Id of the item that is aligned with the ID of the item in the POS.
-        description:
-          type: string
-          description: A human readable description of the item that can be used to resolve mismatches between the app and the POS.
-        quantity:
-          type: integer
-          minimum: 0
-          description: The number of units of this item required to fulfil the order. Please note that items with different modifiers or surcharges should be split into separate item objects.
-        notes:
-          type: string
-          description: An instruction or message about this order item.
-      required:
-      - id
-      - unitPrice
-      - sku
-      - description
-      - quantity
-    bad-request-single-error-response:
-      title: Single error
-      properties:
-        error:
-          type: string
-          description: Error message
-    money-positive:
-      title: Money Positive Amount
+    money-positive-with-description:
+      title: Money Positive Amount With Description
+      allOf:
+      - $ref: '#/components/schemas/money-positive'
+      - type: object
+        properties:
+          description:
+            type: string
+            description: A description of what this amount of money represents
+            example: Tuesday Happy Hour Discount
+    money:
+      title: Money
       type: object
       properties:
         amount:
           type: integer
           description: This is the amount in smallest currency unit. e.g 12520 (in cents) is $125.20
           example: 12520
-          minimum: 0
         currency:
           type: string
           default: AUD
@@ -604,32 +548,12 @@ components:
       required:
       - amount
       - currency
-    get-order:
-      title: Get order
-      allOf:
-      - $ref: '#/components/schemas/existing-order'
-      - properties:
-          statusInfo:
-            type: string
-            enum:
-            - AUTO_REJECTED_BY_TIMEOUT
-            description: This field provides additional information about the status of an order
-    existing-order:
-      title: Existing Order
-      allOf:
-      - $ref: '#/components/schemas/new-order'
-      - type: object
-        properties:
-          id:
-            type: string
-            description: This is the Tyro Connect system order Id. It uniquely identifies the order.
-          origin:
-            type: object
-            properties:
-              name:
-                type: string
-                description: This will be your name. It is mostly used by POS's to identify where an order came from
-      description: This is the representation of the order as provided by Tyro Connect.
+    bad-request-single-error-response:
+      title: Single error
+      properties:
+        error:
+          type: string
+          description: Error message
     new-order:
       title: New Order
       type: object
@@ -733,6 +657,113 @@ components:
       - items
       - total
       - fulfilment
+    existing-order:
+      title: Existing Order
+      allOf:
+      - $ref: '#/components/schemas/new-order'
+      - type: object
+        properties:
+          id:
+            type: string
+            description: This is the Tyro Connect system order Id. It uniquely identifies the order.
+          origin:
+            type: object
+            properties:
+              name:
+                type: string
+                description: This will be your name. It is mostly used by POS's to identify where an order came from
+      description: This is the representation of the order as provided by Tyro Connect.
+    order-item:
+      type: object
+      title: Order Item
+      description: This object represents an item within a food order.
+      properties:
+        id:
+          type: string
+          description: 'An id unique to the order, representing the item within the overall order.
+
+            order, i.e. 2 of the same items will have unique ids.'
+        unitPrice:
+          description: The basic price of a single item in cents excluding discounts (if any).
+          allOf:
+          - $ref: '#/components/schemas/money'
+        discounts:
+          title: Money with Itemisation
+          type: array
+          description: Each entry in the discounts array will apply to each single item - it represents unit discounts (eg. if the quantity of this object is defined as 2 and the discounts array contains one $1 entry, each of the 2 items should be discounted by $1). item.total = (item.unitPrice + item.modifiersTotal - item.discounts) * item.quantity
+          items:
+            $ref: '#/components/schemas/money-positive-with-description'
+        modifiers:
+          type: array
+          description: A list of modifications to be made to the parent item. Each entry in this array will apply to each single item - it represents unit modifiers (eg. if the quantity of this object is defined as 2 and the modifiers array contains one $1 entry, each of the 2 items should be modified by $1). item.total = (item.unitPrice + item.modifiersTotal - item.discounts) * item.quantity'
+          items:
+            $ref: '#/components/schemas/order-item'
+        allergens:
+          description: Allergens that need to be removed from the parent item.
+          type: array
+          items:
+            type: object
+            properties:
+              description:
+                type: string
+                description: Fish Nuts etc
+        sku:
+          type: string
+          description: Id of the item that is aligned with the ID of the item in the POS.
+        description:
+          type: string
+          description: A human readable description of the item that can be used to resolve mismatches between the app and the POS.
+        quantity:
+          type: integer
+          minimum: 0
+          description: The number of units of this item required to fulfil the order. Please note that items with different modifiers or surcharges should be split into separate item objects.
+        notes:
+          type: string
+          description: An instruction or message about this order item.
+      required:
+      - id
+      - unitPrice
+      - sku
+      - description
+      - quantity
+    get-order:
+      title: Get order
+      allOf:
+      - $ref: '#/components/schemas/existing-order'
+      - properties:
+          statusInfo:
+            type: string
+            enum:
+            - AUTO_REJECTED_BY_TIMEOUT
+            description: This field provides additional information about the status of an order
+    order-update-status-conflict:
+      title: Order conflict status
+      properties:
+        error:
+          type: string
+          description: Error message
+    money-positive:
+      title: Money Positive Amount
+      type: object
+      properties:
+        amount:
+          type: integer
+          description: This is the amount in smallest currency unit. e.g 12520 (in cents) is $125.20
+          example: 12520
+          minimum: 0
+        currency:
+          type: string
+          default: AUD
+          enum:
+          - AUD
+          - EUR
+          - NZD
+          - GBP
+          - USD
+          example: AUD
+      required:
+      - amount
+      - currency
     bad-request-validation-errors-response:
       title: List of errors
       type: object
@@ -758,37 +789,6 @@ components:
         error:
           type: string
           description: Error message
-    money:
-      title: Money
-      type: object
-      properties:
-        amount:
-          type: integer
-          description: This is the amount in smallest currency unit. e.g 12520 (in cents) is $125.20
-          example: 12520
-        currency:
-          type: string
-          default: AUD
-          enum:
-          - AUD
-          - EUR
-          - NZD
-          - GBP
-          - USD
-          example: AUD
-      required:
-      - amount
-      - currency
-    money-positive-with-description:
-      title: Money Positive Amount With Description
-      allOf:
-      - $ref: '#/components/schemas/money-positive'
-      - type: object
-        properties:
-          description:
-            type: string
-            description: A description of what this amount of money represents
-            example: Tuesday Happy Hour Discount
   parameters:
     header-bearer-token:
       schema:

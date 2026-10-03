@@ -449,25 +449,6 @@ components:
             type: string
             description: A description of what this amount of money represents
             example: Tuesday Happy Hour Discount
-    money-positive-aud:
-      title: Money Positive Amount
-      type: object
-      properties:
-        amount:
-          type: integer
-          description: This is the amount in smallest currency unit. e.g 12520 (in cents) is $125.20
-          example: 12520
-          minimum: 0
-        currency:
-          type: string
-          default: AUD
-          enum:
-          - AUD
-          example: AUD
-          description: This is always AUD
-      required:
-      - amount
-      - currency
     line-item:
       type: object
       title: Line Item
@@ -552,6 +533,25 @@ components:
       - quantity
       - tax
       - total
+    money-positive-aud:
+      title: Money Positive Amount
+      type: object
+      properties:
+        amount:
+          type: integer
+          description: This is the amount in smallest currency unit. e.g 12520 (in cents) is $125.20
+          example: 12520
+          minimum: 0
+        currency:
+          type: string
+          default: AUD
+          enum:
+          - AUD
+          example: AUD
+          description: This is always AUD
+      required:
+      - amount
+      - currency
   parameters:
     header-bearer-token:
       schema:

@@ -101,6 +101,14 @@ paths:
       parameters:
       - $ref: '#/components/parameters/header-bearer-token'
 components:
+  parameters:
+    header-bearer-token:
+      schema:
+        type: string
+        default: Bearer {$$.env.access_token}
+      in: header
+      name: Authorization
+      required: true
   schemas:
     deregister-member-card-request:
       type: object
@@ -141,14 +149,6 @@ components:
         preAccumulatedReward:
           type: integer
           description: The pre-accumulated reward amount on the card at the time of registration. If you have opted to represent rewards in AUD, then this value is in cents.
-  parameters:
-    header-bearer-token:
-      schema:
-        type: string
-        default: Bearer {$$.env.access_token}
-      in: header
-      name: Authorization
-      required: true
   securitySchemes:
     JWT:
       type: openIdConnect

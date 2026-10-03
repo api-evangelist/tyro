@@ -110,43 +110,6 @@ paths:
       description: Production
 components:
   schemas:
-    vendor-spec:
-      title: POS information
-      type: object
-      properties:
-        vendor:
-          type: string
-          description: The POS vendor
-        version:
-          type: string
-          description: The version of the POS software
-        apis:
-          type: array
-          description: This is a list of all APIs supported by the POS
-          items:
-            $ref: '#/components/schemas/api-spec'
-      required:
-      - vendor
-    api-spec:
-      title: Supported API version
-      type: object
-      properties:
-        api:
-          type: string
-          description: The name of the supported API
-          enum:
-          - BOOKING
-          - FOOD_ORDERING
-          - LOYALTY
-          - PAYMENTS
-          - SALES
-          - LOCATION
-        version:
-          type: string
-          description: The supported version of the API
-      required:
-      - api
-      - version
     online-status-spec:
       title: Online/Offline status
       type: object
@@ -167,6 +130,26 @@ components:
       required:
       - code
       - lastOnlineAt
+    api-spec:
+      title: Supported API version
+      type: object
+      properties:
+        api:
+          type: string
+          description: The name of the supported API
+          enum:
+          - BOOKING
+          - FOOD_ORDERING
+          - LOYALTY
+          - PAYMENTS
+          - SALES
+          - LOCATION
+        version:
+          type: string
+          description: The supported version of the API
+      required:
+      - api
+      - version
     heartbeat-response:
       title: Online/Offline status response
       type: object
@@ -186,6 +169,23 @@ components:
       - locationId
       - pos
       - status
+    vendor-spec:
+      title: POS information
+      type: object
+      properties:
+        vendor:
+          type: string
+          description: The POS vendor
+        version:
+          type: string
+          description: The version of the POS software
+        apis:
+          type: array
+          description: This is a list of all APIs supported by the POS
+          items:
+            $ref: '#/components/schemas/api-spec'
+      required:
+      - vendor
     location:
       title: Location
       type: object

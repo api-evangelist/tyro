@@ -586,37 +586,17 @@ paths:
       tags:
       - Sales
 components:
-  parameters:
-    header-bearer-token:
-      schema:
-        type: string
-        default: Bearer {$$.env.access_token}
-      in: header
-      name: Authorization
-      required: true
   schemas:
-    money-positive:
-      title: Money Positive Amount
-      type: object
-      properties:
-        amount:
-          type: integer
-          description: This is the amount in smallest currency unit. e.g 12520 (in cents) is $125.20
-          example: 12520
-          minimum: 0
-        currency:
-          type: string
-          default: AUD
-          enum:
-          - AUD
-          - EUR
-          - NZD
-          - GBP
-          - USD
-          example: AUD
-      required:
-      - amount
-      - currency
+    money-positive-with-description:
+      title: Money Positive Amount With Description
+      allOf:
+      - $ref: '#/components/schemas/money-positive'
+      - type: object
+        properties:
+          description:
+            type: string
+            description: A description of what this amount of money represents
+            example: Tuesday Happy Hour Discount
     line-item:
       type: object
       title: Line Item
@@ -942,16 +922,36 @@ components:
       - type
       - openedZonedDateTime
       - staff
-    money-positive-with-description:
-      title: Money Positive Amount With Description
-      allOf:
-      - $ref: '#/components/schemas/money-positive'
-      - type: object
-        properties:
-          description:
-            type: string
-            description: A description of what this amount of money represents
-            example: Tuesday Happy Hour Discount
+    money-positive:
+      title: Money Positive Amount
+      type: object
+      properties:
+        amount:
+          type: integer
+          description: This is the amount in smallest currency unit. e.g 12520 (in cents) is $125.20
+          example: 12520
+          minimum: 0
+        currency:
+          type: string
+          default: AUD
+          enum:
+          - AUD
+          - EUR
+          - NZD
+          - GBP
+          - USD
+          example: AUD
+      required:
+      - amount
+      - currency
+  parameters:
+    header-bearer-token:
+      schema:
+        type: string
+        default: Bearer {$$.env.access_token}
+      in: header
+      name: Authorization
+      required: true
   securitySchemes:
     JWT:
       type: openIdConnect

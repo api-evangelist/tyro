@@ -148,6 +148,22 @@ paths:
         '404':
           description: When the provided merchant or reader ID does not exist in our system
 components:
+  parameters:
+    header-bearer-token:
+      schema:
+        type: string
+        default: Bearer {$$.env.access_token}
+      in: header
+      name: Authorization
+      required: true
+    header-content-json:
+      schema:
+        type: string
+        enum:
+        - application/json
+      in: header
+      name: Content-Type
+      required: true
   schemas:
     reader-object:
       title: Reader
@@ -176,22 +192,6 @@ components:
         caid:
           type: string
           description: a secondary id which represents the location
-  parameters:
-    header-bearer-token:
-      schema:
-        type: string
-        default: Bearer {$$.env.access_token}
-      in: header
-      name: Authorization
-      required: true
-    header-content-json:
-      schema:
-        type: string
-        enum:
-        - application/json
-      in: header
-      name: Content-Type
-      required: true
   securitySchemes:
     JWT:
       type: openIdConnect

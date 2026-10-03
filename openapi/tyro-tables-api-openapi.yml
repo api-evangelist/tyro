@@ -310,34 +310,18 @@ paths:
       tags:
       - Tables
 components:
-  parameters:
-    header-bearer-token:
-      schema:
-        type: string
-        default: Bearer {$$.env.access_token}
-      in: header
-      name: Authorization
-      required: true
-    header-content-json:
-      schema:
-        type: string
-        enum:
-        - application/json
-      in: header
-      name: Content-Type
-      required: true
   schemas:
-    update-table-request:
-      title: Update table request
+    section:
+      title: Section
       type: object
-      description: The request to be sent to Tyro Connect in order to update the table
+      description: The section within the venue
       properties:
-        number:
+        id:
           type: string
-          description: This value must be unique and represents the table number or table id. This field accepts alphanumeric characters e.g `MAIN-33`
-          example: MAIN-33
-        section:
-          $ref: '#/components/schemas/section'
+          description: The POS system's Id of the section
+        name:
+          type: string
+          description: The readable name of the section. E.g. Front bar, drive through for hospitality or for retail men's clothes, women's shoes etc
     new-table-request:
       title: New table request
       type: object
@@ -355,17 +339,6 @@ components:
       required:
       - number
       - locationId
-    section:
-      title: Section
-      type: object
-      description: The section within the venue
-      properties:
-        id:
-          type: string
-          description: The POS system's Id of the section
-        name:
-          type: string
-          description: The readable name of the section. E.g. Front bar, drive through for hospitality or for retail men's clothes, women's shoes etc
     table:
       title: Table
       type: object
@@ -393,6 +366,33 @@ components:
       - number
       - locationId
       - openSales
+    update-table-request:
+      title: Update table request
+      type: object
+      description: The request to be sent to Tyro Connect in order to update the table
+      properties:
+        number:
+          type: string
+          description: This value must be unique and represents the table number or table id. This field accepts alphanumeric characters e.g `MAIN-33`
+          example: MAIN-33
+        section:
+          $ref: '#/components/schemas/section'
+  parameters:
+    header-bearer-token:
+      schema:
+        type: string
+        default: Bearer {$$.env.access_token}
+      in: header
+      name: Authorization
+      required: true
+    header-content-json:
+      schema:
+        type: string
+        enum:
+        - application/json
+      in: header
+      name: Content-Type
+      required: true
   securitySchemes:
     JWT:
       type: openIdConnect

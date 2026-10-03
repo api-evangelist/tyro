@@ -80,6 +80,15 @@ paths:
         required: true
 components:
   schemas:
+    pay-methods-response:
+      title: Pay Methods Response
+      type: object
+      properties:
+        payMethods:
+          type: array
+          description: List of pay methods
+          items:
+            $ref: '#/components/schemas/pay-method'
     pay-method:
       title: Pay Method
       type: object
@@ -116,15 +125,6 @@ components:
               type: string
               description: Last four digits of the card number
               example: '4365'
-    pay-methods-response:
-      title: Pay Methods Response
-      type: object
-      properties:
-        payMethods:
-          type: array
-          description: List of pay methods
-          items:
-            $ref: '#/components/schemas/pay-method'
   parameters:
     header-bearer-token:
       schema:

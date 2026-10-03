@@ -673,26 +673,6 @@ components:
           description: Lodgement reference provided with the settlement to the receiving institution, up to 18 characters.
       required:
       - type
-    reporting-settlements-response:
-      title: Settlements Response
-      type: object
-      properties:
-        mid:
-          type: string
-          description: The merchant ID associated with the Tyro account. Used to identify the merchant whose settlement data is being retrieved.
-        settlementDate:
-          type: string
-          format: date
-          description: Requested settlement date (YYYY-MM-DD). Must be within the past 3 years.
-        settlements:
-          type: array
-          description: List of settlements for the specified merchant on the given date. If the array is empty, it may indicate that the merchant does not settle via BECS, or no settlement occurred on that date.
-          items:
-            $ref: '#/components/schemas/settlement'
-      required:
-      - mid
-      - settlementDate
-      - settlements
     reporting-transactions-response:
       title: Transactions Report
       type: object
@@ -754,6 +734,26 @@ components:
       - merchantDetails
       - transactions
       - pagination
+    reporting-settlements-response:
+      title: Settlements Response
+      type: object
+      properties:
+        mid:
+          type: string
+          description: The merchant ID associated with the Tyro account. Used to identify the merchant whose settlement data is being retrieved.
+        settlementDate:
+          type: string
+          format: date
+          description: Requested settlement date (YYYY-MM-DD). Must be within the past 3 years.
+        settlements:
+          type: array
+          description: List of settlements for the specified merchant on the given date. If the array is empty, it may indicate that the merchant does not settle via BECS, or no settlement occurred on that date.
+          items:
+            $ref: '#/components/schemas/settlement'
+      required:
+      - mid
+      - settlementDate
+      - settlements
   parameters:
     header-bearer-token:
       schema:
