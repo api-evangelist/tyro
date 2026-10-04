@@ -311,6 +311,17 @@ paths:
       - Tables
 components:
   schemas:
+    update-table-request:
+      title: Update table request
+      type: object
+      description: The request to be sent to Tyro Connect in order to update the table
+      properties:
+        number:
+          type: string
+          description: This value must be unique and represents the table number or table id. This field accepts alphanumeric characters e.g `MAIN-33`
+          example: MAIN-33
+        section:
+          $ref: '#/components/schemas/section'
     section:
       title: Section
       type: object
@@ -322,23 +333,6 @@ components:
         name:
           type: string
           description: The readable name of the section. E.g. Front bar, drive through for hospitality or for retail men's clothes, women's shoes etc
-    new-table-request:
-      title: New table request
-      type: object
-      description: The request sent to Tyro Connect to add a new table
-      properties:
-        number:
-          type: string
-          description: This value must be unique and represents the table number or table id. This field accepts alphanumeric characters e.g `MAIN-33`.
-          example: MAIN-33
-        locationId:
-          type: string
-          description: The id of the location as specified by the Tyro Connect system
-        section:
-          $ref: '#/components/schemas/section'
-      required:
-      - number
-      - locationId
     table:
       title: Table
       type: object
@@ -366,17 +360,23 @@ components:
       - number
       - locationId
       - openSales
-    update-table-request:
-      title: Update table request
+    new-table-request:
+      title: New table request
       type: object
-      description: The request to be sent to Tyro Connect in order to update the table
+      description: The request sent to Tyro Connect to add a new table
       properties:
         number:
           type: string
-          description: This value must be unique and represents the table number or table id. This field accepts alphanumeric characters e.g `MAIN-33`
+          description: This value must be unique and represents the table number or table id. This field accepts alphanumeric characters e.g `MAIN-33`.
           example: MAIN-33
+        locationId:
+          type: string
+          description: The id of the location as specified by the Tyro Connect system
         section:
           $ref: '#/components/schemas/section'
+      required:
+      - number
+      - locationId
   parameters:
     header-bearer-token:
       schema:

@@ -158,7 +158,34 @@ paths:
       tags:
       - Loyalty
 components:
+  parameters:
+    header-bearer-token:
+      schema:
+        type: string
+        default: Bearer {$$.env.access_token}
+      in: header
+      name: Authorization
+      required: true
   schemas:
+    money-positive-aud:
+      title: Money Positive Amount
+      type: object
+      properties:
+        amount:
+          type: integer
+          description: This is the amount in smallest currency unit. e.g 12520 (in cents) is $125.20
+          example: 12520
+          minimum: 0
+        currency:
+          type: string
+          default: AUD
+          enum:
+          - AUD
+          example: AUD
+          description: This is always AUD
+      required:
+      - amount
+      - currency
     loyalty-activity:
       title: Loyalty Activity object
       type: object
@@ -533,33 +560,6 @@ components:
       - quantity
       - tax
       - total
-    money-positive-aud:
-      title: Money Positive Amount
-      type: object
-      properties:
-        amount:
-          type: integer
-          description: This is the amount in smallest currency unit. e.g 12520 (in cents) is $125.20
-          example: 12520
-          minimum: 0
-        currency:
-          type: string
-          default: AUD
-          enum:
-          - AUD
-          example: AUD
-          description: This is always AUD
-      required:
-      - amount
-      - currency
-  parameters:
-    header-bearer-token:
-      schema:
-        type: string
-        default: Bearer {$$.env.access_token}
-      in: header
-      name: Authorization
-      required: true
   securitySchemes:
     JWT:
       type: openIdConnect

@@ -79,6 +79,14 @@ paths:
         name: payMethodId
         required: true
 components:
+  parameters:
+    header-bearer-token:
+      schema:
+        type: string
+        default: Bearer {$$.env.access_token}
+      in: header
+      name: Authorization
+      required: true
   schemas:
     pay-methods-response:
       title: Pay Methods Response
@@ -125,14 +133,6 @@ components:
               type: string
               description: Last four digits of the card number
               example: '4365'
-  parameters:
-    header-bearer-token:
-      schema:
-        type: string
-        default: Bearer {$$.env.access_token}
-      in: header
-      name: Authorization
-      required: true
   securitySchemes:
     JWT:
       type: openIdConnect

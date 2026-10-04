@@ -586,6 +586,14 @@ paths:
       tags:
       - Sales
 components:
+  parameters:
+    header-bearer-token:
+      schema:
+        type: string
+        default: Bearer {$$.env.access_token}
+      in: header
+      name: Authorization
+      required: true
   schemas:
     money-positive-with-description:
       title: Money Positive Amount With Description
@@ -944,14 +952,6 @@ components:
       required:
       - amount
       - currency
-  parameters:
-    header-bearer-token:
-      schema:
-        type: string
-        default: Bearer {$$.env.access_token}
-      in: header
-      name: Authorization
-      required: true
   securitySchemes:
     JWT:
       type: openIdConnect

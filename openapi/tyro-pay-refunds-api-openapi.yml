@@ -129,30 +129,42 @@ paths:
         in: path
         required: true
 components:
+  parameters:
+    header-bearer-token:
+      schema:
+        type: string
+        default: Bearer {$$.env.access_token}
+      in: header
+      name: Authorization
+      required: true
+    header-content-json:
+      schema:
+        type: string
+        enum:
+        - application/json
+      in: header
+      name: Content-Type
+      required: true
   schemas:
-    new-refund-request:
-      title: Create Refund Request
+    money-positive-aud:
+      title: Money Positive Amount
       type: object
       properties:
-        payRequestId:
-          description: The id of the Pay Request to be refunded
+        amount:
+          type: integer
+          description: This is the amount in smallest currency unit. e.g 12520 (in cents) is $125.20
+          example: 12520
+          minimum: 0
+        currency:
           type: string
-          example: 0f448ac1-862a-4c7b-bdb4-a3b7cdbf6148
-        total:
-          allOf:
-          - $ref: '#/components/schemas/money-positive-aud'
-          - description: The total amount to be refunded (in smallest currency unit). Defaults to the total of the Pay Request.
+          default: AUD
+          enum:
+          - AUD
+          example: AUD
+          description: This is always AUD
       required:
-      - payRequestId
-    list-refunds-response:
-      title: List Refunds Response
-      type: object
-      properties:
-        refunds:
-          type: array
-          description: List of refunds
-          items:
-            $ref: '#/components/schemas/refund-request-response'
+      - amount
+      - currency
     refund-request-response:
       title: Refund Request Response
       type: object
@@ -184,41 +196,29 @@ components:
           description: The timestamp when the Refund Request was last updated
           type: string
           example: '2022-11-23T22:40:48.237Z'
-    money-positive-aud:
-      title: Money Positive Amount
+    new-refund-request:
+      title: Create Refund Request
       type: object
       properties:
-        amount:
-          type: integer
-          description: This is the amount in smallest currency unit. e.g 12520 (in cents) is $125.20
-          example: 12520
-          minimum: 0
-        currency:
+        payRequestId:
+          description: The id of the Pay Request to be refunded
           type: string
-          default: AUD
-          enum:
-          - AUD
-          example: AUD
-          description: This is always AUD
+          example: 0f448ac1-862a-4c7b-bdb4-a3b7cdbf6148
+        total:
+          allOf:
+          - $ref: '#/components/schemas/money-positive-aud'
+          - description: The total amount to be refunded (in smallest currency unit). Defaults to the total of the Pay Request.
       required:
-      - amount
-      - currency
-  parameters:
-    header-bearer-token:
-      schema:
-        type: string
-        default: Bearer {$$.env.access_token}
-      in: header
-      name: Authorization
-      required: true
-    header-content-json:
-      schema:
-        type: string
-        enum:
-        - application/json
-      in: header
-      name: Content-Type
-      required: true
+      - payRequestId
+    list-refunds-response:
+      title: List Refunds Response
+      type: object
+      properties:
+        refunds:
+          type: array
+          description: List of refunds
+          items:
+            $ref: '#/components/schemas/refund-request-response'
   securitySchemes:
     JWT:
       type: openIdConnect
