@@ -1413,6 +1413,9 @@ apis:
   - type: APIReference
     url: https://docs.connect.tyro.com/app/apis/referrals/1.0
 common:
+- type: CapabilityMap
+  url: capabilities/tyro-capability-edges.yml
+  name: Tyro Payments Business Capability Map
 - type: Overlay
   url: overlays/tyro-connect-pay-overlay.yaml
 - type: Overlay

@@ -1,0 +1,36 @@
+slug: tyro
+provider: Tyro Payments
+generated_by: planning/capability-mapping/scripts/classify_capabilities.py
+model: claude-opus-5
+frame:
+- Software & Technology
+min_confidence: 0.7
+capability_model:
+  source: https://github.com/vincentmakes/turbo-ea-capabilities
+  license: CC-BY-4.0
+  attribution: Turbo EA Capabilities by Vincent Verdet — Turbo EA, https://github.com/vincentmakes/turbo-ea-capabilities,
+    CC BY 4.0
+  notice: NOTICE
+edge_count: 2
+edges:
+- tag: Member
+  spec_file: tyro-member-api-openapi.yml
+  capability_id: BC-420.40
+  capability_id_l1: BC-420
+  capability_name: Loyalty & Retention Management
+  confidence: 0.78
+  evidence: POST /loyalty/members "Register member for loyalty"; DELETE /loyalty/members "Deregister a
+    member for loyalty"
+  reason: Enrolment and withdrawal of members in a loyalty programme is loyalty programme administration;
+    schemas register-member-request / deregister-member-request confirm membership lifecycle, not generic
+    customer master.
+- tag: Loyalty
+  spec_file: tyro-loyalty-api-openapi.yml
+  capability_id: BC-420.40
+  capability_id_l1: BC-420
+  capability_name: Loyalty & Retention Management
+  confidence: 0.75
+  evidence: '"provides App partners with the ability to access data regarding members sales to help aggregate
+    loyalty points"; GET /loyalty/activities/{loyaltyActivityId} "Get loyalty activity by Id"'
+  reason: Operations expose loyalty activity records tied to member sales so partners can accrue loyalty
+    points — this realises loyalty programme operation rather than payment processing.
