@@ -1,0 +1,39 @@
+edges:
+- partner_name: Consumer Data Right
+  partner: null
+  type: contract
+  channel: regulator-register
+  relationship: standard-participant
+  direction: partner-built
+  evidence: https://api.cdr.gov.au/cdr-register/v1/all/data-holders/brands/summary
+  contract_reference:
+    register: CDR Register (Australia, ACCC)
+    spec_file: null
+    role: data-holder
+    registered_name: Tyro Payments
+    register_id: 0bd792ee-49b4-eb11-a822-000d3a884a20
+    matched_domain: tyro.com
+    api_families: null
+    detected_by: sweep-standard-registers.py
+    detected: '2026-10-12'
+- partner_name: Consumer Data Right
+  partner: null
+  type: contract
+  channel: regulator-register
+  relationship: standard-participant
+  direction: partner-built
+  evidence: https://api.cdr.gov.au/cdr-register/v1/all/data-holders/brands/summary
+  contract_reference:
+    register: CDR Register (Australia, ACCC)
+    spec_file: null
+    role: data-holder
+    registered_name: Tyro Banking
+    register_id: 3195340a-fe50-f011-95f3-00224818bd24
+    matched_domain: tyro.com
+    api_families: null
+    detected_by: sweep-standard-registers.py
+    detected: '2026-10-12'
+generated: '2026-10-12'
+method: searched
+checked:
+- https://api.cdr.gov.au/cdr-register/v1/all/data-holders/brands/summary
