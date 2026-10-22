@@ -1,0 +1,148 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/tyro/main/json-schema/tyro-update-pay-request-schema.json",
+  "title": "Update Pay Request",
+  "x-generated": "2026-10-21",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/tyro-pay-requests-api-openapi.yml#/components/schemas/update-pay-request",
+  "type": "object",
+  "oneOf": [
+    {
+      "title": "Updating Authorisation",
+      "required": [
+        "action",
+        "authorisation"
+      ],
+      "description": "When the capture method is `MANUAL_ESTIMATED`, submitting this request will extend the authorisation holding period and allow you to increase the authorised amount.\n\n**Note:** This feature is only supported for Visa and Mastercard transactions and may not enabled by default for your account.\n",
+      "properties": {
+        "action": {
+          "type": "string",
+          "enum": [
+            "UPDATE_AUTHORISATION"
+          ]
+        },
+        "authorisation": {
+          "type": "object",
+          "required": [
+            "total"
+          ],
+          "properties": {
+            "total": {
+              "allOf": [
+                {
+                  "$ref": "#/$defs/money-positive-aud"
+                },
+                {
+                  "description": "The new total amount to authorise (in smallest currency unit). It has to be greater than the original authorised amount."
+                }
+              ]
+            }
+          }
+        }
+      }
+    },
+    {
+      "title": "Capturing Authorisation",
+      "required": [
+        "action"
+      ],
+      "properties": {
+        "action": {
+          "type": "string",
+          "enum": [
+            "CAPTURE"
+          ]
+        },
+        "capture": {
+          "type": "object",
+          "required": [
+            "total"
+          ],
+          "properties": {
+            "total": {
+              "allOf": [
+                {
+                  "$ref": "#/$defs/money-positive-aud"
+                },
+                {
+                  "description": "The total amount to capture (in smallest currency unit). You cannot capture more than the authorised amount."
+                }
+              ]
+            }
+          }
+        }
+      }
+    },
+    {
+      "title": "Voiding Authorisation",
+      "required": [
+        "action"
+      ],
+      "properties": {
+        "action": {
+          "type": "string",
+          "enum": [
+            "VOID"
+          ]
+        }
+      }
+    },
+    {
+      "title": "Updating Pay Request without performing an action",
+      "properties": {
+        "total": {
+          "allOf": [
+            {
+              "$ref": "#/$defs/money-positive-aud"
+            },
+            {
+              "description": "The total amount (in smallest currency unit). The total can be updated without performing an action."
+            }
+          ]
+        },
+        "payMethod": {
+          "type": "object",
+          "properties": {
+            "customerId": {
+              "type": "string",
+              "description": "The Tyro generated ID of the customer linked to this Pay Method. Pass `null` to remove a `customerId` from the pay request."
+            },
+            "save": {
+              "type": "boolean",
+              "description": "Indicates whether the pay method should be saved after a successful payment."
+            }
+          },
+          "required": [
+            "save"
+          ]
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "money-positive-aud": {
+      "title": "Money Positive Amount",
+      "type": "object",
+      "properties": {
+        "amount": {
+          "type": "integer",
+          "description": "This is the amount in smallest currency unit. e.g 12520 (in cents) is $125.20",
+          "minimum": 0
+        },
+        "currency": {
+          "type": "string",
+          "default": "AUD",
+          "enum": [
+            "AUD"
+          ],
+          "description": "This is always AUD"
+        }
+      },
+      "required": [
+        "amount",
+        "currency"
+      ]
+    }
+  }
+}

@@ -4,6 +4,14 @@ source:
 - https://docs.connect.tyro.com/app/apis/pay/testing
 - https://docs.connect.tyro.com/pos/embedded-payments/sandbox-testing
 - https://docs.connect.tyro.com/certification
+description: >-
+  Tyro Connect offers a sandbox for the Pay API / Tyro.js (liveMode=false, test cards only) and an
+  Embedded Payments (Tap to Pay) sandbox with a restricted set of operations; sandbox credentials are
+  obtained from Tyro and partners pass Certification before going live.
+docs:
+- https://docs.connect.tyro.com/app/apis/pay/testing
+- https://docs.connect.tyro.com/pos/embedded-payments/sandbox-testing
+- https://docs.connect.tyro.com/certification
 onboarding: Obtain sandbox credentials (client_id/client_secret) and a merchant ID by contacting Tyro; partners pass a Certification (Technical Review) before going live.
 test_vs_live:
   mode_flag: liveMode

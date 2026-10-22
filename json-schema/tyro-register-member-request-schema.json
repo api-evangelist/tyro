@@ -1,0 +1,57 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/tyro/main/json-schema/tyro-register-member-request-schema.json",
+  "title": "register-member-request",
+  "x-generated": "2026-10-21",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/tyro-member-api-openapi.yml#/components/schemas/register-member-request",
+  "properties": {
+    "origin": {
+      "type": "object",
+      "properties": {
+        "memberId": {
+          "type": "string",
+          "description": "Member's Identifier on the app."
+        }
+      },
+      "required": [
+        "memberId"
+      ]
+    },
+    "locationId": {
+      "type": "string",
+      "description": "Tyro Connect's identifier for the location."
+    }
+  },
+  "anyOf": [
+    {
+      "title": "Using paymentId",
+      "properties": {
+        "paymentId": {
+          "type": "string",
+          "description": "Payment Identifier generated from the payment source. Typically this is listed as the `payRequest.transaction.retrievalReferenceNumber` or as `transaction.receipt` depending on your ecommerce integration type."
+        }
+      },
+      "required": [
+        "paymentId"
+      ]
+    },
+    {
+      "title": "Using memberReference",
+      "properties": {
+        "memberReference": {
+          "type": "string",
+          "description": "The reference provided by the terminal via the QR code sign-up flow. By passing this value back to us here it allows us to more accurately identify the payment instrument(s) used by the customer."
+        }
+      },
+      "required": [
+        "memberReference"
+      ]
+    }
+  ],
+  "required": [
+    "origin",
+    "locationId"
+  ]
+}

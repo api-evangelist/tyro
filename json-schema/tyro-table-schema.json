@@ -1,0 +1,57 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/tyro/main/json-schema/tyro-table-schema.json",
+  "title": "Table",
+  "x-generated": "2026-10-21",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/tyro-tables-api-openapi.yml#/components/schemas/table",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "The id of the table in the Tyro Connect system"
+    },
+    "number": {
+      "type": "string",
+      "description": "This value must be unique and represents the table number or table id. This field accepts alphanumeric characters e.g `MAIN-33`"
+    },
+    "locationId": {
+      "type": "string",
+      "description": "The id of the location as specified by the Tyro Connect system"
+    },
+    "section": {
+      "$ref": "#/$defs/section"
+    },
+    "openSales": {
+      "type": "array",
+      "description": "A list of sale ids that are open in the Tyro Connect system attached to the table.",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "required": [
+    "id",
+    "number",
+    "locationId",
+    "openSales"
+  ],
+  "$defs": {
+    "section": {
+      "title": "Section",
+      "type": "object",
+      "description": "The section within the venue",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "The POS system's Id of the section"
+        },
+        "name": {
+          "type": "string",
+          "description": "The readable name of the section. E.g. Front bar, drive through for hospitality or for retail men's clothes, women's shoes etc"
+        }
+      }
+    }
+  }
+}

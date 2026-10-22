@@ -1,0 +1,124 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/tyro/main/json-schema/tyro-merchant-onboarding-request-response-schema.json",
+  "title": "Merchant onboarding request response",
+  "description": "The details of a merchant onboarding request, including location and business details, and the current status of each integration.",
+  "x-generated": "2026-10-21",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/tyro-onboarding-api-openapi.yml#/components/schemas/merchant-onboarding-request-response",
+  "type": "object",
+  "properties": {
+    "onboardingId": {
+      "type": "string",
+      "description": "The unique reference identifier for the merchant onboarding request."
+    },
+    "tcLocationId": {
+      "type": "string",
+      "description": "The Tyro Connect location identifier."
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "IN_PROGRESS",
+        "COMPLETED"
+      ],
+      "description": "The overall status of the onboarding request."
+    },
+    "locationDetails": {
+      "type": "object",
+      "description": "Details about the merchant location being onboarded.",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Name of the merchant location."
+        },
+        "address": {
+          "type": "string",
+          "description": "Street address of the merchant location."
+        },
+        "postcode": {
+          "type": "string",
+          "description": "Postal code of the merchant location."
+        },
+        "countryIsoCode": {
+          "type": "string",
+          "description": "ISO code of the country where the merchant location is situated."
+        },
+        "timezone": {
+          "type": "string",
+          "description": "Timezone of the merchant location (e.g., \"Australia/Sydney\")."
+        },
+        "phoneNumber": {
+          "type": "string",
+          "description": "Contact phone number for the merchant location."
+        }
+      }
+    },
+    "businessDetails": {
+      "type": "object",
+      "description": "Details about the merchant's business.",
+      "properties": {
+        "abn": {
+          "type": "string",
+          "description": "Australian Business Number (ABN) of the merchant."
+        },
+        "entityName": {
+          "type": "string",
+          "description": "Registered entity name of the merchant."
+        },
+        "address": {
+          "type": "string",
+          "description": "Street address of the merchant's business."
+        },
+        "postcode": {
+          "type": "string",
+          "description": "Postal code of the merchant's business."
+        },
+        "countryIsoCode": {
+          "type": "string",
+          "description": "ISO code of the country where the merchant's business is situated."
+        }
+      },
+      "required": [
+        "abn",
+        "address",
+        "postcode",
+        "countryIsoCode"
+      ]
+    },
+    "integrations": {
+      "type": "array",
+      "description": "The list of integrations and their current onboarding status.",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "The name of the integration (e.g., `loyalty`)."
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "PENDING",
+              "SUCCESS",
+              "REJECTED_BY_PARTNER"
+            ],
+            "description": "The current status of this integration's onboarding."
+          }
+        },
+        "required": [
+          "name",
+          "status"
+        ]
+      }
+    }
+  },
+  "required": [
+    "onboardingId",
+    "tcLocationId",
+    "status",
+    "businessDetails",
+    "integrations"
+  ]
+}

@@ -1,0 +1,47 @@
+generated: '2026-10-21'
+method: searched
+source: https://careers.tyro.com/data-privacy
+coverage_note: >-
+  The primary legal pages on www.tyro.com (/privacy-policy/, /legal/, /legal/website-terms-of-use/,
+  /security/, and /legal/privacy-policy/ linked from investors.tyro.com) all returned HTTP 200 with an
+  845-byte Incapsula "Request unsuccessful" challenge body to plain, crawler-UA and headless-browser
+  fetches on 2026-10-21, so their text could not be read. No signals are recorded from them. The one
+  signal below comes from Tyro's Teamtailor-hosted careers site and covers recruitment data only.
+blocked_pages:
+- url: https://www.tyro.com/privacy-policy/
+  http_status: 200
+  fetched: '2026-10-21'
+  note: Incapsula bot challenge ("Request unsuccessful. Incapsula incident ID ..."), body 841-845 bytes, no policy text
+- url: https://www.tyro.com/legal/
+  http_status: 200
+  fetched: '2026-10-21'
+  note: Incapsula bot challenge, no text
+- url: https://www.tyro.com/legal/website-terms-of-use/
+  http_status: 200
+  fetched: '2026-10-21'
+  note: Incapsula bot challenge, no text
+- url: https://www.tyro.com/security/
+  http_status: 200
+  fetched: '2026-10-21'
+  note: Incapsula bot challenge, no text
+signals:
+  data_subject_request:
+    url: https://careers.tyro.com/data-privacy
+    section: Data & Privacy
+    scope: recruitment-related personal data of job candidates (careers site only)
+    rights_named: [access (copy of data), deletion, manage storage permission]
+    channel: self-service "Request" buttons on the careers Data & Privacy page and the Candidate Connect login
+    evidence:
+    - source: https://careers.tyro.com/data-privacy
+      http_status: 200
+      fetched: '2026-10-21'
+      quote: "Get a copy of the recruitment-related personal data that we process about you."
+    - source: https://careers.tyro.com/data-privacy
+      http_status: 200
+      fetched: '2026-10-21'
+      quote: "We will assess your request and delete your recruitment-related personal data we no longer have a reason to keep."
+    note: >-
+      Tyro Payments offers job candidates self-service access ("Request my data") and deletion ("Remove my
+      data") requests on its careers site. This covers candidate data only. It says nothing about
+      merchant, cardholder or API-user data, which the blocked www.tyro.com privacy policy would cover.
+      No response time is stated.

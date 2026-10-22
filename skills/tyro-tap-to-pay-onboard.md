@@ -1,8 +1,21 @@
 ---
-name: Onboard a merchant device for Tap to Pay (Embedded Payments)
+name: tyro-tap-to-pay-onboard
+title: Onboard a merchant device for Tap to Pay (Embedded Payments)
 description: Register a Reader and device connection so a mobile device can accept card-present payments via the Tyro Embedded Payments (SoftPOS / Tap to Pay) SDK.
-api: openapi/tyro-pos-embedded-payments.yml
-operations: [list-embedded-payments-locations, create-reader, create-embedded-payments-connection, authorise-embedded-payments-mid-test, get-embedded-payments-transaction, list-embedded-payments-transactions]
+api: openapi/tyro-locations-api-openapi.yml
+apis:
+- openapi/tyro-connections-api-openapi.yml
+- openapi/tyro-locations-api-openapi.yml
+- openapi/tyro-merchants-api-openapi.yml
+- openapi/tyro-readers-api-openapi.yml
+- openapi/tyro-transactions-api-openapi.yml
+operations:
+- list-embedded-payments-locations
+- create-reader
+- create-embedded-payments-connection
+- authorise-embedded-payments-mid-test
+- get-embedded-payments-transaction
+- list-embedded-payments-transactions
 ---
 
 # Onboard a merchant device for Tap to Pay (Embedded Payments)

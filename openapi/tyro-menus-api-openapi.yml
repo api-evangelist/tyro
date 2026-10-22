@@ -3,7 +3,7 @@ info:
   title: Menus API
   version: '1.0'
   contact: {}
-  description: This API allows apps to retrieve menus for a given location
+  description: This API allows a POS to synchronise menu details with Tyro Connect, and allows Apps to retrieve the published menu for a location.
 servers:
 - url: https://api.tyro.com/connect
   description: Production
@@ -20,8 +20,11 @@ paths:
         '404':
           description: When the POS associated with the location has not Menu API enabled and we were unable to find a local version of their menu
         '409':
-          description: When an eixsting request for menu sync is still in progress
-      description: This endpoint starts the process of generating the latest published menu
+          description: When an existing request for menu sync is still in progress
+      description: '**App only.**
+
+
+        This endpoint starts the process of generating the latest published menu'
       parameters:
       - in: path
         description: Tyro Connect Location Id for which menu should be retrieved
@@ -48,8 +51,11 @@ paths:
         '403':
           description: When you don't have the required permissions to get menu for the given location
         '409':
-          description: When an eixsting request for menu sync is still in progress
-      description: Used to fetch the latest published menu
+          description: When an existing request for menu sync is still in progress
+      description: '**App only.**
+
+
+        Used to fetch the latest published menu'
       parameters:
       - in: path
         description: Tyro Connect Location Id for which menu should be retrieved
@@ -59,74 +65,786 @@ paths:
           type: string
       - $ref: '#/components/parameters/header-bearer-token'
       operationId: fetch-latest-menu
-      summary: Fetch Latest Menu
+      summary: Fetch latest menu
       security:
       - JWT: []
       tags:
       - Menus
+  /menus/{tcLocationId}/sync:
+    put:
+      summary: Synchronise menu
+      description: '**POS only.**
+
+
+        This endpoint is used to synchronise a POS menu with Tyro Connect when the POS receives the MENU_SYNC_REQUESTED notification.'
+      operationId: sync-menu-request
+      responses:
+        '204':
+          description: No body content. Menu successfully updated
+        '400':
+          description: When the provided payload is not valid.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    description: The validation error message.
+              examples:
+                Missing property:
+                  value:
+                    error: '"ticketNumber" is required'
+        '403':
+          description: When you don't have the right permissions to synchronise a menu
+        '404':
+          description: When the location provided was not found
+        '409':
+          description: When a ticket number is provided but is invalid or expired
+      security:
+      - JWT: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/menu'
+            examples:
+              Menu:
+                value:
+                  items:
+                  - id: a2aa48d0-0368-4fa4-92f8-6fbe471dd75d
+                    sku: '669'
+                    name: Cheesy garlic herb squares
+                    price:
+                      amount: 1300
+                      currency: AUD
+                    images: {}
+                    options: []
+                    description: The sevens pizzas are made fresh to order with our own house made dough. All pizzas are served on an Italian tomato base with fiori di latte mozzarella
+                    containsAlcohol: false
+                  - id: 20e9e45a-03b3-4424-a558-3c5049d216bc
+                    sku: '670'
+                    name: Cheesy sweet chilli squares
+                    price:
+                      amount: 1300
+                      currency: AUD
+                    images: {}
+                    options: []
+                    description: The sevens pizzas are made fresh to order with our own house made dough. All pizzas are served on an Italian tomato base with fior di latte mozzarella.
+                    containsAlcohol: false
+                  - id: a9d6c1d6-5b40-4af7-b5cf-61894a8557c0
+                    sku: '1062'
+                    name: Margherita (V)
+                    price:
+                      amount: 1890
+                      currency: AUD
+                    images: {}
+                    options:
+                    - min: 0
+                      name: Add Extras
+                      items:
+                      - id: ab314695-e48c-428d-bded-081677eee911
+                      - id: 231a30a7-37c9-4233-8d7e-a48c792f96d9
+                    - min: 0
+                      name: Add sauce
+                      items:
+                      - id: bb0a839c-f9c4-4392-8f4a-9a2743a2ead0
+                      - id: 161586f5-0013-4ed1-a598-7ccd98d45464
+                    description: Buffalo mozzarella, basil
+                    containsAlcohol: false
+                  - id: 5f095ed1-1268-416c-826b-bffee4d88b70
+                    sku: '1060'
+                    name: Hawaiian
+                    price:
+                      amount: 1790
+                      currency: AUD
+                    images: {}
+                    options:
+                    - min: 0
+                      name: Add Extras
+                      items:
+                      - id: ab314695-e48c-428d-bded-081677eee911
+                      - id: 231a30a7-37c9-4233-8d7e-a48c792f96d9
+                    - min: 0
+                      name: Add sauce
+                      items:
+                      - id: bb0a839c-f9c4-4392-8f4a-9a2743a2ead0
+                      - id: 161586f5-0013-4ed1-a598-7ccd98d45464
+                    description: Bacon & pineapple
+                    containsAlcohol: false
+                  - id: 983a5f36-7819-40fe-80f5-6cb5abce4f67
+                    sku: '1061'
+                    name: Holy Pepperoni
+                    price:
+                      amount: 2090
+                      currency: AUD
+                    images:
+                      HUBSTER: https://portal.connect.tyro.com/assets/tc-sevenseashotel-2294/c9adacc5-1d9b-46b8-b73d-3c2c9bf3cbca.jpg
+                    options:
+                    - min: 0
+                      name: Add Extras
+                      items:
+                      - id: ab314695-e48c-428d-bded-081677eee911
+                      - id: 231a30a7-37c9-4233-8d7e-a48c792f96d9
+                    - min: 0
+                      name: Add sauce
+                      items:
+                      - id: bb0a839c-f9c4-4392-8f4a-9a2743a2ead0
+                      - id: 161586f5-0013-4ed1-a598-7ccd98d45464
+                    description: Pepperoni, spicy sausage, fresh lemon
+                    containsAlcohol: false
+                  - id: e6ac786e-09af-4f9a-9c63-81a919b45ec3
+                    sku: '1050'
+                    name: Three Little Pigs
+                    price:
+                      amount: 1990
+                      currency: AUD
+                    images:
+                      HUBSTER: https://portal.connect.tyro.com/assets/tc-sevenseashotel-2294/ef0a5551-b45e-4f2c-a4ec-39949bbab6da.jpg
+                    options:
+                    - min: 0
+                      name: Add Extras
+                      items:
+                      - id: ab314695-e48c-428d-bded-081677eee911
+                      - id: 231a30a7-37c9-4233-8d7e-a48c792f96d9
+                    - min: 0
+                      name: Add sauce
+                      items:
+                      - id: bb0a839c-f9c4-4392-8f4a-9a2743a2ead0
+                      - id: 161586f5-0013-4ed1-a598-7ccd98d45464
+                    - min: 0
+                      name: Remove
+                      items:
+                      - id: 4d305c43-ccb8-4f21-8766-17a7e6167d36
+                      - id: 4d8cf8ce-3b12-4697-82b6-c90f49f226bc
+                    description: Chorizo, bacon, pepperoni, onion, plum sauce
+                    containsAlcohol: false
+                  - id: 7c64f940-7187-4838-acdd-1255dd85729e
+                    sku: '1064'
+                    name: Sevens Supreme
+                    price:
+                      amount: 2090
+                      currency: AUD
+                    images: {}
+                    options:
+                    - min: 0
+                      name: Add Extras
+                      items:
+                      - id: ab314695-e48c-428d-bded-081677eee911
+                      - id: 231a30a7-37c9-4233-8d7e-a48c792f96d9
+                    - min: 0
+                      name: Add sauce
+                      items:
+                      - id: bb0a839c-f9c4-4392-8f4a-9a2743a2ead0
+                    - min: 0
+                      name: Remove
+                      items:
+                      - id: 4d305c43-ccb8-4f21-8766-17a7e6167d36
+                      - id: 4d8cf8ce-3b12-4697-82b6-c90f49f226bc
+                    description: Onion, pepperoni, bacon, olives, peppers, pineapple
+                    containsAlcohol: false
+                  - id: ddf510b3-ff14-45d5-b956-d5fc97395243
+                    sku: '1057'
+                    name: BBQ Maple Chicken
+                    price:
+                      amount: 2290
+                      currency: AUD
+                    images:
+                      HUBSTER: https://portal.connect.tyro.com/assets/tc-sevenseashotel-2294/229f58ff-07f1-4971-958c-224559154662.jpg
+                    options:
+                    - min: 0
+                      name: Add Extras
+                      items:
+                      - id: ab314695-e48c-428d-bded-081677eee911
+                      - id: 231a30a7-37c9-4233-8d7e-a48c792f96d9
+                    - min: 0
+                      name: Add sauce
+                      items:
+                      - id: bb0a839c-f9c4-4392-8f4a-9a2743a2ead0
+                      - id: 161586f5-0013-4ed1-a598-7ccd98d45464
+                    - min: 0
+                      name: Remove
+                      items:
+                      - id: 4d305c43-ccb8-4f21-8766-17a7e6167d36
+                      - id: 4d8cf8ce-3b12-4697-82b6-c90f49f226bc
+                    description: Onion, bacon, mushies, hickory BBQ maple poached chicken
+                    containsAlcohol: false
+                  - id: a8d4a73b-ca24-4aeb-bb41-31d3ce8135c1
+                    sku: '1063'
+                    name: Pumpkineater (V)
+                    price:
+                      amount: 1890
+                      currency: AUD
+                    images:
+                      HUBSTER: https://portal.connect.tyro.com/assets/tc-sevenseashotel-2294/d30f779e-e72e-40c4-8581-154866375bce.jpg
+                    options:
+                    - min: 0
+                      name: Add Extras
+                      items:
+                      - id: ab314695-e48c-428d-bded-081677eee911
+                      - id: 231a30a7-37c9-4233-8d7e-a48c792f96d9
+                    - min: 0
+                      name: Add sauce
+                      items:
+                      - id: bb0a839c-f9c4-4392-8f4a-9a2743a2ead0
+                      - id: 161586f5-0013-4ed1-a598-7ccd98d45464
+                    - min: 0
+                      name: Remove
+                      items:
+                      - id: 4d305c43-ccb8-4f21-8766-17a7e6167d36
+                      - id: 4d8cf8ce-3b12-4697-82b6-c90f49f226bc
+                    description: Roasted pumpkin & beets, peppers, onion, fresh rocket and fetta
+                    containsAlcohol: false
+                  - id: f1c9327d-af9f-4361-a0ea-a6e86cebc779
+                    sku: '1059'
+                    name: Eggplant Parmigiana
+                    price:
+                      amount: 1890
+                      currency: AUD
+                    images:
+                      HUBSTER: https://portal.connect.tyro.com/assets/tc-sevenseashotel-2294/5f772760-04db-4f9f-8b46-f8bc7ef010b6.jpg
+                    options:
+                    - min: 0
+                      name: Add Extras
+                      items:
+                      - id: ab314695-e48c-428d-bded-081677eee911
+                      - id: 231a30a7-37c9-4233-8d7e-a48c792f96d9
+                    - min: 0
+                      name: Add sauce
+                      items:
+                      - id: bb0a839c-f9c4-4392-8f4a-9a2743a2ead0
+                      - id: 161586f5-0013-4ed1-a598-7ccd98d45464
+                    - min: 0
+                      name: Remove
+                      items:
+                      - id: 4d305c43-ccb8-4f21-8766-17a7e6167d36
+                      - id: 4d8cf8ce-3b12-4697-82b6-c90f49f226bc
+                    description: Onion, eggplant, parmesan
+                    containsAlcohol: false
+                  - id: c4d8bf1f-871b-4f6c-ae43-f98f60998c32
+                    sku: '1066'
+                    name: The Swiss Brown (V)
+                    price:
+                      amount: 1890
+                      currency: AUD
+                    images:
+                      HUBSTER: https://portal.connect.tyro.com/assets/tc-sevenseashotel-2294/4497d6c4-c71e-431a-840e-cddafdcb4a78.jpg
+                    options:
+                    - min: 0
+                      name: Add Extras
+                      items:
+                      - id: ab314695-e48c-428d-bded-081677eee911
+                      - id: 231a30a7-37c9-4233-8d7e-a48c792f96d9
+                    - min: 0
+                      name: Add sauce
+                      items:
+                      - id: bb0a839c-f9c4-4392-8f4a-9a2743a2ead0
+                      - id: 161586f5-0013-4ed1-a598-7ccd98d45464
+                    - min: 0
+                      name: Remove
+                      items:
+                      - id: 4d305c43-ccb8-4f21-8766-17a7e6167d36
+                      - id: 4d8cf8ce-3b12-4697-82b6-c90f49f226bc
+                    description: Swiss brown mushrooms, caramelised onion, truffle oil, thyme, fresh rocket
+                    containsAlcohol: false
+                  - id: 5b17cab6-09ce-478a-8259-629b3d53836c
+                    sku: '1058'
+                    name: Chilli Prawn
+                    price:
+                      amount: 2290
+                      currency: AUD
+                    images: {}
+                    options:
+                    - min: 0
+                      name: Add Extras
+                      items:
+                      - id: ab314695-e48c-428d-bded-081677eee911
+                      - id: 231a30a7-37c9-4233-8d7e-a48c792f96d9
+                    - min: 0
+                      name: Add sauce
+                      items:
+                      - id: bb0a839c-f9c4-4392-8f4a-9a2743a2ead0
+                      - id: 161586f5-0013-4ed1-a598-7ccd98d45464
+                    - min: 0
+                      name: Remove
+                      items:
+                      - id: 4d305c43-ccb8-4f21-8766-17a7e6167d36
+                      - id: 4d8cf8ce-3b12-4697-82b6-c90f49f226bc
+                    description: Onion, chilli, sriracha aioli
+                    containsAlcohol: false
+                  - id: 88be9869-192b-42eb-bcc6-6d4cc62e6dd7
+                    sku: '1065'
+                    name: Surf Side
+                    price:
+                      amount: 2290
+                      currency: AUD
+                    images: {}
+                    options:
+                    - min: 0
+                      name: Add Extras
+                      items:
+                      - id: ab314695-e48c-428d-bded-081677eee911
+                      - id: 231a30a7-37c9-4233-8d7e-a48c792f96d9
+                    - min: 0
+                      name: Add sauce
+                      items:
+                      - id: bb0a839c-f9c4-4392-8f4a-9a2743a2ead0
+                      - id: 161586f5-0013-4ed1-a598-7ccd98d45464
+                    - min: 0
+                      name: Remove
+                      items:
+                      - id: 4d305c43-ccb8-4f21-8766-17a7e6167d36
+                      - id: 4d8cf8ce-3b12-4697-82b6-c90f49f226bc
+                    description: Confit garlic cream base, prawns, squid, chorizo, fresh lemon, hollandaise sauce
+                    containsAlcohol: false
+                  - id: ab314695-e48c-428d-bded-081677eee911
+                    sku: '675'
+                    name: Add Chicken
+                    price:
+                      amount: 400
+                      currency: AUD
+                    containsAlcohol: false
+                  - id: 231a30a7-37c9-4233-8d7e-a48c792f96d9
+                    sku: '983'
+                    name: Add Bacon
+                    price:
+                      amount: 200
+                      currency: AUD
+                    containsAlcohol: false
+                  - id: 863b505a-3535-4608-be99-49587eab6f27
+                    sku: '982'
+                    name: Add Pepperoni
+                    price:
+                      amount: 200
+                      currency: AUD
+                    containsAlcohol: false
+                  - id: d6894d6b-3ab1-4451-848e-562c5e294148
+                    sku: '704'
+                    name: Beer Battered Flathead
+                    price:
+                      amount: 1200
+                      currency: AUD
+                    images: {}
+                    options: []
+                    description: Chips & slaw
+                    containsAlcohol: false
+                  - id: 92a00c0b-406b-45fe-bfb0-6295542663b1
+                    sku: '807'
+                    name: Beer Battered Flathead
+                    price:
+                      amount: 2000
+                      currency: AUD
+                    images: {}
+                    options: []
+                    description: Chips & Slaw
+                    containsAlcohol: false
+                  - id: 56d8eee7-55c6-4b89-9e85-11d9fe3a6b4c
+                    sku: '988'
+                    name: BBQ
+                    price:
+                      amount: 100
+                      currency: AUD
+                    containsAlcohol: false
+                  - id: bb0a839c-f9c4-4392-8f4a-9a2743a2ead0
+                    sku: '989'
+                    name: Tomato
+                    price:
+                      amount: 100
+                      currency: AUD
+                    containsAlcohol: false
+                  - id: 7f81edf8-83ad-4462-9e42-f9e635811a2a
+                    sku: '689'
+                    name: Gravy
+                    price:
+                      amount: 100
+                      currency: AUD
+                    containsAlcohol: false
+                  - id: 04e4a5af-176a-404a-934f-7b29cafd1667
+                    sku: '986'
+                    name: Siracha Aioli
+                    price:
+                      amount: 100
+                      currency: AUD
+                    containsAlcohol: false
+                  - id: 3405c778-6dbf-49d7-965f-19764388d0d5
+                    sku: '976'
+                    name: Deep Fried Marinated Wings 1/2kg
+                    price:
+                      amount: 990
+                      currency: AUD
+                    images: {}
+                    options:
+                    - min: 0
+                      name: Add sauce
+                      items:
+                      - id: 56d8eee7-55c6-4b89-9e85-11d9fe3a6b4c
+                      - id: bb0a839c-f9c4-4392-8f4a-9a2743a2ead0
+                      - id: 7f81edf8-83ad-4462-9e42-f9e635811a2a
+                      - id: 04e4a5af-176a-404a-934f-7b29cafd1667
+                    containsAlcohol: false
+                  - id: 48e75dff-183e-4f67-92f9-fadd9e5c4b03
+                    sku: '975'
+                    name: Deep Fried Marinated Wings 1kg
+                    price:
+                      amount: 1590
+                      currency: AUD
+                    images: {}
+                    options:
+                    - min: 0
+                      name: Add sauce
+                      items:
+                      - id: 56d8eee7-55c6-4b89-9e85-11d9fe3a6b4c
+                      - id: bb0a839c-f9c4-4392-8f4a-9a2743a2ead0
+                      - id: 7f81edf8-83ad-4462-9e42-f9e635811a2a
+                      - id: 04e4a5af-176a-404a-934f-7b29cafd1667
+                    containsAlcohol: false
+                  - id: 2e38b65e-e1ed-4670-bb4c-6dd5fbf6a516
+                    sku: '739'
+                    name: Hot Chips w/ Aioli
+                    price:
+                      amount: 800
+                      currency: AUD
+                    images: {}
+                    options:
+                    - min: 0
+                      name: Add sauce
+                      items:
+                      - id: 56d8eee7-55c6-4b89-9e85-11d9fe3a6b4c
+                      - id: bb0a839c-f9c4-4392-8f4a-9a2743a2ead0
+                      - id: 7f81edf8-83ad-4462-9e42-f9e635811a2a
+                      - id: 04e4a5af-176a-404a-934f-7b29cafd1667
+                    containsAlcohol: false
+                  - id: bf2fa156-5cbf-4da9-9b2a-074f31eb49e8
+                    sku: '741'
+                    name: Wedges
+                    price:
+                      amount: 990
+                      currency: AUD
+                    images: {}
+                    options:
+                    - min: 0
+                      name: Add sauce
+                      items:
+                      - id: 56d8eee7-55c6-4b89-9e85-11d9fe3a6b4c
+                      - id: bb0a839c-f9c4-4392-8f4a-9a2743a2ead0
+                      - id: 7f81edf8-83ad-4462-9e42-f9e635811a2a
+                      - id: 04e4a5af-176a-404a-934f-7b29cafd1667
+                    description: Sour cream, sweet chilli
+                    containsAlcohol: false
+                  - id: 04eb9f4f-47a7-427f-8ee4-d7f2268bed38
+                    sku: '740'
+                    name: Sweet Potato Chips
+                    price:
+                      amount: 990
+                      currency: AUD
+                    images: {}
+                    options:
+                    - min: 0
+                      name: Add sauce
+                      items:
+                      - id: 56d8eee7-55c6-4b89-9e85-11d9fe3a6b4c
+                      - id: bb0a839c-f9c4-4392-8f4a-9a2743a2ead0
+                      - id: 7f81edf8-83ad-4462-9e42-f9e635811a2a
+                      - id: 04e4a5af-176a-404a-934f-7b29cafd1667
+                    containsAlcohol: false
+                  - id: 545aa015-29b7-4770-bf2c-3c76d8cbe07b
+                    sku: '674'
+                    name: Med (V)
+                    price:
+                      amount: 1190
+                      currency: AUD
+                    images: {}
+                    options: []
+                    description: Mixed leaves, peppers, onion, cherry tomatoes, fetta, mustard herb dressing
+                    containsAlcohol: false
+                  - id: 97e2f22a-ed4f-446f-948c-f5a19d77b9b5
+                    sku: '677'
+                    name: Green
+                    price:
+                      amount: 990
+                      currency: AUD
+                    images:
+                      HUBSTER: https://portal.connect.tyro.com/assets/tc-sevenseashotel-2294/35b30e88-d80d-4f25-be32-646a00d26ce0.jpg
+                    options: []
+                    description: Rocket, lemon, parmesan
+                    containsAlcohol: false
+                  - id: 2b8db3e4-90a5-4d73-87e3-a2f4e5241296
+                    sku: '1022'
+                    name: Spaghetti Bolognese
+                    price:
+                      amount: 1590
+                      currency: AUD
+                    images: {}
+                    options: []
+                    containsAlcohol: false
+                  - id: 8b4f81d2-76b6-4c39-8a0a-1958d6c99ad6
+                    sku: '1053'
+                    name: Chicken Boscaiola
+                    price:
+                      amount: 1800
+                      currency: AUD
+                    images: {}
+                    options: []
+                    containsAlcohol: false
+                  - id: 6be6642d-7725-442f-95a7-5e208dff86a6
+                    sku: '1023'
+                    name: Prawn Spaghetti
+                    price:
+                      amount: 1890
+                      currency: AUD
+                    images:
+                      HUBSTER: https://portal.connect.tyro.com/assets/tc-sevenseashotel-2294/a2310ac0-66e3-4ac2-a98b-67c9b5755f43.jpg
+                    options: []
+                    description: Bacon, garlic, chilli, rocket
+                    containsAlcohol: false
+                  - id: 6ae9abe0-aca3-4776-98c5-8b105a0df10f
+                    sku: '1052'
+                    name: Chicken Boscaiola Pasta
+                    price:
+                      amount: 1200
+                      currency: AUD
+                    images: {}
+                    options: []
+                    containsAlcohol: false
+                  - id: 679a9fe4-908a-4b46-bd32-1ea81a957fd7
+                    sku: '992'
+                    name: Add Vegan Chese
+                    price:
+                      amount: 600
+                      currency: AUD
+                    containsAlcohol: false
+                  - id: e6297410-3e93-4ed1-afec-185431e9055c
+                    sku: '736'
+                    name: Add Mushroom
+                    price:
+                      amount: 300
+                      currency: AUD
+                    containsAlcohol: false
+                  - id: 9fee4d48-35d2-4222-8774-8e6f4237cb5d
+                    sku: no-onion
+                    name: No Onion
+                    price:
+                      amount: 0
+                      currency: AUD
+                    containsAlcohol: false
+                  - id: e037f8f2-e00a-4830-92dd-663873adda8a
+                    sku: no_mushrooms
+                    name: No Mushrooms
+                    price:
+                      amount: 0
+                      currency: AUD
+                    containsAlcohol: false
+                  - id: 627af513-1c25-4cf0-9d34-b50eae0ea1a2
+                    sku: add_onion
+                    name: Add Onion
+                    price:
+                      amount: 200
+                      currency: AUD
+                    containsAlcohol: false
+                  - id: 01ff2d2b-63f2-4158-92a3-73d8948ef557
+                    sku: add_chorizo
+                    name: Add Chorizo
+                    price:
+                      amount: 300
+                      currency: AUD
+                    containsAlcohol: false
+                  - id: 4b4f2839-632d-4d0d-ad55-5de8c82595f7
+                    sku: add_spinach
+                    name: Add Spinach
+                    price:
+                      amount: 200
+                      currency: AUD
+                    containsAlcohol: false
+                  - id: 507c79ce-88b7-42bf-9fa2-f9396df1055e
+                    sku: add_olives
+                    name: Add Olives
+                    price:
+                      amount: 300
+                      currency: AUD
+                    containsAlcohol: false
+                  - id: 5ac731e9-4588-4127-9ea3-7c68afea295e
+                    sku: add_peppers
+                    name: Add Peppers
+                    price:
+                      amount: 200
+                      currency: AUD
+                    containsAlcohol: false
+                  - id: 161586f5-0013-4ed1-a598-7ccd98d45464
+                    sku: extra_cheese
+                    name: Add Extra Cheese
+                    price:
+                      amount: 300
+                      currency: AUD
+                    containsAlcohol: false
+                  - id: 4d305c43-ccb8-4f21-8766-17a7e6167d36
+                    sku: '1083'
+                    name: No Mushrooms
+                    price:
+                      amount: 0
+                      currency: AUD
+                    containsAlcohol: false
+                  - id: 4d8cf8ce-3b12-4697-82b6-c90f49f226bc
+                    sku: '1082'
+                    name: No Onion
+                    price:
+                      amount: 0
+                      currency: AUD
+                    containsAlcohol: false
+                  sections:
+                  - id: dd513b87-f8c2-4fcc-902f-8c7a41dacb21
+                    name: Pizza Starters
+                    items:
+                    - a2aa48d0-0368-4fa4-92f8-6fbe471dd75d
+                    - 20e9e45a-03b3-4424-a558-3c5049d216bc
+                    modifierGroups: []
+                    availableTimeSlots:
+                    - '1625187375812'
+                    - '1625187566499'
+                  - id: 52a9da86-a63c-4155-8799-a64afbfe44ae
+                    name: Sevens Pizza 12"
+                    items:
+                    - a9d6c1d6-5b40-4af7-b5cf-61894a8557c0
+                    - 5f095ed1-1268-416c-826b-bffee4d88b70
+                    - 983a5f36-7819-40fe-80f5-6cb5abce4f67
+                    - e6ac786e-09af-4f9a-9c63-81a919b45ec3
+                    - 7c64f940-7187-4838-acdd-1255dd85729e
+                    - ddf510b3-ff14-45d5-b956-d5fc97395243
+                    - a8d4a73b-ca24-4aeb-bb41-31d3ce8135c1
+                    - f1c9327d-af9f-4361-a0ea-a6e86cebc779
+                    - c4d8bf1f-871b-4f6c-ae43-f98f60998c32
+                    - 5b17cab6-09ce-478a-8259-629b3d53836c
+                    - 88be9869-192b-42eb-bcc6-6d4cc62e6dd7
+                    modifierGroups:
+                    - 2add654c-9322-455c-8baf-55c1697a7e25
+                    - 85a25673-0022-4f40-934f-e7392a70bfe6
+                    - 2cdd958e-e34c-49a3-8c0e-8aabcef8092d
+                    availableTimeSlots:
+                    - '1625187375812'
+                    - '1625187566499'
+                  - id: 1d253896-4920-4692-bb2a-66a431d7fcfa
+                    name: Lunch Specials
+                    items:
+                    - d6894d6b-3ab1-4451-848e-562c5e294148
+                    - 6ae9abe0-aca3-4776-98c5-8b105a0df10f
+                    modifierGroups: []
+                    availableTimeSlots:
+                    - '1625187375812'
+                  - id: d1d9050f-d155-4d7d-8a17-18256b50722a
+                    name: Classics
+                    items:
+                    - 92a00c0b-406b-45fe-bfb0-6295542663b1
+                    modifierGroups: []
+                    availableTimeSlots:
+                    - '1625187566499'
+                  - id: add31583-f214-4892-af63-7d00e7055d6d
+                    name: Wings & Chips
+                    items:
+                    - 3405c778-6dbf-49d7-965f-19764388d0d5
+                    - 48e75dff-183e-4f67-92f9-fadd9e5c4b03
+                    - 2e38b65e-e1ed-4670-bb4c-6dd5fbf6a516
+                    - bf2fa156-5cbf-4da9-9b2a-074f31eb49e8
+                    - 04eb9f4f-47a7-427f-8ee4-d7f2268bed38
+                    modifierGroups:
+                    - 85a25673-0022-4f40-934f-e7392a70bfe6
+                    availableTimeSlots:
+                    - '1625187375812'
+                    - '1625187566499'
+                  - id: 8742a243-e17d-4c89-8728-ac41b1462cba
+                    name: Salads
+                    items:
+                    - 545aa015-29b7-4770-bf2c-3c76d8cbe07b
+                    - 97e2f22a-ed4f-446f-948c-f5a19d77b9b5
+                    modifierGroups: []
+                    availableTimeSlots:
+                    - '1625187375812'
+                    - '1625187566499'
+                  - id: ae119ee4-2d54-41b7-8db9-dee7f2541158
+                    name: Pasta
+                    items:
+                    - 2b8db3e4-90a5-4d73-87e3-a2f4e5241296
+                    - 6be6642d-7725-442f-95a7-5e208dff86a6
+                    modifierGroups: []
+                    availableTimeSlots:
+                    - '1625187375812'
+                    - '1625187566499'
+                  - id: b19fd9d8-90c6-40b5-bd0d-218b65e18ea8
+                    name: Pasta Dinner
+                    items:
+                    - 8b4f81d2-76b6-4c39-8a0a-1958d6c99ad6
+                    modifierGroups: []
+                    availableTimeSlots:
+                    - '1625187566499'
+                  timeSlots:
+                  - id: '1625187375812'
+                    days:
+                    - Monday
+                    - Tuesday
+                    - Wednesday
+                    - Thursday
+                    - Friday
+                    - Saturday
+                    - Sunday
+                    endTime: '14:00:00'
+                    startTime: '12:00:00'
+                    description: Lunch
+                  - id: '1625187566499'
+                    days:
+                    - Monday
+                    - Tuesday
+                    - Wednesday
+                    - Thursday
+                    - Friday
+                    - Saturday
+                    - Sunday
+                    endTime: '21:00:00'
+                    startTime: '16:30:00'
+                    description: Dinner
+                  modifierGroups:
+                  - id: 2add654c-9322-455c-8baf-55c1697a7e25
+                    min: 0
+                    name: Add Extras
+                    items:
+                    - id: ab314695-e48c-428d-bded-081677eee911
+                    - id: 231a30a7-37c9-4233-8d7e-a48c792f96d9
+                  - id: 85a25673-0022-4f40-934f-e7392a70bfe6
+                    min: 0
+                    name: Add sauce
+                    items:
+                    - id: 56d8eee7-55c6-4b89-9e85-11d9fe3a6b4c
+                    - id: bb0a839c-f9c4-4392-8f4a-9a2743a2ead0
+                    - id: 7f81edf8-83ad-4462-9e42-f9e635811a2a
+                    - id: 04e4a5af-176a-404a-934f-7b29cafd1667
+                    - id: 161586f5-0013-4ed1-a598-7ccd98d45464
+                  - id: 2cdd958e-e34c-49a3-8c0e-8aabcef8092d
+                    min: 0
+                    name: Remove
+                    items:
+                    - id: 4d305c43-ccb8-4f21-8766-17a7e6167d36
+                    - id: 4d8cf8ce-3b12-4697-82b6-c90f49f226bc
+      parameters:
+      - $ref: '#/components/parameters/header-bearer-token'
+      - $ref: '#/components/parameters/header-content-json'
+      - schema:
+          type: string
+        in: header
+        name: x-ticket-number
+        required: false
+        description: 'The ticket number sent by Tyro Connect to identify the sync request.
+
+          When the menu sync process is initiated from Tyro Connect Portal,
+
+          the POS system will receive a notification containing the ticket number that needs to be sent back to us.
+
+          '
+      - schema:
+          type: string
+        in: path
+        name: tcLocationId
+        required: true
+      tags:
+      - Menus
 components:
   schemas:
-    menu:
-      title: Menu
-      type: object
-      properties:
-        items:
-          type: array
-          description: A list of objects that describe the different items available within the menu
-          items:
-            $ref: '#/components/schemas/item'
-        sections:
-          type: array
-          description: A list of objects that describe the different sections of the menu
-          items:
-            $ref: '#/components/schemas/section'
-        timeSlots:
-          type: array
-          description: A list of objects that describe the time periods that different sections of the menu can be made available within
-          items:
-            $ref: '#/components/schemas/time-slot'
-        modifierGroups:
-          type: array
-          description: A list of objects that describe the different modifier groups that will be available to the merchant within the portal to apply to different sections
-          items:
-            $ref: '#/components/schemas/modifier-group'
-      required:
-      - items
-      - sections
-      - timeSlots
-      - modifierGroups
-    section:
-      type: object
-      properties:
-        id:
-          uniqueItems: true
-          type: string
-          description: A unique id that represents the section within the menu
-        name:
-          type: string
-          description: A name describing the section
-        description:
-          type: string
-        availableTimeSlots:
-          type: array
-          description: A list of ids referencing the timeslots that this section will be available within
-          items:
-            type: string
-        items:
-          type: array
-          description: A list of ids referencing the menu items that are available within this section - only parent items will be referenced here, not items that are used as modifiers
-          items:
-            type: string
-        modifierGroups:
-          type: array
-          description: A list of ids that reference the modifierGroups that are used in this section. Any item contained within the 'option' of another item will exist within a modifierGroup that belongs to the same section of that parent item
-          items:
-            type: string
-      required:
-      - id
-      - name
-      - availableTimeSlots
-      - items
     time-slot:
       type: object
       properties:
@@ -271,6 +989,67 @@ components:
       - sku
       - containsAlcohol
       - price
+    menu:
+      title: Menu
+      type: object
+      properties:
+        items:
+          type: array
+          description: A list of objects that describe the different items available within the menu
+          items:
+            $ref: '#/components/schemas/item'
+        sections:
+          type: array
+          description: A list of objects that describe the different sections of the menu
+          items:
+            $ref: '#/components/schemas/section'
+        timeSlots:
+          type: array
+          description: A list of objects that describe the time periods that different sections of the menu can be made available within
+          items:
+            $ref: '#/components/schemas/time-slot'
+        modifierGroups:
+          type: array
+          description: A list of objects that describe the different modifier groups that will be available to the merchant within the portal to apply to different sections
+          items:
+            $ref: '#/components/schemas/modifier-group'
+      required:
+      - items
+      - sections
+      - timeSlots
+      - modifierGroups
+    section:
+      type: object
+      properties:
+        id:
+          uniqueItems: true
+          type: string
+          description: A unique id that represents the section within the menu
+        name:
+          type: string
+          description: A name describing the section
+        description:
+          type: string
+        availableTimeSlots:
+          type: array
+          description: A list of ids referencing the timeslots that this section will be available within
+          items:
+            type: string
+        items:
+          type: array
+          description: A list of ids referencing the menu items that are available within this section - only parent items will be referenced here, not items that are used as modifiers
+          items:
+            type: string
+        modifierGroups:
+          type: array
+          description: A list of ids that reference the modifierGroups that are used in this section. Any item contained within the 'option' of another item will exist within a modifierGroup that belongs to the same section of that parent item
+          items:
+            type: string
+      required:
+      - id
+      - name
+      - availableTimeSlots
+      - items
     modifier-group:
       type: object
       description: Modifier groups are a convenience added to the schema for managing the options that can be added to items (e.g. within a menu management app). They are, however, not necessary for rendering a menu to a customer
@@ -323,6 +1102,14 @@ components:
         default: Bearer {$$.env.access_token}
       in: header
       name: Authorization
+      required: true
+    header-content-json:
+      schema:
+        type: string
+        enum:
+        - application/json
+      in: header
+      name: Content-Type
       required: true
   securitySchemes:
     JWT:

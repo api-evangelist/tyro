@@ -12,7 +12,7 @@ tags:
 paths:
   /pay/refunds:
     post:
-      summary: Create a Refund Request
+      summary: Create a refund request
       operationId: create-refund-request
       tags:
       - Pay Refunds
@@ -83,7 +83,7 @@ paths:
       - $ref: '#/components/parameters/header-bearer-token'
       - $ref: '#/components/parameters/header-content-json'
     get:
-      summary: List all Refunds
+      summary: List all refunds
       operationId: list-all-refunds
       tags:
       - Pay Refunds
@@ -109,7 +109,7 @@ paths:
       tags:
       - Pay Refunds
       description: Retrieve a Refund Request.
-      summary: Retrieve a Refund Request
+      summary: Retrieve a refund request
       responses:
         '200':
           description: The Refund Request response
@@ -130,6 +130,15 @@ paths:
         required: true
 components:
   schemas:
+    list-refunds-response:
+      title: List Refunds Response
+      type: object
+      properties:
+        refunds:
+          type: array
+          description: List of refunds
+          items:
+            $ref: '#/components/schemas/refund-request-response'
     refund-request-response:
       title: Refund Request Response
       type: object
@@ -161,15 +170,20 @@ components:
           description: The timestamp when the Refund Request was last updated
           type: string
           example: '2022-11-23T22:40:48.237Z'
-    list-refunds-response:
-      title: List Refunds Response
+    new-refund-request:
+      title: Create Refund Request
       type: object
       properties:
-        refunds:
-          type: array
-          description: List of refunds
-          items:
-            $ref: '#/components/schemas/refund-request-response'
+        payRequestId:
+          description: The id of the Pay Request to be refunded
+          type: string
+          example: 0f448ac1-862a-4c7b-bdb4-a3b7cdbf6148
+        total:
+          allOf:
+          - $ref: '#/components/schemas/money-positive-aud'
+          - description: The total amount to be refunded (in smallest currency unit). Defaults to the total of the Pay Request.
+      required:
+      - payRequestId
     money-positive-aud:
       title: Money Positive Amount
       type: object
@@ -189,20 +203,6 @@ components:
       required:
       - amount
       - currency
-    new-refund-request:
-      title: Create Refund Request
-      type: object
-      properties:
-        payRequestId:
-          description: The id of the Pay Request to be refunded
-          type: string
-          example: 0f448ac1-862a-4c7b-bdb4-a3b7cdbf6148
-        total:
-          allOf:
-          - $ref: '#/components/schemas/money-positive-aud'
-          - description: The total amount to be refunded (in smallest currency unit). Defaults to the total of the Pay Request.
-      required:
-      - payRequestId
   parameters:
     header-bearer-token:
       schema:

@@ -1,0 +1,50 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/tyro/main/json-schema/tyro-location-schema.json",
+  "title": "Location",
+  "x-generated": "2026-10-21",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/tyro-locations-api-openapi.yml#/components/schemas/location",
+  "type": "object",
+  "properties": {
+    "locationId": {
+      "type": "string",
+      "description": "The ID of the location as specified by the Tyro Connect system"
+    },
+    "name": {
+      "type": "string",
+      "description": "The name of the location, this could be a description or address for the location"
+    },
+    "address": {
+      "type": "object",
+      "description": "The address of the location",
+      "properties": {
+        "street": {
+          "type": "string",
+          "description": "The street address of the location"
+        },
+        "suburb": {
+          "type": "string",
+          "description": "The suburb of the location"
+        },
+        "state": {
+          "type": "string",
+          "description": "The state of the location"
+        },
+        "postcode": {
+          "type": "string",
+          "description": "The postcode of the location"
+        },
+        "country": {
+          "type": "string",
+          "description": "The country of the location"
+        }
+      }
+    }
+  },
+  "required": [
+    "locationId",
+    "name"
+  ]
+}

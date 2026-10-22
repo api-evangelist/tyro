@@ -1,0 +1,432 @@
+generated: '2026-10-21'
+method: derived
+generator: derive-vocabulary.py
+source:
+- openapi/tyro-bookings-api-openapi.yml
+- openapi/tyro-connections-api-openapi.yml
+- openapi/tyro-locations-api-openapi.yml
+- openapi/tyro-loyalty-api-openapi.yml
+- openapi/tyro-member-api-openapi.yml
+vocabulary:
+  name: Tyro Payments Domain Vocabulary
+  description: 'Terms declared by Tyro Payments''s own API contract: its resource groups, objects and enumerations, with the contract''s definitions.
+    Derived, not authored.'
+  version: '2026-10-21'
+  terms:
+  - term: customer
+    definition: The customer making the booking
+    tags:
+    - Object
+    source: openapi/tyro-bookings-api-openapi.yml#/components/schemas/customer
+  - term: bookingStatus
+    definition: The current status of the booking
+    tags:
+    - Enumeration
+    source: openapi/tyro-bookings-api-openapi.yml#/components/schemas/bookingStatus
+  - term: Update booking request
+    definition: The message to be sent to Tyro Connect in order to update the booking
+    tags:
+    - Object
+    source: openapi/tyro-bookings-api-openapi.yml#/components/schemas/update-booking-request
+  - term: New booking request
+    definition: The message to be sent to Tyro Connect in order to mark the booking as seated.
+    tags:
+    - Object
+    source: openapi/tyro-bookings-api-openapi.yml#/components/schemas/new-booking-request
+  - term: numberOfPeople
+    definition: The number of expected guests
+    tags:
+    - Object
+    source: openapi/tyro-bookings-api-openapi.yml#/components/schemas/numberOfPeople
+  - term: section
+    definition: The section within the venue
+    tags:
+    - Object
+    source: openapi/tyro-bookings-api-openapi.yml#/components/schemas/section
+  - term: tableAsset
+    definition: 'Object declared by the contract with fields: type, tableStatus, arrivalStatus, tables, section, discounts, preOrders.'
+    tags:
+    - Object
+    source: openapi/tyro-bookings-api-openapi.yml#/components/schemas/tableAsset
+  - term: assetUpdate
+    definition: 'Object declared by the contract with fields: tableStatus, arrivalStatus, tables, section, rooms, discounts, preOrders.'
+    tags:
+    - Object
+    source: openapi/tyro-bookings-api-openapi.yml#/components/schemas/assetUpdate
+  - term: roomAsset
+    definition: The section within the venue
+    tags:
+    - Object
+    source: openapi/tyro-bookings-api-openapi.yml#/components/schemas/roomAsset
+  - term: time
+    definition: The format of the date time is the notation as defined by [RFC 3339, section 5.6](https://tools.ietf.org/html/rfc3339#section-5.6)
+    tags:
+    - Object
+    source: openapi/tyro-bookings-api-openapi.yml#/components/schemas/time
+  - term: room
+    definition: 'Object declared by the contract with fields: number.'
+    tags:
+    - Object
+    source: openapi/tyro-bookings-api-openapi.yml#/components/schemas/room
+  - term: arrivalStatus
+    definition: The customer's arrival status in relation to the booking
+    tags:
+    - Enumeration
+    source: openapi/tyro-bookings-api-openapi.yml#/components/schemas/arrivalStatus
+  - term: address
+    definition: The customer address
+    tags:
+    - Object
+    source: openapi/tyro-bookings-api-openapi.yml#/components/schemas/address
+  - term: tableStatus
+    definition: 'The current table status of the booking The supported statuses are: * `SEATED` - indicates that the customer connected to the
+      booking has been seated. * `DINING` - indicate that the customer connected to the booking has started dining. * `CLOSING` - indicates that
+      the customer connected to the booking is close to finishing their meal (e.g. when the bill has been printed). * `FINALISED` - indicates'
+    tags:
+    - Enumeration
+    source: openapi/tyro-bookings-api-openapi.yml#/components/schemas/tableStatus
+  - term: payments
+    definition: A list of payments applied to the booking.
+    tags:
+    - Object
+    source: openapi/tyro-bookings-api-openapi.yml#/components/schemas/payments
+  - term: acceptHeaderBooking1_0
+    definition: Specifies which version of the API to use. If no value is provided then 0.1 version will be used
+    tags:
+    - Enumeration
+    source: openapi/tyro-bookings-api-openapi.yml#/components/schemas/acceptHeaderBooking1_0
+  - term: Booking
+    definition: 'Object declared by the contract with fields: id, locationId, origin, asset, bookingStatus, numberOfPeople, payments, startTime,
+      endTime, customer, notes, reason.'
+    tags:
+    - Object
+    source: openapi/tyro-bookings-api-openapi.yml#/components/schemas/booking
+  - term: Payment
+    definition: 'Object declared by the contract with fields: amount, currency.'
+    tags:
+    - Object
+    source: openapi/tyro-bookings-api-openapi.yml#/components/schemas/payment
+  - term: bookingReference
+    definition: Reference for the booking. It is used to facilitate identification of the booking in the app and pos systems and must be unique
+      per location and booking partner.
+    tags:
+    - Object
+    source: openapi/tyro-bookings-api-openapi.yml#/components/schemas/bookingReference
+  - term: table
+    definition: 'Object declared by the contract with fields: number.'
+    tags:
+    - Object
+    source: openapi/tyro-bookings-api-openapi.yml#/components/schemas/table
+  - term: reason
+    definition: The reason the booking was rejected or cancelled. Provided only when bookingStatus is `REJECTED`, `CANCELLED_BY_MERCHANT` or `CANCELLED_BY_CUSTOMER`
+    tags:
+    - Object
+    source: openapi/tyro-bookings-api-openapi.yml#/components/schemas/reason
+  - term: origin
+    definition: Information relevant to the booking partner that this booking was created with
+    tags:
+    - Object
+    source: openapi/tyro-bookings-api-openapi.yml#/components/schemas/origin
+  - term: Connection Response
+    definition: 'Object declared by the contract with fields: id, connectionSecret, createdDate, readerId, readerName, locationId, locationName.'
+    tags:
+    - Object
+    source: openapi/tyro-connections-api-openapi.yml#/components/schemas/create-connection-response
+  - term: POS information
+    definition: 'Object declared by the contract with fields: vendor, version, apis.'
+    tags:
+    - Object
+    source: openapi/tyro-locations-api-openapi.yml#/components/schemas/vendor-spec
+  - term: Online/Offline status
+    definition: 'Object declared by the contract with fields: code, lastOnlineAt, reason.'
+    tags:
+    - Object
+    source: openapi/tyro-locations-api-openapi.yml#/components/schemas/online-status-spec
+  - term: Supported API version
+    definition: 'Object declared by the contract with fields: api, version.'
+    tags:
+    - Object
+    source: openapi/tyro-locations-api-openapi.yml#/components/schemas/api-spec
+  - term: Online/Offline status response
+    definition: 'Object declared by the contract with fields: locationId, pos, status.'
+    tags:
+    - Object
+    source: openapi/tyro-locations-api-openapi.yml#/components/schemas/heartbeat-response
+  - term: Location
+    definition: 'Object declared by the contract with fields: locationId, name, address.'
+    tags:
+    - Object
+    source: openapi/tyro-locations-api-openapi.yml#/components/schemas/location
+  - term: Money Positive Amount
+    definition: 'Object declared by the contract with fields: amount, currency.'
+    tags:
+    - Object
+    source: openapi/tyro-loyalty-api-openapi.yml#/components/schemas/money-positive-aud
+  - term: Line Item
+    definition: This object represents a line item within a sale.
+    tags:
+    - Object
+    source: openapi/tyro-loyalty-api-openapi.yml#/components/schemas/line-item
+  - term: Loyalty Activity object
+    definition: 'Object declared by the contract with fields: id, locationId, memberId, payment, sale.'
+    tags:
+    - Object
+    source: openapi/tyro-loyalty-api-openapi.yml#/components/schemas/loyalty-activity
+  - term: register-member-request
+    definition: 'Object declared by the contract with fields: origin, locationId.'
+    tags:
+    - Object
+    source: openapi/tyro-member-api-openapi.yml#/components/schemas/register-member-request
+  - term: Request body to deregister a member
+    definition: 'Object declared by the contract with fields: origin.'
+    tags:
+    - Object
+    source: openapi/tyro-member-api-openapi.yml#/components/schemas/deregister-member-request
+  - term: Menu
+    definition: 'Object declared by the contract with fields: items, sections, timeSlots, modifierGroups.'
+    tags:
+    - Object
+    source: openapi/tyro-menus-api-openapi.yml#/components/schemas/menu
+  - term: time-slot
+    definition: 'Object declared by the contract with fields: id, description, startTime, endTime, days.'
+    tags:
+    - Object
+    source: openapi/tyro-menus-api-openapi.yml#/components/schemas/time-slot
+  - term: item
+    definition: 'Object declared by the contract with fields: id, name, sku, description, containsAlcohol, energy, price, images, options.'
+    tags:
+    - Object
+    source: openapi/tyro-menus-api-openapi.yml#/components/schemas/item
+  - term: modifier-group
+    definition: Modifier groups are a convenience added to the schema for managing the options that can be added to items (e.g. within a menu
+      management app). They are, however, not necessary for rendering a menu to a customer
+    tags:
+    - Object
+    source: openapi/tyro-menus-api-openapi.yml#/components/schemas/modifier-group
+  - term: Merchant
+    definition: 'Object declared by the contract with fields: mid, posReference, isAuthorised, displayName.'
+    tags:
+    - Object
+    source: openapi/tyro-merchants-api-openapi.yml#/components/schemas/merchant-object
+  - term: Merchant
+    definition: 'Object declared by the contract with fields: mid, posReference, isAuthorised, displayName.'
+    tags:
+    - Object
+    source: openapi/tyro-merchants-api-openapi.yml#/components/schemas/merchant
+  - term: Request body to submit a merchant onboarding decision
+    definition: 'Object declared by the contract with fields: action, loyaltyProgramId, reason.'
+    tags:
+    - Object
+    source: openapi/tyro-onboarding-api-openapi.yml#/components/schemas/merchant-onboarding-decision-request
+  - term: Merchant onboarding request response
+    definition: The details of a merchant onboarding request, including location and business details, and the current status of each integration.
+    tags:
+    - Object
+    source: openapi/tyro-onboarding-api-openapi.yml#/components/schemas/merchant-onboarding-request-response
+  - term: Money Positive Amount
+    definition: 'Object declared by the contract with fields: amount, currency.'
+    tags:
+    - Object
+    source: openapi/tyro-orders-api-openapi.yml#/components/schemas/money-positive
+  - term: Single error
+    definition: 'Object declared by the contract with fields: error.'
+    tags:
+    - Object
+    source: openapi/tyro-orders-api-openapi.yml#/components/schemas/bad-request-single-error-response
+  - term: Order Item
+    definition: This object represents an item within a food order.
+    tags:
+    - Object
+    source: openapi/tyro-orders-api-openapi.yml#/components/schemas/order-item
+  - term: Money
+    definition: 'Object declared by the contract with fields: amount, currency.'
+    tags:
+    - Object
+    source: openapi/tyro-orders-api-openapi.yml#/components/schemas/money
+  - term: Existing Order
+    definition: This is the representation of the order as provided by Tyro Connect.
+    tags:
+    - Object
+    source: openapi/tyro-orders-api-openapi.yml#/components/schemas/existing-order
+  - term: New Order
+    definition: This is the representation of the order that was provided by a food ordering app.
+    tags:
+    - Object
+    source: openapi/tyro-orders-api-openapi.yml#/components/schemas/new-order
+  - term: Order conflict status
+    definition: 'Object declared by the contract with fields: error.'
+    tags:
+    - Object
+    source: openapi/tyro-orders-api-openapi.yml#/components/schemas/order-update-status-conflict
+  - term: List of errors
+    definition: 'Object declared by the contract with fields: message, errors, error.'
+    tags:
+    - Object
+    source: openapi/tyro-orders-api-openapi.yml#/components/schemas/bad-request-validation-errors-response
+  - term: Pay Methods Response
+    definition: 'Object declared by the contract with fields: payMethods.'
+    tags:
+    - Object
+    source: openapi/tyro-pay-methods-api-openapi.yml#/components/schemas/pay-methods-response
+  - term: Pay Method
+    definition: 'Object declared by the contract with fields: id, customerId, card.'
+    tags:
+    - Object
+    source: openapi/tyro-pay-methods-api-openapi.yml#/components/schemas/pay-method
+  - term: Refund Request Response
+    definition: 'Object declared by the contract with fields: id, payRequestId, total, status, createdAt, updatedAt.'
+    tags:
+    - Object
+    source: openapi/tyro-pay-refunds-api-openapi.yml#/components/schemas/refund-request-response
+  - term: List Refunds Response
+    definition: 'Object declared by the contract with fields: refunds.'
+    tags:
+    - Object
+    source: openapi/tyro-pay-refunds-api-openapi.yml#/components/schemas/list-refunds-response
+  - term: Create Refund Request
+    definition: 'Object declared by the contract with fields: payRequestId, total.'
+    tags:
+    - Object
+    source: openapi/tyro-pay-refunds-api-openapi.yml#/components/schemas/new-refund-request
+  - term: Transaction Result
+    definition: 'Object declared by the contract with fields: merchant, authentication, order, card, operationResult, transaction.'
+    tags:
+    - Object
+    source: openapi/tyro-pay-requests-api-openapi.yml#/components/schemas/transaction-result
+  - term: Pay Request Response
+    definition: 'Object declared by the contract with fields: id, paySecret, locationId, provider, origin, payMethod, capture, status, supportedNetworks,
+      total, transactionResults, threeDSecureDetails. (1 more)'
+    tags:
+    - Object
+    source: openapi/tyro-pay-requests-api-openapi.yml#/components/schemas/pay-request-response
+  - term: New Pay Request
+    definition: 'Object declared by the contract with fields: locationId, provider, origin, payMethod, action, capture, total, statementDescriptor,
+      statementDescriptorLocation.'
+    tags:
+    - Object
+    source: openapi/tyro-pay-requests-api-openapi.yml#/components/schemas/new-pay-request
+  - term: Pay Terminal Money Amounts
+    definition: 'Object declared by the contract with fields: goodsAndServicesAmount, cashoutAmount, refundAmount, currency.'
+    tags:
+    - Object
+    source: openapi/tyro-pay-requests-api-openapi.yml#/components/schemas/pay-terminal-total
+  - term: Pay Request Response
+    definition: 'Object declared by the contract with fields: id, mid, tid, origin, status, transactionProgress, total, pendingDecision, terminalProgress,
+      transactionOutcome, receipts.'
+    tags:
+    - Object
+    source: openapi/tyro-pay-requests-api-openapi.yml#/components/schemas/pay-request-response_2
+  - term: New Pay Request
+    definition: 'Object declared by the contract with fields: mid, tid, origin, options, total.'
+    tags:
+    - Object
+    source: openapi/tyro-pay-requests-api-openapi.yml#/components/schemas/new-pay-request_2
+  - term: Request body to create a test payment
+    definition: 'Object declared by the contract with fields: locationId, paymentType, paymentSource, goodsAndServicesAmount, tipAmount, surchargeAmount,
+      cashoutAmount.'
+    tags:
+    - Object
+    source: openapi/tyro-payments-api-openapi.yml#/components/schemas/create-test-payment
+  - term: Reader
+    definition: 'Object declared by the contract with fields: readerId, locationId, name, status, caid.'
+    tags:
+    - Object
+    source: openapi/tyro-readers-api-openapi.yml#/components/schemas/reader-object
+  - term: Loyalty Card object
+    definition: 'Object declared by the contract with fields: id, paymentId, paymentSource, origin, preAccumulatedReward.'
+    tags:
+    - Object
+    source: openapi/tyro-registered-card-api-openapi.yml#/components/schemas/loyalty-card
+  - term: Request body to deregister a member's card
+    definition: 'Object declared by the contract with fields: origin.'
+    tags:
+    - Object
+    source: openapi/tyro-registered-card-api-openapi.yml#/components/schemas/deregister-member-card-request
+  - term: Transaction
+    definition: 'Object declared by the contract with fields: transactionId, transactionLocalDateTime, transactionStatus, transactionDescription,
+      locationId, tid, deviceType, mobilePlatformType, paymentType, feeType, fromAccountType, isExpressPayment. (18 more)'
+    tags:
+    - Object
+    source: openapi/tyro-reporting-api-openapi.yml#/components/schemas/transaction
+  - term: Settlements Response
+    definition: 'Object declared by the contract with fields: mid, settlementDate, settlements.'
+    tags:
+    - Object
+    source: openapi/tyro-reporting-api-openapi.yml#/components/schemas/reporting-settlements-response
+  - term: Settlements Detail
+    definition: 'Object declared by the contract with fields: type, institutionName, bsb, accountNumber, accountName, settlementAmount, lastUpdatedAt,
+      settlementStatus, lodgementReference.'
+    tags:
+    - Object
+    source: openapi/tyro-reporting-api-openapi.yml#/components/schemas/settlement-details
+  - term: Settlements
+    definition: 'Object declared by the contract with fields: clearingPaymentId, grossAmount, settlementDetails.'
+    tags:
+    - Object
+    source: openapi/tyro-reporting-api-openapi.yml#/components/schemas/settlement
+  - term: Transactions Report
+    definition: 'Object declared by the contract with fields: terminalBusinessDay, merchantDetails, transactions, pagination.'
+    tags:
+    - Object
+    source: openapi/tyro-reporting-api-openapi.yml#/components/schemas/reporting-transactions-response
+  - term: Sale
+    definition: This object represents a sale.
+    tags:
+    - Object
+    source: openapi/tyro-sales-api-openapi.yml#/components/schemas/sale
+  - term: Update table request
+    definition: The request to be sent to Tyro Connect in order to update the table
+    tags:
+    - Object
+    source: openapi/tyro-tables-api-openapi.yml#/components/schemas/update-table-request
+  - term: New table request
+    definition: The request sent to Tyro Connect to add a new table
+    tags:
+    - Object
+    source: openapi/tyro-tables-api-openapi.yml#/components/schemas/new-table-request
+  - term: Embedded Payments Transaction Response
+    definition: 'Object declared by the contract with fields: transactionId, transactionLocalDateTime, reference, transactionReference, locationId,
+      mid, tid, amount, paymentType, surchargeAmount, tipAmount, elidedPan. (5 more)'
+    tags:
+    - Object
+    source: openapi/tyro-transactions-api-openapi.yml#/components/schemas/embedded-payments-transaction-response
+  - term: Bookings
+    definition: 'Resource group in the contract; its operation POST /bookings: This endpoint is used to create a booking within Tyro Connect.'
+    tags:
+    - Resource Group
+    source: openapi/tyro-bookings-api-openapi.yml
+  - term: Connections
+    definition: 'Resource group in the contract; its operation POST /tap-to-pay/connections: When your App is first initialised, a request is
+      sent to your server to establish a Tyro Embedded Payments connection.'
+    tags:
+    - Resource Group
+    source: openapi/tyro-connections-api-openapi.yml
+  - term: Locations
+    definition: 'Resource group in the contract; its operation GET /locations/{tcLocationId}: This endpoint allows you to query the online/offline
+      status of a POS'
+    tags:
+    - Resource Group
+    source: openapi/tyro-locations-api-openapi.yml
+  - term: Loyalty
+    definition: 'Resource group in the contract; its operation GET /loyalty/activities/{loyaltyActivityId}: This endpoint retrieves a loyalty
+      activity for a registered member.'
+    tags:
+    - Resource Group
+    source: openapi/tyro-loyalty-api-openapi.yml
+  - term: Member
+    definition: 'Resource group in the contract; its operation POST /loyalty/members: This endpoint registers a member for a participating location
+      with the loyalty API.'
+    tags:
+    - Resource Group
+    source: openapi/tyro-member-api-openapi.yml
+  - term: Menus
+    definition: 'Resource group in the contract; its operation GET /menus/{tcLocationId}/app/sync: This endpoint starts the process of generating
+      the latest published menu'
+    tags:
+    - Resource Group
+    source: openapi/tyro-menus-api-openapi.yml
+  - term: Merchants
+    definition: 'Resource group in the contract; its operation POST /tap-to-pay/merchants/{merchantId}/authorise/test: For testing purposes only.'
+    tags:
+    - Resource Group
+    source: openapi/tyro-merchants-api-openapi.yml

@@ -1,15 +1,18 @@
 aid: tyro
+
 url: https://raw.githubusercontent.com/api-evangelist/tyro/refs/heads/main/apis.yml
+
 name: Tyro Payments
+
 kind: company
-description: 'Tyro Payments is an ASX-listed Australian payments company and one of the country''s largest
-  merchant acquirers outside the major banks, holding its own banking licence. Founded in 2003, Tyro provides
-  EFTPOS terminals, in-person and online card acceptance, and integrated payments for more than 70,000
-  Australian merchants across hospitality, retail and health. Its developer surface, Tyro Connect, is
-  a genuinely API-first platform: a REST API family (served from https://api.tyro.com/connect and secured
-  with OpenID Connect / OAuth 2.0) that links Point of Sale software, ordering, booking, loyalty and reporting
-  apps to Tyro merchants, alongside Tyro.js, mobile SDKs and Tap to Pay (SoftPOS) for card-present and
-  online payments. Home market is Australia.'
+
+description: 'Tyro Payments is an ASX-listed Australian payments company and one of the country''s largest merchant acquirers outside the major
+  banks, holding its own banking licence. Founded in 2003, Tyro provides EFTPOS terminals, in-person and online card acceptance, and integrated
+  payments for more than 70,000 Australian merchants across hospitality, retail and health. Its developer surface, Tyro Connect, is a genuinely
+  API-first platform: a REST API family (served from https://api.tyro.com/connect and secured with OpenID Connect / OAuth 2.0) that links Point
+  of Sale software, ordering, booking, loyalty and reporting apps to Tyro merchants, alongside Tyro.js, mobile SDKs and Tap to Pay (SoftPOS) for
+  card-present and online payments. Home market is Australia.'
+
 deliveryModel:
   model: saas
   open_source: false
@@ -22,6 +25,7 @@ deliveryModel:
   - pricing
   generated: '2026-08-28'
   method: derived
+
 accessModel:
   pricing: paid
   onboarding: partner
@@ -35,7 +39,9 @@ accessModel:
   - documentation
   generated: '2026-07-24'
   method: manual
-image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+
+image: https://docs.connect.tyro.com/assets/logo-black.3b5b2cda57eb093a6f728a13a1f833612317acaa2348416ed4a580cb59be8128.9c1bb791.png
+
 tags:
 - Payments
 - Australia
@@ -46,6 +52,7 @@ tags:
 - Point-of-Sale
 - Online Payments
 - Tap to Pay
+
 tags_raw:
 - Payments
 - Australia
@@ -56,9 +63,119 @@ tags_raw:
 - Point of Sale
 - Online Payments
 - Tap to Pay
+
 created: '2026-07-24'
-modified: '2026-09-16'
+
+modified: '2026-10-21'
+
 specificationVersion: '0.23'
+
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com
+
+common:
+- type: RateLimits
+  url: rate-limits/tyro-rate-limits.yml
+- type: Spectral
+  url: rules/tyro-rules.yml
+- type: JSONLD
+  url: json-ld/tyro-context.jsonld
+- type: Vocabulary
+  url: vocabulary/tyro-vocabulary.yml
+- type: ErrorCatalog
+  url: errors/tyro-problem-types.yml
+- type: Overlay
+  url: overlays/tyro-bookings-api-overlay.yaml
+- type: ToolCrosswalk
+  url: mcp/tyro-tool-crosswalk.yml
+- type: MCPServer
+  url: mcp/tyro-mcp.yml
+- type: Hosts
+  url: hosts/tyro-hosts.yml
+- type: IntegrationEdges
+  url: integrations/tyro-integration-edges.yml
+- type: Vendors
+  url: vendors/tyro-vendors.yml
+- type: SDKs
+  url: packages/tyro-packages.yml
+- type: Packages
+  url: packages/tyro-packages.yml
+- type: CapabilityMap
+  url: capabilities/tyro-capability-edges.yml
+  name: Tyro Payments Business Capability Map
+- type: AgenticAccess
+  url: agentic-access/tyro-agentic-access.yml
+- type: DomainSecurity
+  url: security/tyro-domain-security.yml
+- type: Authentication
+  url: authentication/tyro-authentication.yml
+- type: Website
+  url: https://www.tyro.com/
+- type: DeveloperPortal
+  url: https://www.tyro.com/partners/developer-documentation/
+- type: Documentation
+  url: https://docs.connect.tyro.com/
+- type: APIReference
+  url: https://docs.connect.tyro.com/api-explorer
+- type: GettingStarted
+  url: https://docs.connect.tyro.com/app/authentication
+- type: Authentication
+  url: https://docs.connect.tyro.com/app/authentication
+- type: Webhooks
+  url: https://docs.connect.tyro.com/app/webhooks
+- type: GitHubOrganization
+  url: https://github.com/tyro
+- type: StatusPage
+  url: https://status.tyro.com/
+- type: Pricing
+  url: https://www.tyro.com/payments/in-person/eftpos/compare/
+- type: Login
+  url: https://www.tyro.com/login/
+- type: Blog
+  url: https://www.tyro.com/blog/
+- type: Support
+  url: https://www.tyro.com/support/
+- type: TermsOfService
+  url: https://www.tyro.com/legal/terms-and-conditions/website-terms/
+- type: PrivacyPolicy
+  url: https://www.tyro.com/legal/privacy-policy/
+- type: Security
+  url: https://www.tyro.com/support/security-fraud-prevention/
+- type: OpenIDConnect
+  url: well-known/tyro-openid-configuration.json
+- type: WellKnown
+  url: well-known/tyro-well-known.yml
+- type: Conventions
+  url: conventions/tyro-conventions.yml
+- type: ErrorCatalog
+  url: errors/tyro-error-codes.yml
+- type: DeclineCodes
+  url: errors/tyro-decline-codes.yml
+- type: Sandbox
+  url: sandbox/tyro-sandbox.yml
+- type: Lifecycle
+  url: lifecycle/tyro-lifecycle.yml
+- type: ChangeLog
+  url: changelog/tyro-changelog.yml
+- type: Components
+  url: components/tyro-components.yml
+- type: DataModel
+  url: data-model/tyro-data-model.yml
+- type: Conformance
+  url: conformance/tyro-conformance.yml
+- type: Webhooks
+  url: asyncapi/tyro-webhooks.yml
+- type: X-MCPServerCandidate
+  url: mcp/tyro-mcp.yml
+  note: 'Renamed from MCPServer 2026-09-03 (roadmap#247): the manifest self-describes as status: candidate — a tool list derived from the published
+    API contracts, not an existing server. The scorer already read the manifest and reported mcp_server correctly; the MCPServer type was crediting
+    the artifact-type surfaces with a server that does not exist.'
+- type: AgentSkill
+  url: skills/_index.yml
+- type: LLMsTxt
+  url: llms/tyro-llms.txt
+
 apis:
 - aid: tyro:tyro-bookings-api
   name: Tyro Payments Bookings API
@@ -83,7 +200,7 @@ apis:
   - type: APIReference
     url: https://docs.connect.tyro.com/pos/apis/pay-terminal/0.9
   - type: Documentation
-    url: https://docs.connect.tyro.com/pos/apis/embedded-payments
+    url: https://docs.connect.tyro.com/docs/in-person-payments/tap-to-pay/overview
   - type: APIReference
     url: https://docs.connect.tyro.com/pos/apis/embedded-payments/1.0
   - type: Documentation
@@ -126,6 +243,12 @@ apis:
     url: https://docs.connect.tyro.com/app/apis/referrals
   - type: APIReference
     url: https://docs.connect.tyro.com/app/apis/referrals/1.0
+  - type: JSONSchema
+    url: json-schema/tyro-new-booking-request-schema.json
+  - type: JSONSchema
+    url: json-schema/tyro-booking-schema.json
+  - type: JSONSchema
+    url: json-schema/tyro-update-booking-request-schema.json
 - aid: tyro:tyro-connections-api
   name: Tyro Payments Connections API
   description: The Connections API from Tyro Payments — 1 operation(s) for connections.
@@ -147,7 +270,7 @@ apis:
   - type: APIReference
     url: https://docs.connect.tyro.com/pos/apis/pay-terminal/0.9
   - type: Documentation
-    url: https://docs.connect.tyro.com/pos/apis/embedded-payments
+    url: https://docs.connect.tyro.com/docs/in-person-payments/tap-to-pay/overview
   - type: APIReference
     url: https://docs.connect.tyro.com/pos/apis/embedded-payments/1.0
   - type: Documentation
@@ -190,6 +313,8 @@ apis:
     url: https://docs.connect.tyro.com/app/apis/referrals
   - type: APIReference
     url: https://docs.connect.tyro.com/app/apis/referrals/1.0
+  - type: JSONSchema
+    url: json-schema/tyro-create-connection-response-schema.json
 - aid: tyro:tyro-locations-api
   name: Tyro Payments Locations API
   description: The Locations API from Tyro Payments — 2 operation(s) for locations.
@@ -213,7 +338,7 @@ apis:
   - type: APIReference
     url: https://docs.connect.tyro.com/pos/apis/pay-terminal/0.9
   - type: Documentation
-    url: https://docs.connect.tyro.com/pos/apis/embedded-payments
+    url: https://docs.connect.tyro.com/docs/in-person-payments/tap-to-pay/overview
   - type: APIReference
     url: https://docs.connect.tyro.com/pos/apis/embedded-payments/1.0
   - type: Documentation
@@ -256,6 +381,10 @@ apis:
     url: https://docs.connect.tyro.com/app/apis/referrals
   - type: APIReference
     url: https://docs.connect.tyro.com/app/apis/referrals/1.0
+  - type: JSONSchema
+    url: json-schema/tyro-location-schema.json
+  - type: JSONSchema
+    url: json-schema/tyro-heartbeat-response-schema.json
 - aid: tyro:tyro-loyalty-api
   name: Tyro Payments Loyalty API
   description: The Loyalty API from Tyro Payments — 1 operation(s) for loyalty.
@@ -277,7 +406,7 @@ apis:
   - type: APIReference
     url: https://docs.connect.tyro.com/pos/apis/pay-terminal/0.9
   - type: Documentation
-    url: https://docs.connect.tyro.com/pos/apis/embedded-payments
+    url: https://docs.connect.tyro.com/docs/in-person-payments/tap-to-pay/overview
   - type: APIReference
     url: https://docs.connect.tyro.com/pos/apis/embedded-payments/1.0
   - type: Documentation
@@ -320,6 +449,8 @@ apis:
     url: https://docs.connect.tyro.com/app/apis/referrals
   - type: APIReference
     url: https://docs.connect.tyro.com/app/apis/referrals/1.0
+  - type: JSONSchema
+    url: json-schema/tyro-loyalty-activity-schema.json
 - aid: tyro:tyro-member-api
   name: Tyro Payments Member API
   description: The Member API from Tyro Payments — 1 operation(s) for member.
@@ -341,7 +472,7 @@ apis:
   - type: APIReference
     url: https://docs.connect.tyro.com/pos/apis/pay-terminal/0.9
   - type: Documentation
-    url: https://docs.connect.tyro.com/pos/apis/embedded-payments
+    url: https://docs.connect.tyro.com/docs/in-person-payments/tap-to-pay/overview
   - type: APIReference
     url: https://docs.connect.tyro.com/pos/apis/embedded-payments/1.0
   - type: Documentation
@@ -384,6 +515,10 @@ apis:
     url: https://docs.connect.tyro.com/app/apis/referrals
   - type: APIReference
     url: https://docs.connect.tyro.com/app/apis/referrals/1.0
+  - type: JSONSchema
+    url: json-schema/tyro-register-member-request-schema.json
+  - type: JSONSchema
+    url: json-schema/tyro-deregister-member-request-schema.json
 - aid: tyro:tyro-menus-api
   name: Tyro Payments Menus API
   description: The Menus API from Tyro Payments — 2 operation(s) for menus.
@@ -405,7 +540,7 @@ apis:
   - type: APIReference
     url: https://docs.connect.tyro.com/pos/apis/pay-terminal/0.9
   - type: Documentation
-    url: https://docs.connect.tyro.com/pos/apis/embedded-payments
+    url: https://docs.connect.tyro.com/docs/in-person-payments/tap-to-pay/overview
   - type: APIReference
     url: https://docs.connect.tyro.com/pos/apis/embedded-payments/1.0
   - type: Documentation
@@ -448,6 +583,8 @@ apis:
     url: https://docs.connect.tyro.com/app/apis/referrals
   - type: APIReference
     url: https://docs.connect.tyro.com/app/apis/referrals/1.0
+  - type: JSONSchema
+    url: json-schema/tyro-menu-schema.json
 - aid: tyro:tyro-merchants-api
   name: Tyro Payments Merchants API
   description: The Merchants API from Tyro Payments — 7 operation(s) for merchants.
@@ -469,7 +606,7 @@ apis:
   - type: APIReference
     url: https://docs.connect.tyro.com/pos/apis/pay-terminal/0.9
   - type: Documentation
-    url: https://docs.connect.tyro.com/pos/apis/embedded-payments
+    url: https://docs.connect.tyro.com/docs/in-person-payments/tap-to-pay/overview
   - type: APIReference
     url: https://docs.connect.tyro.com/pos/apis/embedded-payments/1.0
   - type: Documentation
@@ -512,6 +649,10 @@ apis:
     url: https://docs.connect.tyro.com/app/apis/referrals
   - type: APIReference
     url: https://docs.connect.tyro.com/app/apis/referrals/1.0
+  - type: JSONSchema
+    url: json-schema/tyro-merchant-schema.json
+  - type: JSONSchema
+    url: json-schema/tyro-merchant-object-schema.json
 - aid: tyro:tyro-onboarding-api
   name: Tyro Payments Onboarding API
   description: The Onboarding API from Tyro Payments — 1 operation(s) for onboarding.
@@ -533,7 +674,7 @@ apis:
   - type: APIReference
     url: https://docs.connect.tyro.com/pos/apis/pay-terminal/0.9
   - type: Documentation
-    url: https://docs.connect.tyro.com/pos/apis/embedded-payments
+    url: https://docs.connect.tyro.com/docs/in-person-payments/tap-to-pay/overview
   - type: APIReference
     url: https://docs.connect.tyro.com/pos/apis/embedded-payments/1.0
   - type: Documentation
@@ -576,6 +717,10 @@ apis:
     url: https://docs.connect.tyro.com/app/apis/referrals
   - type: APIReference
     url: https://docs.connect.tyro.com/app/apis/referrals/1.0
+  - type: JSONSchema
+    url: json-schema/tyro-merchant-onboarding-request-response-schema.json
+  - type: JSONSchema
+    url: json-schema/tyro-merchant-onboarding-decision-request-schema.json
 - aid: tyro:tyro-orders-api
   name: Tyro Payments Orders API
   description: The Orders API from Tyro Payments — 2 operation(s) for orders.
@@ -599,7 +744,7 @@ apis:
   - type: APIReference
     url: https://docs.connect.tyro.com/pos/apis/pay-terminal/0.9
   - type: Documentation
-    url: https://docs.connect.tyro.com/pos/apis/embedded-payments
+    url: https://docs.connect.tyro.com/docs/in-person-payments/tap-to-pay/overview
   - type: APIReference
     url: https://docs.connect.tyro.com/pos/apis/embedded-payments/1.0
   - type: Documentation
@@ -642,6 +787,12 @@ apis:
     url: https://docs.connect.tyro.com/app/apis/referrals
   - type: APIReference
     url: https://docs.connect.tyro.com/app/apis/referrals/1.0
+  - type: JSONSchema
+    url: json-schema/tyro-new-order-schema.json
+  - type: JSONSchema
+    url: json-schema/tyro-existing-order-schema.json
+  - type: JSONSchema
+    url: json-schema/tyro-get-order-schema.json
 - aid: tyro:tyro-pay-methods-api
   name: Tyro Payments Pay Methods API
   description: The Pay Methods API from Tyro Payments — 2 operation(s) for pay methods.
@@ -663,7 +814,7 @@ apis:
   - type: APIReference
     url: https://docs.connect.tyro.com/pos/apis/pay-terminal/0.9
   - type: Documentation
-    url: https://docs.connect.tyro.com/pos/apis/embedded-payments
+    url: https://docs.connect.tyro.com/docs/in-person-payments/tap-to-pay/overview
   - type: APIReference
     url: https://docs.connect.tyro.com/pos/apis/embedded-payments/1.0
   - type: Documentation
@@ -706,6 +857,10 @@ apis:
     url: https://docs.connect.tyro.com/app/apis/referrals
   - type: APIReference
     url: https://docs.connect.tyro.com/app/apis/referrals/1.0
+  - type: JSONSchema
+    url: json-schema/tyro-pay-method-schema.json
+  - type: JSONSchema
+    url: json-schema/tyro-pay-methods-response-schema.json
 - aid: tyro:tyro-pay-refunds-api
   name: Tyro Payments Pay Refunds API
   description: The Pay Refunds API from Tyro Payments — 2 operation(s) for pay refunds.
@@ -727,7 +882,7 @@ apis:
   - type: APIReference
     url: https://docs.connect.tyro.com/pos/apis/pay-terminal/0.9
   - type: Documentation
-    url: https://docs.connect.tyro.com/pos/apis/embedded-payments
+    url: https://docs.connect.tyro.com/docs/in-person-payments/tap-to-pay/overview
   - type: APIReference
     url: https://docs.connect.tyro.com/pos/apis/embedded-payments/1.0
   - type: Documentation
@@ -770,6 +925,12 @@ apis:
     url: https://docs.connect.tyro.com/app/apis/referrals
   - type: APIReference
     url: https://docs.connect.tyro.com/app/apis/referrals/1.0
+  - type: JSONSchema
+    url: json-schema/tyro-refund-request-response-schema.json
+  - type: JSONSchema
+    url: json-schema/tyro-new-refund-request-schema.json
+  - type: JSONSchema
+    url: json-schema/tyro-list-refunds-response-schema.json
 - aid: tyro:tyro-pay-requests-api
   name: Tyro Payments Pay Requests API
   description: The Pay Requests API from Tyro Payments — 4 operation(s) for pay requests.
@@ -791,7 +952,7 @@ apis:
   - type: APIReference
     url: https://docs.connect.tyro.com/pos/apis/pay-terminal/0.9
   - type: Documentation
-    url: https://docs.connect.tyro.com/pos/apis/embedded-payments
+    url: https://docs.connect.tyro.com/docs/in-person-payments/tap-to-pay/overview
   - type: APIReference
     url: https://docs.connect.tyro.com/pos/apis/embedded-payments/1.0
   - type: Documentation
@@ -834,6 +995,16 @@ apis:
     url: https://docs.connect.tyro.com/app/apis/referrals
   - type: APIReference
     url: https://docs.connect.tyro.com/app/apis/referrals/1.0
+  - type: JSONSchema
+    url: json-schema/tyro-pay-request-response-2-schema.json
+  - type: JSONSchema
+    url: json-schema/tyro-pay-request-response-schema.json
+  - type: JSONSchema
+    url: json-schema/tyro-new-pay-request-schema.json
+  - type: JSONSchema
+    url: json-schema/tyro-update-pay-request-schema.json
+  - type: JSONSchema
+    url: json-schema/tyro-new-pay-request-2-schema.json
 - aid: tyro:tyro-payments-api
   name: Tyro Payments API
   description: The Payments API from Tyro Payments — 1 operation(s) for payments.
@@ -855,7 +1026,7 @@ apis:
   - type: APIReference
     url: https://docs.connect.tyro.com/pos/apis/pay-terminal/0.9
   - type: Documentation
-    url: https://docs.connect.tyro.com/pos/apis/embedded-payments
+    url: https://docs.connect.tyro.com/docs/in-person-payments/tap-to-pay/overview
   - type: APIReference
     url: https://docs.connect.tyro.com/pos/apis/embedded-payments/1.0
   - type: Documentation
@@ -898,6 +1069,8 @@ apis:
     url: https://docs.connect.tyro.com/app/apis/referrals
   - type: APIReference
     url: https://docs.connect.tyro.com/app/apis/referrals/1.0
+  - type: JSONSchema
+    url: json-schema/tyro-create-test-payment-schema.json
 - aid: tyro:tyro-readers-api
   name: Tyro Payments Readers API
   description: The Readers API from Tyro Payments — 2 operation(s) for readers.
@@ -919,7 +1092,7 @@ apis:
   - type: APIReference
     url: https://docs.connect.tyro.com/pos/apis/pay-terminal/0.9
   - type: Documentation
-    url: https://docs.connect.tyro.com/pos/apis/embedded-payments
+    url: https://docs.connect.tyro.com/docs/in-person-payments/tap-to-pay/overview
   - type: APIReference
     url: https://docs.connect.tyro.com/pos/apis/embedded-payments/1.0
   - type: Documentation
@@ -962,6 +1135,8 @@ apis:
     url: https://docs.connect.tyro.com/app/apis/referrals
   - type: APIReference
     url: https://docs.connect.tyro.com/app/apis/referrals/1.0
+  - type: JSONSchema
+    url: json-schema/tyro-reader-object-schema.json
 - aid: tyro:tyro-referrals-api
   name: Tyro Payments Referrals API
   description: The Referrals API from Tyro Payments — 2 operation(s) for referrals.
@@ -983,7 +1158,7 @@ apis:
   - type: APIReference
     url: https://docs.connect.tyro.com/pos/apis/pay-terminal/0.9
   - type: Documentation
-    url: https://docs.connect.tyro.com/pos/apis/embedded-payments
+    url: https://docs.connect.tyro.com/docs/in-person-payments/tap-to-pay/overview
   - type: APIReference
     url: https://docs.connect.tyro.com/pos/apis/embedded-payments/1.0
   - type: Documentation
@@ -1047,7 +1222,7 @@ apis:
   - type: APIReference
     url: https://docs.connect.tyro.com/pos/apis/pay-terminal/0.9
   - type: Documentation
-    url: https://docs.connect.tyro.com/pos/apis/embedded-payments
+    url: https://docs.connect.tyro.com/docs/in-person-payments/tap-to-pay/overview
   - type: APIReference
     url: https://docs.connect.tyro.com/pos/apis/embedded-payments/1.0
   - type: Documentation
@@ -1111,7 +1286,7 @@ apis:
   - type: APIReference
     url: https://docs.connect.tyro.com/pos/apis/pay-terminal/0.9
   - type: Documentation
-    url: https://docs.connect.tyro.com/pos/apis/embedded-payments
+    url: https://docs.connect.tyro.com/docs/in-person-payments/tap-to-pay/overview
   - type: APIReference
     url: https://docs.connect.tyro.com/pos/apis/embedded-payments/1.0
   - type: Documentation
@@ -1154,6 +1329,10 @@ apis:
     url: https://docs.connect.tyro.com/app/apis/referrals
   - type: APIReference
     url: https://docs.connect.tyro.com/app/apis/referrals/1.0
+  - type: JSONSchema
+    url: json-schema/tyro-loyalty-card-schema.json
+  - type: JSONSchema
+    url: json-schema/tyro-deregister-member-card-request-schema.json
 - aid: tyro:tyro-reporting-api
   name: Tyro Payments Reporting API
   description: The Reporting API from Tyro Payments — 2 operation(s) for reporting.
@@ -1175,7 +1354,7 @@ apis:
   - type: APIReference
     url: https://docs.connect.tyro.com/pos/apis/pay-terminal/0.9
   - type: Documentation
-    url: https://docs.connect.tyro.com/pos/apis/embedded-payments
+    url: https://docs.connect.tyro.com/docs/in-person-payments/tap-to-pay/overview
   - type: APIReference
     url: https://docs.connect.tyro.com/pos/apis/embedded-payments/1.0
   - type: Documentation
@@ -1218,6 +1397,10 @@ apis:
     url: https://docs.connect.tyro.com/app/apis/referrals
   - type: APIReference
     url: https://docs.connect.tyro.com/app/apis/referrals/1.0
+  - type: JSONSchema
+    url: json-schema/tyro-reporting-transactions-response-schema.json
+  - type: JSONSchema
+    url: json-schema/tyro-reporting-settlements-response-schema.json
 - aid: tyro:tyro-sales-api
   name: Tyro Payments Sales API
   description: The Sales API from Tyro Payments — 2 operation(s) for sales.
@@ -1239,7 +1422,7 @@ apis:
   - type: APIReference
     url: https://docs.connect.tyro.com/pos/apis/pay-terminal/0.9
   - type: Documentation
-    url: https://docs.connect.tyro.com/pos/apis/embedded-payments
+    url: https://docs.connect.tyro.com/docs/in-person-payments/tap-to-pay/overview
   - type: APIReference
     url: https://docs.connect.tyro.com/pos/apis/embedded-payments/1.0
   - type: Documentation
@@ -1282,6 +1465,14 @@ apis:
     url: https://docs.connect.tyro.com/app/apis/referrals
   - type: APIReference
     url: https://docs.connect.tyro.com/app/apis/referrals/1.0
+  - type: JSONSchema
+    url: json-schema/tyro-sale-schema.json
+  - type: JSONSchema
+    url: json-schema/tyro-line-item-schema.json
+  - type: JSONSchema
+    url: json-schema/tyro-money-positive-schema.json
+  - type: JSONSchema
+    url: json-schema/tyro-money-positive-with-description-schema.json
 - aid: tyro:tyro-tables-api
   name: Tyro Payments Tables API
   description: The Tables API from Tyro Payments — 2 operation(s) for tables.
@@ -1303,7 +1494,7 @@ apis:
   - type: APIReference
     url: https://docs.connect.tyro.com/pos/apis/pay-terminal/0.9
   - type: Documentation
-    url: https://docs.connect.tyro.com/pos/apis/embedded-payments
+    url: https://docs.connect.tyro.com/docs/in-person-payments/tap-to-pay/overview
   - type: APIReference
     url: https://docs.connect.tyro.com/pos/apis/embedded-payments/1.0
   - type: Documentation
@@ -1346,6 +1537,12 @@ apis:
     url: https://docs.connect.tyro.com/app/apis/referrals
   - type: APIReference
     url: https://docs.connect.tyro.com/app/apis/referrals/1.0
+  - type: JSONSchema
+    url: json-schema/tyro-table-schema.json
+  - type: JSONSchema
+    url: json-schema/tyro-new-table-request-schema.json
+  - type: JSONSchema
+    url: json-schema/tyro-update-table-request-schema.json
 - aid: tyro:tyro-transactions-api
   name: Tyro Payments Transactions API
   description: The Transactions API from Tyro Payments — 2 operation(s) for transactions.
@@ -1369,7 +1566,7 @@ apis:
   - type: APIReference
     url: https://docs.connect.tyro.com/pos/apis/pay-terminal/0.9
   - type: Documentation
-    url: https://docs.connect.tyro.com/pos/apis/embedded-payments
+    url: https://docs.connect.tyro.com/docs/in-person-payments/tap-to-pay/overview
   - type: APIReference
     url: https://docs.connect.tyro.com/pos/apis/embedded-payments/1.0
   - type: Documentation
@@ -1412,106 +1609,11 @@ apis:
     url: https://docs.connect.tyro.com/app/apis/referrals
   - type: APIReference
     url: https://docs.connect.tyro.com/app/apis/referrals/1.0
-common:
-- type: CapabilityMap
-  url: capabilities/tyro-capability-edges.yml
-  name: Tyro Payments Business Capability Map
-- type: Overlay
-  url: overlays/tyro-connect-pay-overlay.yaml
-- type: Overlay
-  url: overlays/tyro-pos-pay-terminal-overlay.yaml
-- type: Overlay
-  url: overlays/tyro-pos-embedded-payments-overlay.yaml
-- type: Overlay
-  url: overlays/tyro-connect-booking-overlay.yaml
-- type: Overlay
-  url: overlays/tyro-connect-ordering-overlay.yaml
-- type: Overlay
-  url: overlays/tyro-connect-menu-overlay.yaml
-- type: Overlay
-  url: overlays/tyro-connect-tables-overlay.yaml
-- type: Overlay
-  url: overlays/tyro-connect-sales-overlay.yaml
-- type: Overlay
-  url: overlays/tyro-connect-reporting-overlay.yaml
-- type: Overlay
-  url: overlays/tyro-connect-loyalty-overlay.yaml
-- type: Overlay
-  url: overlays/tyro-connect-refunds-overlay.yaml
-- type: Overlay
-  url: overlays/tyro-connect-locations-overlay.yaml
-- type: Overlay
-  url: overlays/tyro-connect-referrals-overlay.yaml
-- type: AgenticAccess
-  url: agentic-access/tyro-agentic-access.yml
-- type: DomainSecurity
-  url: security/tyro-domain-security.yml
-- type: Authentication
-  url: authentication/tyro-authentication.yml
-- type: Website
-  url: https://www.tyro.com/
-- type: DeveloperPortal
-  url: https://www.tyro.com/resources/developer/
-- type: Documentation
-  url: https://docs.connect.tyro.com/
-- type: APIReference
-  url: https://docs.connect.tyro.com/app/apis/
-- type: GettingStarted
-  url: https://docs.connect.tyro.com/app/authentication
-- type: Authentication
-  url: https://docs.connect.tyro.com/app/authentication
-- type: Webhooks
-  url: https://docs.connect.tyro.com/app/webhooks
-- type: GitHubOrganization
-  url: https://github.com/tyro
-- type: StatusPage
-  url: https://status.tyro.com/
-- type: Pricing
-  url: https://www.tyro.com/pricing/
-- type: Blog
-  url: https://www.tyro.com/blog/
-- type: Support
-  url: https://www.tyro.com/contact-us/
-- type: TermsOfService
-  url: https://www.tyro.com/legal/website-terms-of-use/
-- type: PrivacyPolicy
-  url: https://www.tyro.com/privacy-policy/
-- type: Security
-  url: https://www.tyro.com/security/
-- type: OpenIDConnect
-  url: well-known/tyro-openid-configuration.json
-- type: WellKnown
-  url: well-known/tyro-well-known.yml
-- type: Conventions
-  url: conventions/tyro-conventions.yml
-- type: ErrorCatalog
-  url: errors/tyro-error-codes.yml
-- type: DeclineCodes
-  url: errors/tyro-decline-codes.yml
-- type: Sandbox
-  url: sandbox/tyro-sandbox.yml
-- type: Lifecycle
-  url: lifecycle/tyro-lifecycle.yml
-- type: ChangeLog
-  url: changelog/tyro-changelog.yml
-- type: Components
-  url: components/tyro-components.yml
-- type: DataModel
-  url: data-model/tyro-data-model.yml
-- type: Conformance
-  url: conformance/tyro-conformance.yml
-- type: Webhooks
-  url: asyncapi/tyro-webhooks.yml
-- type: X-MCPServerCandidate
-  url: mcp/tyro-mcp.yml
-  note: 'Renamed from MCPServer 2026-09-03 (roadmap#247): the manifest self-describes as status: candidate
-    — a tool list derived from the published API contracts, not an existing server. The scorer already
-    read the manifest and reported mcp_server correctly; the MCPServer type was crediting the artifact-type
-    surfaces with a server that does not exist.'
-- type: AgentSkill
-  url: skills/_index.yml
-- type: LLMsTxt
-  url: llms/tyro-llms.txt
-maintainers:
-- FN: Kin Lane
-  email: kin@apievangelist.com
+  - type: JSONSchema
+    url: json-schema/tyro-embedded-payments-transaction-response-schema.json
+x-enrichment:
+  date: '2026-10-21'
+  status: enriched
+  artifacts_added: 88
+  pass: modular-v1
+  engine: identity=anthropic,contract=anthropic,surfaces=anthropic,docs=anthropic,regulatory=anthropic

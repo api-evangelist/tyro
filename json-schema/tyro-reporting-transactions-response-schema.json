@@ -1,0 +1,369 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/tyro/main/json-schema/tyro-reporting-transactions-response-schema.json",
+  "title": "Transactions Report",
+  "x-generated": "2026-10-21",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/tyro-reporting-api-openapi.yml#/components/schemas/reporting-transactions-response",
+  "type": "object",
+  "properties": {
+    "terminalBusinessDay": {
+      "type": "string",
+      "format": "date",
+      "description": "The date (YYYY-MM-DD) that the terminal has processed the requested transactions."
+    },
+    "merchantDetails": {
+      "title": "Merchant Details",
+      "type": "object",
+      "description": "Details of the merchant for whom the transactions are reported.",
+      "properties": {
+        "mid": {
+          "type": "string",
+          "description": "The merchant ID associated with the Tyro account."
+        },
+        "tradingName": {
+          "type": "string",
+          "description": "The trading name of the merchant."
+        }
+      },
+      "required": [
+        "mid",
+        "tradingName"
+      ]
+    },
+    "transactions": {
+      "type": "array",
+      "description": "List of transactions for the specified merchant and date.",
+      "items": {
+        "$ref": "#/$defs/transaction"
+      }
+    },
+    "pagination": {
+      "type": "object",
+      "description": "Pagination details for the transaction results.",
+      "properties": {
+        "page": {
+          "type": "integer",
+          "description": "The current page number.",
+          "minimum": 1
+        },
+        "size": {
+          "type": "integer",
+          "description": "The number of transactions per page."
+        },
+        "limit": {
+          "type": "integer",
+          "description": "The maximum number of transactions that can be returned per page."
+        },
+        "total": {
+          "type": "integer",
+          "description": "The total number of transactions."
+        }
+      },
+      "required": [
+        "page",
+        "size",
+        "limit",
+        "total"
+      ]
+    }
+  },
+  "required": [
+    "terminalBusinessDay",
+    "merchantDetails",
+    "transactions",
+    "pagination"
+  ],
+  "$defs": {
+    "transaction": {
+      "title": "Transaction",
+      "type": "object",
+      "properties": {
+        "transactionId": {
+          "type": "string",
+          "description": "Unique identifier for the transaction."
+        },
+        "transactionLocalDateTime": {
+          "type": "string",
+          "format": "date-time",
+          "description": "The local date and time on the terminal when the transaction was processed."
+        },
+        "transactionStatus": {
+          "type": "string",
+          "description": "Status of the transaction. Possible values include `APPROVED`, `DECLINED`, `CANCELLED`, `TIMED_OUT`, `VOIDED`, `PRE_AUTHORISED`."
+        },
+        "transactionDescription": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "Description of the transaction."
+        },
+        "locationId": {
+          "type": "string",
+          "description": "A unique identifier used to represent a specific location of a merchant."
+        },
+        "tid": {
+          "type": "integer",
+          "description": "A unique identifier of the terminal used to process the transaction."
+        },
+        "deviceType": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "Type of device used to process the transaction."
+        },
+        "mobilePlatformType": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "Mobile platform type if applicable."
+        },
+        "paymentType": {
+          "type": "string",
+          "description": "Payment method type. Possible values include `GOODS_AND_SERVICES`, `REFUND_GOODS_AND_SERVICES`, `GOODS_AND_SERVICES_WITH_CASH`, `CASH_WITHDRAWAL`, `CREDIT_ADJUSTMENT`."
+        },
+        "feeType": {
+          "type": "string",
+          "description": "Fee structure applied. Possible values include `DEBIT_EFTPOS_CASHOUT`, `DEBIT_EFTPOS_NO_CASHOUT`, `CREDIT_SWIPED`, `CREDIT_COMMERCIAL_AND_PREMIUM`, `INTERNATIONAL`, `MASTERCARD_INTERNATIONAL`, `UNION_PAY_INTERNATIONAL_DEBIT`, `DEBIT_SCHEME_SWIPED`, `AMEX_JCB_FEES`, `ALIPAY`, `NO_FEES`, `UNKNOWN`."
+        },
+        "fromAccountType": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "Source account type. Possible values include `DEFAULT`, `SAVINGS`, `CHEQUE`, `CREDIT`."
+        },
+        "isExpressPayment": {
+          "type": [
+            "boolean",
+            "null"
+          ],
+          "description": "Whether this was an express payment (i.e. Visa or Mastercard purchases under $35)."
+        },
+        "card": {
+          "title": "Card Details",
+          "type": "object",
+          "properties": {
+            "type": {
+              "type": "string",
+              "description": "Card type/scheme. Possible values include `VISA`, `MASTERCARD`, `EFTPOS`, `UNION_PAY`, `AMEX`, `JCB`, `DINERS`."
+            },
+            "cardLastFour": {
+              "type": "string",
+              "description": "Masked card number, with only the last four digits visible."
+            },
+            "cardEntryMode": {
+              "type": "string",
+              "description": "How the card payment was processed. Possible values include `CHIP`, `CONTACTLESS`, `CONTACTLESS_MAG_STRIPE`, `MAG_STRIPE`, `CHIP_ERROR_MAG_STRIPE_USED`, `MANUAL`, `UNKNOWN`."
+            },
+            "cardPresent": {
+              "type": [
+                "boolean",
+                "null"
+              ],
+              "description": "Whether the card was physically present."
+            }
+          },
+          "required": [
+            "type",
+            "cardLastFour",
+            "cardEntryMode",
+            "cardPresent"
+          ]
+        },
+        "isEcommerceTransaction": {
+          "type": "boolean",
+          "description": "Whether this is an e-commerce transaction."
+        },
+        "ecommerceOrderId": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "E-commerce order id if applicable."
+        },
+        "isRefund": {
+          "type": "boolean",
+          "description": "Whether this transaction is a refund."
+        },
+        "refundReason": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "Reason for refund if applicable."
+        },
+        "isReversal": {
+          "type": "boolean",
+          "description": "Whether this transaction is a reversal."
+        },
+        "reversalReason": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "Reason for reversal if applicable."
+        },
+        "isInternational": {
+          "type": [
+            "boolean",
+            "null"
+          ],
+          "description": "Whether the transaction was processed with in a foreign currency."
+        },
+        "dcc": {
+          "type": "object",
+          "description": "Details for a Dynamic Currency Conversion (DCC) transaction.",
+          "properties": {
+            "currencyCode": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "description": "Foreign currency code for DCC transaction."
+            },
+            "exchangeRate": {
+              "type": [
+                "number",
+                "null"
+              ],
+              "description": "Exchange rate applied for DCC."
+            },
+            "foreignCurrencyAmount": {
+              "type": [
+                "number",
+                "null"
+              ],
+              "description": "Amount in foreign currency (in cents)."
+            },
+            "merchantCommissionAmount": {
+              "type": "number",
+              "description": "Commission amount for DCC (in cents)."
+            }
+          },
+          "required": [
+            "currencyCode",
+            "exchangeRate",
+            "foreignCurrencyAmount",
+            "merchantCommissionAmount"
+          ]
+        },
+        "amountDetails": {
+          "title": "Amount Details",
+          "type": "object",
+          "properties": {
+            "saleAmount": {
+              "type": "number",
+              "description": "Sale amount (in cents)."
+            },
+            "refundAmount": {
+              "type": "number",
+              "description": "Refund amount (negative value, in cents)."
+            },
+            "tipAmount": {
+              "type": "number",
+              "description": "Tip amount (in cents)."
+            },
+            "cashOutAmount": {
+              "type": "number",
+              "description": "Cash out amount (in cents)."
+            },
+            "surchargeAmount": {
+              "type": "number",
+              "description": "Surcharge amount (in cents)."
+            },
+            "donationAmount": {
+              "type": "number",
+              "description": "Donation amount (in cents)."
+            }
+          },
+          "required": [
+            "saleAmount",
+            "refundAmount",
+            "tipAmount",
+            "cashOutAmount",
+            "surchargeAmount",
+            "donationAmount"
+          ]
+        },
+        "totalAmount": {
+          "type": "number",
+          "description": "Total transaction amount (in cents)."
+        },
+        "amountToPayMerchant": {
+          "type": "number",
+          "description": "Amount to be paid to merchant (in cents)."
+        },
+        "settlementAmount": {
+          "type": "number",
+          "description": "Net settlement amount after fees (in cents)."
+        },
+        "merchantAcquiringFee": {
+          "type": "number",
+          "description": "Acquiring fee charged to merchant (in cents)."
+        },
+        "acquirerActionCode": {
+          "type": "string",
+          "description": "Action code from acquirer. Possible values include `APPROVED`, `DECLINED`, `CALL_ISSUER`, `CAPTURE_CARD`."
+        },
+        "rrn": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "description": "Retrieval Reference Number."
+        },
+        "tyroReference": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "description": "Tyro transaction reference number. Maximum six digits."
+        },
+        "integratedTransactionId": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "Identifier used by the POS to process an integrated transaction with the terminal."
+        }
+      },
+      "required": [
+        "transactionId",
+        "transactionLocalDateTime",
+        "transactionStatus",
+        "transactionDescription",
+        "locationId",
+        "tid",
+        "deviceType",
+        "mobilePlatformType",
+        "paymentType",
+        "feeType",
+        "fromAccountType",
+        "isExpressPayment",
+        "card",
+        "isEcommerceTransaction",
+        "ecommerceOrderId",
+        "isRefund",
+        "refundReason",
+        "isReversal",
+        "reversalReason",
+        "isInternational",
+        "dcc",
+        "amountDetails",
+        "totalAmount",
+        "amountToPayMerchant",
+        "settlementAmount",
+        "merchantAcquiringFee",
+        "acquirerActionCode",
+        "rrn",
+        "tyroReference",
+        "integratedTransactionId"
+      ]
+    }
+  }
+}

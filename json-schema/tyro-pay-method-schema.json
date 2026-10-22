@@ -1,0 +1,46 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/tyro/main/json-schema/tyro-pay-method-schema.json",
+  "title": "Pay Method",
+  "x-generated": "2026-10-21",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/tyro-pay-methods-api-openapi.yml#/components/schemas/pay-method",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "The id of the Pay Method in the Tyro Connect system. This id can be specified in the Pay Request when making payments for the associated customer."
+    },
+    "customerId": {
+      "type": "string",
+      "description": "The id of the Customer in the Tyro Connect system linked to this Pay Method."
+    },
+    "card": {
+      "type": "object",
+      "description": "The card used by the Pay Method",
+      "properties": {
+        "brand": {
+          "type": "string",
+          "description": "Card brand such as Visa or Mastercard"
+        },
+        "expiryMonth": {
+          "type": "number",
+          "description": "Month of card expiry"
+        },
+        "expiryYear": {
+          "type": "number",
+          "description": "Year of card expiry"
+        },
+        "firstSixDigits": {
+          "type": "string",
+          "description": "First six digits of the card number"
+        },
+        "lastFourDigits": {
+          "type": "string",
+          "description": "Last four digits of the card number"
+        }
+      }
+    }
+  }
+}

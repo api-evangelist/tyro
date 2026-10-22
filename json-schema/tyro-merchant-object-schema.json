@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/tyro/main/json-schema/tyro-merchant-object-schema.json",
+  "title": "Merchant",
+  "x-generated": "2026-10-21",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/tyro-merchants-api-openapi.yml#/components/schemas/merchant-object",
+  "type": "object",
+  "properties": {
+    "mid": {
+      "type": "string",
+      "description": "The ID of the merchant as specified by the Tyro Connect system"
+    },
+    "posReference": {
+      "type": "string",
+      "description": "The posReference of the merchant, supplied during the integration process."
+    },
+    "isAuthorised": {
+      "type": "boolean",
+      "description": "If the POS is authorised for this merchant."
+    },
+    "displayName": {
+      "type": "string",
+      "description": "The display name of the Merchant"
+    }
+  }
+}

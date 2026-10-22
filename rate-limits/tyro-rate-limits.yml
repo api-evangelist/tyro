@@ -1,0 +1,17 @@
+name: Tyro Payments rate limits
+generated: '2026-10-21'
+method: searched
+source: https://docs.connect.tyro.com/docs/getting-started/authentication/client-credentials.md
+limit_count: 1
+note: >-
+  The only published limit is on the Tyro Connect authorisation server's token endpoint. No request-rate
+  limits, rate-limit headers (X-RateLimit-*, RateLimit-*, Retry-After) or 429 behaviour are documented for
+  the resource APIs in the docs.connect.tyro.com index (llms.txt, 215 pages, no rate-limit/throttling page).
+limits:
+- name: Authorisation server token requests
+  limit_text: If a partner requests more than 12 tokens within an 11-hour period the authorisation server will reject the requests.
+  max: 12
+  window: 11 hours
+  scope: per partner
+  endpoint: /oauth/token
+  note: Docs advise caching tokens (JWTs expire after 12 hours) and only requesting a new one when about to expire.

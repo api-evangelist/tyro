@@ -1,0 +1,54 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/tyro/main/json-schema/tyro-new-refund-request-schema.json",
+  "title": "Create Refund Request",
+  "x-generated": "2026-10-21",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/tyro-pay-refunds-api-openapi.yml#/components/schemas/new-refund-request",
+  "type": "object",
+  "properties": {
+    "payRequestId": {
+      "description": "The id of the Pay Request to be refunded",
+      "type": "string"
+    },
+    "total": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/money-positive-aud"
+        },
+        {
+          "description": "The total amount to be refunded (in smallest currency unit). Defaults to the total of the Pay Request."
+        }
+      ]
+    }
+  },
+  "required": [
+    "payRequestId"
+  ],
+  "$defs": {
+    "money-positive-aud": {
+      "title": "Money Positive Amount",
+      "type": "object",
+      "properties": {
+        "amount": {
+          "type": "integer",
+          "description": "This is the amount in smallest currency unit. e.g 12520 (in cents) is $125.20",
+          "minimum": 0
+        },
+        "currency": {
+          "type": "string",
+          "default": "AUD",
+          "enum": [
+            "AUD"
+          ],
+          "description": "This is always AUD"
+        }
+      },
+      "required": [
+        "amount",
+        "currency"
+      ]
+    }
+  }
+}

@@ -1,8 +1,14 @@
 ---
-name: Send an order into a merchant POS and track its lifecycle
+name: tyro-send-order-to-pos
+title: Send an order into a merchant POS and track its lifecycle
 description: Push a food/retail order from an app partner into a merchant Point of Sale via the Tyro Connect Ordering API and follow its status.
-api: openapi/tyro-connect-ordering.yml
-operations: [create-order, get-order, update-order]
+api: openapi/tyro-orders-api-openapi.yml
+apis:
+- openapi/tyro-orders-api-openapi.yml
+operations:
+- create-order
+- get-order
+- update-order
 ---
 
 # Send an order into a merchant POS and track its lifecycle

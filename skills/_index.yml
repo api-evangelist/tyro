@@ -1,21 +1,70 @@
-generated: '2026-07-24'
+name: Tyro Payments agent skills
+generated: '2026-10-21'
 method: generated
 source: openapi/*.yml + conventions/tyro-conventions.yml + errors/tyro-error-codes.yml
-note: Packaged Agent Skills for Tyro Connect marquee flows. Every step is grounded in a real operationId verified in the referenced OpenAPI.
+note: Packaged Agent Skills for Tyro Connect marquee flows; every operationId is checked against the current openapi/ files. No provider-published skills or AGENTS.md were found; the provider does publish
+  a documentation MCP server (mcp/tyro-mcp.yml).
 skills:
 - file: tyro-accept-online-payment.md
-  name: Accept an online card payment and refund it
-  api: openapi/tyro-connect-pay.yml
-  operations: [create-pay-request, get-pay-request, patch-pay-request, create-refund-request, get-refund-request]
+  name: tyro-accept-online-payment
+  title: Accept an online card payment and refund it
+  api: openapi/tyro-pay-requests-api-openapi.yml
+  apis:
+  - openapi/tyro-pay-refunds-api-openapi.yml
+  - openapi/tyro-pay-requests-api-openapi.yml
+  operations:
+  - create-pay-request
+  - get-pay-request
+  - patch-pay-request
+  - create-refund-request
+  - get-refund-request
 - file: tyro-pay-at-terminal.md
-  name: Take an in-store payment on a Tyro EFTPOS terminal
-  api: openapi/tyro-pos-pay-terminal.yml
-  operations: [create-pay-terminal-request, get-pay-terminal-request, cancel-pay-terminal-request, answer-pay-terminal-prompt]
-- file: tyro-tap-to-pay-onboard.md
-  name: Onboard a merchant device for Tap to Pay (Embedded Payments)
-  api: openapi/tyro-pos-embedded-payments.yml
-  operations: [create-reader, create-embedded-payments-connection, list-embedded-payments-locations, get-embedded-payments-transaction]
+  name: tyro-pay-at-terminal
+  title: Take an in-store payment on a Tyro EFTPOS terminal
+  api: openapi/tyro-pay-requests-api-openapi.yml
+  apis:
+  - openapi/tyro-merchants-api-openapi.yml
+  - openapi/tyro-pay-requests-api-openapi.yml
+  operations:
+  - create-pay-terminal-request
+  - get-pay-terminal-request
+  - cancel-pay-terminal-request
+  - answer-pay-terminal-prompt
+  - list-pay-terminal-merchants
+  - list-pay-terminal-merchants-terminals
 - file: tyro-send-order-to-pos.md
-  name: Send an order into a merchant POS and track its lifecycle
-  api: openapi/tyro-connect-ordering.yml
-  operations: [create-order, get-order, update-order]
+  name: tyro-send-order-to-pos
+  title: Send an order into a merchant POS and track its lifecycle
+  api: openapi/tyro-orders-api-openapi.yml
+  apis:
+  - openapi/tyro-orders-api-openapi.yml
+  operations:
+  - create-order
+  - get-order
+  - update-order
+- file: tyro-tap-to-pay-onboard.md
+  name: tyro-tap-to-pay-onboard
+  title: Onboard a merchant device for Tap to Pay (Embedded Payments)
+  api: openapi/tyro-locations-api-openapi.yml
+  apis:
+  - openapi/tyro-connections-api-openapi.yml
+  - openapi/tyro-locations-api-openapi.yml
+  - openapi/tyro-merchants-api-openapi.yml
+  - openapi/tyro-readers-api-openapi.yml
+  - openapi/tyro-transactions-api-openapi.yml
+  operations:
+  - list-embedded-payments-locations
+  - create-reader
+  - create-embedded-payments-connection
+  - authorise-embedded-payments-mid-test
+  - get-embedded-payments-transaction
+  - list-embedded-payments-transactions
+- file: tyro-reconcile-settlements.md
+  name: tyro-reconcile-settlements
+  title: Reconcile a merchant's daily transactions against settlements
+  api: openapi/tyro-reporting-api-openapi.yml
+  apis:
+  - openapi/tyro-reporting-api-openapi.yml
+  operations:
+  - get-reporting-settlements
+  - get-reporting-transactions

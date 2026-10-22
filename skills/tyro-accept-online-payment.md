@@ -1,8 +1,17 @@
 ---
-name: Accept an online card payment and refund it
+name: tyro-accept-online-payment
+title: Accept an online card payment and refund it
 description: Create, authorise/capture, and refund an online card payment with the Tyro Connect Pay API (Tyro.js / TyroSDK companion). Australia-only, AUD.
-api: openapi/tyro-connect-pay.yml
-operations: [create-pay-request, get-pay-request, patch-pay-request, create-refund-request, get-refund-request]
+api: openapi/tyro-pay-requests-api-openapi.yml
+apis:
+- openapi/tyro-pay-refunds-api-openapi.yml
+- openapi/tyro-pay-requests-api-openapi.yml
+operations:
+- create-pay-request
+- get-pay-request
+- patch-pay-request
+- create-refund-request
+- get-refund-request
 ---
 
 # Accept an online card payment and refund it

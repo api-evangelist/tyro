@@ -1,0 +1,98 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/tyro/main/json-schema/tyro-create-test-payment-schema.json",
+  "title": "Request body to create a test payment",
+  "x-generated": "2026-10-21",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/tyro-payments-api-openapi.yml#/components/schemas/create-test-payment",
+  "type": "object",
+  "anyOf": [
+    {
+      "title": "Test payment for a registered member",
+      "properties": {
+        "memberId": {
+          "type": "string",
+          "description": "The identifier of the member who should be associated with this payment. This value corresponds to the `origin.memberId` provided during member registration."
+        },
+        "useNewCard": {
+          "type": "boolean",
+          "description": "This will simulate the member registering a new card and will trigger corresponding event NEW_REGISTERED_CARD"
+        }
+      },
+      "required": [
+        "memberId"
+      ]
+    },
+    {
+      "title": "Test payment for a non-member",
+      "properties": {
+        "memberId": {
+          "type": null
+        }
+      },
+      "required": [
+        "memberId"
+      ]
+    },
+    {
+      "title": "Test payment for a returning non-member",
+      "properties": {
+        "memberReference": {
+          "type": "string",
+          "description": "The identifier of the non-member. This value corresponds to the `memberReference` attribute returned when a test payment was made for a non-member."
+        }
+      },
+      "required": [
+        "memberReference"
+      ]
+    }
+  ],
+  "properties": {
+    "locationId": {
+      "type": "string",
+      "description": "Tyro Connect's identifier for the location."
+    },
+    "paymentType": {
+      "type": "string",
+      "description": "The type of payment being made",
+      "enum": [
+        "PURCHASE",
+        "REFUND",
+        "CASHOUT",
+        "OPEN_PRE_AUTH",
+        "CLOSE_PRE_AUTH",
+        "VOID"
+      ]
+    },
+    "paymentSource": {
+      "type": "string",
+      "description": "The method used to make the payment",
+      "enum": [
+        "EFTPOS",
+        "ONLINE"
+      ]
+    },
+    "goodsAndServicesAmount": {
+      "type": "number",
+      "description": "The amount paid for goods and services"
+    },
+    "tipAmount": {
+      "type": "number",
+      "description": "The amount paid as part of a tip"
+    },
+    "surchargeAmount": {
+      "type": "number",
+      "description": "The amount paid as part of a surcharge"
+    },
+    "cashoutAmount": {
+      "type": "number",
+      "description": "The amount paid as part of a cash withdrawal"
+    }
+  },
+  "required": [
+    "locationId",
+    "paymentType",
+    "paymentSource"
+  ]
+}

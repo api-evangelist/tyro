@@ -1,0 +1,41 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/tyro/main/json-schema/tyro-loyalty-card-schema.json",
+  "title": "Loyalty Card object",
+  "x-generated": "2026-10-21",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/tyro-registered-card-api-openapi.yml#/components/schemas/loyalty-card",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "The Id of the registered card in the Tyro Connect system."
+    },
+    "paymentId": {
+      "type": "string",
+      "description": "Payment Identifier generated from the payment source. It refers to the `transaction.receipt` (from Tyro eCommerce APIs) or otherwise referred to as the RRN."
+    },
+    "paymentSource": {
+      "type": "string",
+      "description": "Source of payment.",
+      "enum": [
+        "EFTPOS",
+        "ONLINE"
+      ]
+    },
+    "origin": {
+      "type": "object",
+      "properties": {
+        "memberId": {
+          "type": "string",
+          "description": "The identifier of the member who is associated with this card."
+        }
+      }
+    },
+    "preAccumulatedReward": {
+      "type": "integer",
+      "description": "The pre-accumulated reward amount on the card at the time of registration. If you have opted to represent rewards in AUD, then this value is in cents."
+    }
+  }
+}

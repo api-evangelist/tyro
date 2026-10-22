@@ -1,0 +1,120 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/tyro/main/json-schema/tyro-heartbeat-response-schema.json",
+  "title": "Online/Offline status response",
+  "x-generated": "2026-10-21",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/tyro-locations-api-openapi.yml#/components/schemas/heartbeat-response",
+  "type": "object",
+  "properties": {
+    "locationId": {
+      "type": "string",
+      "description": "The Tyro Connect Location Id for which the following information applies"
+    },
+    "pos": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/vendor-spec"
+        },
+        {
+          "description": "Information about the POS itself"
+        }
+      ]
+    },
+    "status": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/online-status-spec"
+        },
+        {
+          "description": "Information about the online/offline status"
+        }
+      ]
+    }
+  },
+  "required": [
+    "locationId",
+    "pos",
+    "status"
+  ],
+  "$defs": {
+    "api-spec": {
+      "title": "Supported API version",
+      "type": "object",
+      "properties": {
+        "api": {
+          "type": "string",
+          "description": "The name of the supported API",
+          "enum": [
+            "BOOKING",
+            "FOOD_ORDERING",
+            "LOYALTY",
+            "PAYMENTS",
+            "SALES",
+            "LOCATION"
+          ]
+        },
+        "version": {
+          "type": "string",
+          "description": "The supported version of the API"
+        }
+      },
+      "required": [
+        "api",
+        "version"
+      ]
+    },
+    "online-status-spec": {
+      "title": "Online/Offline status",
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "string",
+          "enum": [
+            "GREEN",
+            "RED"
+          ],
+          "description": "The online (GREEN) / offline (RED) status of the POS"
+        },
+        "lastOnlineAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Time stamp of when Tyro received the last GREEN status update. Can be null if the status has never been GREEN."
+        },
+        "reason": {
+          "type": "string",
+          "description": "When the code changed to RED, this property provides the reason for the change"
+        }
+      },
+      "required": [
+        "code",
+        "lastOnlineAt"
+      ]
+    },
+    "vendor-spec": {
+      "title": "POS information",
+      "type": "object",
+      "properties": {
+        "vendor": {
+          "type": "string",
+          "description": "The POS vendor"
+        },
+        "version": {
+          "type": "string",
+          "description": "The version of the POS software"
+        },
+        "apis": {
+          "type": "array",
+          "description": "This is a list of all APIs supported by the POS",
+          "items": {
+            "$ref": "#/$defs/api-spec"
+          }
+        }
+      },
+      "required": [
+        "vendor"
+      ]
+    }
+  }
+}

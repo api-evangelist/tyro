@@ -1,0 +1,72 @@
+name: Tyro Payments packages
+generated: '2026-10-21'
+method: searched
+source: https://docs.connect.tyro.com/llms.txt
+note: >-
+  Tyro distributes its SDKs through GitHub (GitHub Packages for npm/Maven, Swift Package Manager repos),
+  not public registries. registry.npmjs.org has no @tyro/tyro-pay-api-react-native (404), search.maven.org
+  has no com.tyro group (0 results), and NuGet search for "tyro" returns only unrelated publishers.
+  GitHub Packages endpoints require a token (npm.pkg.github.com answered 401), so versions/dates are read
+  from the public GitHub repos' releases/tags where those exist.
+packages:
+- name: '@tyro/tyro-pay-api-react-native'
+  registry: github-packages-npm
+  url: https://github.com/tyro/tyro-pay-api-react-native
+  language: JavaScript
+  official: true
+  version: 2.0.2
+  published: '2025-06-29'
+  note: Latest stable tag v2.0.2 (tag commit date 2025-06-29); prerelease tag v3.0.0-alpha.0 dated 2026-07-29. Installed via npm/yarn with @tyro:registry=https://npm.pkg.github.com.
+  docs: https://docs.connect.tyro.com/docs/online-payments/pay-online/integration-guide/react-native/setup
+- name: tyro-pay-api-ios
+  registry: swift-package-manager
+  url: https://github.com/tyro/tyro-pay-api-ios
+  language: Swift
+  official: true
+  version: 1.0.1
+  published: '2025-06-25'
+  note: Apple Pay only SDK for Tyro Pay Online (GitHub release 1.0.1).
+  docs: https://docs.connect.tyro.com/docs/online-payments/pay-online/integration-guide/apple-pay
+- name: com.tyro:tyro-pay-api-sdk-android
+  registry: github-packages-maven
+  url: https://github.com/tyro/tyro-pay-api-sdk-android
+  language: Kotlin
+  official: true
+  version: 1.0.0
+  published: '2024-02-28'
+  note: Google Pay only SDK; docs pin 'com.tyro:tyro-pay-api-sdk-android:+' from maven.pkg.github.com/tyro/tyro-pay-api-sdk-android. Version from GitHub release v1.0.0.
+  docs: https://docs.connect.tyro.com/docs/online-payments/pay-online/integration-guide/google-pay
+- name: tyro-tap-to-pay-sdk-ios
+  registry: swift-package-manager
+  url: https://github.com/tyro/tyro-tap-to-pay-sdk-ios
+  language: Swift
+  official: true
+  version: 0.23.0
+  published: '2026-09-23'
+  docs: https://docs.connect.tyro.com/docs/in-person-payments/tap-to-pay/integration-guide/sdk/ios/integrate-sdk
+- name: com.tyro:tyro-tap-to-pay-sdk-release
+  registry: github-packages-maven
+  url: https://github.com/tyro/tyro-tap-to-pay-sdk-android
+  language: Kotlin
+  official: true
+  version: null
+  published: null
+  note: Docs depend on "latest.release" (unpinned) from maven.pkg.github.com/tyro/tyro-tap-to-pay-sdk-android, which requires a GitHub token; the public repo has no releases or tags (last push 2025-12-09). A -debug artifact (com.tyro:tyro-tap-to-pay-sdk-debug) is also documented.
+  docs: https://docs.connect.tyro.com/docs/in-person-payments/tap-to-pay/integration-guide/sdk/android/integrate-sdk
+- name: iclient-v1.js / iclient-with-ui-v1.js (Tyro JS library, iClient)
+  registry: cdn
+  url: https://iclient.tyro.com
+  language: JavaScript
+  official: true
+  version: null
+  published: null
+  note: Loaded via <script src="{Base URL}/iclient-v1.js">; base URL https://iclientsimulator.test.tyro.com for testing and https://iclient.tyro.com live. Only the major version (v1) is in the filename; the build floats, so no version is pinned.
+  docs: https://docs.connect.tyro.com/docs/in-person-payments/pay-in-person/integration-guide/js-library/get-started
+- name: Tyro .NET library (thin client)
+  registry: nuget-private
+  url: https://docs.connect.tyro.com/docs/in-person-payments/pay-in-person/integration-guide/net-library/installation
+  language: C#
+  official: true
+  version: null
+  published: null
+  note: '"A thin client NuGet package will be shared when you raise an integration request" -- not on nuget.org.'

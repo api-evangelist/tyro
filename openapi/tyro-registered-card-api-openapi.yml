@@ -101,14 +101,6 @@ paths:
       parameters:
       - $ref: '#/components/parameters/header-bearer-token'
 components:
-  parameters:
-    header-bearer-token:
-      schema:
-        type: string
-        default: Bearer {$$.env.access_token}
-      in: header
-      name: Authorization
-      required: true
   schemas:
     loyalty-card:
       title: Loyalty Card object
@@ -149,6 +141,14 @@ components:
             memberId:
               type: string
               description: Member's Identifier on the app.
+  parameters:
+    header-bearer-token:
+      schema:
+        type: string
+        default: Bearer {$$.env.access_token}
+      in: header
+      name: Authorization
+      required: true
   securitySchemes:
     JWT:
       type: openIdConnect

@@ -1,0 +1,27 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/tyro/main/json-schema/tyro-deregister-member-card-request-schema.json",
+  "title": "Request body to deregister a member's card",
+  "x-generated": "2026-10-21",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/tyro-registered-card-api-openapi.yml#/components/schemas/deregister-member-card-request",
+  "type": "object",
+  "required": [
+    "origin"
+  ],
+  "properties": {
+    "origin": {
+      "type": "object",
+      "required": [
+        "memberId"
+      ],
+      "properties": {
+        "memberId": {
+          "type": "string",
+          "description": "Member's Identifier on the app."
+        }
+      }
+    }
+  }
+}

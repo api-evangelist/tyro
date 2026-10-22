@@ -1,0 +1,639 @@
+{
+  "@context": {
+    "@vocab": "https://tyro.com/schema#",
+    "schema": "https://schema.org/",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "dcterms": "http://purl.org/dc/terms/",
+    "tyro": "https://tyro.com/schema#",
+    "customer": "tyro:customer",
+    "id": {
+      "@id": "tyro:id",
+      "@type": "xsd:string"
+    },
+    "name": {
+      "@id": "tyro:name",
+      "@type": "xsd:string"
+    },
+    "notes": {
+      "@id": "tyro:notes",
+      "@type": "xsd:string"
+    },
+    "email": {
+      "@id": "tyro:email",
+      "@type": "xsd:string"
+    },
+    "address": {
+      "@id": "tyro:address"
+    },
+    "phoneNumber": {
+      "@id": "tyro:phoneNumber",
+      "@type": "xsd:string"
+    },
+    "birthday": {
+      "@id": "tyro:birthday",
+      "@type": "xsd:string"
+    },
+    "bookingStatus": "tyro:bookingStatus",
+    "update-booking-request": "tyro:update-booking-request",
+    "asset": {
+      "@id": "tyro:asset",
+      "@type": "@id"
+    },
+    "numberOfPeople": {
+      "@id": "tyro:numberOfPeople",
+      "@type": "@id"
+    },
+    "payments": {
+      "@id": "tyro:payments",
+      "@type": "@id"
+    },
+    "reason": {
+      "@id": "tyro:reason",
+      "@type": "@id"
+    },
+    "startTime": {
+      "@id": "tyro:startTime",
+      "@type": "@id"
+    },
+    "endTime": {
+      "@id": "tyro:endTime",
+      "@type": "@id"
+    },
+    "origin": {
+      "@id": "tyro:origin",
+      "@type": "@id"
+    },
+    "new-booking-request": "tyro:new-booking-request",
+    "locationId": {
+      "@id": "tyro:locationId",
+      "@type": "xsd:string"
+    },
+    "section": "tyro:section",
+    "tableAsset": "tyro:tableAsset",
+    "type": {
+      "@id": "tyro:type",
+      "@type": "xsd:string"
+    },
+    "tableStatus": {
+      "@id": "tyro:tableStatus",
+      "@type": "@id"
+    },
+    "arrivalStatus": {
+      "@id": "tyro:arrivalStatus",
+      "@type": "@id"
+    },
+    "tables": {
+      "@id": "tyro:tables",
+      "@container": "@list"
+    },
+    "discounts": {
+      "@id": "tyro:discounts",
+      "@container": "@list"
+    },
+    "preOrders": {
+      "@id": "tyro:preOrders",
+      "@container": "@list"
+    },
+    "assetUpdate": "tyro:assetUpdate",
+    "rooms": {
+      "@id": "tyro:rooms",
+      "@container": "@list"
+    },
+    "roomAsset": "tyro:roomAsset",
+    "room": "tyro:room",
+    "number": {
+      "@id": "tyro:number",
+      "@type": "xsd:string"
+    },
+    "acceptHeaderBooking1_0": "tyro:acceptHeaderBooking1_0",
+    "booking": "tyro:booking",
+    "payment": "tyro:payment",
+    "amount": {
+      "@id": "tyro:amount",
+      "@type": "xsd:integer"
+    },
+    "currency": {
+      "@id": "tyro:currency",
+      "@type": "xsd:string"
+    },
+    "table": "tyro:table",
+    "create-connection-response": "tyro:create-connection-response",
+    "connectionSecret": {
+      "@id": "tyro:connectionSecret",
+      "@type": "xsd:string"
+    },
+    "createdDate": {
+      "@id": "tyro:createdDate",
+      "@type": "xsd:dateTime"
+    },
+    "readerId": {
+      "@id": "tyro:readerId",
+      "@type": "xsd:string"
+    },
+    "readerName": {
+      "@id": "tyro:readerName",
+      "@type": "xsd:string"
+    },
+    "locationName": {
+      "@id": "tyro:locationName",
+      "@type": "xsd:string"
+    },
+    "vendor-spec": "tyro:vendor-spec",
+    "vendor": {
+      "@id": "tyro:vendor",
+      "@type": "xsd:string"
+    },
+    "version": {
+      "@id": "tyro:version",
+      "@type": "xsd:string"
+    },
+    "apis": {
+      "@id": "tyro:apis",
+      "@container": "@list"
+    },
+    "online-status-spec": "tyro:online-status-spec",
+    "code": {
+      "@id": "tyro:code",
+      "@type": "xsd:string"
+    },
+    "lastOnlineAt": {
+      "@id": "tyro:lastOnlineAt",
+      "@type": "xsd:dateTime"
+    },
+    "api-spec": "tyro:api-spec",
+    "api": {
+      "@id": "tyro:api",
+      "@type": "xsd:string"
+    },
+    "heartbeat-response": "tyro:heartbeat-response",
+    "pos": {
+      "@id": "tyro:pos"
+    },
+    "status": {
+      "@id": "tyro:status"
+    },
+    "location": "tyro:location",
+    "money-positive-aud": "tyro:money-positive-aud",
+    "line-item": "tyro:line-item",
+    "category": {
+      "@id": "tyro:category",
+      "@type": "xsd:string"
+    },
+    "description": {
+      "@id": "tyro:description",
+      "@type": "xsd:string"
+    },
+    "sku": {
+      "@id": "tyro:sku",
+      "@type": "xsd:string"
+    },
+    "barcode": {
+      "@id": "tyro:barcode",
+      "@type": "xsd:string"
+    },
+    "modifiers": {
+      "@id": "tyro:modifiers",
+      "@container": "@list"
+    },
+    "unitPrice": {
+      "@id": "tyro:unitPrice"
+    },
+    "unitPriceTax": {
+      "@id": "tyro:unitPriceTax"
+    },
+    "unitCost": {
+      "@id": "tyro:unitCost"
+    },
+    "unitCostTax": {
+      "@id": "tyro:unitCostTax"
+    },
+    "sale": {
+      "@id": "tyro:sale"
+    },
+    "surcharges": {
+      "@id": "tyro:surcharges",
+      "@container": "@list"
+    },
+    "quantity": {
+      "@id": "tyro:quantity",
+      "@type": "xsd:decimal"
+    },
+    "tax": {
+      "@id": "tyro:tax"
+    },
+    "total": {
+      "@id": "tyro:total"
+    },
+    "loyalty-activity": "tyro:loyalty-activity",
+    "memberId": {
+      "@id": "tyro:memberId",
+      "@type": "xsd:string"
+    },
+    "register-member-request": "tyro:register-member-request",
+    "deregister-member-request": "tyro:deregister-member-request",
+    "menu": "tyro:menu",
+    "items": {
+      "@id": "tyro:items",
+      "@container": "@list"
+    },
+    "sections": {
+      "@id": "tyro:sections",
+      "@container": "@list"
+    },
+    "timeSlots": {
+      "@id": "tyro:timeSlots",
+      "@container": "@list"
+    },
+    "modifierGroups": {
+      "@id": "tyro:modifierGroups",
+      "@container": "@list"
+    },
+    "time-slot": "tyro:time-slot",
+    "days": {
+      "@id": "tyro:days",
+      "@container": "@list"
+    },
+    "item": "tyro:item",
+    "containsAlcohol": {
+      "@id": "tyro:containsAlcohol",
+      "@type": "xsd:boolean"
+    },
+    "energy": {
+      "@id": "tyro:energy"
+    },
+    "price": {
+      "@id": "tyro:price"
+    },
+    "images": {
+      "@id": "tyro:images"
+    },
+    "options": {
+      "@id": "tyro:options",
+      "@container": "@list"
+    },
+    "modifier-group": "tyro:modifier-group",
+    "min": {
+      "@id": "tyro:min",
+      "@type": "xsd:decimal"
+    },
+    "max": {
+      "@id": "tyro:max",
+      "@type": "xsd:decimal"
+    },
+    "merchant-object": "tyro:merchant-object",
+    "mid": {
+      "@id": "tyro:mid",
+      "@type": "xsd:string"
+    },
+    "posReference": {
+      "@id": "tyro:posReference",
+      "@type": "xsd:string"
+    },
+    "isAuthorised": {
+      "@id": "tyro:isAuthorised",
+      "@type": "xsd:boolean"
+    },
+    "displayName": {
+      "@id": "tyro:displayName",
+      "@type": "xsd:string"
+    },
+    "merchant": "tyro:merchant",
+    "merchant-onboarding-decision-request": "tyro:merchant-onboarding-decision-request",
+    "action": {
+      "@id": "tyro:action",
+      "@type": "xsd:string"
+    },
+    "loyaltyProgramId": {
+      "@id": "tyro:loyaltyProgramId",
+      "@type": "xsd:string"
+    },
+    "merchant-onboarding-request-response": "tyro:merchant-onboarding-request-response",
+    "onboardingId": {
+      "@id": "tyro:onboardingId",
+      "@type": "xsd:string"
+    },
+    "tcLocationId": {
+      "@id": "tyro:tcLocationId",
+      "@type": "xsd:string"
+    },
+    "locationDetails": {
+      "@id": "tyro:locationDetails"
+    },
+    "businessDetails": {
+      "@id": "tyro:businessDetails"
+    },
+    "integrations": {
+      "@id": "tyro:integrations",
+      "@container": "@list"
+    },
+    "money-positive": "tyro:money-positive",
+    "bad-request-single-error-response": "tyro:bad-request-single-error-response",
+    "error": {
+      "@id": "tyro:error",
+      "@type": "xsd:string"
+    },
+    "order-item": "tyro:order-item",
+    "allergens": {
+      "@id": "tyro:allergens",
+      "@container": "@list"
+    },
+    "money": "tyro:money",
+    "new-order": "tyro:new-order",
+    "customers": {
+      "@id": "tyro:customers",
+      "@container": "@list"
+    },
+    "tip": {
+      "@id": "tyro:tip"
+    },
+    "fulfilment": {
+      "@id": "tyro:fulfilment"
+    },
+    "paymentStatus": {
+      "@id": "tyro:paymentStatus",
+      "@type": "xsd:string"
+    },
+    "order-update-status-conflict": "tyro:order-update-status-conflict",
+    "bad-request-validation-errors-response": "tyro:bad-request-validation-errors-response",
+    "message": {
+      "@id": "tyro:message",
+      "@type": "xsd:string"
+    },
+    "errors": {
+      "@id": "tyro:errors",
+      "@container": "@list"
+    },
+    "pay-methods-response": "tyro:pay-methods-response",
+    "payMethods": {
+      "@id": "tyro:payMethods",
+      "@container": "@list"
+    },
+    "pay-method": "tyro:pay-method",
+    "customerId": {
+      "@id": "tyro:customerId",
+      "@type": "xsd:string"
+    },
+    "card": {
+      "@id": "tyro:card"
+    },
+    "refund-request-response": "tyro:refund-request-response",
+    "payRequestId": {
+      "@id": "tyro:payRequestId",
+      "@type": "xsd:string"
+    },
+    "createdAt": {
+      "@id": "tyro:createdAt",
+      "@type": "xsd:string"
+    },
+    "updatedAt": {
+      "@id": "tyro:updatedAt",
+      "@type": "xsd:string"
+    },
+    "list-refunds-response": "tyro:list-refunds-response",
+    "refunds": {
+      "@id": "tyro:refunds",
+      "@container": "@list"
+    },
+    "new-refund-request": "tyro:new-refund-request",
+    "transaction-result": "tyro:transaction-result",
+    "authentication": {
+      "@id": "tyro:authentication"
+    },
+    "order": {
+      "@id": "tyro:order"
+    },
+    "operationResult": {
+      "@id": "tyro:operationResult"
+    },
+    "transaction": {
+      "@id": "tyro:transaction"
+    },
+    "pay-request-response": "tyro:pay-request-response",
+    "paySecret": {
+      "@id": "tyro:paySecret",
+      "@type": "xsd:string"
+    },
+    "provider": {
+      "@id": "tyro:provider"
+    },
+    "payMethod": {
+      "@id": "tyro:payMethod"
+    },
+    "capture": {
+      "@id": "tyro:capture"
+    },
+    "supportedNetworks": {
+      "@id": "tyro:supportedNetworks",
+      "@container": "@list"
+    },
+    "transactionResults": {
+      "@id": "tyro:transactionResults",
+      "@container": "@list"
+    },
+    "threeDSecureDetails": {
+      "@id": "tyro:threeDSecureDetails"
+    },
+    "additionalData": {
+      "@id": "tyro:additionalData"
+    },
+    "new-pay-request": "tyro:new-pay-request",
+    "statementDescriptor": {
+      "@id": "tyro:statementDescriptor",
+      "@type": "xsd:string"
+    },
+    "statementDescriptorLocation": {
+      "@id": "tyro:statementDescriptorLocation",
+      "@type": "xsd:string"
+    },
+    "pay-terminal-total": "tyro:pay-terminal-total",
+    "goodsAndServicesAmount": {
+      "@id": "tyro:goodsAndServicesAmount",
+      "@type": "xsd:integer"
+    },
+    "cashoutAmount": {
+      "@id": "tyro:cashoutAmount",
+      "@type": "xsd:integer"
+    },
+    "refundAmount": {
+      "@id": "tyro:refundAmount",
+      "@type": "xsd:integer"
+    },
+    "pay-request-response_2": "tyro:pay-request-response_2",
+    "tid": {
+      "@id": "tyro:tid",
+      "@type": "xsd:string"
+    },
+    "transactionProgress": {
+      "@id": "tyro:transactionProgress"
+    },
+    "pendingDecision": {
+      "@id": "tyro:pendingDecision"
+    },
+    "terminalProgress": {
+      "@id": "tyro:terminalProgress"
+    },
+    "transactionOutcome": {
+      "@id": "tyro:transactionOutcome"
+    },
+    "receipts": {
+      "@id": "tyro:receipts"
+    },
+    "new-pay-request_2": "tyro:new-pay-request_2",
+    "create-test-payment": "tyro:create-test-payment",
+    "paymentType": {
+      "@id": "tyro:paymentType",
+      "@type": "xsd:string"
+    },
+    "paymentSource": {
+      "@id": "tyro:paymentSource",
+      "@type": "xsd:string"
+    },
+    "tipAmount": {
+      "@id": "tyro:tipAmount",
+      "@type": "xsd:decimal"
+    },
+    "surchargeAmount": {
+      "@id": "tyro:surchargeAmount",
+      "@type": "xsd:decimal"
+    },
+    "reader-object": "tyro:reader-object",
+    "caid": {
+      "@id": "tyro:caid",
+      "@type": "xsd:string"
+    },
+    "loyalty-card": "tyro:loyalty-card",
+    "paymentId": {
+      "@id": "tyro:paymentId",
+      "@type": "xsd:string"
+    },
+    "preAccumulatedReward": {
+      "@id": "tyro:preAccumulatedReward",
+      "@type": "xsd:integer"
+    },
+    "deregister-member-card-request": "tyro:deregister-member-card-request",
+    "reporting-settlements-response": "tyro:reporting-settlements-response",
+    "settlementDate": {
+      "@id": "tyro:settlementDate",
+      "@type": "xsd:date"
+    },
+    "settlements": {
+      "@id": "tyro:settlements",
+      "@container": "@list"
+    },
+    "settlement-details": "tyro:settlement-details",
+    "institutionName": {
+      "@id": "tyro:institutionName",
+      "@type": "xsd:string"
+    },
+    "bsb": {
+      "@id": "tyro:bsb",
+      "@type": "xsd:string"
+    },
+    "accountNumber": {
+      "@id": "tyro:accountNumber",
+      "@type": "xsd:string"
+    },
+    "accountName": {
+      "@id": "tyro:accountName",
+      "@type": "xsd:string"
+    },
+    "settlementAmount": {
+      "@id": "tyro:settlementAmount",
+      "@type": "xsd:decimal"
+    },
+    "lastUpdatedAt": {
+      "@id": "tyro:lastUpdatedAt",
+      "@type": "xsd:dateTime"
+    },
+    "settlementStatus": {
+      "@id": "tyro:settlementStatus",
+      "@type": "xsd:string"
+    },
+    "lodgementReference": {
+      "@id": "tyro:lodgementReference",
+      "@type": "xsd:string"
+    },
+    "settlement": "tyro:settlement",
+    "clearingPaymentId": {
+      "@id": "tyro:clearingPaymentId",
+      "@type": "xsd:string"
+    },
+    "grossAmount": {
+      "@id": "tyro:grossAmount",
+      "@type": "xsd:decimal"
+    },
+    "settlementDetails": {
+      "@id": "tyro:settlementDetails",
+      "@container": "@list"
+    },
+    "reporting-transactions-response": "tyro:reporting-transactions-response",
+    "terminalBusinessDay": {
+      "@id": "tyro:terminalBusinessDay",
+      "@type": "xsd:date"
+    },
+    "merchantDetails": {
+      "@id": "tyro:merchantDetails"
+    },
+    "transactions": {
+      "@id": "tyro:transactions",
+      "@container": "@list"
+    },
+    "pagination": {
+      "@id": "tyro:pagination"
+    },
+    "update-table-request": "tyro:update-table-request",
+    "new-table-request": "tyro:new-table-request",
+    "embedded-payments-transaction-response": "tyro:embedded-payments-transaction-response",
+    "transactionId": {
+      "@id": "tyro:transactionId",
+      "@type": "xsd:string"
+    },
+    "transactionLocalDateTime": {
+      "@id": "tyro:transactionLocalDateTime",
+      "@type": "xsd:dateTime"
+    },
+    "reference": {
+      "@id": "tyro:reference",
+      "@type": "xsd:string"
+    },
+    "transactionReference": {
+      "@id": "tyro:transactionReference",
+      "@type": "xsd:string"
+    },
+    "elidedPan": {
+      "@id": "tyro:elidedPan",
+      "@type": "xsd:string"
+    },
+    "cardType": {
+      "@id": "tyro:cardType",
+      "@type": "xsd:string"
+    },
+    "approvalCode": {
+      "@id": "tyro:approvalCode",
+      "@type": "xsd:string"
+    },
+    "transactionResult": {
+      "@id": "tyro:transactionResult",
+      "@type": "xsd:string"
+    },
+    "retrievalReferenceNumber": {
+      "@id": "tyro:retrievalReferenceNumber",
+      "@type": "xsd:string"
+    },
+    "customerReceipt": {
+      "@id": "tyro:customerReceipt",
+      "@type": "xsd:string"
+    }
+  },
+  "@type": "schema:Dataset",
+  "schema:name": "Tyro Payments API JSON-LD context",
+  "schema:description": "A JSON-LD @context for the objects Tyro Payments's own API contract declares: one class per component schema, one property per declared field, typed from the contract. Derived by script (derive-json-ld.py, 2026-10-21) from openapi/tyro-bookings-api-openapi.yml, openapi/tyro-connections-api-openapi.yml, openapi/tyro-locations-api-openapi.yml.",
+  "dcterms:created": "2026-10-21",
+  "dcterms:source": [
+    "openapi/tyro-bookings-api-openapi.yml",
+    "openapi/tyro-connections-api-openapi.yml",
+    "openapi/tyro-locations-api-openapi.yml",
+    "openapi/tyro-loyalty-api-openapi.yml",
+    "openapi/tyro-member-api-openapi.yml"
+  ]
+}

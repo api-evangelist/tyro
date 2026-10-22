@@ -311,6 +311,33 @@ paths:
       - Tables
 components:
   schemas:
+    table:
+      title: Table
+      type: object
+      properties:
+        id:
+          type: string
+          description: The id of the table in the Tyro Connect system
+          example: 0f448ac1-862a-4c7b-bdb4-a3b7cdbf6149
+        number:
+          type: string
+          description: This value must be unique and represents the table number or table id. This field accepts alphanumeric characters e.g `MAIN-33`
+          example: MAIN-33
+        locationId:
+          type: string
+          description: The id of the location as specified by the Tyro Connect system
+        section:
+          $ref: '#/components/schemas/section'
+        openSales:
+          type: array
+          description: A list of sale ids that are open in the Tyro Connect system attached to the table.
+          items:
+            type: string
+      required:
+      - id
+      - number
+      - locationId
+      - openSales
     update-table-request:
       title: Update table request
       type: object
@@ -350,33 +377,6 @@ components:
       required:
       - number
       - locationId
-    table:
-      title: Table
-      type: object
-      properties:
-        id:
-          type: string
-          description: The id of the table in the Tyro Connect system
-          example: 0f448ac1-862a-4c7b-bdb4-a3b7cdbf6149
-        number:
-          type: string
-          description: This value must be unique and represents the table number or table id. This field accepts alphanumeric characters e.g `MAIN-33`
-          example: MAIN-33
-        locationId:
-          type: string
-          description: The id of the location as specified by the Tyro Connect system
-        section:
-          $ref: '#/components/schemas/section'
-        openSales:
-          type: array
-          description: A list of sale ids that are open in the Tyro Connect system attached to the table.
-          items:
-            type: string
-      required:
-      - id
-      - number
-      - locationId
-      - openSales
   parameters:
     header-bearer-token:
       schema:

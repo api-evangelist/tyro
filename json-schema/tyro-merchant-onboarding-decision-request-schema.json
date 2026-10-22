@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/tyro/main/json-schema/tyro-merchant-onboarding-decision-request-schema.json",
+  "title": "Request body to submit a merchant onboarding decision",
+  "x-generated": "2026-10-21",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/tyro-onboarding-api-openapi.yml#/components/schemas/merchant-onboarding-decision-request",
+  "type": "object",
+  "properties": {
+    "action": {
+      "type": "string",
+      "enum": [
+        "APPROVE",
+        "REJECT"
+      ],
+      "description": "The decision to approve or reject the merchant onboarding request."
+    },
+    "loyaltyProgramId": {
+      "type": "string",
+      "description": "The loyalty program identifier to associate with this merchant. Required when `action` is `APPROVE`."
+    },
+    "reason": {
+      "type": "string",
+      "description": "An optional reason for the rejection. Only applicable when `action` is `REJECT`."
+    }
+  },
+  "required": [
+    "action"
+  ]
+}

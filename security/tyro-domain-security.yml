@@ -1,4 +1,4 @@
-generated: '2026-07-24'
+generated: '2026-10-21'
 method: probed
 source: live DNS/TLS/HTTP probes of apis.yml + OpenAPI hosts
 hosts:
@@ -6,11 +6,12 @@ hosts:
   https: true
   tls_version: TLSv1.3
   cert_expires: Dec  2 23:59:59 2026 GMT
-  hsts: false
+  hsts: true
+  hsts_max_age: 31536000
 - host: docs.connect.tyro.com
   https: true
   tls_version: TLSv1.3
-  cert_expires: Sep 23 08:22:26 2026 GMT
+  cert_expires: Nov 22 04:57:21 2026 GMT
   hsts: false
 - host: api.tyro.com
   https: true

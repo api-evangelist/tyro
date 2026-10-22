@@ -14,7 +14,7 @@ tags:
 paths:
   /pay/requests:
     post:
-      summary: Create a Pay Request
+      summary: Create a pay request
       operationId: create-pay-request
       tags:
         - Pay Requests
@@ -104,7 +104,7 @@ paths:
       tags:
         - Pay Requests
       description: This endpoint is for fetching Pay Requests.
-      summary: Retrieve a Pay Request
+      summary: Retrieve a pay request
       responses:
         '200':
           description: The Pay Request response
@@ -129,7 +129,7 @@ paths:
       operationId: patch-pay-request
       tags:
         - Pay Requests
-      summary: Update or execute actions on the Pay Request
+      summary: Update or execute actions on the pay request
       description: >-
         This endpoint is for updating a Pay Request or executing actions on the
         Pay Request.
@@ -196,12 +196,106 @@ paths:
           in: path
           required: true
   /pay/methods:
+    post:
+      summary: Create a pay method
+      operationId: create-pay-method
+      tags:
+        - Pay Methods
+      description: >-
+        This endpoint is used for creating a Pay Method to store customer card
+        details for future payments. **Note:** This feature is only enabled on
+        request and may not be enabled by default for your account.
+      security:
+        - JWT: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/new-pay-method'
+            examples:
+              Create Pay Method:
+                value:
+                  customerId: 1d448ac1-862a-4c7b-bdb4-a3b7cdbf6160
+                  isDefault: true
+                  tokenId: '4111111234567890'
+                  card:
+                    brand: VISA
+                    expiryMonth: 10
+                    expiryYear: 50
+                    lastFourDigits: '4365'
+                    firstSixDigits: '411111'
+      responses:
+        '200':
+          description: >-
+            OK - Returns the existing Pay Method if the tokenId already exists
+            for that customer
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/pay-method'
+              examples:
+                Existing Pay Method:
+                  value:
+                    id: 0f448ac1-862a-4c7b-bdb4-a3b7cdbf6149
+                    customerId: 1d448ac1-862a-4c7b-bdb4-a3b7cdbf6160
+                    isDefault: true
+                    tokenId: '4111111234567890'
+                    card:
+                      brand: VISA
+                      expiryMonth: 10
+                      expiryYear: 50
+                      lastFourDigits: '4365'
+                      firstSixDigits: '411111'
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/pay-method'
+              examples:
+                Pay Method Created:
+                  value:
+                    id: 0f448ac1-862a-4c7b-bdb4-a3b7cdbf6149
+                    customerId: 1d448ac1-862a-4c7b-bdb4-a3b7cdbf6160
+                    isDefault: true
+                    tokenId: '4111111234567890'
+                    card:
+                      brand: VISA
+                      expiryMonth: 10
+                      expiryYear: 50
+                      lastFourDigits: '4365'
+                      firstSixDigits: '411111'
+        '400':
+          description: When the provided payload is not valid.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    description: The validation error message.
+                  errorCode:
+                    type: string
+                    description: The unique error code for message.
+              examples:
+                Missing property:
+                  value:
+                    error: '''customerId'' is required'
+                    errorCode: VALIDATION_ERROR
+        '403':
+          description: >-
+            When you don't have the right permissions to create a Pay Method for
+            the provided customer.
+      parameters:
+        - $ref: '#/components/parameters/header-bearer-token'
+        - $ref: '#/components/parameters/header-content-json'
     get:
       operationId: list-pay-methods
       tags:
         - Pay Methods
       description: This endpoint is for fetching Pay Methods
-      summary: List Pay Methods
+      summary: List pay methods
       responses:
         '200':
           description: The Pay Methods response
@@ -209,6 +303,31 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/pay-methods-response'
+              examples:
+                Pay Methods Response:
+                  value:
+                    payMethods:
+                      - id: 0f448ac1-862a-4c7b-bdb4-a3b7cdbf6149
+                        customerId: 1d448ac1-862a-4c7b-bdb4-a3b7cdbf6160
+                        isDefault: true
+                        tokenId: '4111111234567890'
+                        tokenStatus: VALID
+                        card:
+                          brand: VISA
+                          expiryMonth: 10
+                          expiryYear: 50
+                          lastFourDigits: '4365'
+                          firstSixDigits: '411111'
+                      - id: 2e558bc2-973b-5d8c-cec5-b4c8dece7250
+                        customerId: 1d448ac1-862a-4c7b-bdb4-a3b7cdbf6160
+                        tokenId: '5200000012345678'
+                        tokenStatus: INVALID
+                        card:
+                          brand: MASTERCARD
+                          expiryMonth: 12
+                          expiryYear: 28
+                          lastFourDigits: '5678'
+                          firstSixDigits: '520000'
       security:
         - JWT: []
       parameters:
@@ -224,7 +343,7 @@ paths:
       tags:
         - Pay Methods
       description: Retrieve a Pay Method
-      summary: Retrieve a Pay Method
+      summary: Retrieve a pay method
       responses:
         '200':
           description: The Pay Method response
@@ -232,6 +351,109 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/pay-method'
+              examples:
+                Pay Method Response:
+                  value:
+                    id: 0f448ac1-862a-4c7b-bdb4-a3b7cdbf6149
+                    customerId: 1d448ac1-862a-4c7b-bdb4-a3b7cdbf6160
+                    isDefault: true
+                    tokenId: '4111111234567890'
+                    tokenStatus: VALID
+                    card:
+                      brand: VISA
+                      expiryMonth: 10
+                      expiryYear: 50
+                      lastFourDigits: '4365'
+                      firstSixDigits: '411111'
+        '404':
+          description: >-
+            When the provided `payMethodId` does not match a Pay Method stored
+            in the system.
+      security:
+        - JWT: []
+      parameters:
+        - $ref: '#/components/parameters/header-bearer-token'
+        - schema:
+            type: string
+          in: path
+          name: payMethodId
+          required: true
+    patch:
+      operationId: update-pay-method
+      tags:
+        - Pay Methods
+      description: >-
+        Update a Pay Method's default status. Set isDefault to true to make it
+        the default, or false to unset it as default. Note that responses only
+        include the isDefault field when it's true. **Note:** This feature is
+        only enabled on request and may not be enabled by default for your
+        account.
+      summary: Update pay method default status
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/update-pay-method'
+            examples:
+              Set as Default:
+                value:
+                  isDefault: true
+              Unset as Default:
+                value:
+                  isDefault: false
+      responses:
+        '200':
+          description: >-
+            The updated Pay Method response. Note that isDefault field is only
+            present in the response when true.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/pay-method'
+              examples:
+                Set as Default:
+                  value:
+                    id: 0f448ac1-862a-4c7b-bdb4-a3b7cdbf6149
+                    customerId: 1d448ac1-862a-4c7b-bdb4-a3b7cdbf6160
+                    isDefault: true
+                    tokenId: '4111111234567890'
+                    card:
+                      brand: VISA
+                      expiryMonth: 10
+                      expiryYear: 50
+                      lastFourDigits: '4365'
+                      firstSixDigits: '411111'
+                Unset as Default:
+                  value:
+                    id: 0f448ac1-862a-4c7b-bdb4-a3b7cdbf6149
+                    customerId: 1d448ac1-862a-4c7b-bdb4-a3b7cdbf6160
+                    tokenId: '4111111234567890'
+                    card:
+                      brand: VISA
+                      expiryMonth: 10
+                      expiryYear: 50
+                      lastFourDigits: '4365'
+                      firstSixDigits: '411111'
+        '400':
+          description: When the provided payload is not valid.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    description: The validation error message.
+                  errorCode:
+                    type: string
+                    description: The unique error code for message.
+              examples:
+                Invalid property:
+                  value:
+                    error: Invalid value for 'isDefault'
+                    errorCode: VALIDATION_ERROR
+        '403':
+          description: When you don't have the right permissions to update this Pay Method.
         '404':
           description: >-
             When the provided `payMethodId` does not match a Pay Method stored
@@ -249,8 +471,10 @@ paths:
       operationId: delete-pay-method
       tags:
         - Pay Methods
-      description: Delete a Pay Method
-      summary: Delete a Pay Method
+      description: >-
+        Delete a Pay Method. If this is the last PayMethod for the customer, the
+        customer will also be deleted.
+      summary: Delete a pay method
       responses:
         '200':
           description: When succesfully deleted a pay method
@@ -269,7 +493,7 @@ paths:
           required: true
   /pay/refunds:
     post:
-      summary: Create a Refund Request
+      summary: Create a refund request
       operationId: create-refund-request
       tags:
         - Pay Refunds
@@ -347,7 +571,7 @@ paths:
         - $ref: '#/components/parameters/header-bearer-token'
         - $ref: '#/components/parameters/header-content-json'
     get:
-      summary: List all Refunds
+      summary: List all refunds
       operationId: list-all-refunds
       tags:
         - Pay Refunds
@@ -373,7 +597,7 @@ paths:
       tags:
         - Pay Refunds
       description: Retrieve a Refund Request.
-      summary: Retrieve a Refund Request
+      summary: Retrieve a refund request
       responses:
         '200':
           description: The Refund Request response
@@ -984,6 +1208,28 @@ components:
             The id of the Customer in the Tyro Connect system linked to this Pay
             Method.
           example: 1d448ac1-862a-4c7b-bdb4-a3b7cdbf6160
+        isDefault:
+          type: boolean
+          description: >-
+            When true, indicates this is the default payment method for the
+            customer. This field is only present when the payment method is set
+            as default.
+          example: true
+        tokenId:
+          type: string
+          description: >-
+            tokenId can be used to make payments to an external payment provider
+            and corresponds to the tokenised representation of the payment card.
+          example: '4111111234567890'
+        tokenStatus:
+          type: string
+          enum:
+            - VALID
+            - INVALID
+          description: >-
+            The status of the token associated with this Pay Method. Indicates
+            whether the token is valid for use in payments.
+          example: VALID
         card:
           type: object
           description: The card used by the Pay Method
@@ -999,11 +1245,11 @@ components:
             expiryYear:
               type: number
               description: Year of card expiry
-              example: 2050
+              example: 50
             firstSixDigits:
               type: string
               description: First six digits of the card number
-              example: '4365'
+              example: '411111'
             lastFourDigits:
               type: string
               description: Last four digits of the card number
@@ -1017,6 +1263,83 @@ components:
           description: List of pay methods
           items:
             $ref: '#/components/schemas/pay-method'
+    new-pay-method:
+      title: New Pay Method
+      type: object
+      properties:
+        customerId:
+          type: string
+          description: A unique customer id in your system to link this Pay Method to.
+          example: 1d448ac1-862a-4c7b-bdb4-a3b7cdbf6160
+          maxLength: 100
+        isDefault:
+          type: boolean
+          description: >-
+            Optional. Set to true to mark this payment method as the default for
+            the customer. Omit or set to false for non-default payment methods.
+          example: true
+        tokenId:
+          type: string
+          description: >-
+            tokenId can be used to make payments to an external payment provider
+            and corresponds to the tokenised representation of the payment card.
+          example: '4111111234567890'
+          maxLength: 40
+        card:
+          type: object
+          description: The card details for the Pay Method
+          properties:
+            brand:
+              type: string
+              description: Card brand such as Visa or Mastercard
+              example: VISA
+              maxLength: 20
+            expiryMonth:
+              type: number
+              description: Month of card expiry
+              example: 10
+              minimum: 1
+              maximum: 12
+            expiryYear:
+              type: number
+              description: Year of card expiry
+              example: 50
+              minimum: 26
+            lastFourDigits:
+              type: string
+              description: Last four digits of the card number
+              example: '4365'
+              minLength: 4
+              maxLength: 4
+            firstSixDigits:
+              type: string
+              description: First six digits of the card number (BIN/IIN)
+              example: '411111'
+              minLength: 6
+              maxLength: 6
+          required:
+            - brand
+            - expiryMonth
+            - expiryYear
+            - lastFourDigits
+            - firstSixDigits
+      required:
+        - customerId
+        - tokenId
+        - card
+    update-pay-method:
+      title: Update Pay Method
+      type: object
+      properties:
+        isDefault:
+          type: boolean
+          description: >-
+            Set to true to mark this payment method as the default for the
+            customer, or false to unset it as default. Note that responses only
+            include this field when it's true.
+          example: true
+      required:
+        - isDefault
     refund-request-response:
       title: Refund Request Response
       type: object

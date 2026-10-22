@@ -1,0 +1,84 @@
+generated: '2026-10-21'
+method: probed
+source: pre-flight dossier (docs platform, portal detections) + CNAME chains and response headers of the hosts apis.yml names
+registry: all/0-working/vendors.yml
+areas_vocabulary:
+- documentation
+- developer-portal
+- api-gateway
+- cdn
+- hosting
+- sdk-generation
+- api-collections
+- status-page
+- support
+- community
+- identity
+- mcp-hosting
+vendors:
+- vendor: cloudfront
+  name: Amazon CloudFront
+  area: cdn
+  host: docs.connect.tyro.com
+  evidence: header:x-amz-cf-id
+  signal: header
+  confidence: high
+  kin_score: []
+- vendor: imperva
+  name: Imperva
+  area: cdn
+  host: www.tyro.com
+  evidence: cname:incapdns.net
+  signal: cname
+  confidence: high
+  kin_score: []
+- vendor: redocly
+  name: Redocly
+  area: documentation
+  host: docs.connect.tyro.com
+  evidence: cname:redocly.app
+  signal: docs-platform
+  confidence: high
+  kin_score:
+  - openapi_published
+  - rules_present
+- vendor: wpengine
+  name: WP Engine
+  area: hosting
+  host: www.tyro.com
+  evidence: header:x-powered-by:wp engine
+  signal: header
+  confidence: high
+  kin_score: []
+- vendor: auth0
+  name: Auth0 (Okta)
+  area: identity
+  host: auth.connect.tyro.com
+  evidence: tyro-oauth-authorization-server.json names auth0 in its OAuth metadata
+  signal: oauth-metadata
+  confidence: high
+  kin_score:
+  - authentication
+reliance:
+  areas_vendor_served:
+  - cdn
+  - documentation
+  - hosting
+  - identity
+  vendor_count: 5
+  areas_observed: 12
+  share_of_observable_areas: 0.333
+  note: areas where a third party was DETECTED serving this provider; an area absent here was either self-run or not observed, and this script
+    cannot tell those apart
+checked:
+- 'docs-platform: redocly'
+- www.tyro.com (Website)
+- www.tyro.com (DeveloperPortal)
+- docs.connect.tyro.com (Documentation)
+- docs.connect.tyro.com (APIReference)
+- docs.connect.tyro.com (GettingStarted)
+- status.tyro.com (StatusPage)
+- www.tyro.com (Login)
+- www.tyro.com (Support)
+- api.tyro.com (baseURL)
+- docs.connect.tyro.com (mcp)

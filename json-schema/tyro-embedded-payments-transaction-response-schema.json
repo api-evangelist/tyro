@@ -1,0 +1,85 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/tyro/main/json-schema/tyro-embedded-payments-transaction-response-schema.json",
+  "title": "Embedded Payments Transaction Response",
+  "x-generated": "2026-10-21",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/tyro-transactions-api-openapi.yml#/components/schemas/embedded-payments-transaction-response",
+  "type": "object",
+  "properties": {
+    "transactionId": {
+      "type": "string",
+      "description": "The ID for this transaction"
+    },
+    "transactionLocalDateTime": {
+      "type": "string",
+      "format": "date-time",
+      "description": "The time the transaction was created. The format of the date time is the notation as defined by [RFC 3339, section 5.6](https://tools.ietf.org/html/rfc3339#section-5.6)"
+    },
+    "reference": {
+      "type": "string",
+      "description": "The unique reference supplied by the partner to initialize this transaction."
+    },
+    "transactionReference": {
+      "type": "string",
+      "description": "The terminalStan ID associated with this transaction."
+    },
+    "locationId": {
+      "type": "string",
+      "description": "The locationId that was used for this transaction."
+    },
+    "mid": {
+      "type": "string",
+      "description": "The merchant id."
+    },
+    "tid": {
+      "type": "string",
+      "description": "The terminal id."
+    },
+    "amount": {
+      "type": "number",
+      "description": "The amount (in cents) being paid for the goods and services."
+    },
+    "paymentType": {
+      "type": "string",
+      "enum": [
+        "Purchase",
+        "Refund"
+      ],
+      "description": "The payment type"
+    },
+    "surchargeAmount": {
+      "type": "number",
+      "description": "Surcharge amount in cents."
+    },
+    "tipAmount": {
+      "type": "number",
+      "description": "Tip amount in cents."
+    },
+    "elidedPan": {
+      "type": "string",
+      "description": "The last four digits of the PAN number."
+    },
+    "cardType": {
+      "type": "string",
+      "description": "The card type that was used, e.g. Visa"
+    },
+    "approvalCode": {
+      "type": "string",
+      "description": "Approval code."
+    },
+    "transactionResult": {
+      "type": "string",
+      "description": "Transaction result."
+    },
+    "retrievalReferenceNumber": {
+      "type": "string",
+      "description": "Retrieval reference number."
+    },
+    "customerReceipt": {
+      "type": "string",
+      "description": "Customer receipt."
+    }
+  }
+}

@@ -1,8 +1,18 @@
 ---
-name: Take an in-store payment on a Tyro EFTPOS terminal
+name: tyro-pay-at-terminal
+title: Take an in-store payment on a Tyro EFTPOS terminal
 description: Drive a card-present payment on a paired Tyro EFTPOS terminal from a POS using the Tyro Pay Terminal (cloud) API.
-api: openapi/tyro-pos-pay-terminal.yml
-operations: [create-pay-terminal-request, get-pay-terminal-request, cancel-pay-terminal-request, answer-pay-terminal-prompt, list-pay-terminal-merchants, list-pay-terminal-merchants-terminals]
+api: openapi/tyro-pay-requests-api-openapi.yml
+apis:
+- openapi/tyro-merchants-api-openapi.yml
+- openapi/tyro-pay-requests-api-openapi.yml
+operations:
+- create-pay-terminal-request
+- get-pay-terminal-request
+- cancel-pay-terminal-request
+- answer-pay-terminal-prompt
+- list-pay-terminal-merchants
+- list-pay-terminal-merchants-terminals
 ---
 
 # Take an in-store payment on a Tyro EFTPOS terminal
