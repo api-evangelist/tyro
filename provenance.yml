@@ -12,6 +12,9 @@ artifacts:
   authentication/tyro-authentication.yml:
     method: searched
     evidence: declared in the artifact
+  capabilities/tyro-capability-edges.yml:
+    method: unknown
+    evidence: no authorship recorded
   changelog/tyro-changelog.yml:
     method: searched
     evidence: declared in the artifact
@@ -117,127 +120,142 @@ artifacts:
   front-door-ai/2026-09-17.yml:
     method: unknown
     evidence: no authorship recorded
-  kin/checks-2026-09-24T161608.yml:
+  hosts/tyro-hosts.yml:
+    method: derived
+    evidence: declared in the artifact
+  integrations/_index.yml:
     method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-08-25T125852.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-08-25T133943.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-08-25T143147.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-08-25T154045.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-08-26T215308.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-08-27T094438.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-08-27T103455.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-08-27T123021.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-08-27T132314.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-08-27T140727.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-08-28T221322.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-08-29T213958.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-08-29T230545.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-08-30T203505.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-08-30T220315.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-08-31T223420.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-09-01T063623.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-09-01T210448.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-09-01T222808.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-09-02T211804.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-09-02T224043.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-09-03T161828.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-09-03T174231.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-09-04T062714.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-09-04T212454.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-09-04T224856.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-09-05T055819.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-09-05T072335.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-09-05T144739.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-09-05T195450.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-09-05T211839.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-09-06T011047.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-09-06T211804.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-09-06T224210.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-09-07T200636.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-09-07T213054.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-09-08T214843.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-09-08T232836.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-09-10T204815.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-09-10T222408.yml:
+    evidence: carries an API Evangelist house phrase
+  integrations/tyro-integration-edges.yml:
+    method: searched
+    evidence: declared in the artifact
+  json-ld/tyro-context.jsonld:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/tyro-booking-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/tyro-create-connection-response-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/tyro-create-test-payment-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/tyro-deregister-member-card-request-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/tyro-deregister-member-request-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/tyro-embedded-payments-transaction-response-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/tyro-existing-order-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/tyro-get-order-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/tyro-heartbeat-response-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/tyro-line-item-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/tyro-list-refunds-response-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/tyro-location-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/tyro-loyalty-activity-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/tyro-loyalty-card-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/tyro-menu-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/tyro-merchant-object-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/tyro-merchant-onboarding-decision-request-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/tyro-merchant-onboarding-request-response-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/tyro-merchant-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/tyro-money-positive-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/tyro-money-positive-with-description-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/tyro-new-booking-request-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/tyro-new-order-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/tyro-new-pay-request-2-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/tyro-new-pay-request-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/tyro-new-refund-request-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/tyro-new-table-request-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/tyro-pay-method-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/tyro-pay-methods-response-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/tyro-pay-request-response-2-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/tyro-pay-request-response-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/tyro-reader-object-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/tyro-refund-request-response-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/tyro-register-member-request-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/tyro-reporting-settlements-response-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/tyro-reporting-transactions-response-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/tyro-sale-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/tyro-table-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/tyro-update-booking-request-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/tyro-update-pay-request-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/tyro-update-table-request-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  kin/checks-2026-10-11T110117.yml:
     method: generated
     evidence: Kin Score snapshot written by score.rb
   kin/score-2026-09-12T062655.yml:
@@ -321,13 +339,37 @@ artifacts:
   kin/score-2026-09-24T161608.yml:
     method: generated
     evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-25T210408.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-25T232841.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-10-03T000835.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-10-03T024842.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-10-11T110117.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
   lifecycle/tyro-lifecycle.yml:
     method: searched
     evidence: declared in the artifact
+  llms/tyro-llms-provenance.yml:
+    method: searched
+    evidence: 'derive-llms-provenance.py: harvested'
   llms/tyro-llms.txt:
     method: searched
     evidence: 'derive-llms-provenance.py: harvested'
+  mcp/tyro-mcp-tools-list.json:
+    method: unknown
+    evidence: no authorship recorded
   mcp/tyro-mcp.yml:
+    method: unknown
+    evidence: no authorship recorded
+  mcp/tyro-tool-crosswalk.yml:
     method: derived
     evidence: declared in the artifact
   openapi/_original/tyro-connect-booking.yml:
@@ -445,45 +487,81 @@ artifacts:
   openapi/tyro-transactions-api-openapi.yml:
     method: derived
     evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
-  overlays/tyro-connect-booking-overlay.yaml:
-    method: unknown
-    evidence: no authorship recorded
-  overlays/tyro-connect-locations-overlay.yaml:
-    method: unknown
-    evidence: no authorship recorded
-  overlays/tyro-connect-loyalty-overlay.yaml:
-    method: unknown
-    evidence: no authorship recorded
-  overlays/tyro-connect-menu-overlay.yaml:
-    method: unknown
-    evidence: no authorship recorded
-  overlays/tyro-connect-ordering-overlay.yaml:
-    method: unknown
-    evidence: no authorship recorded
-  overlays/tyro-connect-pay-overlay.yaml:
-    method: unknown
-    evidence: no authorship recorded
-  overlays/tyro-connect-referrals-overlay.yaml:
-    method: unknown
-    evidence: no authorship recorded
-  overlays/tyro-connect-refunds-overlay.yaml:
-    method: unknown
-    evidence: no authorship recorded
-  overlays/tyro-connect-reporting-overlay.yaml:
-    method: unknown
-    evidence: no authorship recorded
-  overlays/tyro-connect-sales-overlay.yaml:
-    method: unknown
-    evidence: no authorship recorded
-  overlays/tyro-connect-tables-overlay.yaml:
-    method: unknown
-    evidence: no authorship recorded
-  overlays/tyro-pos-embedded-payments-overlay.yaml:
-    method: unknown
-    evidence: no authorship recorded
-  overlays/tyro-pos-pay-terminal-overlay.yaml:
-    method: unknown
-    evidence: no authorship recorded
+  overlays/tyro-bookings-api-overlay.yaml:
+    method: derived
+    evidence: an API Evangelist overlay (title) over the provider's contract
+  overlays/tyro-connections-api-overlay.yaml:
+    method: derived
+    evidence: an API Evangelist overlay (title) over the provider's contract
+  overlays/tyro-locations-api-overlay.yaml:
+    method: derived
+    evidence: an API Evangelist overlay (title) over the provider's contract
+  overlays/tyro-loyalty-api-overlay.yaml:
+    method: derived
+    evidence: an API Evangelist overlay (title) over the provider's contract
+  overlays/tyro-member-api-overlay.yaml:
+    method: derived
+    evidence: an API Evangelist overlay (title) over the provider's contract
+  overlays/tyro-menus-api-overlay.yaml:
+    method: derived
+    evidence: an API Evangelist overlay (title) over the provider's contract
+  overlays/tyro-merchants-api-overlay.yaml:
+    method: derived
+    evidence: an API Evangelist overlay (title) over the provider's contract
+  overlays/tyro-onboarding-api-overlay.yaml:
+    method: derived
+    evidence: an API Evangelist overlay (title) over the provider's contract
+  overlays/tyro-orders-api-overlay.yaml:
+    method: derived
+    evidence: an API Evangelist overlay (title) over the provider's contract
+  overlays/tyro-pay-methods-api-overlay.yaml:
+    method: derived
+    evidence: an API Evangelist overlay (title) over the provider's contract
+  overlays/tyro-pay-refunds-api-overlay.yaml:
+    method: derived
+    evidence: an API Evangelist overlay (title) over the provider's contract
+  overlays/tyro-pay-requests-api-overlay.yaml:
+    method: derived
+    evidence: an API Evangelist overlay (title) over the provider's contract
+  overlays/tyro-payments-api-overlay.yaml:
+    method: derived
+    evidence: an API Evangelist overlay (title) over the provider's contract
+  overlays/tyro-readers-api-overlay.yaml:
+    method: derived
+    evidence: an API Evangelist overlay (title) over the provider's contract
+  overlays/tyro-referrals-api-overlay.yaml:
+    method: derived
+    evidence: an API Evangelist overlay (title) over the provider's contract
+  overlays/tyro-refunds-api-overlay.yaml:
+    method: derived
+    evidence: an API Evangelist overlay (title) over the provider's contract
+  overlays/tyro-registered-card-api-overlay.yaml:
+    method: derived
+    evidence: an API Evangelist overlay (title) over the provider's contract
+  overlays/tyro-reporting-api-overlay.yaml:
+    method: derived
+    evidence: an API Evangelist overlay (title) over the provider's contract
+  overlays/tyro-sales-api-overlay.yaml:
+    method: derived
+    evidence: an API Evangelist overlay (title) over the provider's contract
+  overlays/tyro-tables-api-overlay.yaml:
+    method: derived
+    evidence: an API Evangelist overlay (title) over the provider's contract
+  overlays/tyro-transactions-api-overlay.yaml:
+    method: derived
+    evidence: an API Evangelist overlay (title) over the provider's contract
+  packages/tyro-packages.yml:
+    method: searched
+    evidence: declared in the artifact
+  rate-limits/tyro-rate-limits.yml:
+    method: searched
+    evidence: declared in the artifact
+  regulatory/tyro-regulatory-posture.yml:
+    method: searched
+    evidence: declared in the artifact
+  rules/tyro-rules.yml:
+    method: generated
+    evidence: declared in the artifact
   sandbox/tyro-sandbox.yml:
     method: searched
     evidence: declared in the artifact
@@ -499,12 +577,21 @@ artifacts:
   skills/tyro-pay-at-terminal.md:
     method: unknown
     evidence: no authorship recorded
+  skills/tyro-reconcile-settlements.md:
+    method: unknown
+    evidence: no authorship recorded
   skills/tyro-send-order-to-pos.md:
     method: unknown
     evidence: no authorship recorded
   skills/tyro-tap-to-pay-onboard.md:
     method: unknown
     evidence: no authorship recorded
+  vendors/tyro-vendors.yml:
+    method: unknown
+    evidence: no authorship recorded
+  vocabulary/tyro-vocabulary.yml:
+    method: derived
+    evidence: declared in the artifact
   well-known/tyro-oauth-authorization-server.json:
     method: unknown
     evidence: no authorship recorded
